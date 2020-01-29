@@ -6,38 +6,61 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 11:37:03 by niragne           #+#    #+#             */
-/*   Updated: 2020/01/27 12:02:50 by niragne          ###   ########.fr       */
+/*   Updated: 2020/01/29 14:15:35 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include "SDL.h"
+#include "gb.h"
 
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 480
 
-int main(int argc, char* args[]) {
-  SDL_Window* window = NULL;
-  SDL_Surface* screenSurface = NULL;
-  if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-    fprintf(stderr, "could not initialize sdl2: %s\n", SDL_GetError());
-    return 1;
-  }
-  window = SDL_CreateWindow(
-			    "hello_sdl2",
-			    SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-			    SCREEN_WIDTH, SCREEN_HEIGHT,
-			    SDL_WINDOW_SHOWN
-			    );
-  if (window == NULL) {
-    fprintf(stderr, "could not create window: %s\n", SDL_GetError());
-    return 1;
-  }
-  screenSurface = SDL_GetWindowSurface(window);
-  SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0xFF, 0xFF, 0xFF));
-  SDL_UpdateWindowSurface(window);
-  SDL_Delay(20000);
-  SDL_DestroyWindow(window);
-  SDL_Quit();
-  return 0;
+int		open_rom(char* name, struct rom_s* rom)
+{
+	struct stat st;
+	int fd;
+	int ret;
+
+	ret = stat(name, &st);
+	if (ret)
+	{
+		perror(name);
+		return (ret);
+	}
+
+	fd = open(name, O_RDONLY);
+	if (fd < 0)
+	{
+		perror(name);
+		return (fd);
+	}
+	
+	void* ptr = mmap(NULL, st.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
+	if (!ptr)
+	{
+		perror(name);
+		return (1);
+	}
+	rom->ptr = ptr;
+
+	return (0);
+}
+
+int		main(int ac, char** av)
+{
+	struct rom_s rom;
+	if (ac < 2)
+	{
+		fprintf(stderr, "usage: %s <rom>\n", av[0]);
+		return (1);
+	}
+
+	if (open_rom(av[1], &rom))
+		return (1);
+		
+	rom.header = rom.ptr + 0x100;
+	printf("%s\n", rom.header->title);
+	return (0);
 }
