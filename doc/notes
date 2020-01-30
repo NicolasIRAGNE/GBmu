@@ -1,0 +1,5 @@
+regarding opcodes:
+
+unlike x86 instructions are only one byte long
+both the operation and the operands are defined on one byte
+therefore we only need to increment PC by 1 each time

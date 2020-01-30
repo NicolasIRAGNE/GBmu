@@ -7,6 +7,9 @@
 # include <fcntl.h>
 # include <sys/mman.h>
 # include <stdint.h>
+# include "op.h"
+
+extern struct inst_s op_tab[256];
 
 struct rom_hdr_s
 {
@@ -20,5 +23,10 @@ struct rom_s
 	struct rom_hdr_s*	header;
 	void*				ptr;	
 };
+
+void	init_cpu(struct gb_cpu_s* gb);
+int		handle_instruction(struct gb_cpu_s* gb);
+void	init_op_tab(void);
+
 
 #endif

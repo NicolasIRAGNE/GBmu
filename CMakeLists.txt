@@ -4,7 +4,14 @@ project(gbmu)
 
 SET (SOURCES
     srcs/main.c
-        )
+	srcs/execute.c
+	srcs/init_cpu.c
+	srcs/init_op_tab.c
+	srcs/instructions/jp.c
+	srcs/instructions/ld.c
+	srcs/instructions/misc.c
+	srcs/instructions/xor.c
+	)
 
 SET (INCLUDES
     )

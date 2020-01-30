@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 11:37:03 by niragne           #+#    #+#             */
-/*   Updated: 2020/01/29 14:15:35 by niragne          ###   ########.fr       */
+/*   Updated: 2020/01/30 16:28:11 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int		open_rom(char* name, struct rom_s* rom)
 int		main(int ac, char** av)
 {
 	struct rom_s rom;
+	struct gb_cpu_s gb;
 	if (ac < 2)
 	{
 		fprintf(stderr, "usage: %s <rom>\n", av[0]);
@@ -62,5 +63,17 @@ int		main(int ac, char** av)
 		
 	rom.header = rom.ptr + 0x100;
 	printf("%s\n", rom.header->title);
+
+	init_cpu(&gb);
+	gb.rom_ptr = &rom;
+
+	init_op_tab();
+	
+	int i = 0;
+	while (i < 255)
+	{
+		handle_instruction(&gb);
+		i++;
+	}
 	return (0);
 }
