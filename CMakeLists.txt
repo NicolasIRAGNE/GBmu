@@ -3,7 +3,8 @@ cmake_minimum_required(VERSION 3.13)
 project(gbmu)
 
 SET (SOURCES
-    srcs/main.c
+	srcs/main.c
+	srcs/debug.c
 	srcs/execute.c
 	srcs/init_cpu.c
 	srcs/init_op_tab.c

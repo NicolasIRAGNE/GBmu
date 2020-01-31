@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:26 by niragne           #+#    #+#             */
-/*   Updated: 2020/01/30 17:18:44 by niragne          ###   ########.fr       */
+/*   Updated: 2020/01/31 11:59:09 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,9 @@ int		handle_instruction(struct gb_cpu_s* gb)
 	uint8_t* ptr = gb->rom_ptr->ptr;
 	uint8_t op = ptr[pc];
 	gb->current_instruction = op_tab + op;
-	printf("CURRENT PC: %hx\n", gb->reg.pc);
+	debug_print_gb(gb);
 	if (gb->current_instruction->exec)
 	{
-		printf("CURRENT INSTRUCTION : %s\n", gb->current_instruction->name);
 		gb->current_instruction->exec(gb);
 	}
 	else

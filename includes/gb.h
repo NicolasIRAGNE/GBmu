@@ -28,5 +28,11 @@ void	init_cpu(struct gb_cpu_s* gb);
 int		handle_instruction(struct gb_cpu_s* gb);
 void	init_op_tab(void);
 
+/*
+** Debug
+*/
+void	debug_print_registers(struct registers_s reg);
+void	debug_print_gb(struct gb_cpu_s* gb);
+void	debug_print_instruction(struct inst_s* inst);
 
 #endif
