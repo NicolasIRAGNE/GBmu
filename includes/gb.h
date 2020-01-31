@@ -26,6 +26,7 @@ struct rom_s
 
 void	init_cpu(struct gb_cpu_s* gb);
 int		handle_instruction(struct gb_cpu_s* gb);
+uint8_t	update_current_instruction(struct gb_cpu_s* gb);
 void	init_op_tab(void);
 
 /*

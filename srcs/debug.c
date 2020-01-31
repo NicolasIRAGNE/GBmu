@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/31 11:40:08 by niragne           #+#    #+#             */
-/*   Updated: 2020/01/31 12:06:35 by niragne          ###   ########.fr       */
+/*   Updated: 2020/01/31 13:50:14 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	debug_print_registers(struct registers_s reg)
 void	debug_print_instruction(struct inst_s* inst)
 {
 	printf("INSTRUCTION:\n");
-	if (inst->name)
+	if (inst && inst->name)
 		printf("%s\n", inst->name);
 	else
 		printf("%s\n", "UNDEFINED");	

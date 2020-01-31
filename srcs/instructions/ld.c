@@ -6,8 +6,22 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 17:14:49 by niragne           #+#    #+#             */
-/*   Updated: 2020/01/31 11:22:18 by niragne          ###   ########.fr       */
+/*   Updated: 2020/01/31 13:58:28 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gb.h"
+
+/*
+** LD = 0x40 => 0x7F (excluding 0x76)
+*/
+
+void	ld_reg(uint8_t* dst, uint8_t* src)
+{
+	*dst = *src;
+}
+
+void	ld_dc(struct gb_cpu_s* gb)
+{
+	ld_reg(&(gb->reg.d), &(gb->reg.c));
+}

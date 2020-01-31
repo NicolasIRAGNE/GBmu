@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:26 by niragne           #+#    #+#             */
-/*   Updated: 2020/01/31 11:59:09 by niragne          ###   ########.fr       */
+/*   Updated: 2020/01/31 14:03:37 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
-int		handle_instruction(struct gb_cpu_s* gb)
+uint8_t	update_current_instruction(struct gb_cpu_s* gb)
 {
 	uint16_t pc = gb->reg.pc;
 	uint8_t* ptr = gb->rom_ptr->ptr;
 	uint8_t op = ptr[pc];
 	gb->current_instruction = op_tab + op;
+	return (op);
+}
+
+int		handle_instruction(struct gb_cpu_s* gb)
+{
+	uint8_t op;
+	op = update_current_instruction(gb);
 	debug_print_gb(gb);
 	if (gb->current_instruction->exec)
 	{
@@ -31,5 +37,8 @@ int		handle_instruction(struct gb_cpu_s* gb)
 		printf("OPCODE %0x NOT IMPLEMENTED\n", op);
 		exit(1);
 	}
-	
+	if (!gb->jmp)
+		gb->reg.pc += gb->current_instruction->size + 1;
+	else
+		gb->jmp = 0;
 }

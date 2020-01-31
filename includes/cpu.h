@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:34:47 by niragne           #+#    #+#             */
-/*   Updated: 2020/01/30 16:42:23 by niragne          ###   ########.fr       */
+/*   Updated: 2020/01/31 14:01:32 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ struct registers_s {
 
 struct	gb_cpu_s
 {
+	int					jmp : 1; // Flags used by the emulator. Ugly but hopefully temporary ?
+	
 	struct rom_s*		rom_ptr;
 	struct registers_s	reg;
 	struct inst_s*		current_instruction;

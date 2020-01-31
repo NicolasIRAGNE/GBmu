@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 17:15:38 by niragne           #+#    #+#             */
-/*   Updated: 2020/01/30 17:15:45 by niragne          ###   ########.fr       */
+/*   Updated: 2020/01/31 14:01:50 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,4 +19,5 @@ int		jp_a16(struct gb_cpu_s* gb)
 
 	new_pc = ptr[gb->reg.pc + 1] | (ptr[gb->reg.pc + 2] << 8);
 	gb->reg.pc = new_pc;
+	gb->jmp = 1;
 }

@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 17:15:01 by niragne           #+#    #+#             */
-/*   Updated: 2020/01/30 17:15:05 by niragne          ###   ########.fr       */
+/*   Updated: 2020/01/31 13:58:42 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,5 @@
 
 int		nop(struct gb_cpu_s* gb)
 {
-	gb->reg.pc += gb->current_instruction->size + 1;
+	
 }

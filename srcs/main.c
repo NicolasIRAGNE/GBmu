@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 11:37:03 by niragne           #+#    #+#             */
-/*   Updated: 2020/01/31 11:58:43 by niragne          ###   ########.fr       */
+/*   Updated: 2020/01/31 14:03:46 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,14 +66,21 @@ int		main(int ac, char** av)
 
 	init_cpu(&gb);
 	gb.rom_ptr = &rom;
-
+	update_current_instruction(&gb);
 	init_op_tab();
 	
-	int i = 0;
-	while (i < 255)
-	{
-		handle_instruction(&gb);
-		i++;
-	}
+	// int i = 0;
+	// while (i < 255)
+	// {
+		// handle_instruction(&gb);
+		// i++;
+	// }
+	handle_instruction(&gb);
+	handle_instruction(&gb);
+	handle_instruction(&gb);
+	handle_instruction(&gb);
+	handle_instruction(&gb);
+	handle_instruction(&gb);
+	handle_instruction(&gb);
 	return (0);
 }

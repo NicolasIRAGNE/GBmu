@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:59 by niragne           #+#    #+#             */
-/*   Updated: 2020/01/31 11:55:10 by niragne          ###   ########.fr       */
+/*   Updated: 2020/01/31 13:47:14 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,11 @@ struct inst_s
 int		nop(struct gb_cpu_s*);
 int		jp_a16(struct gb_cpu_s*);
 int		xor_a(struct gb_cpu_s* gb);
+
+/*
+** Load
+*/
+void	ld_reg(uint8_t* dst, uint8_t* src);
+void	ld_dc(struct gb_cpu_s* gb);
 
 #endif
