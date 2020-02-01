@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 11:37:03 by niragne           #+#    #+#             */
-/*   Updated: 2020/01/31 14:03:46 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/01 14:26:55 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,7 @@ int		main(int ac, char** av)
 		// handle_instruction(&gb);
 		// i++;
 	// }
-	handle_instruction(&gb);
-	handle_instruction(&gb);
-	handle_instruction(&gb);
-	handle_instruction(&gb);
-	handle_instruction(&gb);
-	handle_instruction(&gb);
-	handle_instruction(&gb);
+	while(!handle_instruction(&gb));
+	
 	return (0);
 }

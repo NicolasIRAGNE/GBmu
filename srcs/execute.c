@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:26 by niragne           #+#    #+#             */
-/*   Updated: 2020/01/31 14:03:37 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/01 14:26:38 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,12 @@ int		handle_instruction(struct gb_cpu_s* gb)
 	else
 	{
 		printf("OPCODE %0x NOT IMPLEMENTED\n", op);
-		exit(1);
+		return(1);
 	}
 	if (!gb->jmp)
 		gb->reg.pc += gb->current_instruction->size + 1;
 	else
 		gb->jmp = 0;
+
+	return (0);
 }
