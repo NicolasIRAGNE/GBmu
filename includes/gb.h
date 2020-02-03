@@ -13,9 +13,19 @@ extern struct inst_s op_tab[256];
 
 struct rom_hdr_s
 {
-	char	entry[4];
-	char	logo[48];
-	char	title[11];
+	uint8_t	entry[4];
+	uint8_t	logo[48];
+	uint8_t	title[16];
+	uint8_t	manufacturer_code[2];
+	uint8_t	sgb_flag;
+	uint8_t type;
+	uint8_t	rom_size;
+	uint8_t ram_size;
+	uint8_t lang;
+	uint8_t manufacturer_code_extend;
+	uint8_t version;
+	uint8_t complement_check;
+	uint8_t checksum[2];
 };
 
 struct rom_s
@@ -35,5 +45,7 @@ void	init_op_tab(void);
 void	debug_print_registers(struct registers_s reg);
 void	debug_print_gb(struct gb_cpu_s* gb);
 void	debug_print_instruction(struct inst_s* inst);
+void	debug_print_rom(struct rom_s* rom);
+void	debug_print_rom_hdr(struct rom_hdr_s* hdr);
 
 #endif

@@ -23,7 +23,7 @@ message (${SDL2_INCLUDE_DIRS})
 
 INCLUDE_DIRECTORIES(includes)
 
-set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=address")
+# set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=address")
 
 add_executable(gbmu ${SOURCES})
 target_link_libraries(gbmu ${SDL2_LIBRARIES})

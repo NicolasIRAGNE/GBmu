@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 11:37:03 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/01 14:26:55 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/03 14:13:28 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ int		main(int ac, char** av)
 		return (1);
 		
 	rom.header = rom.ptr + 0x100;
-	printf("%s\n", rom.header->title);
+	debug_print_rom(&rom);
+	printf("Test: %p\n", (void*)&rom.header->complement_check - (void*)rom.header);
 
 	init_cpu(&gb);
 	gb.rom_ptr = &rom;
@@ -75,7 +76,7 @@ int		main(int ac, char** av)
 		// handle_instruction(&gb);
 		// i++;
 	// }
-	while(!handle_instruction(&gb));
+	// while(!handle_instruction(&gb));
 	
 	return (0);
 }

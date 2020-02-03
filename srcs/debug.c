@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/31 11:40:08 by niragne           #+#    #+#             */
-/*   Updated: 2020/01/31 13:50:14 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/03 14:13:42 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,28 @@ void	debug_print_instruction(struct inst_s* inst)
 		printf("%s\n", inst->name);
 	else
 		printf("%s\n", "UNDEFINED");	
+}
+
+void	debug_print_rom_hdr(struct rom_hdr_s* hdr)
+{
+	printf("NAME: %.11s\n", hdr->title);
+	printf("MANUFACTURER CODE: %x %x\n", hdr->manufacturer_code[0], hdr->manufacturer_code[1]);
+	printf("SGB FLAG: %x\n", hdr->sgb_flag);
+	printf("CARTRIDGE TYPE: %x\n", hdr->type);
+	printf("ROM SIZE: %x\n", hdr->rom_size);
+	printf("RAM SIZE: %x\n", hdr->ram_size);
+	printf("LANG: %x\n", hdr->lang);
+	printf("MANUFACTURER CODE (EXTEND): %x\n", hdr->manufacturer_code_extend);
+	printf("VERSION NUMBER: %x\n", hdr->version);
+	printf("COMPLEMENT CHECK: %x\n", hdr->complement_check);
+
+
+}
+
+void	debug_print_rom(struct rom_s* rom)
+{
+	printf("-------------------\n");
+	debug_print_rom_hdr(rom->header);
+	printf("-------------------\n");
+	printf("\n");
 }
