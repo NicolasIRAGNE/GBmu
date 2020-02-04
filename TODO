@@ -1,0 +1,9 @@
+List of things to do, in no particular order.
+
+- Implement bootstrap
+- Parse command line arguments
+- Implement debugger with basic commands (breakpoints, run, continue, print)
+- implement SRAM / VRAM / WRAM / HRAM whatever else all this shit means
+- LCDC registers
+- before implementing new opcodes, make sure that the whole architecture is correct (especially reading and writing with indirect addresses)
+- graphix with sdl Poggers

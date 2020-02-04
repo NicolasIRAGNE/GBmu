@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 11:37:03 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/03 14:13:28 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/04 15:21:31 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int		open_rom(char* name, struct rom_s* rom)
 	void* ptr = mmap(NULL, st.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
 	if (!ptr)
 	{
-		perror(name);
+		perror("mmap");
 		return (1);
 	}
 	rom->ptr = ptr;
