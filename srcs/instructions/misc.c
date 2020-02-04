@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 17:15:01 by niragne           #+#    #+#             */
-/*   Updated: 2020/01/31 13:58:42 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/04 17:10:00 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,4 +15,14 @@
 int		nop(struct gb_cpu_s* gb)
 {
 	
+}
+
+int		di(struct gb_cpu_s* gb)
+{
+	gb->ime = 0;
+}
+
+int		ei(struct gb_cpu_s* gb)
+{
+	gb->ime = 1;
 }

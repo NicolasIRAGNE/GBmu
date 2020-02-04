@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/31 11:40:08 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/04 16:46:47 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/04 17:16:09 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	debug_print_gb(struct gb_cpu_s* gb)
 {
 	printf("-------------------\n");
 	debug_print_registers(gb->reg);
+	printf("\n");
+	debug_print_gb_flags(gb);
 	printf("\n");
 	debug_print_instruction(gb->current_instruction);
 	printf("-------------------\n");
@@ -32,6 +34,12 @@ void	debug_print_registers(struct registers_s reg)
 	printf("hl = %04x\n", reg.hl);
 	printf("sp = %04x\n", reg.sp);
 	printf("pc = %04x\n", reg.pc);
+}
+
+void	debug_print_gb_flags(struct gb_cpu_s* gb)
+{
+	printf("FLAGS:\n");
+	printf("IME: %d\n", gb->jmp, gb->ime);
 }
 
 void	debug_print_instruction(struct inst_s* inst)
