@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:34:47 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/04 19:04:44 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/04 19:09:19 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 # define CPU_H
 # include <stdint.h>
 
-# define VRAM_SIZE 0x2000 //8kib
-# define WRAM_SIZE 0x2000 //8kib
-# define HRAM_SIZE 0x100 //256b
-# define RAM_SIZE 0x2000 //8kib
-# define IO_PORTS_SIZE 0x100 //256b
-# define OAM_SIZE 0x9f // 160b
+# define VRAM_SIZE 0x2000		// 8kiB
+# define WRAM_SIZE 0x2000		// 8kiB
+# define HRAM_SIZE 0x100		// 256B
+# define RAM_SIZE 0x2000		// 8kiB
+# define IO_PORTS_SIZE 0x100	// 256B
+# define OAM_SIZE 0x9f			// 160B
 
 struct registers_s {
 	struct {
