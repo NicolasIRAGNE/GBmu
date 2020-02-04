@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:59 by niragne           #+#    #+#             */
-/*   Updated: 2020/01/31 13:47:14 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/04 16:45:14 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ struct inst_s
 	uint8_t	cycles;
 	uint8_t	size;
 	int		(*exec)(struct gb_cpu_s*);
+	uint16_t	args;
 };
 
 /*
@@ -36,7 +37,10 @@ int		xor_a(struct gb_cpu_s* gb);
 /*
 ** Load
 */
-void	ld_reg(uint8_t* dst, uint8_t* src);
-void	ld_dc(struct gb_cpu_s* gb);
+void		ld_reg_8(uint8_t* dst, uint8_t src);
+void		ld_reg_16(uint16_t* dst, uint16_t src);
+int			ld_dc(struct gb_cpu_s* gb);
+int			ld_c_a8(struct gb_cpu_s* gb);
+int			ld_hl_a16(struct gb_cpu_s* gb);
 
 #endif

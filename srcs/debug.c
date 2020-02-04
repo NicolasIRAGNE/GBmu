@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/31 11:40:08 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/03 14:13:42 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/04 16:46:47 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,16 @@ void	debug_print_instruction(struct inst_s* inst)
 {
 	printf("INSTRUCTION:\n");
 	if (inst && inst->name)
-		printf("%s\n", inst->name);
+	{
+		if (inst->size > 0)
+		{
+			printf("%s %x\n", inst->name, inst->args);			
+		}
+		else
+		{
+			printf("%s\n", inst->name);
+		}	
+	}
 	else
 		printf("%s\n", "UNDEFINED");	
 }
