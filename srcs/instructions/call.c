@@ -1,23 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   jp.c                                               :+:      :+:    :+:   */
+/*   call.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/30 17:15:38 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/04 19:30:55 by niragne          ###   ########.fr       */
+/*   Created: 2020/02/04 19:30:21 by niragne           #+#    #+#             */
+/*   Updated: 2020/02/04 19:41:22 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gb.h"
 
-int		jp_a16(struct gb_cpu_s* gb)
+int		call_a16(struct gb_cpu_s* gb)
 {
-	uint16_t new_pc;
-	uint8_t* ptr = gb->rom_ptr->ptr;
-
-	new_pc = gb->current_instruction->args;
-	gb->reg.pc = new_pc;
+	gb->reg.sp -= 2;
+	write_16(gb, gb->reg.sp, gb->reg.pc);
+	gb->reg.pc = gb->current_instruction->args;
 	gb->jmp = 1;
 }

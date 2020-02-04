@@ -13,6 +13,9 @@ SET (SOURCES
 	srcs/instructions/ld.c
 	srcs/instructions/misc.c
 	srcs/instructions/xor.c
+	srcs/instructions/call.c
+	srcs/instructions/inc.c
+	srcs/instructions/dec.c
 	)
 
 SET (INCLUDES
@@ -24,7 +27,7 @@ message (${SDL2_INCLUDE_DIRS})
 
 INCLUDE_DIRECTORIES(includes)
 
-# set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=address")
+set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=address")
 
 add_executable(gbmu ${SOURCES})
 target_link_libraries(gbmu ${SDL2_LIBRARIES})

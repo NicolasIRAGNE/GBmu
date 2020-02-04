@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 17:14:49 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/04 18:54:34 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/04 19:54:05 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,10 @@ int		ldh_a8_a(struct gb_cpu_s* gb)
 int		ldh_a_a8(struct gb_cpu_s* gb)
 {
 	ld_reg_8(&(gb->reg.a), read_8(gb, gb->current_instruction->args | 0xff00));
+}
+
+int		ldd_hl_a(struct gb_cpu_s* gb)
+{
+	ld_mem_8(gb, gb->reg.hl, gb->reg.a);
+	gb->reg.hl -= 1;
 }

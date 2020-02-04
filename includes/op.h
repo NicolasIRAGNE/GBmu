@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:59 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/04 18:55:04 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/04 20:06:50 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int			ld_sp_a16(struct gb_cpu_s* gb);
 int			ld_c_hl(struct gb_cpu_s* gb);
 int			ldh_a8_a(struct gb_cpu_s* gb);
 int			ldh_a_a8(struct gb_cpu_s* gb);
+int			ldd_hl_a(struct gb_cpu_s* gb);
 
 /*
 ** Misc
@@ -60,12 +61,30 @@ int			ei(struct gb_cpu_s* gb);
 ** Arithmetic
 */
 int			xor_a(struct gb_cpu_s* gb);
+int			dec_a(struct gb_cpu_s* gb);
+int			dec_b(struct gb_cpu_s* gb);
+int			dec_c(struct gb_cpu_s* gb);
+int			dec_d(struct gb_cpu_s* gb);
+int			dec_e(struct gb_cpu_s* gb);
+int			dec_h(struct gb_cpu_s* gb);
+int			dec_l(struct gb_cpu_s* gb);
+int			inc_a(struct gb_cpu_s* gb);
+int			inc_b(struct gb_cpu_s* gb);
+int			inc_c(struct gb_cpu_s* gb);
+int			inc_d(struct gb_cpu_s* gb);
+int			inc_e(struct gb_cpu_s* gb);
+int			inc_h(struct gb_cpu_s* gb);
+int			inc_l(struct gb_cpu_s* gb);
 
 /*
 ** Jump
 */
-int			jp_a16(struct gb_cpu_s*);
+int			jp_a16(struct gb_cpu_s* gb);
 
+/*
+** Call
+*/
+int			call_a16(struct gb_cpu_s* gb);
 
 
 #endif

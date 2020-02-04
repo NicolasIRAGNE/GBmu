@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/31 11:40:08 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/04 19:08:31 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/04 19:50:47 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	debug_print_gb(struct gb_cpu_s* gb)
 	debug_print_registers(gb->reg);
 	printf("\n");
 	debug_print_gb_flags(gb);
+	printf("\n");
+	debug_print_stack(gb);
 	printf("\n");
 	debug_print_instruction(gb->current_instruction);
 	printf("-------------------\n");
@@ -73,8 +75,6 @@ void	debug_print_rom_hdr(struct rom_hdr_s* hdr)
 	printf("MANUFACTURER CODE (EXTEND): %x\n", hdr->manufacturer_code_extend);
 	printf("VERSION NUMBER: %x\n", hdr->version);
 	printf("COMPLEMENT CHECK: %x\n", hdr->complement_check);
-
-
 }
 
 void	debug_print_rom(struct rom_s* rom)
@@ -83,4 +83,11 @@ void	debug_print_rom(struct rom_s* rom)
 	debug_print_rom_hdr(rom->header);
 	printf("-------------------\n");
 	printf("\n");
+}
+
+void	debug_print_stack(struct gb_cpu_s* gb)
+{
+	printf("STACK:\n");
+	printf("%04x\n", read_16(gb, gb->reg.sp));
+	printf("%04x\n", read_16(gb, gb->reg.sp - 2));
 }

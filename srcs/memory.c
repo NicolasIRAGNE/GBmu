@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 18:10:17 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/04 19:03:21 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/04 19:40:46 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,6 @@ void	write_8(struct gb_cpu_s* gb, uint16_t a16, uint8_t x)
 
 void	write_16(struct gb_cpu_s* gb, uint16_t a16, uint16_t x)
 {
-	write_8(gb, a16, (x & 0xff) >> 8);
-	write_8(gb, a16 + 1, x & 0xff);
+	write_8(gb, a16, (x & 0xff));
+	write_8(gb, a16 + 1, (x & 0xff00) >> 8);
 }
