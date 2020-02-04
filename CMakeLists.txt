@@ -29,6 +29,6 @@ INCLUDE_DIRECTORIES(includes)
 
 set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=address")
 
-add_executable(gbmu ${SOURCES})
-target_link_libraries(gbmu ${SDL2_LIBRARIES})
-# SET_TARGET_PROPERTIES(gbmu PROPERTIES MACOSX_BUNDLE TRUE)
+add_executable(${PROJECT_NAME} ${SOURCES})
+target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES})
+# SET_TARGET_PROPERTIES(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE TRUE)
