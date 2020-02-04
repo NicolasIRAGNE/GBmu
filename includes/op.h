@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:59 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/04 17:22:14 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/04 18:55:04 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,18 @@ struct inst_s
 */
 void		ld_reg_8(uint8_t* dst, uint8_t src);
 void		ld_reg_16(uint16_t* dst, uint16_t src);
+void		ld_reg_8(uint8_t* dst, uint8_t src);
+void		ld_reg_16(uint16_t* dst, uint16_t src);
+
 int			ld_dc(struct gb_cpu_s* gb);
 int			ld_a_a8(struct gb_cpu_s* gb);
 int			ld_b_a8(struct gb_cpu_s* gb);
 int			ld_c_a8(struct gb_cpu_s* gb);
 int			ld_hl_a16(struct gb_cpu_s* gb);
 int			ld_sp_a16(struct gb_cpu_s* gb);
+int			ld_c_hl(struct gb_cpu_s* gb);
+int			ldh_a8_a(struct gb_cpu_s* gb);
+int			ldh_a_a8(struct gb_cpu_s* gb);
 
 /*
 ** Misc

@@ -40,6 +40,15 @@ uint8_t	update_current_instruction(struct gb_cpu_s* gb);
 void	init_op_tab(void);
 
 /*
+** Memory
+*/
+uint8_t		read_8(struct gb_cpu_s* gb, uint16_t a16);
+uint16_t	read_16(struct gb_cpu_s* gb, uint16_t a16);
+void		write_8(struct gb_cpu_s* gb, uint16_t a16, uint8_t x);
+void		write_16(struct gb_cpu_s* gb, uint16_t a16, uint16_t x);
+
+
+/*
 ** Debug
 */
 void	debug_print_registers(struct registers_s reg);

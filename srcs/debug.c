@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/31 11:40:08 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/04 17:16:09 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/04 19:05:07 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ void	debug_print_registers(struct registers_s reg)
 void	debug_print_gb_flags(struct gb_cpu_s* gb)
 {
 	printf("FLAGS:\n");
-	printf("IME: %d\n", gb->jmp, gb->ime);
+	printf("IME: %d\n", gb->ime);
+	printf("IER: %.4x\n", gb->interrupt_enable_register);
 }
 
 void	debug_print_instruction(struct inst_s* inst)

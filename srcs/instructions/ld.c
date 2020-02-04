@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 17:14:49 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/04 17:17:15 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/04 18:54:34 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,16 @@ void	ld_reg_8(uint8_t* dst, uint8_t src)
 void	ld_reg_16(uint16_t* dst, uint16_t src)
 {
 	*dst = src;
+}
+
+void	ld_mem_8(struct gb_cpu_s* gb, uint16_t a16, uint8_t x)
+{
+	write_8(gb, a16, x);
+}
+
+void	ld_mem_16(struct gb_cpu_s* gb, uint16_t a16, uint16_t x)
+{
+	write_16(gb, a16, x);
 }
 
 int		ld_dc(struct gb_cpu_s* gb)
@@ -54,4 +64,19 @@ int		ld_hl_a16(struct gb_cpu_s* gb)
 int		ld_sp_a16(struct gb_cpu_s* gb)
 {
 	ld_reg_16(&(gb->reg.sp), gb->current_instruction->args);
+}
+
+int		ld_c_hl(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.c), read_8(gb, gb->reg.hl));
+}
+
+int		ldh_a8_a(struct gb_cpu_s* gb)
+{
+	ld_mem_8(gb, gb->current_instruction->args | 0xff00, gb->reg.a);
+}
+
+int		ldh_a_a8(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.a), read_8(gb, gb->current_instruction->args | 0xff00));
 }

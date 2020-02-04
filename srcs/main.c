@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 11:37:03 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/04 16:50:04 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/04 19:02:21 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,17 +70,11 @@ int		main(int ac, char** av)
 	update_current_instruction(&gb);
 	init_op_tab();
 	
-	// int i = 0;
-	// while (i < 255)
-	// {
-		// handle_instruction(&gb);
-		// i++;
-	// }
 	while(!handle_instruction(&gb))
 	{
 		char f;
 		read(1, &f, 1);
 	}
-	
+
 	return (0);
 }

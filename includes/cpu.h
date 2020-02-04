@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:34:47 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/04 17:07:36 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/04 19:04:44 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ struct	gb_cpu_s
 	uint8_t				hram[HRAM_SIZE];
 	uint8_t				io_ports[IO_PORTS_SIZE];
 	uint8_t				oam[OAM_SIZE];
+	uint8_t				interrupt_enable_register;
 };
 
 /*
