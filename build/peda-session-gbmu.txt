@@ -1,2 +1,2 @@
-break debug_print_rom
+break main
 

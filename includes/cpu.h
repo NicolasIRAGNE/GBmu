@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:34:47 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/04 19:09:19 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/05 13:04:43 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,12 @@
 # define RAM_SIZE 0x2000		// 8kiB
 # define IO_PORTS_SIZE 0x100	// 256B
 # define OAM_SIZE 0x9f			// 160B
+
+// FLAG REISTER: ZNHC0000
+# define ZERO_FLAG			(1 << 7)
+# define SUBSTRACTION_FLAG	(1 << 6)
+# define HALF_CARRY_FLAG	(1 << 5)
+# define CARRY_FLAG			(1 << 4)
 
 struct registers_s {
 	struct {

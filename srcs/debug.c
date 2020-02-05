@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/31 11:40:08 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/04 19:50:47 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/05 13:30:22 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,34 @@ void	debug_print_gb(struct gb_cpu_s* gb)
 void	debug_print_registers(struct registers_s reg)
 {
 	printf("REGISTERS:\n");
-	printf("af = %04x\n", reg.af);
+	printf("af = %04x | ", reg.af);
+	debug_print_flag_register(reg.f);
 	printf("bc = %04x\n", reg.bc);
 	printf("de = %04x\n", reg.de);
 	printf("hl = %04x\n", reg.hl);
 	printf("sp = %04x\n", reg.sp);
 	printf("pc = %04x\n", reg.pc);
+}
+
+void	debug_print_flag_register(uint8_t reg)
+{
+	if (reg & ZERO_FLAG)
+		printf(GRN"Z"EOC);
+	else
+		printf(RED"Z"EOC);
+	if (reg & SUBSTRACTION_FLAG)
+		printf(GRN"N"EOC);
+	else
+		printf(RED"N"EOC);
+	if (reg & HALF_CARRY_FLAG)
+		printf(GRN"H"EOC);
+	else
+		printf(RED"H"EOC);
+	if (reg & CARRY_FLAG)
+		printf(GRN"C"EOC);
+	else
+		printf(RED"C"EOC);
+	printf("\n");
 }
 
 void	debug_print_gb_flags(struct gb_cpu_s* gb)

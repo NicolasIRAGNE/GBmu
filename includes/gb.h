@@ -9,7 +9,20 @@
 # include <stdint.h>
 # include "op.h"
 
+# define RED	"\x1B[31m"
+# define GRN	"\x1B[32m"
+# define YEL	"\x1B[33m"
+# define BLU	"\x1B[34m"
+# define MAG	"\x1B[35m"
+# define CYN	"\x1B[36m"
+# define WHT	"\x1B[37m"
+# define EOC	"\x1B[0m"
+
 extern struct inst_s op_tab[256];
+
+# define INT_VBLANK_ADDR 0x0040
+
+
 
 struct rom_hdr_s
 {
@@ -58,5 +71,6 @@ void	debug_print_rom(struct rom_s* rom);
 void	debug_print_rom_hdr(struct rom_hdr_s* hdr);
 void	debug_print_gb_flags(struct gb_cpu_s* gb);
 void	debug_print_stack(struct gb_cpu_s* gb);
+void	debug_print_flag_register(uint8_t reg);
 
 #endif

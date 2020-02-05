@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:59 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/04 20:06:50 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/05 13:08:59 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 struct inst_s
 {
 	char* name;
-	uint8_t opcode;
 	uint8_t	cycles;
 	uint8_t	size;
 	int		(*exec)(struct gb_cpu_s*);
