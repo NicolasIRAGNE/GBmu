@@ -9,6 +9,7 @@ SET (SOURCES
 	srcs/init_cpu.c
 	srcs/init_op_tab.c
 	srcs/memory.c
+	srcs/debugger.c
 	srcs/instructions/jp.c
 	srcs/instructions/ld.c
 	srcs/instructions/misc.c
@@ -16,6 +17,7 @@ SET (SOURCES
 	srcs/instructions/call.c
 	srcs/instructions/inc.c
 	srcs/instructions/dec.c
+	srcs/instructions/cp.c
 	)
 
 SET (INCLUDES

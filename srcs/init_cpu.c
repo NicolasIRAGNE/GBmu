@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:30:05 by niragne           #+#    #+#             */
-/*   Updated: 2020/01/31 13:52:10 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/05 14:21:51 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,6 @@ void	init_cpu(struct gb_cpu_s* gb)
 	gb->reg.sp = 0xFFFE;
 	gb->reg.d = 0xdd;
 	gb->reg.c = 0xcc;
+	gb->running = 1;
 	gb->current_instruction = NULL;
 }

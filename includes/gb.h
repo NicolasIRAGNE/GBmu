@@ -60,6 +60,11 @@ uint16_t	read_16(struct gb_cpu_s* gb, uint16_t a16);
 void		write_8(struct gb_cpu_s* gb, uint16_t a16, uint8_t x);
 void		write_16(struct gb_cpu_s* gb, uint16_t a16, uint16_t x);
 
+/*
+** Debugger
+*/
+void		parse_command(struct gb_cpu_s* gb);
+
 
 /*
 ** Debug

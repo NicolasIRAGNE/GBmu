@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/31 11:40:08 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/05 13:30:22 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/05 15:55:37 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,5 +111,5 @@ void	debug_print_stack(struct gb_cpu_s* gb)
 {
 	printf("STACK:\n");
 	printf("%04x\n", read_16(gb, gb->reg.sp));
-	printf("%04x\n", read_16(gb, gb->reg.sp - 2));
+	printf("%04x\n", read_16(gb, gb->reg.sp + 2));
 }

@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:16:07 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/05 12:15:48 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/05 16:32:15 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ struct inst_s	op_tab[256] =
 void	init_op_tab()
 {
 	op_tab[0x00] = (struct inst_s) {"NOP",			1, 0, nop};
+	op_tab[0x02] = (struct inst_s) {"LD (BC) A",	1, 0, ld_ptr_bc_a};
 	op_tab[0x3d] = (struct inst_s) {"DEC A",		1, 0, dec_a};
 	op_tab[0x05] = (struct inst_s) {"DEC B",		1, 0, dec_b};
 	op_tab[0x0d] = (struct inst_s) {"DEC C",		1, 0, dec_c};
@@ -42,10 +43,12 @@ void	init_op_tab()
 	op_tab[0x3e] = (struct inst_s) {"LD A A8",		1, 1, ld_a_a8};
 	op_tab[0x4e] = (struct inst_s) {"LD C (HL)",	1, 1, ld_c_hl};
 	op_tab[0xc3] = (struct inst_s) {"JP A16",		1, 2, jp_a16};
+	op_tab[0x20] = (struct inst_s) {"JR NZ A8",		1, 1, jr_nz_a8};
 	op_tab[0xaf] = (struct inst_s) {"XOR A",		1, 0, xor_a};
 	op_tab[0xcd] = (struct inst_s) {"CALL A16",		1, 1, call_a16};
 	op_tab[0xe0] = (struct inst_s) {"LDH (n) A",	1, 1, ldh_a8_a};
 	op_tab[0xf0] = (struct inst_s) {"LDH A (n)",	1, 1, ldh_a_a8};
 	op_tab[0xf3] = (struct inst_s) {"DI",			1, 0, di};
 	op_tab[0xfb] = (struct inst_s) {"EI",			1, 0, ei};
+	op_tab[0xfe] = (struct inst_s) {"CP n",			1, 1, cp_a8};
 }
