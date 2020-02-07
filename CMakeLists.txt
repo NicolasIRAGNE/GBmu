@@ -10,6 +10,7 @@ SET (SOURCES
 	srcs/init_op_tab.c
 	srcs/memory.c
 	srcs/debugger.c
+	srcs/cpu_toggle_flag.c
 	srcs/instructions/jp.c
 	srcs/instructions/ld.c
 	srcs/instructions/misc.c

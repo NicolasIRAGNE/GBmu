@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 19:54:52 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/05 13:58:05 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/07 14:27:56 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,15 @@
 void	inc_reg8(struct gb_cpu_s* gb, uint8_t* reg)
 {
 	*reg = *reg + 1;
-	if (*reg)
-		gb->reg.f &= ~ZERO_FLAG;
-	else
-		gb->reg.f |= ZERO_FLAG;
-	gb->reg.f &= ~SUBSTRACTION_FLAG;
+	cpu_toggle_flag(gb, ZERO_FLAG, !*reg);
+	cpu_unset_flag(gb, SUBSTRACTION_FLAG);
 }
 
 void	inc_reg16(struct gb_cpu_s* gb, uint16_t* reg)
 {
 	*reg = *reg + 1;
-	if (*reg)
-		gb->reg.f &= ~ZERO_FLAG;
-	else
-		gb->reg.f |= ZERO_FLAG;
-	gb->reg.f &= ~SUBSTRACTION_FLAG;
+	cpu_toggle_flag(gb, ZERO_FLAG, !*reg);
+	cpu_unset_flag(gb, SUBSTRACTION_FLAG);
 }
 
 int		inc_a(struct gb_cpu_s* gb)

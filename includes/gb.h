@@ -78,4 +78,11 @@ void	debug_print_gb_flags(struct gb_cpu_s* gb);
 void	debug_print_stack(struct gb_cpu_s* gb);
 void	debug_print_flag_register(uint8_t reg);
 
+/*
+** Misc
+*/
+void    cpu_toggle_flag(struct gb_cpu_s* gb, uint8_t flag, int cond);
+void    cpu_set_flag(struct gb_cpu_s* gb, uint8_t flag);
+void    cpu_unset_flag(struct gb_cpu_s* gb, uint8_t flag);
+
 #endif
