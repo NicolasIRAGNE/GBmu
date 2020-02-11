@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 17:14:49 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/05 16:48:48 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/11 13:53:56 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,16 @@ int		ld_dc(struct gb_cpu_s* gb)
 	ld_reg_8(&(gb->reg.d), gb->reg.c);
 }
 
+int		ld_ba(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.b), gb->reg.a);
+}
+
+int		ld_ab(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.a), gb->reg.b);
+}
+
 int		ld_c_a8(struct gb_cpu_s* gb)
 {
 	ld_reg_8(&(gb->reg.c), (uint8_t)gb->current_instruction->args);
@@ -54,6 +64,26 @@ int		ld_b_a8(struct gb_cpu_s* gb)
 int		ld_a_a8(struct gb_cpu_s* gb)
 {
 	ld_reg_8(&(gb->reg.a), (uint8_t)gb->current_instruction->args);
+}
+
+int		ld_d_a8(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.d), (uint8_t)gb->current_instruction->args);
+}
+
+int		ld_e_a8(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.e), (uint8_t)gb->current_instruction->args);
+}
+
+int		ld_h_a8(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.h), (uint8_t)gb->current_instruction->args);
+}
+
+int		ld_l_a8(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.l), (uint8_t)gb->current_instruction->args);
 }
 
 int		ld_hl_a16(struct gb_cpu_s* gb)
@@ -81,6 +111,16 @@ int		ldh_a8_a(struct gb_cpu_s* gb)
 	ld_mem_8(gb, gb->current_instruction->args | 0xff00, gb->reg.a);
 }
 
+int		ld_ptr_de_a(struct gb_cpu_s* gb)
+{
+	ld_mem_8(gb, gb->reg.de, gb->reg.a);
+}
+
+int		ld_de_a16(struct gb_cpu_s* gb)
+{
+	ld_reg_16(&(gb->reg.de), gb->current_instruction->args);
+}
+
 int		ldh_a_a8(struct gb_cpu_s* gb)
 {
 	ld_reg_8(&(gb->reg.a), read_8(gb, gb->current_instruction->args | 0xff00));
@@ -90,4 +130,10 @@ int		ldd_hl_a(struct gb_cpu_s* gb)
 {
 	ld_mem_8(gb, gb->reg.hl, gb->reg.a);
 	gb->reg.hl -= 1;
+}
+
+int		ldi_a_ptr_hl(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.a), read_8(gb, gb->reg.hl));
+	gb->reg.hl += 1;
 }

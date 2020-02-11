@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 19:30:21 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/07 14:28:11 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/11 14:17:06 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int		call_a16(struct gb_cpu_s* gb)
 {
 	gb->reg.sp -= 2;
-	write_16(gb, gb->reg.sp, gb->reg.pc);
+	write_16(gb, gb->reg.sp, gb->reg.pc + 3);
 	gb->reg.pc = gb->current_instruction->args;
 	gb->jmp = 1;
 }
