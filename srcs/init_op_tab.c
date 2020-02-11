@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:16:07 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/11 14:50:32 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/11 16:26:45 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	init_op_tab()
 	op_tab[0x21] = (struct inst_s) {"LD HL A16",	1, 2, ld_hl_a16};
 	op_tab[0x31] = (struct inst_s) {"LD SP A16",	1, 2, ld_sp_a16};
 	op_tab[0x32] = (struct inst_s) {"LDD (HL) A",	1, 0, ldd_hl_a};
+	op_tab[0x22] = (struct inst_s) {"LDI (HL) A",	1, 0, ldi_hl_a};
 	op_tab[0x3e] = (struct inst_s) {"LD A A8",		1, 1, ld_a_a8};
 	op_tab[0x4e] = (struct inst_s) {"LD C (HL)",	1, 1, ld_c_hl};
 	op_tab[0xc3] = (struct inst_s) {"JP A16",		1, 2, jp_a16};

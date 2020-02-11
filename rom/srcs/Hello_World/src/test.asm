@@ -121,7 +121,7 @@ child:
 	ret
 
 banana:
-	ld a, $10
+	ldi [hl], a
 	call child
 	ret
 
@@ -131,9 +131,8 @@ begin:
 	ld c, $cc
 	ld d, $dd
 	ld e, $ee
-	ld h, $11
-	ld l, $22
+	ld hl, $c000
 
 loop:
 	call banana
-	jr c, loop
+	jp loop
