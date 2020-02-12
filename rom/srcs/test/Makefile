@@ -30,6 +30,8 @@ ASFLAGS =
 $(NAME): $(OBJ)
 	$(LINKER) -o $(NAME) $(OBJ)	
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.asm
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.asm $(OBJ_DIR)
 	$(AS) -o $@ $(CFLAGS) -i $(INC_DIR)/ $<
 
+$(OBJ_DIR):
+	mkdir $(OBJ_DIR)

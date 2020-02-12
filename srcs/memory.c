@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 18:10:17 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/05 16:46:05 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/12 12:05:48 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	write_8(struct gb_cpu_s* gb, uint16_t a16, uint8_t x)
 {
 	if (a16 < 0x8000)
 	{
-		printf("WARNING: TRYING TO WRITE TO ROM\n");
+		printf("WARNING: TRYING TO WRITE TO ROM AT %x\n", a16);
 		return ;
 	}
 	else if (a16 < 0xa000)

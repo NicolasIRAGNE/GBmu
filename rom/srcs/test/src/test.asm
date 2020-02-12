@@ -116,23 +116,10 @@ TileData:
 ; copy the ASCII character table, clear the screen
 ; ****************************************************************************************
 
-child:
-	cp a, $20
-	ret
-
-banana:
-	ldi [hl], a
-	call child
-	ret
-
 begin:
-	ld a, $aa
-	ld b, $bb
-	ld c, $cc
-	ld d, $dd
-	ld e, $ee
-	ld hl, $c000
+	ld a, $00
 
 loop:
-	call banana
+	add a, $1
+
 	jp loop

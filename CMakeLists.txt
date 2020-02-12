@@ -15,10 +15,15 @@ SET (SOURCES
 	srcs/instructions/ld.c
 	srcs/instructions/misc.c
 	srcs/instructions/xor.c
+	srcs/instructions/or.c
+	srcs/instructions/and.c
+	srcs/instructions/add.c
+	srcs/instructions/sub.c
 	srcs/instructions/call.c
 	srcs/instructions/inc.c
 	srcs/instructions/dec.c
 	srcs/instructions/cp.c
+	srcs/instructions/stack.c
 	)
 
 SET (INCLUDES

@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 14:05:57 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/11 12:11:17 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/12 13:49:59 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 
 int		command_next(struct gb_cpu_s* gb, char* s, uint16_t arg)
 {
-	handle_instruction(gb);
-	return (0);
+	return (handle_instruction(gb));
+	
 }
 
 int		command_not_found(struct gb_cpu_s* gb, char* s, uint16_t arg)
@@ -32,6 +32,12 @@ int		command_quit(struct gb_cpu_s* gb, char* s, uint16_t arg)
 	return (0);
 }
 
+int		command_run(struct gb_cpu_s* gb, char* s, uint16_t arg)
+{
+	gb->paused = 0;	
+	return (0);
+}
+
 int		command_print(struct gb_cpu_s* gb, char* s, uint16_t arg)
 {
 	printf("%x: %x\n", arg, read_8(gb, arg));	
@@ -43,6 +49,7 @@ void	parse_command(struct gb_cpu_s* gb)
 {
 	char buffer[255];
 	char command[255];
+	int ret;
 	uint16_t arg;
 	static int		(*f)(struct gb_cpu_s*, char*, uint16_t) = command_next;
 
@@ -62,10 +69,16 @@ void	parse_command(struct gb_cpu_s* gb)
 		{
 			f = command_print;
 		}
+		else if (!strcmp(command, "r"))
+		{
+			f = command_run;
+		}
 		else
 		{
 			f = command_not_found;
 		}
 	}
-	f(gb, command, arg);
+	ret = f(gb, command, arg);
+	if (ret)
+		gb->running = 0;
 }

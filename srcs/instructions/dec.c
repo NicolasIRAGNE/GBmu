@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 20:05:58 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/07 13:38:57 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/12 13:58:56 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,6 @@ void	dec_reg8(struct gb_cpu_s* gb, uint8_t* reg)
 void	dec_reg16(struct gb_cpu_s* gb, uint16_t* reg)
 {
 	*reg = *reg - 1;
-	cpu_toggle_flag(gb, ZERO_FLAG, !*reg);
-	cpu_set_flag(gb, SUBSTRACTION_FLAG);
-	gb->reg.f |= SUBSTRACTION_FLAG;
 }
 
 int		dec_a(struct gb_cpu_s* gb)
@@ -60,4 +57,24 @@ int		dec_h(struct gb_cpu_s* gb)
 int		dec_l(struct gb_cpu_s* gb)
 {
 	dec_reg8(gb, &(gb->reg.l));
+}
+
+int		dec_hl(struct gb_cpu_s* gb)
+{
+	dec_reg16(gb, &(gb->reg.hl));
+}
+
+int		dec_bc(struct gb_cpu_s* gb)
+{
+	dec_reg16(gb, &(gb->reg.bc));
+}
+
+int		dec_de(struct gb_cpu_s* gb)
+{
+	dec_reg16(gb, &(gb->reg.de));
+}
+
+int		dec_sp(struct gb_cpu_s* gb)
+{
+	dec_reg16(gb, &(gb->reg.sp));
 }

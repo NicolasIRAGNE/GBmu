@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 17:15:38 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/11 14:50:06 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/12 13:07:42 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,10 @@ int		jr_c_a8(struct gb_cpu_s* gb)
 		jump(gb, gb->reg.pc + (int8_t)gb->current_instruction->args + 2);
 }
 
+int		jr_a8(struct gb_cpu_s* gb)
+{
+	jump(gb, gb->reg.pc + (int8_t)gb->current_instruction->args + 2);
+}
 
 int		ret(struct gb_cpu_s* gb)
 {

@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:34:47 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/05 16:54:04 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/12 13:47:39 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ struct	gb_cpu_s
 {
 	int					jmp : 1; // Flags used by the emulator. Ugly but hopefully temporary ?
 	int					running : 1;
+	int					paused : 1;
 
 	int					ime : 1; // Interrupt Master Enable Flag
 	struct registers_s	reg;

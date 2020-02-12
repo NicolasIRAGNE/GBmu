@@ -1,60 +1,55 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   xor.c                                              :+:      :+:    :+:   */
+/*   or.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/30 17:15:16 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/12 14:20:26 by niragne          ###   ########.fr       */
+/*   Created: 2020/02/12 12:23:21 by niragne           #+#    #+#             */
+/*   Updated: 2020/02/12 12:40:54 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gb.h"
 
-int		xor(struct gb_cpu_s* gb, uint8_t value)
+int		or(struct gb_cpu_s* gb, uint8_t value)
 {
-	gb->reg.a ^= value;
+	gb->reg.a |= value;
 	cpu_toggle_flag(gb, ZERO_FLAG, !gb->reg.a);
 	cpu_unset_flag(gb, SUBSTRACTION_FLAG | CARRY_FLAG | HALF_CARRY_FLAG);
 }
 
-int		xor_a(struct gb_cpu_s* gb)
+int		or_a(struct gb_cpu_s* gb)
 {
-	xor(gb, gb->reg.a);
+	or(gb, gb->reg.a);
 }
 
-int		xor_b(struct gb_cpu_s* gb)
+int		or_b(struct gb_cpu_s* gb)
 {
-	xor(gb, gb->reg.b);
+	or(gb, gb->reg.b);
 }
 
-int		xor_c(struct gb_cpu_s* gb)
+int		or_c(struct gb_cpu_s* gb)
 {
-	xor(gb, gb->reg.c);
+	or(gb, gb->reg.c);
 }
 
-int		xor_d(struct gb_cpu_s* gb)
+int		or_d(struct gb_cpu_s* gb)
 {
-	xor(gb, gb->reg.d);
+	or(gb, gb->reg.d);
 }
 
-int		xor_e(struct gb_cpu_s* gb)
+int		or_e(struct gb_cpu_s* gb)
 {
-	xor(gb, gb->reg.e);
+	or(gb, gb->reg.e);
 }
 
-int		xor_h(struct gb_cpu_s* gb)
+int		or_h(struct gb_cpu_s* gb)
 {
-	xor(gb, gb->reg.h);
+	or(gb, gb->reg.h);
 }
 
-int		xor_l(struct gb_cpu_s* gb)
+int		or_l(struct gb_cpu_s* gb)
 {
-	xor(gb, gb->reg.l);
-}
-
-int		xor_ptr_hl(struct gb_cpu_s* gb)
-{
-	xor(gb, read_8(gb, gb->reg.hl));
+	or(gb, gb->reg.l);
 }

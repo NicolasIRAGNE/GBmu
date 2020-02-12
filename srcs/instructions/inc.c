@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 19:54:52 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/07 14:27:56 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/12 13:57:18 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ void	inc_reg8(struct gb_cpu_s* gb, uint8_t* reg)
 void	inc_reg16(struct gb_cpu_s* gb, uint16_t* reg)
 {
 	*reg = *reg + 1;
-	cpu_toggle_flag(gb, ZERO_FLAG, !*reg);
-	cpu_unset_flag(gb, SUBSTRACTION_FLAG);
 }
 
 int		inc_a(struct gb_cpu_s* gb)
@@ -59,4 +57,24 @@ int		inc_h(struct gb_cpu_s* gb)
 int		inc_l(struct gb_cpu_s* gb)
 {
 	inc_reg8(gb, &(gb->reg.l));
+}
+
+int		inc_hl(struct gb_cpu_s* gb)
+{
+	inc_reg16(gb, &(gb->reg.hl));
+}
+
+int		inc_bc(struct gb_cpu_s* gb)
+{
+	inc_reg16(gb, &(gb->reg.bc));
+}
+
+int		inc_de(struct gb_cpu_s* gb)
+{
+	inc_reg16(gb, &(gb->reg.de));
+}
+
+int		inc_sp(struct gb_cpu_s* gb)
+{
+	inc_reg16(gb, &(gb->reg.sp));
 }
