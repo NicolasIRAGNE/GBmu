@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:59 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/12 14:20:10 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/13 11:28:25 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdint.h>
 # include <unistd.h>
 # include "cpu.h"
+# include "ext_op.h"
 
 struct inst_s
 {
@@ -25,6 +26,9 @@ struct inst_s
 	int		(*exec)(struct gb_cpu_s*);
 	uint16_t	args;
 };
+
+extern struct inst_s op_tab[256];
+
 
 /*
 ** OPCODES
@@ -77,6 +81,7 @@ int			ld_nn_a(struct gb_cpu_s* gb);
 int			nop(struct gb_cpu_s*);
 int			di(struct gb_cpu_s* gb);
 int			ei(struct gb_cpu_s* gb);
+int			cb_n(struct gb_cpu_s* gb);
 
 /*
 ** Arithmetic

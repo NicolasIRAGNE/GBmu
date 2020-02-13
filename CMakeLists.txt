@@ -8,6 +8,7 @@ SET (SOURCES
 	srcs/execute.c
 	srcs/init_cpu.c
 	srcs/init_op_tab.c
+	srcs/init_ext_op_tab.c
 	srcs/memory.c
 	srcs/debugger.c
 	srcs/cpu_toggle_flag.c
@@ -24,6 +25,9 @@ SET (SOURCES
 	srcs/instructions/dec.c
 	srcs/instructions/cp.c
 	srcs/instructions/stack.c
+	srcs/instructions/cb.c
+	srcs/instructions/srl.c
+	srcs/instructions/rr.c
 	)
 
 SET (INCLUDES

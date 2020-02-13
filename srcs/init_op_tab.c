@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:16:07 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/12 14:20:49 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/13 11:15:46 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,4 +127,5 @@ void	init_op_tab()
 	op_tab[0xf1] = (struct inst_s) {"POP AF",		1, 0, pop_af};
 	op_tab[0xc1] = (struct inst_s) {"POP BC",		1, 0, pop_bc};
 	op_tab[0xd1] = (struct inst_s) {"POP DE",		1, 0, pop_de};
+	op_tab[0xcb] = (struct inst_s) {"CB N",			1, 1, cb_n};
 }

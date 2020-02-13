@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 11:37:03 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/12 13:51:05 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/13 11:09:35 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int		main(int ac, char** av)
 	gb.rom_ptr = &rom;
 	update_current_instruction(&gb);
 	init_op_tab();
+	init_ext_op_tab();
 	
 	int err;
 	while(gb.running)

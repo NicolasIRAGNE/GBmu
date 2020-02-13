@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   gb.h                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/02/13 11:08:21 by niragne           #+#    #+#             */
+/*   Updated: 2020/02/13 11:28:14 by niragne          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef GB_H
 # define GB_H
 
@@ -8,6 +20,7 @@
 # include <sys/mman.h>
 # include <stdint.h>
 # include "op.h"
+# include "ext_op.h"
 
 # define RED	"\x1B[31m"
 # define GRN	"\x1B[32m"
@@ -18,7 +31,6 @@
 # define WHT	"\x1B[37m"
 # define EOC	"\x1B[0m"
 
-extern struct inst_s op_tab[256];
 
 # define INT_VBLANK_ADDR 0x0040
 
@@ -51,6 +63,7 @@ void	init_cpu(struct gb_cpu_s* gb);
 int		handle_instruction(struct gb_cpu_s* gb);
 uint8_t	update_current_instruction(struct gb_cpu_s* gb);
 void	init_op_tab(void);
+void	init_ext_op_tab(void);
 
 /*
 ** Memory
