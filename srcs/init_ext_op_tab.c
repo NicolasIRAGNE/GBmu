@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:16:07 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/13 11:49:58 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/14 14:32:19 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,6 @@ void	init_ext_op_tab()
 	ext_op_tab[0x1b] = (struct ext_inst_s) {"RR E", 	rr_e};	
 	ext_op_tab[0x1c] = (struct ext_inst_s) {"RR H", 	rr_h};	
 	ext_op_tab[0x1d] = (struct ext_inst_s) {"RR L", 	rr_l};	
-	ext_op_tab[0x1e] = (struct ext_inst_s) {"RR (HL)",	rr_l};	
+	ext_op_tab[0x1e] = (struct ext_inst_s) {"RR (HL)",	rr_hl};	
 	ext_op_tab[0x1f] = (struct ext_inst_s) {"RR A", 	rr_a};	
 }

@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 11:37:03 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/13 11:09:35 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/14 13:42:51 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int		main(int ac, char** av)
 	init_ext_op_tab();
 	
 	int err;
+	err = 0;
 	while(gb.running)
 	{
 		if (gb.paused)

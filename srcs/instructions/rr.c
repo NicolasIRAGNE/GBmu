@@ -17,24 +17,26 @@ int		rr_reg8(struct gb_cpu_s* gb, uint8_t* reg)
 	uint16_t ret;
 	ret = *reg;
 	ret >>= 1;
+	if (gb->reg.f & CARRY_FLAG)
+		ret |= 0x80;
 	cpu_toggle_flag(gb, ZERO_FLAG, !ret);
 	cpu_toggle_flag(gb, CARRY_FLAG, *reg & 1);
 	cpu_unset_flag(gb, SUBSTRACTION_FLAG);
-	if (gb->reg.f & CARRY_FLAG)
-		*reg |= 0x80;
 	*reg = (uint8_t)ret;
 }
 
 int		rr_mem8(struct gb_cpu_s* gb, uint16_t addr)
 {
 	uint16_t ret;
+	uint16_t tmp;
 	ret = read_8(gb, addr);
-	cpu_toggle_flag(gb, CARRY_FLAG, ret & 1);
+	tmp = ret;
 	ret >>= 1;
-	cpu_toggle_flag(gb, ZERO_FLAG, !ret);
-	cpu_unset_flag(gb, SUBSTRACTION_FLAG);
 	if (gb->reg.f & CARRY_FLAG)
 		ret |= 0x80;
+	cpu_toggle_flag(gb, ZERO_FLAG, !ret);
+	cpu_toggle_flag(gb, CARRY_FLAG, tmp & 1);
+	cpu_unset_flag(gb, SUBSTRACTION_FLAG);
 	write_8(gb, addr, ret);
 }
 

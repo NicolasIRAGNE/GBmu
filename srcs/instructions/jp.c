@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 17:15:38 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/12 13:07:42 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/14 15:37:04 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,12 @@ int		jp_z_a16(struct gb_cpu_s* gb)
 
 int		jr_nz_a8(struct gb_cpu_s* gb)
 {
-	// printf("%d jump\n", (int8_t)gb->current_instruction->args);
 	if (!(gb->reg.f & ZERO_FLAG))
 		jump(gb, gb->reg.pc + (int8_t)gb->current_instruction->args + 2);
 }
 
 int		jr_z_a8(struct gb_cpu_s* gb)
 {
-	// printf("%d jump\n", (int8_t)gb->current_instruction->args);
 	if ((gb->reg.f & ZERO_FLAG))
 		jump(gb, gb->reg.pc + (int8_t)gb->current_instruction->args + 2);
 }
@@ -47,6 +45,12 @@ int		jr_z_a8(struct gb_cpu_s* gb)
 int		jr_c_a8(struct gb_cpu_s* gb)
 {
 	if ((gb->reg.f & CARRY_FLAG))
+		jump(gb, gb->reg.pc + (int8_t)gb->current_instruction->args + 2);
+}
+
+int		jr_nc_a8(struct gb_cpu_s* gb)
+{
+	if (!(gb->reg.f & CARRY_FLAG))
 		jump(gb, gb->reg.pc + (int8_t)gb->current_instruction->args + 2);
 }
 
@@ -59,4 +63,28 @@ int		ret(struct gb_cpu_s* gb)
 {
 	jump(gb, read_16(gb, gb->reg.sp));
 	gb->reg.sp += 2;
+}
+
+int		ret_nc(struct gb_cpu_s* gb)
+{
+	if (!(gb->reg.f & CARRY_FLAG))
+		ret(gb);
+}
+
+int		ret_c(struct gb_cpu_s* gb)
+{
+	if (gb->reg.f & CARRY_FLAG)
+		ret(gb);
+}
+
+int		ret_nz(struct gb_cpu_s* gb)
+{
+	if (!(gb->reg.f & ZERO_FLAG))
+		ret(gb);
+}
+
+int		ret_z(struct gb_cpu_s* gb)
+{
+	if (gb->reg.f & ZERO_FLAG)
+		ret(gb);
 }

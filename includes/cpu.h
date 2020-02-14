@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:34:47 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/13 11:06:37 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/14 14:44:01 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # define IO_PORTS_SIZE 0x100	// 256B
 # define OAM_SIZE 0x9f			// 160B
 
-// FLAG REISTER: ZNHC0000
+// FLAG REGISTER: ZNHC0000
 # define ZERO_FLAG			(1 << 7)
 # define SUBSTRACTION_FLAG	(1 << 6)
 # define HALF_CARRY_FLAG	(1 << 5)

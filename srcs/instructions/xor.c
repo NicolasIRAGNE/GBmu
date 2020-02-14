@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 17:15:16 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/12 14:20:26 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/14 14:59:35 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,9 @@ int		xor_l(struct gb_cpu_s* gb)
 int		xor_ptr_hl(struct gb_cpu_s* gb)
 {
 	xor(gb, read_8(gb, gb->reg.hl));
+}
+
+int		xor_n(struct gb_cpu_s* gb)
+{
+	xor(gb, gb->current_instruction->args);
 }

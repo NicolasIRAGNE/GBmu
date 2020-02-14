@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/12 13:27:30 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/12 13:44:50 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/14 15:32:22 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ int		add(struct gb_cpu_s* gb, uint8_t value)
 {
 	uint16_t ret;
 	ret = gb->reg.a + value;
-	cpu_toggle_flag(gb, ZERO_FLAG, !ret);
 	cpu_toggle_flag(gb, CARRY_FLAG, ret > 255);
 	cpu_unset_flag(gb, SUBSTRACTION_FLAG);
 	gb->reg.a = (uint8_t)ret;
+	cpu_toggle_flag(gb, ZERO_FLAG, !gb->reg.a);
 }
 
 int		add_a(struct gb_cpu_s* gb)
@@ -61,4 +61,9 @@ int		add_l(struct gb_cpu_s* gb)
 int		add_a8(struct gb_cpu_s* gb)
 {
 	add(gb, gb->current_instruction->args);
+}
+
+int		adc_n(struct gb_cpu_s* gb)
+{
+	add(gb, gb->current_instruction->args + ((gb->reg.f & CARRY_FLAG) != 0));
 }
