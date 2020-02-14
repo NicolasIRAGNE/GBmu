@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 20:05:58 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/13 11:10:29 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/14 17:25:37 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,17 @@ void	dec_reg8(struct gb_cpu_s* gb, uint8_t* reg)
 	*reg = *reg - 1;
 	cpu_toggle_flag(gb, ZERO_FLAG, !*reg);
 	cpu_set_flag(gb, SUBSTRACTION_FLAG);
+}
+
+void	dec_mem8(struct gb_cpu_s* gb, uint16_t addr)
+{
+	uint8_t	x;
+
+	x = read_8(gb, addr);
+	x--;
+	cpu_toggle_flag(gb, ZERO_FLAG, !x);
+	cpu_set_flag(gb, SUBSTRACTION_FLAG);
+	write_8(gb, addr, x);
 }
 
 void	dec_reg16(struct gb_cpu_s* gb, uint16_t* reg)
@@ -77,4 +88,9 @@ int		dec_de(struct gb_cpu_s* gb)
 int		dec_sp(struct gb_cpu_s* gb)
 {
 	dec_reg16(gb, &(gb->reg.sp));
+}
+
+int		dec_ptr_hl(struct gb_cpu_s* gb)
+{
+	dec_mem8(gb, gb->reg.hl);
 }

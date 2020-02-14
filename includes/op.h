@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:59 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/14 15:37:25 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/14 17:26:09 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ int			or_d(struct gb_cpu_s* gb);
 int			or_e(struct gb_cpu_s* gb);
 int			or_h(struct gb_cpu_s* gb);
 int			or_l(struct gb_cpu_s* gb);
+int			or_ptr_hl(struct gb_cpu_s* gb);
 
 int			and_a(struct gb_cpu_s* gb);
 int			and_b(struct gb_cpu_s* gb);
@@ -136,6 +137,7 @@ int			dec_hl(struct gb_cpu_s* gb);
 int			dec_de(struct gb_cpu_s* gb);
 int			dec_sp(struct gb_cpu_s* gb);
 int			dec_bc(struct gb_cpu_s* gb);
+int			dec_ptr_hl(struct gb_cpu_s* gb);
 
 int			inc_a(struct gb_cpu_s* gb);
 int			inc_b(struct gb_cpu_s* gb);
