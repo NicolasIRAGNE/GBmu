@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/31 11:40:08 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/11 13:27:37 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/16 13:07:05 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,9 @@ void	debug_print_flag_register(uint8_t reg)
 void	debug_print_gb_flags(struct gb_cpu_s* gb)
 {
 	printf("FLAGS:\n");
-	printf("IME: %d\n", gb->ime);
-	printf("IER: %.4x\n", gb->interrupt_enable_register);
+	printf("IME : %d\n", gb->ime);
+	printf("IER : %.4x\n", gb->interrupt_enable_register);
+	printf("LCDC: %.2x\n", read_8(gb, LCDC_OFFSET));
 }
 
 void	debug_print_instruction(struct inst_s* inst)

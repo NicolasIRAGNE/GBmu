@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:59 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/14 17:26:09 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/16 14:09:15 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,13 @@ int			ld_b_ptr_hl(struct gb_cpu_s* gb);
 int			ld_c_ptr_hl(struct gb_cpu_s* gb);
 int			ld_d_ptr_hl(struct gb_cpu_s* gb);
 int			ld_h_ptr_hl(struct gb_cpu_s* gb);
+int			ld_l_ptr_hl(struct gb_cpu_s* gb);
 int			ld_hl_a16(struct gb_cpu_s* gb);
 int			ld_bc_a16(struct gb_cpu_s* gb);
 int			ld_de_a16(struct gb_cpu_s* gb);
 int			ld_sp_a16(struct gb_cpu_s* gb);
 int			ldh_a8_a(struct gb_cpu_s* gb);
-int			ldh_a_a8(struct gb_cpu_s* gb);
+int			ldh_a_ptr_n(struct gb_cpu_s* gb);
 int			ldd_hl_a(struct gb_cpu_s* gb);
 int			ld_ptr_hl_a(struct gb_cpu_s* gb);
 int			ldi_hl_a(struct gb_cpu_s* gb);
@@ -193,6 +194,7 @@ int			ret_nz(struct gb_cpu_s* gb);
 ** Call
 */
 int			call_a16(struct gb_cpu_s* gb);
+int			interrupt_a16(struct gb_cpu_s* gb, uint16_t addr);
 int			call_nz_a16(struct gb_cpu_s* gb);
 
 

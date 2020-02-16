@@ -4,6 +4,8 @@
 		"sdl.h": "c",
 		"gb.h": "c",
 		"op.h": "c",
-		"ext_op.h": "c"
+		"ext_op.h": "c",
+		"unistd.h": "c",
+		"pthread.h": "c"
 	}
 }

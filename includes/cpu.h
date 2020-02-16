@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:34:47 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/14 14:44:01 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/16 14:21:53 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,16 @@
 # define IO_PORTS_SIZE 0x100	// 256B
 # define OAM_SIZE 0x9f			// 160B
 
+# define IO_OFFSET	 0xFF00
+# define LCDC_OFFSET (IO_OFFSET | 0x40)
+
 // FLAG REGISTER: ZNHC0000
 # define ZERO_FLAG			(1 << 7)
 # define SUBSTRACTION_FLAG	(1 << 6)
 # define HALF_CARRY_FLAG	(1 << 5)
 # define CARRY_FLAG			(1 << 4)
+
+# define INT_VBLANK 0x40
 
 struct registers_s {
 	struct {
@@ -77,6 +82,7 @@ struct	gb_cpu_s
 	int					jmp : 1; // Flags used by the emulator. Ugly but hopefully temporary ?
 	int					running : 1;
 	int					paused : 1;
+	uint16_t			interrupt;
 
 	int					ime : 1; // Interrupt Master Enable Flag
 	struct registers_s	reg;

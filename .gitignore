@@ -40,7 +40,7 @@
 *.i*86
 *.x86_64
 *.hex
-gbmu
+build/gbmu
 
 # Debug files
 *.dSYM/
@@ -86,3 +86,4 @@ _deps
 .history
 
 # End of https://www.gitignore.io/api/c,cmake,visualstudiocode
+*.gdb_history

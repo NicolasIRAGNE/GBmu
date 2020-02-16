@@ -6,13 +6,14 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 11:37:03 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/14 13:42:51 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/16 15:01:25 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include "SDL.h"
 #include "gb.h"
+#include <pthread.h>
 
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 480
@@ -72,8 +73,18 @@ int		main(int ac, char** av)
 	
 	int err;
 	err = 0;
+
+	pthread_t thread;
+	pthread_create (&thread, NULL, thread_entry, &gb);
+	
 	while(gb.running)
 	{
+		if (gb.interrupt)
+		{
+			interrupt_a16(&gb, gb.interrupt);
+			gb.interrupt = 0;
+			gb.paused = 1;
+		}
 		if (gb.paused)
 			parse_command(&gb);
 		else 

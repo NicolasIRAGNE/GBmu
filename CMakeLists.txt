@@ -12,6 +12,7 @@ SET (SOURCES
 	srcs/memory.c
 	srcs/debugger.c
 	srcs/cpu_toggle_flag.c
+	srcs/video_loop.c
 	srcs/instructions/jp.c
 	srcs/instructions/ld.c
 	srcs/instructions/misc.c

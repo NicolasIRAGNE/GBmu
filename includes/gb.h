@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:08:21 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/13 11:28:14 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/16 14:11:09 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,5 +97,11 @@ void	debug_print_flag_register(uint8_t reg);
 void    cpu_toggle_flag(struct gb_cpu_s* gb, uint8_t flag, int cond);
 void    cpu_set_flag(struct gb_cpu_s* gb, uint8_t flag);
 void    cpu_unset_flag(struct gb_cpu_s* gb, uint8_t flag);
+
+/*
+** Video
+*/
+void*	thread_entry(void* user_data);
+
 
 #endif
