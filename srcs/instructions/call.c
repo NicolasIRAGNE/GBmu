@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 19:30:21 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/16 14:08:36 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/17 14:11:51 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int		interrupt_a16(struct gb_cpu_s* gb, uint16_t addr)
 	gb->reg.sp -= 2;
 	write_16(gb, gb->reg.sp, gb->reg.pc);
 	gb->reg.pc = addr;
+	update_current_instruction(gb);
 }
 
 int		call_a16(struct gb_cpu_s* gb)

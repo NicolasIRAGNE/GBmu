@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:34:47 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/16 14:21:53 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/17 14:10:07 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ struct	gb_cpu_s
 	int					running : 1;
 	int					paused : 1;
 	uint16_t			interrupt;
+	uint32_t			cycle;
 
 	int					ime : 1; // Interrupt Master Enable Flag
 	struct registers_s	reg;

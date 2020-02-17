@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:59 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/16 14:09:15 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/17 14:40:04 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,6 +185,7 @@ int			jr_nc_a8(struct gb_cpu_s* gb);
 int			jr_a8(struct gb_cpu_s* gb);
 
 int			ret(struct gb_cpu_s* gb);
+int			reti(struct gb_cpu_s* gb);
 int			ret_c(struct gb_cpu_s* gb);
 int			ret_nc(struct gb_cpu_s* gb);
 int			ret_z(struct gb_cpu_s* gb);

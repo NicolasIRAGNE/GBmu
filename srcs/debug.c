@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/31 11:40:08 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/16 13:07:05 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/17 14:12:11 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	debug_print_gb(struct gb_cpu_s* gb)
 	printf("-------------------\n");
 	debug_print_registers(gb->reg);
 	printf("\n");
+	printf("CYCLE: %d\n", gb->cycle);
 	debug_print_gb_flags(gb);
 	printf("\n");
 	debug_print_stack(gb);

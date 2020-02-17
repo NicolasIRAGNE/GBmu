@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 17:15:38 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/14 15:37:04 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/17 14:39:52 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,12 @@ int		ret(struct gb_cpu_s* gb)
 {
 	jump(gb, read_16(gb, gb->reg.sp));
 	gb->reg.sp += 2;
+}
+
+int		reti(struct gb_cpu_s* gb)
+{
+	ret(gb);
+	ei(gb);
 }
 
 int		ret_nc(struct gb_cpu_s* gb)
