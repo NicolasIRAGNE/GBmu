@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:26 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/17 14:10:58 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/18 13:10:32 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,6 @@ int		handle_instruction(struct gb_cpu_s* gb)
 	else
 		gb->jmp = 0;
 	gb->cycle += gb->current_instruction->cycles;
+	gpu_tick(gb);
 	return (0);
 }

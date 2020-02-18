@@ -117,14 +117,8 @@ TileData:
 ; ****************************************************************************************
 
 begin:
-	ld	a, LCDCF_ON|LCDCF_BG8000|LCDCF_BG9800|LCDCF_BGON|LCDCF_OBJ16|LCDCF_OBJOFF 
-	ld	[rLCDC], a
-	di
 	ld a, $aa
-	ld b, $bb
-	ld c, $cc
-	ei
 
 loop:	
-	
+	rrc a	
 	jp loop

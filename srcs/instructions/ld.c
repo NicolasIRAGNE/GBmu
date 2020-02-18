@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 17:14:49 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/16 12:54:42 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/18 13:38:42 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,11 @@ int		ld_a_d(struct gb_cpu_s* gb)
 int		ld_a_l(struct gb_cpu_s* gb)
 {
 	ld_reg_8(&(gb->reg.a), gb->reg.l);
+}
+
+int		ld_l_a(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.l), gb->reg.a);
 }
 
 int		ld_a_h(struct gb_cpu_s* gb)

@@ -11,6 +11,7 @@ SET (SOURCES
 	srcs/init_ext_op_tab.c
 	srcs/memory.c
 	srcs/debugger.c
+	srcs/gpu.c
 	srcs/cpu_toggle_flag.c
 	srcs/video_loop.c
 	srcs/instructions/jp.c
@@ -29,6 +30,7 @@ SET (SOURCES
 	srcs/instructions/cb.c
 	srcs/instructions/srl.c
 	srcs/instructions/rr.c
+	srcs/instructions/rl.c
 	)
 
 SET (INCLUDES

@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:59 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/17 14:40:04 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/18 13:49:03 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int			ld_d_a8(struct gb_cpu_s* gb);
 int			ld_e_a8(struct gb_cpu_s* gb);
 int			ld_h_a8(struct gb_cpu_s* gb);
 int			ld_l_a8(struct gb_cpu_s* gb);
+int			ld_l_a(struct gb_cpu_s* gb);
 int			ld_a_ptr_a16(struct gb_cpu_s* gb);
 int			ld_a_ptr_de(struct gb_cpu_s* gb);
 int			ld_a_ptr_hl(struct gb_cpu_s* gb);
@@ -161,6 +162,11 @@ int			add_h(struct gb_cpu_s* gb);
 int			add_l(struct gb_cpu_s* gb);
 int			add_a8(struct gb_cpu_s* gb);
 int			adc_n(struct gb_cpu_s* gb);
+int			add_bc(struct gb_cpu_s* gb);
+int			add_de(struct gb_cpu_s* gb);
+int			add_hl(struct gb_cpu_s* gb);
+int			add_sp(struct gb_cpu_s* gb);
+
 
 int			sub_a(struct gb_cpu_s* gb);
 int			sub_b(struct gb_cpu_s* gb);
@@ -177,6 +183,7 @@ int			cp_a8(struct gb_cpu_s* gb);
 ** Jump
 */
 int			jp_a16(struct gb_cpu_s* gb);
+int			jp_hl(struct gb_cpu_s* gb);
 int			jr_nz_a8(struct gb_cpu_s* gb);
 int			jr_z_a8(struct gb_cpu_s* gb);
 int			jp_z_a16(struct gb_cpu_s* gb);

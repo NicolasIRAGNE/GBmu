@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:08:21 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/16 14:11:09 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/18 13:42:56 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <stdint.h>
 # include "op.h"
 # include "ext_op.h"
+# include <limits.h>
 
 # define RED	"\x1B[31m"
 # define GRN	"\x1B[32m"
@@ -30,11 +31,6 @@
 # define CYN	"\x1B[36m"
 # define WHT	"\x1B[37m"
 # define EOC	"\x1B[0m"
-
-
-# define INT_VBLANK_ADDR 0x0040
-
-
 
 struct rom_hdr_s
 {
@@ -64,6 +60,7 @@ int		handle_instruction(struct gb_cpu_s* gb);
 uint8_t	update_current_instruction(struct gb_cpu_s* gb);
 void	init_op_tab(void);
 void	init_ext_op_tab(void);
+void	gpu_tick(struct gb_cpu_s* gb);
 
 /*
 ** Memory

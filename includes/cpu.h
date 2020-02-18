@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:34:47 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/17 14:10:07 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/18 13:06:23 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,26 @@
 # define OAM_SIZE 0x9f			// 160B
 
 # define IO_OFFSET	 0xFF00
-# define LCDC_OFFSET (IO_OFFSET | 0x40)
+# define LCDC_OFFSET 	(IO_OFFSET | 0x40)
+# define STAT_OFFSET 	(IO_OFFSET | 0x41)
+# define SCY_OFFSET		(IO_OFFSET | 0x42)
+# define SCX_OFFSET		(IO_OFFSET | 0x43)
+# define LY_OFFSET		(IO_OFFSET | 0x44)
+# define LYC_OFFSET		(IO_OFFSET | 0x45)
+# define WY_OFFSET		(IO_OFFSET | 0x4a)
+# define WX_OFFSET		(IO_OFFSET | 0x4b)
 
 // FLAG REGISTER: ZNHC0000
 # define ZERO_FLAG			(1 << 7)
 # define SUBSTRACTION_FLAG	(1 << 6)
 # define HALF_CARRY_FLAG	(1 << 5)
 # define CARRY_FLAG			(1 << 4)
+
+# define INT_VBLANK_REQUEST	(1 << 0)
+# define INT_STAT_REQUEST	(1 << 1)
+# define INT_TIMER_REQUEST	(1 << 2)
+# define INT_SERIAL_REQUEST	(1 << 3)
+# define INT_JOYPAD_REQUEST	(1 << 4)
 
 # define INT_VBLANK 0x40
 
@@ -77,6 +90,21 @@ struct registers_s {
 	uint16_t	pc; // Program counter
 };
 
+enum	gpu_mode_e
+{
+	GPU_MODE_HBLANK = 0,
+	GPU_MODE_VBLANK,
+	GPU_MODE_OAM,
+	GPU_MODE_VRAM,
+};
+
+struct	gb_gpu_s
+{
+	int tick;
+	int y_coord;
+	enum gpu_mode_e mode;	
+};
+
 struct	gb_cpu_s
 {
 	int					jmp : 1; // Flags used by the emulator. Ugly but hopefully temporary ?
@@ -89,6 +117,7 @@ struct	gb_cpu_s
 	struct registers_s	reg;
 	struct inst_s*		current_instruction;
 	struct rom_s*		rom_ptr;
+	struct gb_gpu_s		gpu;
 	uint8_t				vram[VRAM_SIZE];
 	uint8_t				ram[RAM_SIZE];
 	uint8_t				wram[WRAM_SIZE];

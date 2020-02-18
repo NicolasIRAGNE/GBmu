@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 17:15:38 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/17 14:39:52 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/18 13:48:54 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,11 @@ int		jump(struct gb_cpu_s* gb, uint16_t addr)
 int		jp_a16(struct gb_cpu_s* gb)
 {
 	jump(gb, gb->current_instruction->args);
+}
+
+int		jp_hl(struct gb_cpu_s* gb)
+{
+	jump(gb, gb->reg.hl);
 }
 
 int		jp_z_a16(struct gb_cpu_s* gb)

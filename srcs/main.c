@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 11:37:03 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/16 15:01:25 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/18 13:37:00 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int		main(int ac, char** av)
 	err = 0;
 
 	pthread_t thread;
-	pthread_create (&thread, NULL, thread_entry, &gb);
+	// pthread_create (&thread, NULL, thread_entry, &gb);
 	
 	while(gb.running)
 	{
@@ -83,7 +83,6 @@ int		main(int ac, char** av)
 		{
 			interrupt_a16(&gb, gb.interrupt);
 			gb.interrupt = 0;
-			gb.paused = 1;
 		}
 		if (gb.paused)
 			parse_command(&gb);
@@ -93,6 +92,6 @@ int		main(int ac, char** av)
 		if (err)
 			return (1);
 	}
-
+	
 	return (0);
 }
