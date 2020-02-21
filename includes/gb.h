@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:08:21 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/18 13:42:56 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/21 13:52:49 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include "op.h"
 # include "ext_op.h"
 # include <limits.h>
+# include "SDL.h"
 
 # define RED	"\x1B[31m"
 # define GRN	"\x1B[32m"
@@ -52,7 +53,21 @@ struct rom_hdr_s
 struct rom_s
 {
 	struct rom_hdr_s*	header;
-	void*				ptr;	
+	void*				ptr;
+};
+
+struct	sdl_context_s
+{
+	SDL_Window *win;
+	SDL_Renderer *renderer;
+    SDL_Surface *surface;
+    SDL_Texture *texture;
+};
+
+struct gbmu_wrapper_s
+{
+	struct gb_cpu_s* gb;
+	struct sdl_context_s* context;
 };
 
 void	init_cpu(struct gb_cpu_s* gb);
@@ -61,6 +76,7 @@ uint8_t	update_current_instruction(struct gb_cpu_s* gb);
 void	init_op_tab(void);
 void	init_ext_op_tab(void);
 void	gpu_tick(struct gb_cpu_s* gb);
+void*	execute_thread_entry(void* user_data);
 
 /*
 ** Memory
@@ -99,6 +115,8 @@ void    cpu_unset_flag(struct gb_cpu_s* gb, uint8_t flag);
 ** Video
 */
 void*	thread_entry(void* user_data);
+void	video_loop(struct gbmu_wrapper_s* wrapper);
+int     init_sdl(struct sdl_context_s* context);
 
 
 #endif

@@ -13,6 +13,7 @@ SET (SOURCES
 	srcs/debugger.c
 	srcs/gpu.c
 	srcs/cpu_toggle_flag.c
+	srcs/init_sdl.c
 	srcs/video_loop.c
 	srcs/instructions/jp.c
 	srcs/instructions/ld.c

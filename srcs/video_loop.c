@@ -6,35 +6,51 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/16 13:27:32 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/17 14:40:58 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/21 14:02:51 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gb.h"
 #include "SDL.h"
 
-void	video_loop(struct gb_cpu_s* gb)
+void	video_loop(struct gbmu_wrapper_s* wrapper)
 {
-	int err = 0;
-	uint8_t	y_coord = 0;
-	
-	while(gb->running)
+	wrapper->context->surface = SDL_LoadBMP("sample.bmp");
+	if (!wrapper->context->surface)
 	{
-		while (gb->paused)
-			;
-		write_8(gb, LCDC_OFFSET, y_coord);
-		if (y_coord == 144)
-			gb->interrupt = INT_VBLANK;
-		if (y_coord == 153)
-			y_coord = 0;
-		y_coord++;
-		usleep(104);
+		fprintf(stderr, "failed to create surface (%s)\n", SDL_GetError());
+		return ;
+	}
+
+	wrapper->context->texture = SDL_CreateTextureFromSurface(wrapper->context->renderer, wrapper->context->surface);
+	if (!wrapper->context->texture)
+	{
+		fprintf(stderr, "failed to create texture (%s)\n", SDL_GetError());
+		return ;
+	}
+
+	SDL_FreeSurface(wrapper->context->surface);
+
+	while (wrapper->gb->running)
+	{
+		SDL_Event event;
+    	while (SDL_PollEvent(&event)) 
+		{
+    		if (event.type == SDL_KEYDOWN)
+			{
+				if (event.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
+					wrapper->gb->running = 0;
+			}
+    	}
+		SDL_RenderClear(wrapper->context->renderer);
+		SDL_RenderCopy(wrapper->context->renderer, wrapper->context->texture, NULL, NULL);
+		SDL_RenderPresent(wrapper->context->renderer);
 	}
 }
 
 void*	thread_entry(void* user_data)
 {
-	video_loop((struct gb_cpu_s*) user_data);
+	video_loop((struct gbmu_wrapper_s*) user_data);
 	return (NULL);
 }
 

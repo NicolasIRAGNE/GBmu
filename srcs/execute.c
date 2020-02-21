@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:26 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/18 13:10:32 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/21 14:01:04 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,33 @@ uint8_t	update_current_instruction(struct gb_cpu_s* gb)
 	else if (gb->current_instruction->size == 2)
 		gb->current_instruction->args = read_16(gb, pc + 1);
 	return (op);
+}
+
+void	execute_loop(struct gb_cpu_s* gb)
+{
+	int err = 0;
+
+	while(gb->running)
+	{
+		if (gb->interrupt)
+		{
+			interrupt_a16(gb, gb->interrupt);
+			gb->interrupt = 0;
+		}
+		if (gb->paused)
+			parse_command(gb);
+		else 
+			err = handle_instruction(gb);
+
+		if (err)
+			gb->paused = 1;
+	}
+}
+
+void*	execute_thread_entry(void* user_data)
+{
+	execute_loop((struct gb_cpu_s*) user_data);
+	return (NULL);
 }
 
 int		handle_instruction(struct gb_cpu_s* gb)

@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 11:37:03 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/18 13:37:00 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/21 14:59:33 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ int		main(int ac, char** av)
 {
 	struct rom_s rom;
 	struct gb_cpu_s gb;
+	struct sdl_context_s context;
+	
 	if (ac < 2)
 	{
 		fprintf(stderr, "usage: %s <rom>\n", av[0]);
@@ -75,23 +77,16 @@ int		main(int ac, char** av)
 	err = 0;
 
 	pthread_t thread;
-	// pthread_create (&thread, NULL, thread_entry, &gb);
-	
-	while(gb.running)
-	{
-		if (gb.interrupt)
-		{
-			interrupt_a16(&gb, gb.interrupt);
-			gb.interrupt = 0;
-		}
-		if (gb.paused)
-			parse_command(&gb);
-		else 
-			err = handle_instruction(&gb);
 
-		if (err)
-			return (1);
-	}
+	if (init_sdl(&context))
+		return (1);
+
+	pthread_create (&thread, NULL, execute_thread_entry , &gb);
+	video_loop(&(struct gbmu_wrapper_s){&gb, &context});
 	
+	SDL_DestroyWindow(context.win);
+	SDL_DestroyRenderer(context.renderer);
+	SDL_Quit();
+
 	return (0);
 }

@@ -1,28 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   misc.c                                             :+:      :+:    :+:   */
+/*   display.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/30 17:15:01 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/19 11:34:47 by niragne          ###   ########.fr       */
+/*   Created: 2020/02/21 14:14:15 by niragne           #+#    #+#             */
+/*   Updated: 2020/02/21 14:53:30 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "gb.h"
+#ifndef DISPLAY_H
+# define DISPLAY_H
+# include "gb.h"
 
-int		nop(struct gb_cpu_s* gb)
-{
-	
-}
 
-int		di(struct gb_cpu_s* gb)
-{
-	gb->ime = 0;
-}
 
-int		ei(struct gb_cpu_s* gb)
-{
-	gb->ime = 1;
-}
+#endif
