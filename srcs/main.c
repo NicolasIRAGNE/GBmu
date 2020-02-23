@@ -6,13 +6,13 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 11:37:03 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/21 14:59:33 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/23 11:28:24 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
-#include "SDL.h"
 #include "gb.h"
+#include "renderer.h"
 #include <pthread.h>
 
 #define SCREEN_WIDTH 640
@@ -80,13 +80,14 @@ int		main(int ac, char** av)
 
 	if (init_sdl(&context))
 		return (1);
+	// atexit(SDL_Quit);
 
 	pthread_create (&thread, NULL, execute_thread_entry , &gb);
 	video_loop(&(struct gbmu_wrapper_s){&gb, &context});
-	
-	SDL_DestroyWindow(context.win);
-	SDL_DestroyRenderer(context.renderer);
-	SDL_Quit();
+	pthread_join(thread, NULL);
+	// SDL_DestroyWindow(context.win);
+	// SDL_DestroyRenderer(context.renderer);
+	// SDL_DestroyTexture(context.texture);
 
 	return (0);
 }

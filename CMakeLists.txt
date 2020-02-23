@@ -38,13 +38,14 @@ SET (INCLUDES
     )
 
 find_package(SDL2 REQUIRED)
+find_package(Threads)
 INCLUDE_DIRECTORIES(${SDL2_INCLUDE_DIRS})
 message (${SDL2_INCLUDE_DIRS})
 
 INCLUDE_DIRECTORIES(includes)
 
-set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=address")
+set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -lpthread")
 
 add_executable(${PROJECT_NAME} ${SOURCES})
-target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
 # SET_TARGET_PROPERTIES(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE TRUE)
