@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 11:56:05 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/23 21:53:23 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/24 09:42:39 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int     init_sdl(struct sdl_context_s* context)
 		return (1);
 	}
     
-	if (SDL_CreateWindowAndRenderer(256, 256, SDL_WINDOW_SHOWN, &(context->win), &(context->renderer)))
+	if (SDL_CreateWindowAndRenderer(127, 256, SDL_WINDOW_SHOWN, &(context->win), &(context->renderer)))
 	{
 		fprintf(stderr, "failed to initialize create window or renderer(%s)\n", SDL_GetError());
 		return (1);

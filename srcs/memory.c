@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 18:10:17 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/12 12:05:48 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/24 09:25:15 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ void	write_8(struct gb_cpu_s* gb, uint16_t a16, uint8_t x)
 	}
 	else if (a16 < 0xa000)
 	{
+		// if (a16 < 0x97FF)
+			// gb->paused = 1;
 		((uint8_t*)(gb->vram))[a16 - 0x8000] = x;
 		return ;
 	}

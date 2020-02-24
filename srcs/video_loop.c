@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/16 13:27:32 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/23 21:47:59 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/24 10:54:14 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ struct tile_s	create_tile(struct gbmu_wrapper_s* wrapper, uint16_t index)
 	int j = 0;
 	int k = 0;
 	uint8_t msb;
-	uint8_t msb_tmp;
+	uint16_t msb_tmp;
 	uint8_t lsb;
-	uint8_t lsb_tmp;
+	uint16_t lsb_tmp;
 	uint16_t test;
 
 	while (i < 8)
@@ -52,33 +52,26 @@ struct tile_s	create_tile(struct gbmu_wrapper_s* wrapper, uint16_t index)
 		msb = wrapper->gb->vram[index + k];
 		lsb = wrapper->gb->vram[index + k + 1];
 
-		// msb = 0b01101010;
-		// lsb = 0b01011010;
+		msb_tmp = ((msb & 0b00000001) << 1)
+				| ((msb & 0b00000010) << 2)
+				| ((msb & 0b00000100) << 3)
+				| ((msb & 0b00001000) << 4)
+				| ((msb & 0b00010000) << 5)
+				| ((msb & 0b00100000) << 6)
+				| ((msb & 0b01000000) << 7)
+				| ((msb & 0b10000000) << 8);
+		
+		lsb_tmp = ((lsb & 0b00000001) << 0)
+				| ((lsb & 0b00000010) << 1)
+				| ((lsb & 0b00000100) << 2)
+				| ((lsb & 0b00001000) << 3)
+				| ((lsb & 0b00010000) << 4)
+				| ((lsb & 0b00100000) << 5)
+				| ((lsb & 0b01000000) << 6)
+				| ((lsb & 0b10000000) << 7);
 
-		msb_tmp = ((msb & 0b10) >> 1)
-				| ((msb & 0b1000) >> 2)
-				| ((msb & 0b100000) >> 3)
-				| ((msb & 0b10000000) >> 4);
 		
-		lsb_tmp = ((lsb & 0b10) >> 1)
-				| ((lsb & 0b1000) >> 2)
-				| ((lsb & 0b100000) >> 3)
-				| ((lsb & 0b10000000) >> 4);
-		
-		
-		test = ((msb_tmp << 4) | lsb_tmp) << 8;
-
-		msb_tmp = ((msb & 0b1) >> 0)
-				| ((msb & 0b100) >> 1)
-				| ((msb & 0b10000) >> 2)
-				| ((msb & 0b1000000) >> 3);
-		
-		lsb_tmp = ((lsb & 0b1) >> 0)
-				| ((lsb & 0b100) >> 1)
-				| ((lsb & 0b10000) >> 2)
-				| ((lsb & 0b1000000) >> 3);
-		
-		test |= ((msb_tmp << 4) | lsb_tmp);
+		test = msb_tmp | lsb_tmp;
 
 		k += 2;
 		ret.pixels[i] = test;
@@ -93,30 +86,34 @@ void	print_tile(struct gbmu_wrapper_s* wrapper, struct tile_s* tile, int index)
 
 	int i = 0;
 	int j = 0;
+	int banane = 0;
 
-	printf("TILE AT %x\n", index);
-	printf("%x\n", tile->pixels[0]);
-	printf("%x\n", tile->pixels[1]);
-	printf("%x\n", tile->pixels[2]);
-	printf("%x\n", tile->pixels[3]);
-	printf("%x\n", tile->pixels[4]);
-	printf("%x\n", tile->pixels[5]);
-	printf("%x\n", tile->pixels[6]);
-	printf("%x\n\n", tile->pixels[7]);
+	banane = index / 0x100;
+	banane *= 8;
 
 	while (i < 8)
 	{
-		while (j < 16)
+		while (j < 8)
 		{
-			pixels[index + i * 160 + j + 0] = get_color_from_palette((tile->pixels[i] & 0xff00) >> 8, 0);			pixels[index + i * 160 + j + 0] = get_color_from_palette((tile->pixels[i] & 0xff00) >> 8, 0);
-			pixels[index + i * 160 + j + 1] = get_color_from_palette((tile->pixels[i] & 0xff00) >> 8, 1);			pixels[index + i * 160 + j + 1] = get_color_from_palette((tile->pixels[i] & 0xff00) >> 8, 1);
-			pixels[index + i * 160 + j + 2] = get_color_from_palette((tile->pixels[i] & 0xff00) >> 8, 2);			pixels[index + i * 160 + j + 2] = get_color_from_palette((tile->pixels[i] & 0xff00) >> 8, 2);
-			pixels[index + i * 160 + j + 3] = get_color_from_palette((tile->pixels[i] & 0xff00) >> 8, 3);			pixels[index + i * 160 + j + 3] = get_color_from_palette((tile->pixels[i] & 0xff00) >> 8, 3);
-			pixels[index + i * 160 + j + 4] = get_color_from_palette(tile->pixels[i] & 0xff, 0);
-			pixels[index + i * 160 + j + 5] = get_color_from_palette(tile->pixels[i] & 0xff, 1);
-			pixels[index + i * 160 + j + 6] = get_color_from_palette(tile->pixels[i] & 0xff, 2);
-			pixels[index + i * 160 + j + 7] = get_color_from_palette(tile->pixels[i] & 0xff, 3);
+			pixels[index / 2 + (i + banane) * 128 + j + 0] = get_color_from_palette((tile->pixels[i] & 0xff00) >> 8, 3);
+			pixels[index / 2 + (i + banane) * 128 + j + 1] = get_color_from_palette((tile->pixels[i] & 0xff00) >> 8, 2);
+			pixels[index / 2 + (i + banane) * 128 + j + 2] = get_color_from_palette((tile->pixels[i] & 0xff00) >> 8, 1);
+			pixels[index / 2 + (i + banane) * 128 + j + 3] = get_color_from_palette((tile->pixels[i] & 0xff00) >> 8, 0);
+			pixels[index / 2 + (i + banane) * 128 + j + 4] = get_color_from_palette(tile->pixels[i] & 0xff, 3);
+			pixels[index / 2 + (i + banane) * 128 + j + 5] = get_color_from_palette(tile->pixels[i] & 0xff, 2);
+			pixels[index / 2 + (i + banane) * 128 + j + 6] = get_color_from_palette(tile->pixels[i] & 0xff, 1);
+			pixels[index / 2 + (i + banane) * 128 + j + 7] = get_color_from_palette(tile->pixels[i] & 0xff, 0);
 			
+			// pixels[index / 2 + i * 128 + j + 0] = 0x00ffffff;
+			// pixels[index / 2 + i * 128 + j + 1] = 0x00ffffff;
+			// pixels[index / 2 + i * 128 + j + 2] = 0x00ffffff;
+			// pixels[index / 2 + i * 128 + j + 3] = 0x00ffffff;
+			// pixels[index / 2 + i * 128 + j + 4] = 0xff00ffff;
+			// pixels[index / 2 + i * 128 + j + 5] = 0xff00ffff;
+			// pixels[index / 2 + i * 128 + j + 6] = 0xff00ffff;
+			// pixels[index / 2 + i * 128 + j + 7] = 0xff00ffff;
+
+
 			j += 8;
 		}
 		j = 0;
@@ -126,9 +123,9 @@ void	print_tile(struct gbmu_wrapper_s* wrapper, struct tile_s* tile, int index)
 
 void	display_vram(struct gbmu_wrapper_s* wrapper)
 {
-	int i = 0;
+	int i = 0x0;
 
-	while (i < VRAM_SIZE)
+	while (i < 0x17ff)
 	{
 		struct tile_s current_tile = create_tile(wrapper, i);
 		print_tile(wrapper, &current_tile, i);
@@ -138,7 +135,7 @@ void	display_vram(struct gbmu_wrapper_s* wrapper)
 
 void	video_loop(struct gbmu_wrapper_s* wrapper)
 {
-	wrapper->context->surface = SDL_CreateRGBSurface(0, 256, 256, 32, 0, 0, 0, 0);
+	wrapper->context->surface = SDL_CreateRGBSurface(0, 128, 256, 32, 0, 0, 0, 0);
 	if (!wrapper->context->surface)
 	{
 		fprintf(stderr, "failed to create surface (%s)\n", SDL_GetError());
