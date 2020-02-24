@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:59 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/18 13:49:03 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/24 13:23:28 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,19 @@ int			ld_a_c(struct gb_cpu_s* gb);
 int			ld_a_d(struct gb_cpu_s* gb);
 int			ld_a_l(struct gb_cpu_s* gb);
 int			ld_a_e(struct gb_cpu_s* gb);
+int			ld_e_l(struct gb_cpu_s* gb);
 int			ld_a_h(struct gb_cpu_s* gb);
 int			ld_e_a(struct gb_cpu_s* gb);
 int			ld_c_a(struct gb_cpu_s* gb);
 int			ld_d_a(struct gb_cpu_s* gb);
+int			ld_h_a(struct gb_cpu_s* gb);
+int			ld_h_b(struct gb_cpu_s* gb);
+int			ld_h_c(struct gb_cpu_s* gb);
+int			ld_h_d(struct gb_cpu_s* gb);
+int			ld_h_e(struct gb_cpu_s* gb);
+int			ld_h_f(struct gb_cpu_s* gb);
+int			ld_h_h(struct gb_cpu_s* gb);
+int			ld_h_l(struct gb_cpu_s* gb);
 int			ld_a_a8(struct gb_cpu_s* gb);
 int			ld_b_a8(struct gb_cpu_s* gb);
 int			ld_c_a8(struct gb_cpu_s* gb);
@@ -61,19 +70,28 @@ int			ld_e_a8(struct gb_cpu_s* gb);
 int			ld_h_a8(struct gb_cpu_s* gb);
 int			ld_l_a8(struct gb_cpu_s* gb);
 int			ld_l_a(struct gb_cpu_s* gb);
+int			ld_l_b(struct gb_cpu_s* gb);
+int			ld_l_c(struct gb_cpu_s* gb);
+int			ld_l_d(struct gb_cpu_s* gb);
+int			ld_l_e(struct gb_cpu_s* gb);
+int			ld_l_h(struct gb_cpu_s* gb);
+int			ld_l_l(struct gb_cpu_s* gb);
 int			ld_a_ptr_a16(struct gb_cpu_s* gb);
 int			ld_a_ptr_de(struct gb_cpu_s* gb);
 int			ld_a_ptr_hl(struct gb_cpu_s* gb);
 int			ld_b_ptr_hl(struct gb_cpu_s* gb);
 int			ld_c_ptr_hl(struct gb_cpu_s* gb);
 int			ld_d_ptr_hl(struct gb_cpu_s* gb);
+int			ld_e_ptr_hl(struct gb_cpu_s* gb);
 int			ld_h_ptr_hl(struct gb_cpu_s* gb);
 int			ld_l_ptr_hl(struct gb_cpu_s* gb);
 int			ld_hl_a16(struct gb_cpu_s* gb);
 int			ld_bc_a16(struct gb_cpu_s* gb);
 int			ld_de_a16(struct gb_cpu_s* gb);
 int			ld_sp_a16(struct gb_cpu_s* gb);
+int			ld_sp_hl(struct gb_cpu_s* gb);
 int			ldh_a8_a(struct gb_cpu_s* gb);
+int			ldh_ptr_c_a(struct gb_cpu_s* gb);
 int			ldh_a_ptr_n(struct gb_cpu_s* gb);
 int			ldd_hl_a(struct gb_cpu_s* gb);
 int			ld_ptr_hl_a(struct gb_cpu_s* gb);
@@ -85,9 +103,11 @@ int			ld_ptr_hl_d(struct gb_cpu_s* gb);
 int			ld_ptr_hl_e(struct gb_cpu_s* gb);
 int			ld_ptr_hl_h(struct gb_cpu_s* gb);
 int			ld_ptr_hl_l(struct gb_cpu_s* gb);
+int			ld_ptr_hl_n(struct gb_cpu_s* gb);
 int			ld_ptr_de_a(struct gb_cpu_s* gb);
 int			ldi_a_ptr_hl(struct gb_cpu_s* gb);
 int			ld_nn_a(struct gb_cpu_s* gb);
+int			ld_ptr_nn_sp(struct gb_cpu_s* gb);
 
 /*
 ** Misc
@@ -96,6 +116,8 @@ int			nop(struct gb_cpu_s*);
 int			di(struct gb_cpu_s* gb);
 int			ei(struct gb_cpu_s* gb);
 int			cb_n(struct gb_cpu_s* gb);
+int			cpl(struct gb_cpu_s* gb);
+int			stop(struct gb_cpu_s* gb);
 
 /*
 ** Arithmetic
@@ -204,6 +226,7 @@ int			ret_nz(struct gb_cpu_s* gb);
 int			call_a16(struct gb_cpu_s* gb);
 int			interrupt_a16(struct gb_cpu_s* gb, uint16_t addr);
 int			call_nz_a16(struct gb_cpu_s* gb);
+int			rst_38(struct gb_cpu_s* gb);
 
 
 /*

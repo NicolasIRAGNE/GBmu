@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/16 13:27:32 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/24 10:54:14 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/24 12:22:08 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ uint32_t	get_color_from_palette(uint8_t byte, uint8_t mask)
 {
 	uint32_t palette[4] = 
 	{
-		0x00000000, 0xff0000ff, 0x00ff00ff, 0x0000ffff
+		0x00000000, 0x333333ff, 0x888888ff, 0xffffffff
 	};
 
 	// uint32_t palette[4] = 

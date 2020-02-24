@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 17:14:49 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/18 13:38:42 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/24 13:21:45 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,76 @@ int		ld_a_e(struct gb_cpu_s* gb)
 	ld_reg_8(&(gb->reg.a), gb->reg.e);
 }
 
+int		ld_e_l(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.e), gb->reg.l);
+}
+
+int		ld_h_a(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.h), gb->reg.a);
+}
+
+int		ld_h_b(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.h), gb->reg.b);
+}
+
+int		ld_h_c(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.h), gb->reg.c);
+}
+
+int		ld_h_d(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.h), gb->reg.d);
+}
+
+int		ld_h_e(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.h), gb->reg.e);
+}
+
+int		ld_h_h(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.h), gb->reg.h);
+}
+
+int		ld_h_l(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.h), gb->reg.l);
+}
+
+int		ld_l_b(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.l), gb->reg.b);
+}
+
+int		ld_l_c(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.l), gb->reg.c);
+}
+
+int		ld_l_d(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.l), gb->reg.d);
+}
+
+int		ld_l_e(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.l), gb->reg.e);
+}
+
+int		ld_l_h(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.l), gb->reg.h);
+}
+
+int		ld_l_l(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.l), gb->reg.l);
+}
+
 int		ld_c_a8(struct gb_cpu_s* gb)
 {
 	ld_reg_8(&(gb->reg.c), (uint8_t)gb->current_instruction->args);
@@ -146,6 +216,11 @@ int		ld_d_ptr_hl(struct gb_cpu_s* gb)
 	ld_reg_8(&(gb->reg.d), read_8(gb, gb->reg.hl));
 }
 
+int		ld_e_ptr_hl(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.e), read_8(gb, gb->reg.hl));
+}
+
 int		ld_h_ptr_hl(struct gb_cpu_s* gb)
 {
 	ld_reg_8(&(gb->reg.h), read_8(gb, gb->reg.hl));
@@ -184,6 +259,11 @@ int		ld_bc_a16(struct gb_cpu_s* gb)
 int		ld_sp_a16(struct gb_cpu_s* gb)
 {
 	ld_reg_16(&(gb->reg.sp), gb->current_instruction->args);
+}
+
+int		ld_sp_hl(struct gb_cpu_s* gb)
+{
+	ld_reg_16(&(gb->reg.sp), gb->reg.hl);
 }
 
 int		ld_ptr_bc_a(struct gb_cpu_s* gb)
@@ -231,9 +311,19 @@ int		ld_ptr_hl_l(struct gb_cpu_s* gb)
 	ld_mem_8(gb, gb->reg.hl, gb->reg.l);
 }
 
+int		ld_ptr_hl_n(struct gb_cpu_s* gb)
+{
+	ld_mem_8(gb, gb->reg.hl, gb->current_instruction->args);
+}
+
 int		ld_nn_a(struct gb_cpu_s* gb)
 {
 	ld_mem_8(gb, gb->current_instruction->args, gb->reg.a);
+}
+
+int		ld_ptr_nn_sp(struct gb_cpu_s* gb)
+{
+	ld_mem_16(gb, gb->current_instruction->args, gb->reg.sp);
 }
 
 int		ld_de_a16(struct gb_cpu_s* gb)
@@ -244,6 +334,11 @@ int		ld_de_a16(struct gb_cpu_s* gb)
 int		ldh_a_ptr_n(struct gb_cpu_s* gb)
 {
 	ld_reg_8(&(gb->reg.a), read_8(gb, 0xFF00 + gb->current_instruction->args));
+}
+
+int		ldh_ptr_c_a(struct gb_cpu_s* gb)
+{
+	ld_mem_8(gb, gb->reg.c + 0xFF00, gb->reg.a);
 }
 
 int		ldd_hl_a(struct gb_cpu_s* gb)
