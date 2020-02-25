@@ -6,15 +6,11 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 17:14:49 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/24 13:21:45 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/25 16:20:02 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gb.h"
-
-/*
-** LD = 0x40 => 0x7F (excluding 0x76)
-*/
 
 void	ld_reg_8(uint8_t* dst, uint8_t src)
 {

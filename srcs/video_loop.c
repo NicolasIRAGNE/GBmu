@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/16 13:27:32 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/24 12:22:08 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/25 16:19:09 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,17 +103,6 @@ void	print_tile(struct gbmu_wrapper_s* wrapper, struct tile_s* tile, int index)
 			pixels[index / 2 + (i + banane) * 128 + j + 5] = get_color_from_palette(tile->pixels[i] & 0xff, 2);
 			pixels[index / 2 + (i + banane) * 128 + j + 6] = get_color_from_palette(tile->pixels[i] & 0xff, 1);
 			pixels[index / 2 + (i + banane) * 128 + j + 7] = get_color_from_palette(tile->pixels[i] & 0xff, 0);
-			
-			// pixels[index / 2 + i * 128 + j + 0] = 0x00ffffff;
-			// pixels[index / 2 + i * 128 + j + 1] = 0x00ffffff;
-			// pixels[index / 2 + i * 128 + j + 2] = 0x00ffffff;
-			// pixels[index / 2 + i * 128 + j + 3] = 0x00ffffff;
-			// pixels[index / 2 + i * 128 + j + 4] = 0xff00ffff;
-			// pixels[index / 2 + i * 128 + j + 5] = 0xff00ffff;
-			// pixels[index / 2 + i * 128 + j + 6] = 0xff00ffff;
-			// pixels[index / 2 + i * 128 + j + 7] = 0xff00ffff;
-
-
 			j += 8;
 		}
 		j = 0;

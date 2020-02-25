@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:34:47 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/19 13:06:29 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/25 16:38:04 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # define RAM_SIZE 0x2000		// 8kiB
 # define IO_PORTS_SIZE 0x100	// 256B
 # define OAM_SIZE 0x9f			// 160B
+# define BOOT_ROM_SIZE 0x100	// 256B
 
 # define IO_OFFSET	 0xFF00
 # define LCDC_OFFSET 	(IO_OFFSET | 0x40)
@@ -118,6 +119,7 @@ struct	gb_cpu_s
 	struct inst_s*		current_instruction;
 	struct rom_s*		rom_ptr;
 	struct gb_gpu_s		gpu;
+	uint8_t				boot_rom[BOOT_ROM_SIZE];
 	uint8_t				vram[VRAM_SIZE];
 	uint8_t				ram[RAM_SIZE];
 	uint8_t				wram[WRAM_SIZE];

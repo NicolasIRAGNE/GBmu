@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:08:21 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/23 10:39:13 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/25 16:48:05 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@
 # define CYN	"\x1B[36m"
 # define WHT	"\x1B[37m"
 # define EOC	"\x1B[0m"
+
+# define BOOT_ROM "../DMG_ROM.bin"
 
 struct rom_hdr_s
 {
@@ -61,7 +63,7 @@ struct gbmu_wrapper_s
 	struct sdl_context_s* context;
 };
 
-void	init_cpu(struct gb_cpu_s* gb);
+int		init_cpu(struct gb_cpu_s* gb);
 int		handle_instruction(struct gb_cpu_s* gb);
 uint8_t	update_current_instruction(struct gb_cpu_s* gb);
 void	init_op_tab(void);

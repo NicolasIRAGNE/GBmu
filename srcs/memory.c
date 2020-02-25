@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 18:10:17 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/24 11:16:17 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/25 16:44:51 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,11 @@ uint16_t	read_16(struct gb_cpu_s* gb, uint16_t a16)
 
 uint8_t	read_8(struct gb_cpu_s* gb, uint16_t a16)
 {
-	if (a16 < 0x8000)
+	if (a16 < 0x100)
+	{
+		return (((uint8_t*)(gb->boot_rom))[a16]);
+	}
+	else if (a16 < 0x8000)
 	{
 		return (((uint8_t*)(gb->rom_ptr->ptr))[a16]);
 	}

@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:16:07 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/24 13:23:11 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/25 17:13:42 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,6 +185,7 @@ void	init_op_tab()
 	op_tab[0x1f] = (struct inst_s) {"RR A",			8, 0, rr_a};
 	op_tab[0x0f] = (struct inst_s) {"RRC A",		8, 0, rrc_a};
 	op_tab[0x07] = (struct inst_s) {"RLC A",		8, 0, rlc_a};
+	op_tab[0x17] = (struct inst_s) {"RL A",			8, 0, rl_a};
 	op_tab[0x2f] = (struct inst_s) {"CPL",			4, 0, cpl};
 	op_tab[0x10] = (struct inst_s) {"STOP",			4, 0, stop};
 	op_tab[0x08] = (struct inst_s) {"LD (nn) SP",	20, 2, ld_ptr_nn_sp};
