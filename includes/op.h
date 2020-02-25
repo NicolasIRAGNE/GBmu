@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:59 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/24 13:23:28 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/25 17:40:17 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,6 +188,7 @@ int			add_bc(struct gb_cpu_s* gb);
 int			add_de(struct gb_cpu_s* gb);
 int			add_hl(struct gb_cpu_s* gb);
 int			add_sp(struct gb_cpu_s* gb);
+int			add_ptr_hl(struct gb_cpu_s* gb);
 
 
 int			sub_a(struct gb_cpu_s* gb);
@@ -200,6 +201,7 @@ int			sub_l(struct gb_cpu_s* gb);
 int			sub_a8(struct gb_cpu_s* gb);
 
 int			cp_a8(struct gb_cpu_s* gb);
+int			cp_ptr_hl(struct gb_cpu_s* gb);
 
 /*
 ** Jump

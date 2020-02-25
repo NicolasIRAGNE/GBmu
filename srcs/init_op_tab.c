@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:16:07 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/25 17:13:42 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/25 17:41:03 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	init_op_tab()
 	op_tab[0x83] = (struct inst_s) {"ADD A E",		4, 0, add_e};
 	op_tab[0x84] = (struct inst_s) {"ADD A H",		4, 0, add_h};
 	op_tab[0x85] = (struct inst_s) {"ADD A L",		4, 0, add_l};
+	op_tab[0x86] = (struct inst_s) {"ADD (HL)",		8, 0, add_ptr_hl};
 	op_tab[0x09] = (struct inst_s) {"ADD BC",		8, 0, add_bc};
 	op_tab[0x19] = (struct inst_s) {"ADD DE",		8, 0, add_de};
 	op_tab[0x29] = (struct inst_s) {"ADD HL",		8, 0, add_hl};
@@ -171,6 +172,7 @@ void	init_op_tab()
 	op_tab[0xf3] = (struct inst_s) {"DI",			4, 0, di};
 	op_tab[0xfb] = (struct inst_s) {"EI",			4, 0, ei};
 	op_tab[0xfe] = (struct inst_s) {"CP n",			8, 1, cp_a8};
+	op_tab[0xbe] = (struct inst_s) {"CP (HL)",		8, 0, cp_ptr_hl};
 	op_tab[0x2a] = (struct inst_s) {"LDI A (HL)",	8, 0, ldi_a_ptr_hl};
 	op_tab[0xea] = (struct inst_s) {"LD (NN) A",	16, 2, ld_nn_a};
 	op_tab[0xe5] = (struct inst_s) {"PUSH HL",		16, 0, push_hl};
