@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/16 13:27:32 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/27 11:56:40 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/27 13:08:38 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,57 +87,53 @@ void	resize_tile(uint32_t* pixels, struct tile_s* tile, int x, int y)
 	while (i < 8)
 	{
 		int index = 0;
-		while (j < 8)
+		int k = 0;
+		while (k < x)
 		{
-			int k = 0;
-			while (k < x)
-			{
-				pixels[(i) * 64 + index++] = get_color_from_palette((tile->pixels[i] & 0xff00) >> 8, 3);
-				k++;
-			}
-			k = 0;
-			while (k < x)
-			{
-				pixels[(i) * 64 + index++] = get_color_from_palette((tile->pixels[i] & 0xff00) >> 8, 2);
-				k++;
-			}
-			k = 0;
-			while (k < x)
-			{
-				pixels[(i) * 64 + index++] = get_color_from_palette((tile->pixels[i] & 0xff00) >> 8, 1);
-				k++;
-			}
-			k = 0;
-			while (k < x)
-			{
-				pixels[(i) * 64 + index++] = get_color_from_palette((tile->pixels[i] & 0xff00) >> 8, 0);
-				k++;
-			}
-			k = 0;
-			while (k < x)
-			{
-				pixels[(i) * 64 + index++] = get_color_from_palette((tile->pixels[i] & 0xff), 3);
-				k++;
-			}
-			k = 0;
-			while (k < x)
-			{
-				pixels[(i) * 64 + index++] = get_color_from_palette((tile->pixels[i] & 0xff), 2);
-				k++;
-			}
-			k = 0;
-			while (k < x)
-			{
-				pixels[(i) * 64 + index++] = get_color_from_palette((tile->pixels[i] & 0xff), 1);
-				k++;
-			}
-			k = 0;
-			while (k < x)
-			{
-				pixels[(i) * 64 + index++] = get_color_from_palette((tile->pixels[i] & 0xff), 0);
-				k++;
-			}
-			j += 8;
+			pixels[(i + j) * 64 + index++] = get_color_from_palette((tile->pixels[i] & 0xff00) >> 8, 3);
+			k++;
+		}
+		k = 0;
+		while (k < x)
+		{
+			pixels[(i + j) * 64 + index++] = get_color_from_palette((tile->pixels[i] & 0xff00) >> 8, 2);
+			k++;
+		}
+		k = 0;
+		while (k < x)
+		{
+			pixels[(i + j) * 64 + index++] = get_color_from_palette((tile->pixels[i] & 0xff00) >> 8, 1);
+			k++;
+		}
+		k = 0;
+		while (k < x)
+		{
+			pixels[(i + j) * 64 + index++] = get_color_from_palette((tile->pixels[i] & 0xff00) >> 8, 0);
+			k++;
+		}
+		k = 0;
+		while (k < x)
+		{
+			pixels[(i + j) * 64 + index++] = get_color_from_palette((tile->pixels[i] & 0xff), 3);
+			k++;
+		}
+		k = 0;
+		while (k < x)
+		{
+			pixels[(i + j) * 64 + index++] = get_color_from_palette((tile->pixels[i] & 0xff), 2);
+			k++;
+		}
+		k = 0;
+		while (k < x)
+		{
+			pixels[(i + j) * 64 + index++] = get_color_from_palette((tile->pixels[i] & 0xff), 1);
+			k++;
+		}
+		k = 0;
+		while (k < x)
+		{
+			pixels[(i + j) * 64 + index++] = get_color_from_palette((tile->pixels[i] & 0xff), 0);
+			k++;
 		}
 		index = 0;
 		j = 0;
@@ -157,7 +153,7 @@ void	print_tile(struct gbmu_wrapper_s* wrapper, struct tile_s* tile, int index)
 	}
 	uint32_t* pixels = tile_surface->pixels;
 
-	resize_tile(pixels, tile, 2, 3);
+	resize_tile(pixels, tile, 2, 2);
 
 	SDL_Rect pos = (SDL_Rect) {(index * 16) % (VRAM_SURFACE_WIDTH / 2), (index * 16 / 256) * 16, 64, 64};
 	if (SDL_BlitSurface(tile_surface, NULL, wrapper->vram_viewer_context->surface, &pos))
@@ -175,7 +171,7 @@ void	display_vram(struct gbmu_wrapper_s* wrapper)
 		struct tile_s current_tile = create_tile(wrapper, i);
 		print_tile(wrapper, &current_tile, index);
 		i += 16;
-		index++;
+		index = i / 16;
 	}
 }
 
