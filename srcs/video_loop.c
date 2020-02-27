@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/16 13:27:32 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/25 18:23:05 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/27 11:56:40 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ uint32_t	get_color_from_palette(uint8_t byte, uint8_t mask)
 {
 	uint32_t palette[4] = 
 	{
-		0x00000000, 0x333333ff, 0x888888ff, 0xffffffff
+		0x0000000, 0xff0000ff, 0x00ff00ff, 0x0000ffff
 	};
 
 	// uint32_t palette[4] = 
@@ -80,64 +80,107 @@ struct tile_s	create_tile(struct gbmu_wrapper_s* wrapper, uint16_t index)
 	return (ret);
 }
 
-void	print_tile(struct gbmu_wrapper_s* wrapper, struct tile_s* tile, int index)
+void	resize_tile(uint32_t* pixels, struct tile_s* tile, int x, int y)
 {
-	uint32_t* pixels = wrapper->context->surface->pixels;
-
 	int i = 0;
 	int j = 0;
-	int banane = 0;
-
-	banane = index / 0x100;
-	banane *= 8;
-
 	while (i < 8)
 	{
+		int index = 0;
 		while (j < 8)
 		{
-			pixels[index / 2 + (i + banane) * 128 + j + 0] = get_color_from_palette((tile->pixels[i] & 0xff00) >> 8, 3);
-			pixels[index / 2 + (i + banane) * 128 + j + 1] = get_color_from_palette((tile->pixels[i] & 0xff00) >> 8, 2);
-			pixels[index / 2 + (i + banane) * 128 + j + 2] = get_color_from_palette((tile->pixels[i] & 0xff00) >> 8, 1);
-			pixels[index / 2 + (i + banane) * 128 + j + 3] = get_color_from_palette((tile->pixels[i] & 0xff00) >> 8, 0);
-			pixels[index / 2 + (i + banane) * 128 + j + 4] = get_color_from_palette(tile->pixels[i] & 0xff, 3);
-			pixels[index / 2 + (i + banane) * 128 + j + 5] = get_color_from_palette(tile->pixels[i] & 0xff, 2);
-			pixels[index / 2 + (i + banane) * 128 + j + 6] = get_color_from_palette(tile->pixels[i] & 0xff, 1);
-			pixels[index / 2 + (i + banane) * 128 + j + 7] = get_color_from_palette(tile->pixels[i] & 0xff, 0);
+			int k = 0;
+			while (k < x)
+			{
+				pixels[(i) * 64 + index++] = get_color_from_palette((tile->pixels[i] & 0xff00) >> 8, 3);
+				k++;
+			}
+			k = 0;
+			while (k < x)
+			{
+				pixels[(i) * 64 + index++] = get_color_from_palette((tile->pixels[i] & 0xff00) >> 8, 2);
+				k++;
+			}
+			k = 0;
+			while (k < x)
+			{
+				pixels[(i) * 64 + index++] = get_color_from_palette((tile->pixels[i] & 0xff00) >> 8, 1);
+				k++;
+			}
+			k = 0;
+			while (k < x)
+			{
+				pixels[(i) * 64 + index++] = get_color_from_palette((tile->pixels[i] & 0xff00) >> 8, 0);
+				k++;
+			}
+			k = 0;
+			while (k < x)
+			{
+				pixels[(i) * 64 + index++] = get_color_from_palette((tile->pixels[i] & 0xff), 3);
+				k++;
+			}
+			k = 0;
+			while (k < x)
+			{
+				pixels[(i) * 64 + index++] = get_color_from_palette((tile->pixels[i] & 0xff), 2);
+				k++;
+			}
+			k = 0;
+			while (k < x)
+			{
+				pixels[(i) * 64 + index++] = get_color_from_palette((tile->pixels[i] & 0xff), 1);
+				k++;
+			}
+			k = 0;
+			while (k < x)
+			{
+				pixels[(i) * 64 + index++] = get_color_from_palette((tile->pixels[i] & 0xff), 0);
+				k++;
+			}
 			j += 8;
 		}
+		index = 0;
 		j = 0;
 		i++;
 	}
 }
 
+void	print_tile(struct gbmu_wrapper_s* wrapper, struct tile_s* tile, int index)
+{
+	SDL_Surface* tile_surface;
+
+	tile_surface = SDL_CreateRGBSurface(0, 64, 64, 32, 0, 0, 0, 0);
+	if (!tile_surface)
+	{
+		fprintf(stderr, "failed to create tile surface (%s)\n", SDL_GetError());
+		return ;
+	}
+	uint32_t* pixels = tile_surface->pixels;
+
+	resize_tile(pixels, tile, 2, 3);
+
+	SDL_Rect pos = (SDL_Rect) {(index * 16) % (VRAM_SURFACE_WIDTH / 2), (index * 16 / 256) * 16, 64, 64};
+	if (SDL_BlitSurface(tile_surface, NULL, wrapper->vram_viewer_context->surface, &pos))
+		fprintf(stderr, "failed to blit surface (%s)\n", SDL_GetError());
+	SDL_FreeSurface(tile_surface);
+}
+
 void	display_vram(struct gbmu_wrapper_s* wrapper)
 {
-	int i = 0x0;
+	int i = 0x00;
+	int index = 0;
 
 	while (i < 0x17ff)
 	{
 		struct tile_s current_tile = create_tile(wrapper, i);
-		print_tile(wrapper, &current_tile, i);
+		print_tile(wrapper, &current_tile, index);
 		i += 16;
+		index++;
 	}
 }
 
 void	video_loop(struct gbmu_wrapper_s* wrapper)
 {
-	wrapper->context->surface = SDL_CreateRGBSurface(0, 128, 256, 32, 0, 0, 0, 0);
-	if (!wrapper->context->surface)
-	{
-		fprintf(stderr, "failed to create surface (%s)\n", SDL_GetError());
-		return ;
-	}
-
-	wrapper->context->texture = SDL_CreateTextureFromSurface(wrapper->context->renderer, wrapper->context->surface);
-	if (!wrapper->context->texture)
-	{
-		fprintf(stderr, "failed to create texture (%s)\n", SDL_GetError());
-		return ;
-	}
-
 	while (wrapper->gb->running)
 	{
 		SDL_Event event;
@@ -150,13 +193,12 @@ void	video_loop(struct gbmu_wrapper_s* wrapper)
 			}
     	}
 		Uint32 *pixels;
-		pixels = wrapper->context->surface->pixels;
+		pixels = wrapper->vram_viewer_context->surface->pixels;
 		display_vram(wrapper);
-		wrapper->context->texture = SDL_CreateTextureFromSurface(wrapper->context->renderer, wrapper->context->surface);
-		SDL_RenderClear(wrapper->context->renderer);
-		SDL_RenderCopy(wrapper->context->renderer, wrapper->context->texture, NULL, NULL);
-		SDL_RenderPresent(wrapper->context->renderer);
-		SDL_DestroyTexture(wrapper->context->texture);
+		wrapper->vram_viewer_context->texture = SDL_CreateTextureFromSurface(wrapper->vram_viewer_context->renderer, wrapper->vram_viewer_context->surface);
+		SDL_RenderCopy(wrapper->vram_viewer_context->renderer, wrapper->vram_viewer_context->texture, NULL, NULL);
+		SDL_RenderPresent(wrapper->vram_viewer_context->renderer);
+		SDL_DestroyTexture(wrapper->vram_viewer_context->texture);
 	}
 }
 

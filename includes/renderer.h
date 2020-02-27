@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/23 10:37:45 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/23 19:35:25 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/27 11:42:42 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,12 @@
 # define RENDERER_H
 # include "gb.h"
 # include "SDL.h"
+
+# define VRAM_WINDOW_WIDTH 512
+# define VRAM_WINDOW_HEIGHT 512
+# define VRAM_SURFACE_WIDTH 512 
+# define VRAM_SURFACE_HEIGHT 512
+
 
 struct	sdl_context_s
 {
@@ -30,6 +36,6 @@ struct 	tile_s
 
 
 void	video_loop(struct gbmu_wrapper_s* wrapper);
-int     init_sdl(struct sdl_context_s* context);
+int     init_vram_viewer(struct sdl_context_s* context);
 
 #endif

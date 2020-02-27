@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:34:47 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/25 16:38:04 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/27 09:09:38 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # define IO_PORTS_SIZE 0x100	// 256B
 # define OAM_SIZE 0x9f			// 160B
 # define BOOT_ROM_SIZE 0x100	// 256B
+
+# define VRAM_TILE_BANK_SIZE 0x17ff
 
 # define IO_OFFSET	 0xFF00
 # define LCDC_OFFSET 	(IO_OFFSET | 0x40)

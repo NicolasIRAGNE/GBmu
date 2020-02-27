@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:08:21 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/25 16:48:05 by niragne          ###   ########.fr       */
+/*   Updated: 2020/02/27 09:03:49 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ struct rom_s
 struct gbmu_wrapper_s
 {
 	struct gb_cpu_s* gb;
-	struct sdl_context_s* context;
+	struct sdl_context_s* vram_viewer_context;
 };
 
 int		init_cpu(struct gb_cpu_s* gb);
