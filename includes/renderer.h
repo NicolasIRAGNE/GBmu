@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/23 10:37:45 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/27 11:42:42 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/03 13:12:24 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,12 @@
 # include "SDL.h"
 
 # define VRAM_WINDOW_WIDTH 512
-# define VRAM_WINDOW_HEIGHT 512
-# define VRAM_SURFACE_WIDTH 512 
-# define VRAM_SURFACE_HEIGHT 512
+# define VRAM_WINDOW_HEIGHT 1024
+# define VRAM_SURFACE_WIDTH 1024
+# define VRAM_SURFACE_HEIGHT 2048
 
+# define TILE_SURFACE_WIDTH		64
+# define TILE_SURFACE_HEIGHT	64
 
 struct	sdl_context_s
 {
@@ -31,7 +33,9 @@ struct	sdl_context_s
 
 struct 	tile_s
 {
-	uint16_t pixels[8];
+	uint16_t	pixels_raw[8];
+	uint8_t		index[8][8];
+	SDL_Surface	*surface;
 };
 
 

@@ -6,32 +6,20 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/16 13:27:32 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/27 13:08:38 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/03 14:11:24 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gb.h"
 #include "renderer.h"
 
-uint32_t	get_color_from_palette(uint8_t byte, uint8_t mask)
+uint32_t	get_color_from_palette(uint8_t index)
 {
 	uint32_t palette[4] = 
 	{
-		0x0000000, 0xff0000ff, 0x00ff00ff, 0x0000ffff
+		0x0000000, 0xff444444, 0xff888888, 0xffffffff
 	};
-
-	// uint32_t palette[4] = 
-	// {
-		// 0, 0xffffffff, 0xffffffff, 0xffffffff
-	// };
-	
-	uint32_t ret;
-	uint8_t	index;
-
-	index = byte & (0b11 << mask);
-	index >>= mask;
 	return (palette[index]);
-
 }
 
 struct tile_s	create_tile(struct gbmu_wrapper_s* wrapper, uint16_t index)
@@ -39,7 +27,6 @@ struct tile_s	create_tile(struct gbmu_wrapper_s* wrapper, uint16_t index)
 	struct tile_s ret;
 	
 	int i = 0;
-	int j = 0;
 	int k = 0;
 	uint8_t msb;
 	uint16_t msb_tmp;
@@ -74,68 +61,70 @@ struct tile_s	create_tile(struct gbmu_wrapper_s* wrapper, uint16_t index)
 		test = msb_tmp | lsb_tmp;
 
 		k += 2;
-		ret.pixels[i] = test;
+		ret.pixels_raw[i] = test;
+		int j = 0;
+		while (j < 8)
+		{
+			ret.index[i][7] = (test & (0b11 << 0)) >> 0;
+			ret.index[i][6] = (test & (0b11 << 1)) >> 1;
+			ret.index[i][5] = (test & (0b11 << 2)) >> 2;
+			ret.index[i][4] = (test & (0b11 << 3)) >> 3;
+			
+			ret.index[i][3] = (((test & 0xff00) >> 8) & (0b11 << 0)) >> 0;
+			ret.index[i][2] = (((test & 0xff00) >> 8) & (0b11 << 1)) >> 1;
+			ret.index[i][1] = (((test & 0xff00) >> 8) & (0b11 << 2)) >> 2;
+			ret.index[i][0] = (((test & 0xff00) >> 8) & (0b11 << 3)) >> 3;
+
+			// ret.index[i][0] = 3;
+			// ret.index[i][1] = 2;
+			// ret.index[i][2] = 1;
+			// ret.index[i][3] = 0;
+			
+			// ret.index[i][4] = 0;
+			// ret.index[i][5] = 1;
+			// ret.index[i][6] = 2;
+			// ret.index[i][7] = 3;
+			j++;
+		}
 		i++;
 	}
 	return (ret);
+}
+
+void	memset_4(uint32_t* ptr, uint32_t c, size_t n)
+{
+	int i = 0;
+
+	while (i < n)
+	{
+		ptr[i] = c;
+		i += 1;
+	}
 }
 
 void	resize_tile(uint32_t* pixels, struct tile_s* tile, int x, int y)
 {
 	int i = 0;
 	int j = 0;
+	int k = 0;
+
+	int final_i = 0;
+	int final_j = 0;
+
 	while (i < 8)
 	{
-		int index = 0;
-		int k = 0;
-		while (k < x)
+		while (j < 8)
 		{
-			pixels[(i + j) * 64 + index++] = get_color_from_palette((tile->pixels[i] & 0xff00) >> 8, 3);
-			k++;
+			uint32_t color = get_color_from_palette(tile->index[i][j]);
+			while (k < 8)
+			{
+				memset_4(pixels + i * 512 + j * 8 + k * 64, color, 8);
+				k++;
+
+			}
+			k = 0;
+			j++;
 		}
-		k = 0;
-		while (k < x)
-		{
-			pixels[(i + j) * 64 + index++] = get_color_from_palette((tile->pixels[i] & 0xff00) >> 8, 2);
-			k++;
-		}
-		k = 0;
-		while (k < x)
-		{
-			pixels[(i + j) * 64 + index++] = get_color_from_palette((tile->pixels[i] & 0xff00) >> 8, 1);
-			k++;
-		}
-		k = 0;
-		while (k < x)
-		{
-			pixels[(i + j) * 64 + index++] = get_color_from_palette((tile->pixels[i] & 0xff00) >> 8, 0);
-			k++;
-		}
-		k = 0;
-		while (k < x)
-		{
-			pixels[(i + j) * 64 + index++] = get_color_from_palette((tile->pixels[i] & 0xff), 3);
-			k++;
-		}
-		k = 0;
-		while (k < x)
-		{
-			pixels[(i + j) * 64 + index++] = get_color_from_palette((tile->pixels[i] & 0xff), 2);
-			k++;
-		}
-		k = 0;
-		while (k < x)
-		{
-			pixels[(i + j) * 64 + index++] = get_color_from_palette((tile->pixels[i] & 0xff), 1);
-			k++;
-		}
-		k = 0;
-		while (k < x)
-		{
-			pixels[(i + j) * 64 + index++] = get_color_from_palette((tile->pixels[i] & 0xff), 0);
-			k++;
-		}
-		index = 0;
 		j = 0;
 		i++;
 	}
@@ -145,7 +134,7 @@ void	print_tile(struct gbmu_wrapper_s* wrapper, struct tile_s* tile, int index)
 {
 	SDL_Surface* tile_surface;
 
-	tile_surface = SDL_CreateRGBSurface(0, 64, 64, 32, 0, 0, 0, 0);
+	tile_surface = SDL_CreateRGBSurface(0, TILE_SURFACE_WIDTH, TILE_SURFACE_HEIGHT, 32, 0, 0, 0, 0);
 	if (!tile_surface)
 	{
 		fprintf(stderr, "failed to create tile surface (%s)\n", SDL_GetError());
@@ -153,9 +142,9 @@ void	print_tile(struct gbmu_wrapper_s* wrapper, struct tile_s* tile, int index)
 	}
 	uint32_t* pixels = tile_surface->pixels;
 
-	resize_tile(pixels, tile, 2, 2);
+	resize_tile(pixels, tile, TILE_SURFACE_WIDTH, TILE_SURFACE_HEIGHT);
 
-	SDL_Rect pos = (SDL_Rect) {(index * 16) % (VRAM_SURFACE_WIDTH / 2), (index * 16 / 256) * 16, 64, 64};
+	SDL_Rect pos = (SDL_Rect) {(index * TILE_SURFACE_WIDTH) % (VRAM_SURFACE_WIDTH), (index / 16) * TILE_SURFACE_HEIGHT, TILE_SURFACE_WIDTH, TILE_SURFACE_HEIGHT};
 	if (SDL_BlitSurface(tile_surface, NULL, wrapper->vram_viewer_context->surface, &pos))
 		fprintf(stderr, "failed to blit surface (%s)\n", SDL_GetError());
 	SDL_FreeSurface(tile_surface);
@@ -163,14 +152,14 @@ void	print_tile(struct gbmu_wrapper_s* wrapper, struct tile_s* tile, int index)
 
 void	display_vram(struct gbmu_wrapper_s* wrapper)
 {
-	int i = 0x00;
+	int i = 0x0;
 	int index = 0;
 
-	while (i < 0x17ff)
+	while (i < 16 * 384)
 	{
 		struct tile_s current_tile = create_tile(wrapper, i);
 		print_tile(wrapper, &current_tile, index);
-		i += 16;
+		i += 0x10;
 		index = i / 16;
 	}
 }
