@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 11:37:03 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/27 09:04:57 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/04 17:47:36 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int		main(int ac, char** av)
 	struct rom_s rom;
 	struct gb_cpu_s gb;
 	struct sdl_context_s vram_viewer_context;
+	struct sdl_context_s main_window_context;
 	
 	if (ac < 2)
 	{
@@ -79,12 +80,16 @@ int		main(int ac, char** av)
 
 	pthread_t thread;
 
+	if (init_sdl())
+		return (1);
 	if (init_vram_viewer(&vram_viewer_context))
 		return (1);
+	// if (init_main_window(&main_window_context))
+		// return (1);
 	// atexit(SDL_Quit);
 
 	pthread_create (&thread, NULL, execute_thread_entry , &gb);
-	video_loop(&(struct gbmu_wrapper_s){&gb, &vram_viewer_context});
+	vram_viewer_loop(&(struct gbmu_wrapper_s){&gb, &vram_viewer_context});
 	pthread_join(thread, NULL);
 	// SDL_DestroyWindow(context.win);
 	// SDL_DestroyRenderer(context.renderer);

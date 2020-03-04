@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/16 13:27:32 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/04 15:17:23 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/04 16:35:26 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,9 +115,9 @@ void	resize_tile(uint32_t* pixels, struct tile_s* tile, int x, int y)
 		{
 			uint32_t color = get_color_from_palette(tile->index[i][j]);
 			// printf("%d ", tile->index[i][j]);
-			while (k < 8)
+			while (k < y)
 			{
-				memset_4(pixels + i * 512 + j * 8 + k * 64, color, 8);
+				memset_4(pixels + i * TILE_SURFACE_WIDTH * x + j * y + k * TILE_SURFACE_HEIGHT, color, x);
 				k++;
 
 			}
@@ -143,7 +143,7 @@ void	print_tile(struct gbmu_wrapper_s* wrapper, struct tile_s* tile, int index)
 	}
 	uint32_t* pixels = tile_surface->pixels;
 
-	resize_tile(pixels, tile, TILE_SURFACE_WIDTH, TILE_SURFACE_HEIGHT);
+	resize_tile(pixels, tile, 8, 8);
 
 	SDL_Rect pos = (SDL_Rect) {(index * TILE_SURFACE_WIDTH) % (VRAM_SURFACE_WIDTH), (index / 16) * TILE_SURFACE_HEIGHT, TILE_SURFACE_WIDTH, TILE_SURFACE_HEIGHT};
 	if (SDL_BlitSurface(tile_surface, NULL, wrapper->vram_viewer_context->surface, &pos))
@@ -165,7 +165,7 @@ void	display_vram(struct gbmu_wrapper_s* wrapper)
 	}
 }
 
-void	video_loop(struct gbmu_wrapper_s* wrapper)
+void	vram_viewer_loop(struct gbmu_wrapper_s* wrapper)
 {
 	while (wrapper->gb->running)
 	{
@@ -190,7 +190,7 @@ void	video_loop(struct gbmu_wrapper_s* wrapper)
 
 void*	thread_entry(void* user_data)
 {
-	video_loop((struct gbmu_wrapper_s*) user_data);
+	vram_viewer_loop((struct gbmu_wrapper_s*) user_data);
 	return (NULL);
 }
 

@@ -6,6 +6,7 @@
 		"op.h": "c",
 		"ext_op.h": "c",
 		"unistd.h": "c",
-		"pthread.h": "c"
+		"pthread.h": "c",
+		"renderer.h": "c"
 	}
 }
