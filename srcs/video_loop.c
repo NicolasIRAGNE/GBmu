@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/16 13:27:32 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/03 14:11:24 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/04 15:17:23 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ uint32_t	get_color_from_palette(uint8_t index)
 {
 	uint32_t palette[4] = 
 	{
-		0x0000000, 0xff444444, 0xff888888, 0xffffffff
+		0x00000000, 0xff444444, 0xff999999, 0xffffffff
 	};
 	return (palette[index]);
 }
@@ -59,6 +59,7 @@ struct tile_s	create_tile(struct gbmu_wrapper_s* wrapper, uint16_t index)
 
 		
 		test = msb_tmp | lsb_tmp;
+		// test = 0xb00b;
 
 		k += 2;
 		ret.pixels_raw[i] = test;
@@ -66,14 +67,14 @@ struct tile_s	create_tile(struct gbmu_wrapper_s* wrapper, uint16_t index)
 		while (j < 8)
 		{
 			ret.index[i][7] = (test & (0b11 << 0)) >> 0;
-			ret.index[i][6] = (test & (0b11 << 1)) >> 1;
-			ret.index[i][5] = (test & (0b11 << 2)) >> 2;
-			ret.index[i][4] = (test & (0b11 << 3)) >> 3;
+			ret.index[i][6] = (test & (0b11 << 2)) >> 2;
+			ret.index[i][5] = (test & (0b11 << 4)) >> 4;
+			ret.index[i][4] = (test & (0b11 << 6)) >> 6;
 			
 			ret.index[i][3] = (((test & 0xff00) >> 8) & (0b11 << 0)) >> 0;
-			ret.index[i][2] = (((test & 0xff00) >> 8) & (0b11 << 1)) >> 1;
-			ret.index[i][1] = (((test & 0xff00) >> 8) & (0b11 << 2)) >> 2;
-			ret.index[i][0] = (((test & 0xff00) >> 8) & (0b11 << 3)) >> 3;
+			ret.index[i][2] = (((test & 0xff00) >> 8) & (0b11 << 2)) >> 2;
+			ret.index[i][1] = (((test & 0xff00) >> 8) & (0b11 << 4)) >> 4;
+			ret.index[i][0] = (((test & 0xff00) >> 8) & (0b11 << 6)) >> 6;
 
 			// ret.index[i][0] = 3;
 			// ret.index[i][1] = 2;
@@ -108,14 +109,12 @@ void	resize_tile(uint32_t* pixels, struct tile_s* tile, int x, int y)
 	int j = 0;
 	int k = 0;
 
-	int final_i = 0;
-	int final_j = 0;
-
 	while (i < 8)
 	{
 		while (j < 8)
 		{
 			uint32_t color = get_color_from_palette(tile->index[i][j]);
+			// printf("%d ", tile->index[i][j]);
 			while (k < 8)
 			{
 				memset_4(pixels + i * 512 + j * 8 + k * 64, color, 8);
@@ -125,9 +124,11 @@ void	resize_tile(uint32_t* pixels, struct tile_s* tile, int x, int y)
 			k = 0;
 			j++;
 		}
+		// printf("\n");
 		j = 0;
 		i++;
 	}
+		// printf("\n");
 }
 
 void	print_tile(struct gbmu_wrapper_s* wrapper, struct tile_s* tile, int index)
@@ -152,7 +153,7 @@ void	print_tile(struct gbmu_wrapper_s* wrapper, struct tile_s* tile, int index)
 
 void	display_vram(struct gbmu_wrapper_s* wrapper)
 {
-	int i = 0x0;
+	int i = 0;
 	int index = 0;
 
 	while (i < 16 * 384)
@@ -160,7 +161,7 @@ void	display_vram(struct gbmu_wrapper_s* wrapper)
 		struct tile_s current_tile = create_tile(wrapper, i);
 		print_tile(wrapper, &current_tile, index);
 		i += 0x10;
-		index = i / 16;
+		index += 1;
 	}
 }
 

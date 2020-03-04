@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/23 10:37:45 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/03 13:12:24 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/04 15:15:35 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 # include "gb.h"
 # include "SDL.h"
 
-# define VRAM_WINDOW_WIDTH 512
-# define VRAM_WINDOW_HEIGHT 1024
+# define VRAM_WINDOW_WIDTH 256
+# define VRAM_WINDOW_HEIGHT 512
 # define VRAM_SURFACE_WIDTH 1024
 # define VRAM_SURFACE_HEIGHT 2048
 
