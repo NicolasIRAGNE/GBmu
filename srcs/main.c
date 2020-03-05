@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 11:37:03 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/04 17:47:36 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/05 14:11:05 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,12 +84,12 @@ int		main(int ac, char** av)
 		return (1);
 	if (init_vram_viewer(&vram_viewer_context))
 		return (1);
-	// if (init_main_window(&main_window_context))
-		// return (1);
+	if (init_main_window(&main_window_context))
+		return (1);
 	// atexit(SDL_Quit);
 
 	pthread_create (&thread, NULL, execute_thread_entry , &gb);
-	vram_viewer_loop(&(struct gbmu_wrapper_s){&gb, &vram_viewer_context});
+	renderer_loop(&(struct gbmu_wrapper_s){&gb, &vram_viewer_context, &main_window_context});
 	pthread_join(thread, NULL);
 	// SDL_DestroyWindow(context.win);
 	// SDL_DestroyRenderer(context.renderer);

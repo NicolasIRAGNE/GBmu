@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:16:07 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/25 17:12:45 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/05 14:53:19 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,12 @@ void	init_ext_op_tab()
 	ext_op_tab[0x16] = (struct ext_inst_s) {"RL (HL)",	rl_hl};
 	ext_op_tab[0x17] = (struct ext_inst_s) {"RL A", 	rl_a};
 	ext_op_tab[0x0f] = (struct ext_inst_s) {"RRC A", 	rrc_a};
+	ext_op_tab[0x78] = (struct ext_inst_s) {"BIT 7 B", 	bit7_b};
+	ext_op_tab[0x79] = (struct ext_inst_s) {"BIT 7 C", 	bit7_c};
+	ext_op_tab[0x7a] = (struct ext_inst_s) {"BIT 7 D", 	bit7_d};
+	ext_op_tab[0x7b] = (struct ext_inst_s) {"BIT 7 E", 	bit7_e};
 	ext_op_tab[0x7c] = (struct ext_inst_s) {"BIT 7 H", 	bit7_h};
+	ext_op_tab[0x7d] = (struct ext_inst_s) {"BIT 7 L", 	bit7_l};
+	ext_op_tab[0x7f] = (struct ext_inst_s) {"BIT 7 A", 	bit7_a};
+	ext_op_tab[0x87] = (struct ext_inst_s) {"RES 0 A", 	res0_a};
 }

@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:30:05 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/25 16:53:08 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/05 15:15:45 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,11 @@ int		init_cpu(struct gb_cpu_s* gb)
 	gb->reg.de = 0x0008;
 	gb->reg.af = 0x1180;
 	gb->reg.hl = 0x007c;
-	gb->reg.pc = 0x00;
+	gb->reg.pc = 0x100;
 	gb->running = 1;
 	gb->paused = 1;
 	gb->current_instruction = NULL;
-	gb->ime = 1;
-	gb->interrupt_enable_register |= INT_VBLANK_REQUEST;
+	gb->ime = 0;
+	// gb->interrupt_enable_register |= INT_VBLANK_REQUEST;
 	return (0);
 }

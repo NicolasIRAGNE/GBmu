@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:08:21 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/27 09:03:49 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/05 14:10:46 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ struct gbmu_wrapper_s
 {
 	struct gb_cpu_s* gb;
 	struct sdl_context_s* vram_viewer_context;
+	struct sdl_context_s* main_context;
 };
 
 int		init_cpu(struct gb_cpu_s* gb);
@@ -103,6 +104,7 @@ void	debug_print_flag_register(uint8_t reg);
 void    cpu_toggle_flag(struct gb_cpu_s* gb, uint8_t flag, int cond);
 void    cpu_set_flag(struct gb_cpu_s* gb, uint8_t flag);
 void    cpu_unset_flag(struct gb_cpu_s* gb, uint8_t flag);
+void	memset_4(uint32_t* ptr, uint32_t c, size_t n);
 
 /*
 ** Video

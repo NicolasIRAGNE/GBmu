@@ -15,6 +15,10 @@ SET (SOURCES
 	srcs/cpu_toggle_flag.c
 	srcs/init_sdl.c
 	srcs/video_loop.c
+	srcs/vram_viewer.c
+	srcs/tools.c
+	srcs/tile.c
+	srcs/main_window_loop.c
 	srcs/instructions/jp.c
 	srcs/instructions/ld.c
 	srcs/instructions/misc.c
@@ -33,6 +37,7 @@ SET (SOURCES
 	srcs/instructions/rr.c
 	srcs/instructions/rl.c
 	srcs/instructions/bit.c
+	srcs/instructions/res.c
 	)
 
 SET (INCLUDES

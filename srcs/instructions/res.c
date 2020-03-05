@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   video_loop.c                                       :+:      :+:    :+:   */
+/*   res.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/02/16 13:27:32 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/05 15:03:26 by niragne          ###   ########.fr       */
+/*   Created: 2020/03/05 14:48:36 by niragne           #+#    #+#             */
+/*   Updated: 2020/03/05 14:56:24 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "gb.h"
-#include "renderer.h"
+#include "ext_op.h"
 
-void	renderer_loop(struct gbmu_wrapper_s* wrapper)
+int		res_reg8(struct gb_cpu_s* gb, int bit, uint8_t* reg)
 {
-	struct tile_s tiles[TILES_COUNT];
-	while (wrapper->gb->running)
-	{
-		fill_tile_array(wrapper->gb, tiles);
-		vram_viewer_loop(wrapper, tiles);
-		main_window_loop(wrapper, tiles);
-	}
+	*reg &= ~(1 << bit);
+}
+
+int		res0_a(struct gb_cpu_s* gb)
+{
+	res_reg8(gb, 0, &(gb->reg.a));
 }

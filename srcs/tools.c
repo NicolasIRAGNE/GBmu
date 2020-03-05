@@ -1,25 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   video_loop.c                                       :+:      :+:    :+:   */
+/*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/02/16 13:27:32 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/05 15:03:26 by niragne          ###   ########.fr       */
+/*   Created: 2020/03/05 13:47:25 by niragne           #+#    #+#             */
+/*   Updated: 2020/03/05 13:48:42 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gb.h"
-#include "renderer.h"
 
-void	renderer_loop(struct gbmu_wrapper_s* wrapper)
+uint32_t	get_color_from_palette(uint8_t index)
 {
-	struct tile_s tiles[TILES_COUNT];
-	while (wrapper->gb->running)
+	uint32_t palette[4] = 
 	{
-		fill_tile_array(wrapper->gb, tiles);
-		vram_viewer_loop(wrapper, tiles);
-		main_window_loop(wrapper, tiles);
+		0x00000000, 0xff444444, 0xff999999, 0xffffffff
+	};
+	return (palette[index]);
+}
+
+void	memset_4(uint32_t* ptr, uint32_t c, size_t n)
+{
+	int i = 0;
+
+	while (i < n)
+	{
+		ptr[i] = c;
+		i += 1;
 	}
 }

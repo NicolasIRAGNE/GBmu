@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 13:08:59 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/25 17:31:58 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/05 15:12:41 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ void	gpu_tick(struct gb_cpu_s* gb)
 		}
 		if (gb->gpu.y_coord == 143)
 		{
-			gb->gpu.mode = GPU_MODE_VBLANK;
+			// gb->gpu.mode = GPU_MODE_VBLANK;
 			if (gb->interrupt_enable_register & INT_VBLANK_REQUEST)
 			{
-				// gb->interrupt = INT_VBLANK;
+				gb->interrupt = INT_VBLANK;
 				gb->interrupt_enable_register &= ~INT_VBLANK_REQUEST;
 			}
 		}	
@@ -61,7 +61,7 @@ void	gpu_tick(struct gb_cpu_s* gb)
 		gb->gpu.mode = GPU_MODE_HBLANK;		
 	}
 
-	write_8(gb, LY_OFFSET, 0x90);
-	// write_8(gb, LY_OFFSET, gb->gpu.y_coord);
+	// write_8(gb, LY_OFFSET, 0x90);
+	write_8(gb, LY_OFFSET, gb->gpu.y_coord);
 
 }

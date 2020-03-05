@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:04:14 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/25 17:10:07 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/05 14:52:55 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,15 @@ int		rrc_a(struct gb_cpu_s* gb);
 
 int		rlc_a(struct gb_cpu_s* gb);
 
+int		bit7_b(struct gb_cpu_s* gb);
+int		bit7_c(struct gb_cpu_s* gb);
+int		bit7_d(struct gb_cpu_s* gb);
+int		bit7_e(struct gb_cpu_s* gb);
 int		bit7_h(struct gb_cpu_s* gb);
+int		bit7_l(struct gb_cpu_s* gb);
+int		bit7_a(struct gb_cpu_s* gb);
 
+int		res0_a(struct gb_cpu_s* gb);
 
 
 #endif
