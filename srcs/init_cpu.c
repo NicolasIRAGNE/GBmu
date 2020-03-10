@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:30:05 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/05 15:15:45 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/10 14:02:52 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int		init_cpu(struct gb_cpu_s* gb)
 	gb->reg.hl = 0x007c;
 	gb->reg.pc = 0x100;
 	gb->running = 1;
+	gb->vram_viewer_running = 1;
 	gb->paused = 1;
 	gb->current_instruction = NULL;
 	gb->ime = 0;

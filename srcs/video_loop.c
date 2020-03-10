@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/16 13:27:32 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/05 15:03:26 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/10 14:02:21 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void	renderer_loop(struct gbmu_wrapper_s* wrapper)
 	while (wrapper->gb->running)
 	{
 		fill_tile_array(wrapper->gb, tiles);
-		vram_viewer_loop(wrapper, tiles);
+		if (wrapper->gb->vram_viewer_running)
+			vram_viewer_loop(wrapper, tiles);
 		main_window_loop(wrapper, tiles);
 	}
 }

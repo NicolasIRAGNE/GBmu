@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:34:47 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/05 14:58:37 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/10 14:01:50 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,8 @@ struct	gb_gpu_s
 struct	gb_cpu_s
 {
 	int					jmp : 1; // Flags used by the emulator. Ugly but hopefully temporary ?
+	
+	int					vram_viewer_running : 1;
 	int					running : 1;
 	int					paused : 1;
 	uint16_t			interrupt;
