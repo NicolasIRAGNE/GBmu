@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 14:11:30 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/10 14:08:18 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/15 16:20:40 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	main_window_loop(struct gbmu_wrapper_s* wrapper, struct tile_s* array)
 			if (event.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
 				wrapper->gb->running = 0;
 			if (event.key.keysym.scancode == SDL_SCANCODE_SPACE)
-				wrapper->gb->paused = !wrapper->gb->paused ;
+				wrapper->gb->paused = 1;
 		}
    	}
 	Uint32 *pixels;

@@ -18,6 +18,7 @@ SET (SOURCES
 	srcs/vram_viewer.c
 	srcs/tools.c
 	srcs/tile.c
+	srcs/breakpoints.c
 	srcs/main_window_loop.c
 	srcs/instructions/jp.c
 	srcs/instructions/ld.c

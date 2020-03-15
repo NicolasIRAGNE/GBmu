@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:08:21 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/05 14:10:46 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/15 16:46:14 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,17 @@ struct gbmu_wrapper_s
 	struct sdl_context_s* main_context;
 };
 
+struct breakpoint_s
+{
+	uint16_t	addr;
+	struct breakpoint_s* next;
+};
+
+struct gbmu_debugger_s
+{
+	struct breakpoint_s* breakpoints;
+};
+
 int		init_cpu(struct gb_cpu_s* gb);
 int		handle_instruction(struct gb_cpu_s* gb);
 uint8_t	update_current_instruction(struct gb_cpu_s* gb);
@@ -84,6 +95,8 @@ void		write_16(struct gb_cpu_s* gb, uint16_t a16, uint16_t x);
 ** Debugger
 */
 void		parse_command(struct gb_cpu_s* gb);
+struct breakpoint_s*	new_breakpoint(uint16_t addr);
+int		add_breakpoint(struct breakpoint_s** lst, uint16_t addr);
 
 
 /*

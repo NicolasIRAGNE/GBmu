@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 11:37:03 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/05 14:11:05 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/15 16:55:19 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,12 @@
 #include "gb.h"
 #include "renderer.h"
 #include <pthread.h>
+#include <signal.h>
 
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 480
+
+struct gb_cpu_s*	gb_global;
 
 int		open_rom(char* name, struct rom_s* rom)
 {
@@ -49,12 +52,21 @@ int		open_rom(char* name, struct rom_s* rom)
 	return (0);
 }
 
+void	sigint_handler(int foo)
+{
+	printf("Received SIGINT\n");
+	gb_global->paused = 1;
+}
+
 int		main(int ac, char** av)
 {
 	struct rom_s rom;
 	struct gb_cpu_s gb;
+	struct gbmu_debugger_s debugger;
 	struct sdl_context_s vram_viewer_context;
 	struct sdl_context_s main_window_context;
+	gb_global = &gb;
+	debugger.breakpoints = NULL;
 	
 	if (ac < 2)
 	{
@@ -71,6 +83,7 @@ int		main(int ac, char** av)
 	if (init_cpu(&gb))
 		return (1);
 	gb.rom_ptr = &rom;
+	gb.debugger = &debugger;
 	update_current_instruction(&gb);
 	init_op_tab();
 	init_ext_op_tab();
@@ -87,7 +100,7 @@ int		main(int ac, char** av)
 	if (init_main_window(&main_window_context))
 		return (1);
 	// atexit(SDL_Quit);
-
+	signal(SIGINT, sigint_handler);
 	pthread_create (&thread, NULL, execute_thread_entry , &gb);
 	renderer_loop(&(struct gbmu_wrapper_s){&gb, &vram_viewer_context, &main_window_context});
 	pthread_join(thread, NULL);
