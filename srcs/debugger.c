@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 14:05:57 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/15 16:59:11 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/17 13:16:58 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int		command_add_breakpoint(struct gb_cpu_s* gb, char* s, uint16_t arg)
 {
 	printf("Adding breakpoint %x\n", arg);
 	add_breakpoint(&(gb->debugger->breakpoints), arg);
+	print_breakpoints(gb->debugger->breakpoints);
 	return (0);
 }
 

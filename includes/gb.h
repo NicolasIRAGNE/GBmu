@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:08:21 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/15 16:46:14 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/17 13:13:25 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ void		write_16(struct gb_cpu_s* gb, uint16_t a16, uint16_t x);
 void		parse_command(struct gb_cpu_s* gb);
 struct breakpoint_s*	new_breakpoint(uint16_t addr);
 int		add_breakpoint(struct breakpoint_s** lst, uint16_t addr);
+int		print_breakpoints(struct breakpoint_s* lst);
 
 
 /*
