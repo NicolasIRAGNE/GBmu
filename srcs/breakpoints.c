@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/15 16:37:38 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/17 13:21:40 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/18 13:31:31 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,28 @@ struct breakpoint_s*	new_breakpoint(uint16_t addr)
 	return (ret);
 }
 
+int		breakpoint_pushback(struct breakpoint_s** lst, struct breakpoint_s* toadd)
+{
+	struct breakpoint_s* ptr;
+	struct breakpoint_s* tmp;
+
+	ptr = *lst;
+	if (*lst == NULL)
+		*lst = toadd;
+	else
+	{
+		while (ptr)
+		{
+			if (ptr->addr == toadd->addr)
+				return (1);
+			tmp = ptr;
+			ptr = ptr->next;
+		}
+		tmp->next = toadd;
+	}
+	return (0);
+}
+
 int		add_breakpoint(struct breakpoint_s** lst, uint16_t addr)
 {
 	struct breakpoint_s* new = new_breakpoint(addr);
@@ -33,16 +55,9 @@ int		add_breakpoint(struct breakpoint_s** lst, uint16_t addr)
 		return (1);
 	
 	struct breakpoint_s* tmp = *lst;
-	if (!tmp)
-		*lst = new;
-	else
-	{
-		while (tmp->next)
-		{
-			tmp = tmp->next;
-		}
-		tmp->next = new;
-	}
+	if (breakpoint_pushback(lst, new))
+		free(new);
+	return (0);
 }
 
 int		print_breakpoints(struct breakpoint_s* lst)
@@ -52,4 +67,38 @@ int		print_breakpoints(struct breakpoint_s* lst)
 		printf("Breakpoint at %x\n", lst->addr);
 		lst = lst->next;
 	}
+}
+
+int		find_breakpoint(struct breakpoint_s* lst, uint16_t addr)
+{
+	while (lst)
+	{
+		if (lst->addr == addr)
+		{
+			return (1);
+		}
+		lst = lst->next;
+	}
+	return (0);
+}
+
+int		clear_breakpoints(struct breakpoint_s** lst)
+{
+	struct breakpoint_s* ptr;
+	struct breakpoint_s* tmp;
+
+	ptr = *lst;
+	if (*lst == NULL)
+		return(0);
+	else
+	{
+		while (ptr)
+		{
+			tmp = ptr;
+			ptr = ptr->next;
+			free(tmp);
+		}
+	}
+	*lst = NULL;
+	return (0);
 }

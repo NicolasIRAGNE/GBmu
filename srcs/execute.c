@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:26 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/15 16:35:51 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/18 13:28:53 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,10 @@ int		handle_instruction(struct gb_cpu_s* gb)
 	op = update_current_instruction(gb);
 	debug_print_gb(gb);
 
-	// if (gb->reg.pc == 0x66 && !gb->paused)
-	// {
-		// gb->paused = 1;
-		// return (0);
-	// }
+	if (find_breakpoint(gb->debugger->breakpoints, gb->reg.pc) && !gb->paused)
+	{
+		gb->paused = 1;
+	}
 
 	if (gb->current_instruction->exec)
 	{

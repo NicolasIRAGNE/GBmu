@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 14:05:57 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/17 13:16:58 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/18 13:31:58 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int		command_quit(struct gb_cpu_s* gb, char* s, uint16_t arg)
 
 int		command_run(struct gb_cpu_s* gb, char* s, uint16_t arg)
 {
-	gb->paused = 0;	
+	gb->paused = 0;
 	return (0);
 }
 
@@ -49,6 +49,12 @@ int		command_print(struct gb_cpu_s* gb, char* s, uint16_t arg)
 {
 	printf("%x: %x\n", arg, read_8(gb, arg));	
 	printf("%x: %x\n", arg, read_16(gb, arg));	
+	return (0);
+}
+
+int		command_del(struct gb_cpu_s* gb, char* s, uint16_t arg)
+{
+	clear_breakpoints(&(gb->debugger->breakpoints));
 	return (0);
 }
 
@@ -87,6 +93,10 @@ void	parse_command(struct gb_cpu_s* gb)
 		else if (!strcmp(command, "b"))
 		{
 			f = command_add_breakpoint;
+		}
+		else if (!strcmp(command, "del"))
+		{
+			f = command_del;
 		}
 		else
 		{

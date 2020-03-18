@@ -40,7 +40,7 @@
 *.i*86
 *.x86_64
 *.hex
-build/gbmu
+*gbmu
 
 # Debug files
 *.dSYM/
