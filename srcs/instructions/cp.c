@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 16:08:31 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/25 17:35:58 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/22 13:48:08 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,39 @@ int	cp_a8(struct gb_cpu_s* gb)
 int	cp_ptr_hl(struct gb_cpu_s* gb)
 {
 	cp_mem8(gb, &(gb->reg.a), read_8(gb, gb->reg.hl));	
+}
+
+int	cp_a(struct gb_cpu_s* gb)
+{
+	cp_reg8(gb, &(gb->reg.a), gb->reg.a);	
+}
+
+int	cp_b(struct gb_cpu_s* gb)
+{
+	cp_reg8(gb, &(gb->reg.a), gb->reg.b);	
+}
+
+int	cp_c(struct gb_cpu_s* gb)
+{
+	cp_reg8(gb, &(gb->reg.a), gb->reg.c);	
+}
+
+int	cp_d(struct gb_cpu_s* gb)
+{
+	cp_reg8(gb, &(gb->reg.a), gb->reg.d);	
+}
+
+int	cp_e(struct gb_cpu_s* gb)
+{
+	cp_reg8(gb, &(gb->reg.a), gb->reg.e);	
+}
+
+int	cp_h(struct gb_cpu_s* gb)
+{
+	cp_reg8(gb, &(gb->reg.a), gb->reg.h);	
+}
+
+int	cp_l(struct gb_cpu_s* gb)
+{
+	cp_reg8(gb, &(gb->reg.a), gb->reg.l);	
 }

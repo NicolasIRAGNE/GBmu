@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 13:48:02 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/18 12:45:25 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/22 13:26:46 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ void	resize_tile(uint32_t* pixels, struct tile_s* tile, int x, int y)
 		// printf("\n");
 }
 
-int		print_tile(struct sdl_context_s* context, struct tile_s* tile, int index, int surface_width, int tiles_per_row)
+int		print_tile(struct sdl_context_s* context, struct tile_s* tile, int index, SDL_Rect pos)
 {
 	SDL_Surface* tile_surface;
 
@@ -137,7 +137,6 @@ int		print_tile(struct sdl_context_s* context, struct tile_s* tile, int index, i
 
 	resize_tile(pixels, tile, 8, 8);
 
-	SDL_Rect pos = (SDL_Rect) {(index * TILE_SURFACE_WIDTH) % (surface_width), (index / tiles_per_row) * TILE_SURFACE_HEIGHT, TILE_SURFACE_WIDTH, TILE_SURFACE_HEIGHT};
 	if (SDL_BlitSurface(tile_surface, NULL, context->surface, &pos))
 	{
 		fprintf(stderr, "failed to blit surface (%s)\n", SDL_GetError());

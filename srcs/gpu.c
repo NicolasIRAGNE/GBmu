@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 13:08:59 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/05 15:12:41 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/22 13:58:31 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void	gpu_tick(struct gb_cpu_s* gb)
 	}
 
 	// write_8(gb, LY_OFFSET, 0x90);
+	// write_8(gb, LY_OFFSET, rand());
 	write_8(gb, LY_OFFSET, gb->gpu.y_coord);
 
 }

@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 17:15:38 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/18 12:45:28 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/22 13:06:15 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,12 @@ int		jp_hl(struct gb_cpu_s* gb)
 int		jp_z_a16(struct gb_cpu_s* gb)
 {
 	if ((gb->reg.f & ZERO_FLAG))
+		jump(gb, gb->current_instruction->args);
+}
+
+int		jp_nz_a16(struct gb_cpu_s* gb)
+{
+	if (!(gb->reg.f & ZERO_FLAG))
 		jump(gb, gb->current_instruction->args);
 }
 

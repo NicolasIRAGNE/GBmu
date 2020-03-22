@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:34:47 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/15 16:36:28 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/22 13:24:23 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # define OAM_SIZE 0x9f			// 160B
 # define BOOT_ROM_SIZE 0x100	// 256B
 
-# define VRAM_TILE_BANK_SIZE 0x17ff
+# define VRAM_TILE_BANK_SIZE 0x1800
 
 # define IO_OFFSET	 0xFF00
 # define LCDC_OFFSET 	(IO_OFFSET | 0x40)
@@ -33,6 +33,10 @@
 # define LYC_OFFSET		(IO_OFFSET | 0x45)
 # define WY_OFFSET		(IO_OFFSET | 0x4a)
 # define WX_OFFSET		(IO_OFFSET | 0x4b)
+
+# define BGMAP1_OFFSET	0x1800
+# define BGMAP2_OFFSET	0x1C00
+# define BGMAP_SIZE		0x0400
 
 // FLAG REGISTER: ZNHC0000
 # define ZERO_FLAG			(1 << 7)

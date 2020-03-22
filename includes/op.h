@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:59 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/25 17:40:17 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/22 13:50:45 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int			ld_l_d(struct gb_cpu_s* gb);
 int			ld_l_e(struct gb_cpu_s* gb);
 int			ld_l_h(struct gb_cpu_s* gb);
 int			ld_l_l(struct gb_cpu_s* gb);
+int			ldh_a_ptr_c(struct gb_cpu_s* gb);
 int			ld_a_ptr_a16(struct gb_cpu_s* gb);
 int			ld_a_ptr_de(struct gb_cpu_s* gb);
 int			ld_a_ptr_hl(struct gb_cpu_s* gb);
@@ -202,6 +203,13 @@ int			sub_a8(struct gb_cpu_s* gb);
 
 int			cp_a8(struct gb_cpu_s* gb);
 int			cp_ptr_hl(struct gb_cpu_s* gb);
+int			cp_a(struct gb_cpu_s* gb);
+int			cp_b(struct gb_cpu_s* gb);
+int			cp_c(struct gb_cpu_s* gb);
+int			cp_d(struct gb_cpu_s* gb);
+int			cp_e(struct gb_cpu_s* gb);
+int			cp_h(struct gb_cpu_s* gb);
+int			cp_l(struct gb_cpu_s* gb);
 
 /*
 ** Jump
@@ -211,6 +219,7 @@ int			jp_hl(struct gb_cpu_s* gb);
 int			jr_nz_a8(struct gb_cpu_s* gb);
 int			jr_z_a8(struct gb_cpu_s* gb);
 int			jp_z_a16(struct gb_cpu_s* gb);
+int			jp_nz_a16(struct gb_cpu_s* gb);
 int			jr_c_a8(struct gb_cpu_s* gb);
 int			jr_nc_a8(struct gb_cpu_s* gb);
 int			jr_a8(struct gb_cpu_s* gb);
@@ -229,6 +238,7 @@ int			call_a16(struct gb_cpu_s* gb);
 int			interrupt_a16(struct gb_cpu_s* gb, uint16_t addr);
 int			call_nz_a16(struct gb_cpu_s* gb);
 int			rst_38(struct gb_cpu_s* gb);
+int			rst_0(struct gb_cpu_s* gb);
 
 
 /*

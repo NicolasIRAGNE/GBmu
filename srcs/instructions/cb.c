@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:10:03 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/13 11:19:33 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/22 13:40:05 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int		cb_n(struct gb_cpu_s* gb)
 	else
 	{
 		printf("EXTENDED OPCODE %x NOT IMPLEMENTED\n", op);
-		gb->running = 0;
+		gb->paused = 1;
 	}
 	
 }

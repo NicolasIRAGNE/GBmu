@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 19:30:21 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/24 11:05:53 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/22 13:50:26 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,9 @@ int		call_nz_a16(struct gb_cpu_s* gb)
 int		rst_38(struct gb_cpu_s* gb)
 {
 	call(gb, 0x38);
+}
+
+int		rst_0(struct gb_cpu_s* gb)
+{
+	call(gb, 0);
 }
