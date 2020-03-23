@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 17:14:49 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/22 12:43:54 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/23 15:50:57 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,14 @@ void	ld_mem_16(struct gb_cpu_s* gb, uint16_t a16, uint16_t x)
 	write_16(gb, a16, x);
 }
 
-int		ld_d_c(struct gb_cpu_s* gb)
+int		ld_a_a(struct gb_cpu_s* gb)
 {
-	ld_reg_8(&(gb->reg.d), gb->reg.c);
+	ld_reg_8(&(gb->reg.a), gb->reg.a);
+}
+
+int		ld_a_b(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.a), gb->reg.b);
 }
 
 int		ld_a_c(struct gb_cpu_s* gb)
@@ -42,19 +47,19 @@ int		ld_a_c(struct gb_cpu_s* gb)
 	ld_reg_8(&(gb->reg.a), gb->reg.c);
 }
 
-int		ld_c_a(struct gb_cpu_s* gb)
-{
-	ld_reg_8(&(gb->reg.c), gb->reg.a);
-}
-
-int		ld_d_a(struct gb_cpu_s* gb)
-{
-	ld_reg_8(&(gb->reg.d), gb->reg.a);
-}
-
 int		ld_a_d(struct gb_cpu_s* gb)
 {
 	ld_reg_8(&(gb->reg.a), gb->reg.d);
+}
+
+int		ld_a_e(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.a), gb->reg.e);
+}
+
+int		ld_a_h(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.a), gb->reg.h);
 }
 
 int		ld_a_l(struct gb_cpu_s* gb)
@@ -67,14 +72,109 @@ int		ld_l_a(struct gb_cpu_s* gb)
 	ld_reg_8(&(gb->reg.l), gb->reg.a);
 }
 
-int		ld_a_h(struct gb_cpu_s* gb)
-{
-	ld_reg_8(&(gb->reg.a), gb->reg.h);
-}
-
 int		ld_b_a(struct gb_cpu_s* gb)
 {
 	ld_reg_8(&(gb->reg.b), gb->reg.a);
+}
+
+int		ld_b_b(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.b), gb->reg.b);
+}
+
+int		ld_b_c(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.b), gb->reg.c);
+}
+
+int		ld_b_d(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.b), gb->reg.d);
+}
+
+int		ld_b_e(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.b), gb->reg.e);
+}
+
+int		ld_b_h(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.b), gb->reg.h);
+}
+
+int		ld_b_l(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.b), gb->reg.l);
+}
+
+int		ld_c_a(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.c), gb->reg.a);
+}
+
+int		ld_c_b(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.c), gb->reg.b);
+}
+
+int		ld_c_c(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.c), gb->reg.c);
+}
+
+int		ld_c_d(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.c), gb->reg.d);
+}
+
+int		ld_c_e(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.c), gb->reg.e);
+}
+
+int		ld_c_h(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.c), gb->reg.h);
+}
+
+int		ld_c_l(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.c), gb->reg.l);
+}
+
+int		ld_d_a(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.d), gb->reg.a);
+}
+
+int		ld_d_b(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.d), gb->reg.b);
+}
+
+int		ld_d_c(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.d), gb->reg.c);
+}
+
+int		ld_d_d(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.d), gb->reg.d);
+}
+
+int		ld_d_e(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.d), gb->reg.e);
+}
+
+int		ld_d_h(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.d), gb->reg.h);
+}
+
+int		ld_d_l(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.d), gb->reg.l);
 }
 
 int		ld_e_a(struct gb_cpu_s* gb)
@@ -82,14 +182,29 @@ int		ld_e_a(struct gb_cpu_s* gb)
 	ld_reg_8(&(gb->reg.e), gb->reg.a);
 }
 
-int		ld_a_b(struct gb_cpu_s* gb)
+int		ld_e_b(struct gb_cpu_s* gb)
 {
-	ld_reg_8(&(gb->reg.a), gb->reg.b);
+	ld_reg_8(&(gb->reg.e), gb->reg.b);
 }
 
-int		ld_a_e(struct gb_cpu_s* gb)
+int		ld_e_c(struct gb_cpu_s* gb)
 {
-	ld_reg_8(&(gb->reg.a), gb->reg.e);
+	ld_reg_8(&(gb->reg.e), gb->reg.c);
+}
+
+int		ld_e_d(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.e), gb->reg.d);
+}
+
+int		ld_e_e(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.e), gb->reg.e);
+}
+
+int		ld_e_h(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.e), gb->reg.h);
 }
 
 int		ld_e_l(struct gb_cpu_s* gb)
@@ -254,6 +369,8 @@ int		ld_hl_a16(struct gb_cpu_s* gb)
 
 int		ld_bc_a16(struct gb_cpu_s* gb)
 {
+	if (gb->current_instruction->args == 0x1200)
+		gb->paused =1;
 	ld_reg_16(&(gb->reg.bc), gb->current_instruction->args);
 }
 

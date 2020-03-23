@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 17:15:01 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/24 13:01:51 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/23 16:58:41 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,21 @@ int		cpl(struct gb_cpu_s* gb)
 int		stop(struct gb_cpu_s* gb)
 {
 	//TODO
+}
+
+int		halt(struct gb_cpu_s* gb)
+{
+	gb->halted = 1;
+}
+
+int		daa(struct gb_cpu_s* gb)
+{
+	//TODO
+	uint8_t tmp;
+	uint8_t tmp2;
+
+	tmp = gb->reg.a % 10;
+	tmp2 = gb->reg.a / 10;
+
+	// gb->reg.a = (tmp2 << 4) | tmp;
 }

@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:34:47 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/22 13:24:23 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/23 15:36:21 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # define WRAM_SIZE 0x2000		// 8kiB
 # define HRAM_SIZE 0x100		// 256B
 # define RAM_SIZE 0x2000		// 8kiB
+# define EXTRA_RAM_SIZE 0x2000	// 8kiB
 # define IO_PORTS_SIZE 0x100	// 256B
 # define OAM_SIZE 0x9f			// 160B
 # define BOOT_ROM_SIZE 0x100	// 256B
@@ -112,6 +113,18 @@ struct	gb_gpu_s
 	enum gpu_mode_e mode;	
 };
 
+enum	mbc_mode_e
+{
+	MBC_MODE_ROM,
+	MBC_MODE_RAM
+};
+
+struct	mbc_s
+{
+	uint8_t bank;
+	enum mbc_mode_e mode;
+};
+
 struct	gb_cpu_s
 {
 	int					jmp : 1; // Flags used by the emulator. Ugly but hopefully temporary ?
@@ -124,13 +137,17 @@ struct	gb_cpu_s
 	struct gbmu_debugger_s*	debugger;
 
 	int					ime : 1; // Interrupt Master Enable Flag
+	int					ram_enabled : 1;
+	int					halted : 1;
 	struct registers_s	reg;
 	struct inst_s*		current_instruction;
 	struct rom_s*		rom_ptr;
 	struct gb_gpu_s		gpu;
+	struct mbc_s		mbc;
 	uint8_t				boot_rom[BOOT_ROM_SIZE];
 	uint8_t				vram[VRAM_SIZE];
 	uint8_t				ram[RAM_SIZE];
+	uint8_t				extra_ram[EXTRA_RAM_SIZE];
 	uint8_t				wram[WRAM_SIZE];
 	uint8_t				hram[HRAM_SIZE];
 	uint8_t				io_ports[IO_PORTS_SIZE];
@@ -145,7 +162,7 @@ This is, as far as I understand, the memory map of the gameboy:
 0000 - 7FFF (32kb) : ROM AREA
 	0100 - 014F : Header
 	0150 - 3FFF : Bank 0
-	4000 - 7FFF : Bank 1
+	4000 - 7FFF : Bank X
 8000 - 97FF : TILE RAM
 9800 - 9BFF : Background Data 1
 9C00 - 9FFF : Background Data 2

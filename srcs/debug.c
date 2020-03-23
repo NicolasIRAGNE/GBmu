@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/31 11:40:08 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/05 15:08:43 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/23 14:07:42 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	debug_print_gb(struct gb_cpu_s* gb)
 	debug_print_gb_flags(gb);
 	printf("\n");
 	debug_print_stack(gb);
+	printf("\n");
+	debug_print_mbc(gb);
 	printf("\n");
 	debug_print_instruction(gb->current_instruction);
 	printf("-------------------\n");
@@ -67,6 +69,13 @@ void	debug_print_gb_flags(struct gb_cpu_s* gb)
 	printf("IME : %d\n", gb->ime);
 	printf("IER : %.4x\n", gb->interrupt_enable_register);
 	printf("LCDC: %.2x\n", read_8(gb, LCDC_OFFSET));
+}
+
+void	debug_print_mbc(struct gb_cpu_s* gb)
+{
+	printf("MBC:\n");
+	printf("BANK : %x\n", gb->mbc.bank);
+	printf("MODE: %x\n", gb->mbc.mode);
 }
 
 void	debug_print_instruction(struct inst_s* inst)

@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 18:10:17 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/22 13:02:20 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/23 15:41:17 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,16 @@ uint8_t	read_8(struct gb_cpu_s* gb, uint16_t a16)
 	{
 		return (((uint8_t*)(gb->boot_rom))[a16]);
 	}
-	else if (a16 < 0x8000)
+	else if (a16 < 0x4000)
 	{
 		return (((uint8_t*)(gb->rom_ptr->ptr))[a16]);
+	}
+	else if (a16 < 0x8000)
+	{
+		if (gb->mbc.mode == 0 && gb->mbc.bank != 0)
+			return (((uint8_t*)(gb->rom_ptr->ptr))[gb->mbc.bank * 0x4000 + a16 - 0x4000]);
+		else
+			return (((uint8_t*)(gb->rom_ptr->ptr))[a16]);
 	}
 	else if (a16 < 0xa000)
 	{
@@ -38,7 +45,7 @@ uint8_t	read_8(struct gb_cpu_s* gb, uint16_t a16)
 	else if (a16 < 0xc000)
 	{
 		printf("WARNING: READING FROM EXTRA RAM\n");
-		return (0);
+		return (((uint8_t*)(gb->extra_ram))[a16 - 0xa000]);
 	}
 	else if (a16 < 0xe000)
 	{
@@ -65,9 +72,44 @@ uint8_t	read_8(struct gb_cpu_s* gb, uint16_t a16)
 
 void	write_8(struct gb_cpu_s* gb, uint16_t a16, uint8_t x)
 {
-	if (a16 < 0x8000)
+	if (a16 < 0x2000)
 	{
-		printf("WARNING: TRYING TO WRITE TO ROM AT %x\n", a16);
+		if (x == 0x0a)
+		{
+			printf("RAM ENABLED (%4x)", a16);
+			gb->ram_enabled = 1;
+		}
+		else
+		{
+			printf("RAM DISABLED (%4x)", a16);
+			gb->ram_enabled = 0;
+		}
+		return ;
+	}
+	else if (a16 < 0x4000)
+	{
+		uint8_t tmp = x & 0b1100000;
+		gb->mbc.bank = tmp | (x & 0b11111);
+		printf("SWITCHING BANK LOWER BITS %x \n", gb->mbc.bank);
+		return ;
+	}
+	else if (a16 < 0x6000)
+	{
+		if (gb->mbc.mode == MBC_MODE_ROM)
+		{
+			uint8_t tmp = x & 0b0011111;
+			gb->mbc.bank = tmp | (x & 0b1100000);
+			printf("SWITCHING BANK UPPER BITS %x \n", gb->mbc.bank);
+		}
+		return ;
+	}
+	else if (a16 < 0x8000)
+	{
+		if (x == 0)
+			gb->mbc.mode = MBC_MODE_ROM;
+		else if (x == 1)
+			gb->mbc.mode = MBC_MODE_RAM;
+		printf("SWITCHING MBC MODE %x \n", gb->mbc.mode);
 		return ;
 	}
 	else if (a16 < 0xa000)
@@ -80,6 +122,7 @@ void	write_8(struct gb_cpu_s* gb, uint16_t a16, uint8_t x)
 	else if (a16 < 0xc000)
 	{
 		printf("WARNING: WRITING TO EXTRA RAM\n");
+		((uint8_t*)(gb->extra_ram))[a16 - 0xa000] = x;
 		return ;
 	}
 	else if (a16 < 0xe000)

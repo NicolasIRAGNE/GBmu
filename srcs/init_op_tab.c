@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:16:07 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/22 13:50:38 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/23 16:34:52 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ struct inst_s	op_tab[256] =
 void	init_op_tab()
 {
 	op_tab[0x00] = (struct inst_s) {"NOP",			4, 0, nop};
+	op_tab[0x27] = (struct inst_s) {"DAA",			4, 0, daa};
 	op_tab[0x01] = (struct inst_s) {"LD BC A16",	1, 2, ld_bc_a16};
 	op_tab[0x02] = (struct inst_s) {"LD (BC) A",	1, 0, ld_ptr_bc_a};
 	op_tab[0x03] = (struct inst_s) {"INC BC",		8, 0, inc_bc};
@@ -71,6 +72,33 @@ void	init_op_tab()
 	op_tab[0x97] = (struct inst_s) {"SUB A A",		4, 0, sub_a};
 	op_tab[0x51] = (struct inst_s) {"LD D C",		4, 0, ld_d_c};
 	op_tab[0x4f] = (struct inst_s) {"LD C A",		4, 0, ld_c_a};
+	op_tab[0x48] = (struct inst_s) {"LD C B",		4, 0, ld_c_b};
+	op_tab[0x49] = (struct inst_s) {"LD C C",		4, 0, ld_c_c};
+	op_tab[0x4a] = (struct inst_s) {"LD C D",		4, 0, ld_c_d};
+	op_tab[0x4b] = (struct inst_s) {"LD C E",		4, 0, ld_c_e};
+	op_tab[0x4c] = (struct inst_s) {"LD C H",		4, 0, ld_c_h};
+	op_tab[0x4d] = (struct inst_s) {"LD C L",		4, 0, ld_c_l};
+	op_tab[0x57] = (struct inst_s) {"LD D A",		4, 0, ld_d_a};
+	op_tab[0x50] = (struct inst_s) {"LD D B",		4, 0, ld_d_b};
+	op_tab[0x51] = (struct inst_s) {"LD D C",		4, 0, ld_d_c};
+	op_tab[0x52] = (struct inst_s) {"LD D D",		4, 0, ld_d_d};
+	op_tab[0x53] = (struct inst_s) {"LD D E",		4, 0, ld_d_e};
+	op_tab[0x54] = (struct inst_s) {"LD D H",		4, 0, ld_d_h};
+	op_tab[0x55] = (struct inst_s) {"LD D L",		4, 0, ld_d_l};
+	op_tab[0x5f] = (struct inst_s) {"LD E A",		4, 0, ld_e_a};
+	op_tab[0x58] = (struct inst_s) {"LD E B",		4, 0, ld_e_b};
+	op_tab[0x59] = (struct inst_s) {"LD E C",		4, 0, ld_e_c};
+	op_tab[0x5a] = (struct inst_s) {"LD E D",		4, 0, ld_e_d};
+	op_tab[0x5b] = (struct inst_s) {"LD E E",		4, 0, ld_e_e};
+	op_tab[0x5c] = (struct inst_s) {"LD E H",		4, 0, ld_e_h};
+	op_tab[0x5d] = (struct inst_s) {"LD E L",		4, 0, ld_e_l};
+	op_tab[0x7f] = (struct inst_s) {"LD A A",		4, 0, ld_a_a};
+	op_tab[0x78] = (struct inst_s) {"LD A B",		4, 0, ld_a_b};
+	op_tab[0x79] = (struct inst_s) {"LD A C",		4, 0, ld_a_c};
+	op_tab[0x7a] = (struct inst_s) {"LD A D",		4, 0, ld_a_d};
+	op_tab[0x7b] = (struct inst_s) {"LD A E",		4, 0, ld_a_e};
+	op_tab[0x7c] = (struct inst_s) {"LD A H",		4, 0, ld_a_h};
+	op_tab[0x7d] = (struct inst_s) {"LD A L",		4, 0, ld_a_l};
 	op_tab[0x36] = (struct inst_s) {"LD (HL) n",	8, 1, ld_ptr_hl_n};
 	op_tab[0x70] = (struct inst_s) {"LD (HL) B",	8, 0, ld_ptr_hl_b};
 	op_tab[0x71] = (struct inst_s) {"LD (HL) C",	8, 0, ld_ptr_hl_c};
@@ -100,6 +128,12 @@ void	init_op_tab()
 	op_tab[0x6f] = (struct inst_s) {"LD L A",		4, 0, ld_l_a};
 	op_tab[0x57] = (struct inst_s) {"LD D A",		4, 0, ld_d_a};
 	op_tab[0x47] = (struct inst_s) {"LD B A",		4, 0, ld_b_a};
+	op_tab[0x40] = (struct inst_s) {"LD B B",		4, 0, ld_b_b};
+	op_tab[0x41] = (struct inst_s) {"LD B C",		4, 0, ld_b_c};
+	op_tab[0x42] = (struct inst_s) {"LD B D",		4, 0, ld_b_d};
+	op_tab[0x43] = (struct inst_s) {"LD B E",		4, 0, ld_b_e};
+	op_tab[0x44] = (struct inst_s) {"LD B H",		4, 0, ld_b_h};
+	op_tab[0x45] = (struct inst_s) {"LD B L",		4, 0, ld_b_l};
 	op_tab[0x5f] = (struct inst_s) {"LD E A",		4, 0, ld_e_a};
 	op_tab[0x5d] = (struct inst_s) {"LD E L",		4, 0, ld_e_l};
 	op_tab[0x06] = (struct inst_s) {"LD B A8",		8, 1, ld_b_a8};
@@ -192,6 +226,7 @@ void	init_op_tab()
 	op_tab[0x17] = (struct inst_s) {"RL A",			8, 0, rl_a};
 	op_tab[0x2f] = (struct inst_s) {"CPL",			4, 0, cpl};
 	op_tab[0x10] = (struct inst_s) {"STOP",			4, 0, stop};
+	op_tab[0x76] = (struct inst_s) {"HALT",			4, 0, halt};
 	op_tab[0x08] = (struct inst_s) {"LD (nn) SP",	20, 2, ld_ptr_nn_sp};
 	op_tab[0xb8] = (struct inst_s) {"CP B",			4, 0, cp_b};
 	op_tab[0xb9] = (struct inst_s) {"CP C",			4, 0, cp_c};

@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:26 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/22 14:05:16 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/23 16:41:33 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,9 @@ void	execute_loop(struct gb_cpu_s* gb)
 		}
 		if (gb->paused)
 			parse_command(gb);
-		else 
+		else if (1)
 			err = handle_instruction(gb);
+		gpu_tick(gb);
 
 		if (err)
 			gb->paused = 1;
@@ -57,7 +58,7 @@ int		handle_instruction(struct gb_cpu_s* gb)
 {
 	uint8_t op;
 	op = update_current_instruction(gb);
-	// debug_print_gb(gb);
+	debug_print_gb(gb);
 
 	if (find_breakpoint(gb->debugger->breakpoints, gb->reg.pc) && !gb->paused)
 	{
@@ -78,6 +79,5 @@ int		handle_instruction(struct gb_cpu_s* gb)
 	else
 		gb->jmp = 0;
 	gb->cycle += gb->current_instruction->cycles;
-	gpu_tick(gb);
 	return (0);
 }

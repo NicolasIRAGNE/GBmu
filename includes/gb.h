@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:08:21 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/18 13:31:15 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/23 14:08:03 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ void	debug_print_rom(struct rom_s* rom);
 void	debug_print_rom_hdr(struct rom_hdr_s* hdr);
 void	debug_print_gb_flags(struct gb_cpu_s* gb);
 void	debug_print_stack(struct gb_cpu_s* gb);
+void	debug_print_mbc(struct gb_cpu_s* gb);
 void	debug_print_flag_register(uint8_t reg);
 
 /*

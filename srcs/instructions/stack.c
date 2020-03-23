@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/12 11:49:47 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/12 12:14:03 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/23 16:12:14 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,10 @@ int		pop_hl(struct gb_cpu_s* gb)
 
 int		pop_af(struct gb_cpu_s* gb)
 {
+
+	//wtf is this
 	gb->reg.af = read_16(gb, gb->reg.sp);
+	gb->reg.f &= 0xf0;
 	gb->reg.sp += 2;
 }
 
