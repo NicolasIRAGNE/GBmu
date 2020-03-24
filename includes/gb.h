@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:08:21 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/23 14:08:03 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/24 11:42:44 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,13 @@ struct gbmu_debugger_s
 	struct breakpoint_s* breakpoints;
 };
 
+struct command_s
+{
+	char*	name;
+	int		(*f)(struct gb_cpu_s*, char*, uint16_t);
+	char*	desc;
+};
+
 int		init_cpu(struct gb_cpu_s* gb);
 int		handle_instruction(struct gb_cpu_s* gb);
 uint8_t	update_current_instruction(struct gb_cpu_s* gb);
@@ -101,6 +108,14 @@ int		print_breakpoints(struct breakpoint_s* lst);
 int		find_breakpoint(struct breakpoint_s* lst, uint16_t addr);
 int		clear_breakpoints(struct breakpoint_s** lst);
 
+int		command_next(struct gb_cpu_s* gb, char* s, uint16_t arg);
+int		command_add_breakpoint(struct gb_cpu_s* gb, char* s, uint16_t arg);
+int		command_info(struct gb_cpu_s* gb, char* s, uint16_t arg);
+int		command_not_found(struct gb_cpu_s* gb, char* s, uint16_t arg);
+int		command_quit(struct gb_cpu_s* gb, char* s, uint16_t arg);
+int		command_print(struct gb_cpu_s* gb, char* s, uint16_t arg);
+int		command_run(struct gb_cpu_s* gb, char* s, uint16_t arg);
+int		command_del(struct gb_cpu_s* gb, char* s, uint16_t arg);
 
 /*
 ** Debug

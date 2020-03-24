@@ -6,13 +6,25 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 14:05:57 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/22 13:57:02 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/24 11:48:49 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gb.h"
 #include <stdio.h>
 #include <string.h>
+
+struct command_s commands[] =
+{
+	{"n", command_next, "Execute next instruction"},
+	{"r", command_run, "Run to next breakpoint"},
+	{"p", command_print, "Print value at index"},
+	{"b", command_add_breakpoint, "Add breakpoint"},
+	{"i", command_info, "Print general info"},
+	{"del", command_del, "Delete all breakpoints"},
+	{"q", command_quit, "Quit"}
+};
+
 
 int		command_next(struct gb_cpu_s* gb, char* s, uint16_t arg)
 {

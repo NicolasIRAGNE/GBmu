@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 17:14:49 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/23 15:50:57 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/24 11:37:23 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -369,8 +369,6 @@ int		ld_hl_a16(struct gb_cpu_s* gb)
 
 int		ld_bc_a16(struct gb_cpu_s* gb)
 {
-	if (gb->current_instruction->args == 0x1200)
-		gb->paused =1;
 	ld_reg_16(&(gb->reg.bc), gb->current_instruction->args);
 }
 
