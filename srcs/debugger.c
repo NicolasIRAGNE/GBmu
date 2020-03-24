@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 14:05:57 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/24 11:48:49 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/24 12:32:57 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,13 @@
 #include <stdio.h>
 #include <string.h>
 
-struct command_s commands[] =
+static struct command_s command_invalid =
+{
+	NULL, command_not_found, NULL
+};
+
+
+static struct command_s commands[] =
 {
 	{"n", command_next, "Execute next instruction"},
 	{"r", command_run, "Run to next breakpoint"},
@@ -22,9 +28,9 @@ struct command_s commands[] =
 	{"b", command_add_breakpoint, "Add breakpoint"},
 	{"i", command_info, "Print general info"},
 	{"del", command_del, "Delete all breakpoints"},
+	{"help", command_help, "Display all available commands"},
 	{"q", command_quit, "Quit"}
 };
-
 
 int		command_next(struct gb_cpu_s* gb, char* s, uint16_t arg)
 {
@@ -76,13 +82,44 @@ int		command_del(struct gb_cpu_s* gb, char* s, uint16_t arg)
 	return (0);
 }
 
+int		command_help(struct gb_cpu_s* gb, char* s, uint16_t arg)
+{
+	struct command_s* ret;
+	int i = 0;
+
+	while (i * sizeof(struct command_s) < sizeof(commands))
+	{
+		ret = commands + i;
+		printf("%s: %s\n", ret->name, ret->desc);
+		i++;
+	}
+	return (0);
+}
+
+struct command_s* find_command(char* s)
+{
+	struct command_s* ret;
+	int i = 0;
+
+	while (i * sizeof(struct command_s) < sizeof(commands))
+	{
+		ret = commands + i;
+		if (!strcmp(s, ret->name))
+		{
+			return (ret);
+		}
+		i++;
+	}
+	return (&command_invalid);
+}
+
 void	parse_command(struct gb_cpu_s* gb)
 {
 	char buffer[255];
 	char command[255];
 	int ret;
 	uint16_t arg;
-	static int		(*f)(struct gb_cpu_s*, char*, uint16_t) = command_next;
+	static struct command_s* cmd = commands + 0;
 
 	if (fgets(buffer, sizeof(buffer), stdin) == NULL)
 	{
@@ -92,40 +129,9 @@ void	parse_command(struct gb_cpu_s* gb)
 	int rd = sscanf(buffer, "%s %hx", command, &arg);
 	if (rd > 0)
 	{
-		if (!strcmp(command, "n"))
-		{
-			f = command_next;
-		}
-		else if (!strcmp(command, "q"))
-		{
-			f = command_quit;
-		}
-		else if (!strcmp(command, "p"))
-		{
-			f = command_print;
-		}
-		else if (!strcmp(command, "r"))
-		{
-			f = command_run;
-		}
-		else if (!strcmp(command, "b"))
-		{
-			f = command_add_breakpoint;
-		}
-		else if (!strcmp(command, "del"))
-		{
-			f = command_del;
-		}
-		else if (!strcmp(command, "i"))
-		{
-			f = command_info;
-		}
-		else
-		{
-			f = command_not_found;
-		}
+		cmd = find_command(command);
 	}
-	ret = f(gb, command, arg);
+	ret = cmd->f(gb, command, arg);
 	if (ret)
 		gb->running = 0;
 }

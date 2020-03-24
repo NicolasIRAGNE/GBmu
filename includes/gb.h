@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:08:21 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/24 11:42:44 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/24 12:32:18 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ int		command_quit(struct gb_cpu_s* gb, char* s, uint16_t arg);
 int		command_print(struct gb_cpu_s* gb, char* s, uint16_t arg);
 int		command_run(struct gb_cpu_s* gb, char* s, uint16_t arg);
 int		command_del(struct gb_cpu_s* gb, char* s, uint16_t arg);
+int		command_help(struct gb_cpu_s* gb, char* s, uint16_t arg);
 
 /*
 ** Debug
