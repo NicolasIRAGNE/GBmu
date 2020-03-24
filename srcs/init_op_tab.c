@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:16:07 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/23 16:34:52 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/24 16:28:32 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,5 +236,6 @@ void	init_op_tab()
 	op_tab[0xbd] = (struct inst_s) {"CP L",			4, 0, cp_l};
 	op_tab[0xbf] = (struct inst_s) {"CP A",			4, 0, cp_a};
 	op_tab[0xff] = (struct inst_s) {"RST 38",		16, 0, rst_38};
+	op_tab[0xef] = (struct inst_s) {"RST 28",		16, 0, rst_28};
 	op_tab[0xc7] = (struct inst_s) {"RST 0",		16, 0, rst_0};
 }

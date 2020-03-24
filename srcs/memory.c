@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 18:10:17 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/23 15:41:17 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/24 16:46:30 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ uint16_t	read_16(struct gb_cpu_s* gb, uint16_t a16)
 
 uint8_t	read_8(struct gb_cpu_s* gb, uint16_t a16)
 {
-	if (a16 < 0x100)
+	if (a16 < 0x100 && !gb->booted)
 	{
 		return (((uint8_t*)(gb->boot_rom))[a16]);
 	}
@@ -33,7 +33,7 @@ uint8_t	read_8(struct gb_cpu_s* gb, uint16_t a16)
 	}
 	else if (a16 < 0x8000)
 	{
-		if (gb->mbc.mode == 0 && gb->mbc.bank != 0)
+		if (gb->mbc.mode == MBC_MODE_ROM && gb->mbc.bank != 0)
 			return (((uint8_t*)(gb->rom_ptr->ptr))[gb->mbc.bank * 0x4000 + a16 - 0x4000]);
 		else
 			return (((uint8_t*)(gb->rom_ptr->ptr))[a16]);
@@ -132,6 +132,8 @@ void	write_8(struct gb_cpu_s* gb, uint16_t a16, uint8_t x)
 	}
 	else if (a16 >= 0xFF00 && a16 < 0xFF80)
 	{
+		if (a16 == 0xff50 && x == 1)
+			gb->booted = 1;
 		((uint8_t*)(gb->io_ports))[a16 - 0xFF00] = x;
 		return ;
 	}

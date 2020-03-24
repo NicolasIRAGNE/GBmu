@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 14:05:57 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/24 12:32:57 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/24 16:01:29 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ static struct command_s command_invalid =
 {
 	NULL, command_not_found, NULL
 };
-
 
 static struct command_s commands[] =
 {
@@ -47,6 +46,7 @@ int		command_add_breakpoint(struct gb_cpu_s* gb, char* s, uint16_t arg)
 
 int		command_info(struct gb_cpu_s* gb, char* s, uint16_t arg)
 {
+	update_current_instruction(gb);
 	debug_print_gb(gb);
 	return (0);
 }

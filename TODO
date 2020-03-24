@@ -1,8 +1,8 @@
 List of things to do, in no particular order.
 
-- Implement bootstrap
-- Parse command line arguments
-- Implement debugger with basic commands (breakpoints, run, continue, print)            
-- implement SRAM / VRAM / WRAM / HRAM whatever else all this shit means                 // SHOULD BE DONE
-- LCDC registers
-- graphix with sdl Poggers
+✓ Implement bootstrap
+x Parse command line arguments
+✓ Implement debugger with basic commands (breakpoints, run, continue, print) // Kinda done. Need some parsing       
+✓ implement SRAM / VRAM / WRAM / HRAM whatever else all this shit means                 // SHOULD BE DONE
+x LCDC registers
+✓ graphix with sdl Poggers

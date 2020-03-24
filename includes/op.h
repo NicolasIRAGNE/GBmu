@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:59 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/23 16:34:15 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/24 16:27:45 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -274,6 +274,7 @@ int			call_a16(struct gb_cpu_s* gb);
 int			interrupt_a16(struct gb_cpu_s* gb, uint16_t addr);
 int			call_nz_a16(struct gb_cpu_s* gb);
 int			rst_38(struct gb_cpu_s* gb);
+int			rst_28(struct gb_cpu_s* gb);
 int			rst_0(struct gb_cpu_s* gb);
 
 

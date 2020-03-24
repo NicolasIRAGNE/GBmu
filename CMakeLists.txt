@@ -39,6 +39,7 @@ SET (SOURCES
 	srcs/instructions/rl.c
 	srcs/instructions/bit.c
 	srcs/instructions/res.c
+	srcs/instructions/swap.c
 	)
 
 SET (INCLUDES

@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:16:07 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/05 14:53:19 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/24 16:25:33 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,5 @@ void	init_ext_op_tab()
 	ext_op_tab[0x7d] = (struct ext_inst_s) {"BIT 7 L", 	bit7_l};
 	ext_op_tab[0x7f] = (struct ext_inst_s) {"BIT 7 A", 	bit7_a};
 	ext_op_tab[0x87] = (struct ext_inst_s) {"RES 0 A", 	res0_a};
+	ext_op_tab[0x37] = (struct ext_inst_s) {"SWAP  A", 	swap_a};
 }
