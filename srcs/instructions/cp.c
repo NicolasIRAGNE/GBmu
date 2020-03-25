@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 16:08:31 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/22 13:48:08 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/25 15:38:49 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,12 @@ void	cp_reg8(struct gb_cpu_s* gb, uint8_t* reg, uint8_t x)
 	cpu_toggle_flag(gb, ZERO_FLAG, !ret);
 	cpu_toggle_flag(gb, CARRY_FLAG, ret > 255);
 	cpu_set_flag(gb, SUBSTRACTION_FLAG);
+
+	if ( (((*reg & 0xf) - (x & 0xf)) & 0x10))
+		cpu_set_flag(gb, HALF_CARRY_FLAG);
+	else
+		cpu_unset_flag(gb, HALF_CARRY_FLAG);
+
 }
 
 void	cp_mem8(struct gb_cpu_s* gb, uint8_t* reg, uint8_t x)

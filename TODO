@@ -6,3 +6,17 @@ x Parse command line arguments
 ✓ implement SRAM / VRAM / WRAM / HRAM whatever else all this shit means                 // SHOULD BE DONE
 x LCDC registers
 ✓ graphix with sdl Poggers
+
+
+Test ROMs checklist:
+
+CPU instrs:
+01-special						PASS
+02-interrupts					FAIL
+03-sp, hl						FAIL
+04-r, imm						FAIL
+05-rp							FAIL (09 19, probably half carry flag)
+06-ld							PASS
+07-jr,jp,call,ret,rst			PASS
+08-misc							PASS
+09-r							FAIL

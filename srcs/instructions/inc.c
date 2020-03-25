@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 19:54:52 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/12 13:57:18 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/25 15:45:01 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 
 void	inc_reg8(struct gb_cpu_s* gb, uint8_t* reg)
 {
+	if ( (((*reg & 0xf) + (1 & 0xf)) & 0x10))
+		cpu_set_flag(gb, HALF_CARRY_FLAG);
+	else
+		cpu_unset_flag(gb, HALF_CARRY_FLAG);
 	*reg = *reg + 1;
 	cpu_toggle_flag(gb, ZERO_FLAG, !*reg);
 	cpu_unset_flag(gb, SUBSTRACTION_FLAG);

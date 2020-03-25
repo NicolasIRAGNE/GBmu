@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:16:07 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/24 16:28:32 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/25 16:24:09 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	init_op_tab()
 {
 	op_tab[0x00] = (struct inst_s) {"NOP",			4, 0, nop};
 	op_tab[0x27] = (struct inst_s) {"DAA",			4, 0, daa};
+	op_tab[0x37] = (struct inst_s) {"SCF",			4, 0, scf};
+	op_tab[0x3f] = (struct inst_s) {"CCF",			4, 0, ccf};
 	op_tab[0x01] = (struct inst_s) {"LD BC A16",	1, 2, ld_bc_a16};
 	op_tab[0x02] = (struct inst_s) {"LD (BC) A",	1, 0, ld_ptr_bc_a};
 	op_tab[0x03] = (struct inst_s) {"INC BC",		8, 0, inc_bc};
@@ -50,6 +52,23 @@ void	init_op_tab()
 	op_tab[0x3b] = (struct inst_s) {"DEC SP",		8, 0, dec_sp};
 	op_tab[0xc6] = (struct inst_s) {"ADD A A8",		8, 1, add_a8};
 	op_tab[0xce] = (struct inst_s) {"ADC N",		4, 1, adc_n};
+	op_tab[0x88] = (struct inst_s) {"ADC B",		4, 0, adc_b};
+	op_tab[0x89] = (struct inst_s) {"ADC C",		4, 0, adc_c};
+	op_tab[0x8a] = (struct inst_s) {"ADC D",		4, 0, adc_d};
+	op_tab[0x8b] = (struct inst_s) {"ADC E",		4, 0, adc_e};
+	op_tab[0x8c] = (struct inst_s) {"ADC H",		4, 0, adc_h};
+	op_tab[0x8d] = (struct inst_s) {"ADC L",		4, 0, adc_l};
+	op_tab[0x8f] = (struct inst_s) {"ADC A",		4, 0, adc_a};
+
+	op_tab[0x9e] = (struct inst_s) {"SBC N",		4, 1, sbc_n};
+	op_tab[0x98] = (struct inst_s) {"SBC B",		4, 0, sbc_b};
+	op_tab[0x99] = (struct inst_s) {"SBC C",		4, 0, sbc_c};
+	op_tab[0x9a] = (struct inst_s) {"SBC D",		4, 0, sbc_d};
+	op_tab[0x9b] = (struct inst_s) {"SBC E",		4, 0, sbc_e};
+	op_tab[0x9c] = (struct inst_s) {"SBC H",		4, 0, sbc_h};
+	op_tab[0x9d] = (struct inst_s) {"SBC L",		4, 0, sbc_l};
+	op_tab[0x9f] = (struct inst_s) {"SBC A",		4, 0, sbc_a};
+
 	op_tab[0x80] = (struct inst_s) {"ADD A B",		4, 0, add_b};
 	op_tab[0x81] = (struct inst_s) {"ADD A C",		4, 0, add_c};
 	op_tab[0x82] = (struct inst_s) {"ADD A D",		4, 0, add_d};
@@ -160,6 +179,8 @@ void	init_op_tab()
 	op_tab[0x66] = (struct inst_s) {"LD H (HL)",	8, 0, ld_h_ptr_hl};
 	op_tab[0x6e] = (struct inst_s) {"LD L (HL)",	8, 0, ld_l_ptr_hl};
 	op_tab[0xc3] = (struct inst_s) {"JP A16",		16, 2, jp_a16};
+	op_tab[0xd2] = (struct inst_s) {"JP NC A16",	16, 2, jp_nc_a16};
+	op_tab[0xda] = (struct inst_s) {"JP C A16",		16, 2, jp_c_a16};
 	op_tab[0xe9] = (struct inst_s) {"JP HL",		4, 2, jp_hl};
 	op_tab[0xc9] = (struct inst_s) {"RET",			16, 0, ret};
 	op_tab[0xd9] = (struct inst_s) {"RETI",			16, 0, reti};
@@ -200,7 +221,10 @@ void	init_op_tab()
 	op_tab[0xa5] = (struct inst_s) {"AND L",		4, 0, and_l};
 	op_tab[0xa7] = (struct inst_s) {"AND A",		4, 0, and_a};
 	op_tab[0xcd] = (struct inst_s) {"CALL A16",		24, 2, call_a16};
+	op_tab[0xcc] = (struct inst_s) {"CALL Z A16",	12, 2, call_z_a16};
 	op_tab[0xc4] = (struct inst_s) {"CALL NZ A16",	12, 2, call_nz_a16};
+	op_tab[0xdc] = (struct inst_s) {"CALL Z A16",	12, 2, call_c_a16};
+	op_tab[0xd4] = (struct inst_s) {"CALL NZ A16",	12, 2, call_nc_a16};
 	op_tab[0xe0] = (struct inst_s) {"LDH (n) A",	12, 1, ldh_a8_a};
 	op_tab[0xf0] = (struct inst_s) {"LDH A (n)",	12, 1, ldh_a_ptr_n};
 	op_tab[0xf2] = (struct inst_s) {"LDH A (C)",	8, 0, ldh_a_ptr_c};
@@ -237,5 +261,10 @@ void	init_op_tab()
 	op_tab[0xbf] = (struct inst_s) {"CP A",			4, 0, cp_a};
 	op_tab[0xff] = (struct inst_s) {"RST 38",		16, 0, rst_38};
 	op_tab[0xef] = (struct inst_s) {"RST 28",		16, 0, rst_28};
+	op_tab[0xdf] = (struct inst_s) {"RST 18",		16, 0, rst_18};
+	op_tab[0xcf] = (struct inst_s) {"RST 8",		16, 0, rst_8};
+	op_tab[0xf7] = (struct inst_s) {"RST 30",		16, 0, rst_30};
+	op_tab[0xe7] = (struct inst_s) {"RST 20",		16, 0, rst_20};
+	op_tab[0xd7] = (struct inst_s) {"RST 10",		16, 0, rst_10};
 	op_tab[0xc7] = (struct inst_s) {"RST 0",		16, 0, rst_0};
 }
