@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/12 13:27:30 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/27 10:58:33 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/27 13:38:35 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,3 +70,7 @@ int		sub_a8(struct gb_cpu_s* gb)
 	sub(gb, gb->current_instruction->args);
 }
 
+int		sub_ptr_hl(struct gb_cpu_s* gb)
+{
+	sub(gb, read_8(gb, gb->reg.hl));
+}

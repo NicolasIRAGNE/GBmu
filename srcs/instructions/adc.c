@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/27 10:55:56 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/27 10:57:21 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/27 13:35:39 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,9 @@ int		adc_h(struct gb_cpu_s* gb)
 int		adc_l(struct gb_cpu_s* gb)
 {
 	adc(gb, gb->reg.l);
+}
+
+int		adc_ptr_hl(struct gb_cpu_s* gb)
+{
+	adc(gb, read_8(gb, gb->reg.hl));
 }

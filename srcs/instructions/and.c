@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/12 12:23:21 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/12 12:57:24 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/27 13:39:37 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,9 @@ int		and_l(struct gb_cpu_s* gb)
 int		and_a8(struct gb_cpu_s* gb)
 {
 	and(gb, gb->current_instruction->args);
+}
+
+int		and_ptr_hl(struct gb_cpu_s* gb)
+{
+	and(gb, read_8(gb, gb->reg.hl));
 }

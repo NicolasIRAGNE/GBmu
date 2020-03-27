@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:59 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/27 12:55:48 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/27 13:45:02 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,9 +108,14 @@ int			ld_e_a8(struct gb_cpu_s* gb);
 int			ld_h_a8(struct gb_cpu_s* gb);
 int			ld_l_a8(struct gb_cpu_s* gb);
 int			ldh_a_ptr_c(struct gb_cpu_s* gb);
+
 int			ld_a_ptr_a16(struct gb_cpu_s* gb);
+int			ld_a_ptr_bc(struct gb_cpu_s* gb);
 int			ld_a_ptr_de(struct gb_cpu_s* gb);
 int			ld_a_ptr_hl(struct gb_cpu_s* gb);
+int			ldd_a_ptr_hl(struct gb_cpu_s* gb);
+
+
 int			ld_b_ptr_hl(struct gb_cpu_s* gb);
 int			ld_c_ptr_hl(struct gb_cpu_s* gb);
 int			ld_d_ptr_hl(struct gb_cpu_s* gb);
@@ -190,6 +195,7 @@ int			and_e(struct gb_cpu_s* gb);
 int			and_h(struct gb_cpu_s* gb);
 int			and_l(struct gb_cpu_s* gb);
 int			and_a8(struct gb_cpu_s* gb);
+int			and_ptr_hl(struct gb_cpu_s* gb);
 
 int			dec_a(struct gb_cpu_s* gb);
 int			dec_b(struct gb_cpu_s* gb);
@@ -215,6 +221,7 @@ int			inc_hl(struct gb_cpu_s* gb);
 int			inc_de(struct gb_cpu_s* gb);
 int			inc_sp(struct gb_cpu_s* gb);
 int			inc_bc(struct gb_cpu_s* gb);
+int			inc_ptr_hl(struct gb_cpu_s* gb);
 
 int			add_a(struct gb_cpu_s* gb);
 int			add_b(struct gb_cpu_s* gb);
@@ -238,6 +245,7 @@ int			adc_d(struct gb_cpu_s* gb);
 int			adc_e(struct gb_cpu_s* gb);
 int			adc_h(struct gb_cpu_s* gb);
 int			adc_l(struct gb_cpu_s* gb);
+int			adc_ptr_hl(struct gb_cpu_s* gb);
 
 int			sbc_n(struct gb_cpu_s* gb);
 int			sbc_a(struct gb_cpu_s* gb);
@@ -247,6 +255,7 @@ int			sbc_d(struct gb_cpu_s* gb);
 int			sbc_e(struct gb_cpu_s* gb);
 int			sbc_h(struct gb_cpu_s* gb);
 int			sbc_l(struct gb_cpu_s* gb);
+int			sbc_ptr_hl(struct gb_cpu_s* gb);
 
 int			sub_a(struct gb_cpu_s* gb);
 int			sub_b(struct gb_cpu_s* gb);
@@ -256,6 +265,7 @@ int			sub_e(struct gb_cpu_s* gb);
 int			sub_h(struct gb_cpu_s* gb);
 int			sub_l(struct gb_cpu_s* gb);
 int			sub_a8(struct gb_cpu_s* gb);
+int			sub_ptr_hl(struct gb_cpu_s* gb);
 
 int			cp_a8(struct gb_cpu_s* gb);
 int			cp_ptr_hl(struct gb_cpu_s* gb);

@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/27 10:58:13 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/27 10:59:20 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/27 13:35:24 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,9 @@ int		sbc_h(struct gb_cpu_s* gb)
 int		sbc_l(struct gb_cpu_s* gb)
 {
 	sbc(gb, gb->reg.l);
+}
+
+int		sbc_ptr_hl(struct gb_cpu_s* gb)
+{
+	sbc(gb, read_8(gb, gb->reg.hl));
 }

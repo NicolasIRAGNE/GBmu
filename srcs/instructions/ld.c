@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 17:14:49 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/27 12:59:13 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/27 13:32:48 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -297,6 +297,11 @@ int		ld_a_ptr_a16(struct gb_cpu_s* gb)
 	ld_reg_8(&(gb->reg.a), read_8(gb, gb->current_instruction->args));
 }
 
+int		ld_a_ptr_bc(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.a), read_8(gb, gb->reg.bc));
+}
+
 int		ld_a_ptr_de(struct gb_cpu_s* gb)
 {
 	ld_reg_8(&(gb->reg.a), read_8(gb, gb->reg.de));
@@ -460,6 +465,12 @@ int		ldh_ptr_c_a(struct gb_cpu_s* gb)
 int		ldd_hl_a(struct gb_cpu_s* gb)
 {
 	ld_mem_8(gb, gb->reg.hl, gb->reg.a);
+	gb->reg.hl -= 1;
+}
+
+int		ldd_a_ptr_hl(struct gb_cpu_s* gb)
+{
+	ld_reg_8(&(gb->reg.a), read_8(gb, gb->current_instruction->args));
 	gb->reg.hl -= 1;
 }
 
