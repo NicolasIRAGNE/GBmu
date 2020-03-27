@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 17:15:01 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/25 16:33:27 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/27 12:46:25 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ int		ccf(struct gb_cpu_s* gb)
 	cpu_unset_flag(gb, SUBSTRACTION_FLAG);
 	cpu_unset_flag(gb, HALF_CARRY_FLAG);
 	if (gb->reg.f & CARRY_FLAG)
-		cpu_set_flag(gb, CARRY_FLAG);
-	else
 		cpu_unset_flag(gb, CARRY_FLAG);
+	else
+		cpu_set_flag(gb, CARRY_FLAG);
 }
 
 int		daa(struct gb_cpu_s* gb)

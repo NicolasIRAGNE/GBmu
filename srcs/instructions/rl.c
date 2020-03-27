@@ -46,10 +46,11 @@ int		rlc_reg8(struct gb_cpu_s* gb, uint8_t* reg)
 	ret = *reg;
 	ret <<= 1;
 	if (*reg & 0x80)
-		ret |= 1;
+		ret += 1;
 	cpu_toggle_flag(gb, ZERO_FLAG, !ret);
-	cpu_toggle_flag(gb, CARRY_FLAG, *reg & 80);
+	cpu_toggle_flag(gb, CARRY_FLAG, *reg & 0x80);
 	cpu_unset_flag(gb, SUBSTRACTION_FLAG);
+	cpu_unset_flag(gb, HALF_CARRY_FLAG);
 	*reg = (uint8_t)ret;
 }
 

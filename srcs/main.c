@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 11:37:03 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/18 13:34:40 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/27 12:06:52 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int		main(int ac, char** av)
 	struct sdl_context_s main_window_context;
 	gb_global = &gb;
 	debugger.breakpoints = NULL;
+	debugger.verbose_level = DEFAULT_VERBOSE;
 	
 	if (ac < 2)
 	{

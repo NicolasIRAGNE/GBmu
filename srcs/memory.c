@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 18:10:17 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/24 16:46:30 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/27 12:44:59 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,14 @@ void	write_8(struct gb_cpu_s* gb, uint16_t a16, uint8_t x)
 	{
 		if (x == 0x0a)
 		{
-			printf("RAM ENABLED (%4x)", a16);
+			if (gb->debugger->verbose_level >= 1)
+				printf("RAM ENABLED (%4x)\n", a16);
 			gb->ram_enabled = 1;
 		}
 		else
 		{
-			printf("RAM DISABLED (%4x)", a16);
+			if (gb->debugger->verbose_level >= 1)
+				printf("RAM DISABLED (%4x)\n", a16);
 			gb->ram_enabled = 0;
 		}
 		return ;
@@ -90,7 +92,8 @@ void	write_8(struct gb_cpu_s* gb, uint16_t a16, uint8_t x)
 	{
 		uint8_t tmp = x & 0b1100000;
 		gb->mbc.bank = tmp | (x & 0b11111);
-		printf("SWITCHING BANK LOWER BITS %x \n", gb->mbc.bank);
+		if (gb->debugger->verbose_level >= 1)
+			printf("SWITCHING BANK LOWER BITS %x \n", gb->mbc.bank);
 		return ;
 	}
 	else if (a16 < 0x6000)
@@ -99,7 +102,8 @@ void	write_8(struct gb_cpu_s* gb, uint16_t a16, uint8_t x)
 		{
 			uint8_t tmp = x & 0b0011111;
 			gb->mbc.bank = tmp | (x & 0b1100000);
-			printf("SWITCHING BANK UPPER BITS %x \n", gb->mbc.bank);
+			if (gb->debugger->verbose_level >= 1)
+				printf("SWITCHING BANK UPPER BITS %x \n", gb->mbc.bank);
 		}
 		return ;
 	}

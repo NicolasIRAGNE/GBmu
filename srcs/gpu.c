@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 13:08:59 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/22 13:58:31 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/27 12:48:47 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	gpu_tick(struct gb_cpu_s* gb)
 		}
 		if (gb->gpu.y_coord == 143)
 		{
-			// gb->gpu.mode = GPU_MODE_VBLANK;
+			gb->gpu.mode = GPU_MODE_VBLANK;
 			if (gb->interrupt_enable_register & INT_VBLANK_REQUEST)
 			{
 				gb->interrupt = INT_VBLANK;

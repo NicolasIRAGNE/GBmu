@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:08:21 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/24 12:32:18 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/27 11:44:24 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@
 # define EOC	"\x1B[0m"
 
 # define BOOT_ROM "../DMG_ROM.bin"
+
+# define DEFAULT_VERBOSE 1
 
 struct rom_hdr_s
 {
@@ -72,7 +74,8 @@ struct breakpoint_s
 
 struct gbmu_debugger_s
 {
-	struct breakpoint_s* breakpoints;
+	int						verbose_level;
+	struct breakpoint_s*	breakpoints;
 };
 
 struct command_s
@@ -112,6 +115,7 @@ int		command_next(struct gb_cpu_s* gb, char* s, uint16_t arg);
 int		command_add_breakpoint(struct gb_cpu_s* gb, char* s, uint16_t arg);
 int		command_info(struct gb_cpu_s* gb, char* s, uint16_t arg);
 int		command_not_found(struct gb_cpu_s* gb, char* s, uint16_t arg);
+int		command_set_verbose(struct gb_cpu_s* gb, char* s, uint16_t arg);
 int		command_quit(struct gb_cpu_s* gb, char* s, uint16_t arg);
 int		command_print(struct gb_cpu_s* gb, char* s, uint16_t arg);
 int		command_run(struct gb_cpu_s* gb, char* s, uint16_t arg);

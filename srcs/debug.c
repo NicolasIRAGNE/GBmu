@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/31 11:40:08 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/23 14:07:42 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/27 11:31:15 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,19 @@ void	debug_print_gb(struct gb_cpu_s* gb)
 	debug_print_registers(gb->reg);
 	printf("\n");
 	printf("CYCLE: %d\n", gb->cycle);
-	debug_print_gb_flags(gb);
-	printf("\n");
+	if (gb->debugger->verbose_level >= 2)
+	{
+		debug_print_gb_flags(gb);
+		printf("\n");
+	}
 	debug_print_stack(gb);
 	printf("\n");
-	debug_print_mbc(gb);
-	printf("\n");
+
+	if (gb->debugger->verbose_level >= 2)
+	{
+		debug_print_mbc(gb);
+		printf("\n");
+	}
 	debug_print_instruction(gb->current_instruction);
 	printf("-------------------\n");
 	printf("\n");

@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/12 12:23:21 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/14 17:21:31 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/27 13:14:34 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,11 @@ int		or_h(struct gb_cpu_s* gb)
 int		or_l(struct gb_cpu_s* gb)
 {
 	or(gb, gb->reg.l);
+}
+
+int		or_n(struct gb_cpu_s* gb)
+{
+	or(gb, (uint8_t)gb->current_instruction->args);
 }
 
 int		or_ptr_hl(struct gb_cpu_s* gb)

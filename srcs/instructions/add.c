@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/12 13:27:30 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/25 16:21:42 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/27 12:59:38 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,42 +107,18 @@ int		add_sp(struct gb_cpu_s* gb)
 	add_16(gb, gb->reg.sp);
 }
 
-int		adc_n(struct gb_cpu_s* gb)
+int		add_sp_s(struct gb_cpu_s* gb)
 {
-	add(gb, gb->current_instruction->args + ((gb->reg.f & CARRY_FLAG) != 0));
-}
+	// absolutely not sure about this one
+	uint32_t ret;
 
-int		adc_a(struct gb_cpu_s* gb)
-{
-	add(gb, gb->reg.a + ((gb->reg.f & CARRY_FLAG) != 0));
-}
-
-int		adc_b(struct gb_cpu_s* gb)
-{
-	add(gb, gb->reg.b + ((gb->reg.f & CARRY_FLAG) != 0));
-}
-
-int		adc_c(struct gb_cpu_s* gb)
-{
-	add(gb, gb->reg.c + ((gb->reg.f & CARRY_FLAG) != 0));
-}
-
-int		adc_d(struct gb_cpu_s* gb)
-{
-	add(gb, gb->reg.d + ((gb->reg.f & CARRY_FLAG) != 0));
-}
-
-int		adc_e(struct gb_cpu_s* gb)
-{
-	add(gb, gb->reg.e + ((gb->reg.f & CARRY_FLAG) != 0));
-}
-
-int		adc_h(struct gb_cpu_s* gb)
-{
-	add(gb, gb->reg.h + ((gb->reg.f & CARRY_FLAG) != 0));
-}
-
-int		adc_l(struct gb_cpu_s* gb)
-{
-	add(gb, gb->reg.l + ((gb->reg.f & CARRY_FLAG) != 0));
+	ret = gb->reg.sp + (int8_t)gb->current_instruction->args;
+	
+	cpu_toggle_flag(gb, CARRY_FLAG, ret > USHRT_MAX);
+	if ( (((gb->reg.sp & 0xf00) + ((int8_t)gb->current_instruction->args & 0xf00)) & 0x1000) )
+		cpu_set_flag(gb, HALF_CARRY_FLAG);
+	else
+		cpu_unset_flag(gb, HALF_CARRY_FLAG);
+	gb->reg.sp = (uint16_t)ret;
+	cpu_unset_flag(gb, ZERO_FLAG | SUBSTRACTION_FLAG);
 }

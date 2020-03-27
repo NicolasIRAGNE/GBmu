@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 14:05:57 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/24 16:01:29 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/27 11:29:22 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static struct command_s commands[] =
 	{"r", command_run, "Run to next breakpoint"},
 	{"p", command_print, "Print value at index"},
 	{"b", command_add_breakpoint, "Add breakpoint"},
+	{"v", command_set_verbose, "Change verbose level"},
 	{"i", command_info, "Print general info"},
 	{"del", command_del, "Delete all breakpoints"},
 	{"help", command_help, "Display all available commands"},
@@ -33,7 +34,16 @@ static struct command_s commands[] =
 
 int		command_next(struct gb_cpu_s* gb, char* s, uint16_t arg)
 {
-	return (handle_instruction(gb));
+	/*
+	** Ugly... This should probably be refactored.
+	*/
+	uint8_t ret = handle_instruction(gb);
+	gpu_tick(gb);
+
+	if (gb->debugger->verbose_level == 0)
+			debug_print_gb(gb);
+
+	return (ret);
 }
 
 int		command_add_breakpoint(struct gb_cpu_s* gb, char* s, uint16_t arg)
@@ -41,6 +51,13 @@ int		command_add_breakpoint(struct gb_cpu_s* gb, char* s, uint16_t arg)
 	printf("Adding breakpoint %x\n", arg);
 	add_breakpoint(&(gb->debugger->breakpoints), arg);
 	print_breakpoints(gb->debugger->breakpoints);
+	return (0);
+}
+
+int		command_set_verbose(struct gb_cpu_s* gb, char* s, uint16_t arg)
+{
+	printf("Changing verbose level to %x\n", arg);
+	gb->debugger->verbose_level = arg;
 	return (0);
 }
 

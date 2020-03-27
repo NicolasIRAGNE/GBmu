@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:26 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/25 16:49:38 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/27 12:46:30 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,10 @@ void*	execute_thread_entry(void* user_data)
 
 int		handle_instruction(struct gb_cpu_s* gb)
 {
-	uint8_t op;
-	op = update_current_instruction(gb);
-	// debug_print_gb(gb);
-
+	uint8_t op = update_current_instruction(gb);
+	if (gb->debugger->verbose_level > 0)
+			debug_print_gb(gb);
+	
 	if (find_breakpoint(gb->debugger->breakpoints, gb->reg.pc) && !gb->paused)
 	{
 		gb->paused = 1;

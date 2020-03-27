@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:16:07 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/25 16:24:09 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/27 13:15:50 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	init_op_tab()
 	op_tab[0x8d] = (struct inst_s) {"ADC L",		4, 0, adc_l};
 	op_tab[0x8f] = (struct inst_s) {"ADC A",		4, 0, adc_a};
 
-	op_tab[0x9e] = (struct inst_s) {"SBC N",		4, 1, sbc_n};
+	op_tab[0xde] = (struct inst_s) {"SBC N",		4, 1, sbc_n};
 	op_tab[0x98] = (struct inst_s) {"SBC B",		4, 0, sbc_b};
 	op_tab[0x99] = (struct inst_s) {"SBC C",		4, 0, sbc_c};
 	op_tab[0x9a] = (struct inst_s) {"SBC D",		4, 0, sbc_d};
@@ -212,6 +212,7 @@ void	init_op_tab()
 	op_tab[0xb4] = (struct inst_s) {"OR H",			4, 0, or_h};
 	op_tab[0xb5] = (struct inst_s) {"OR L",			4, 0, or_l};
 	op_tab[0xb6] = (struct inst_s) {"OR (HL)",		8, 0, or_ptr_hl};
+	op_tab[0xf6] = (struct inst_s) {"OR N",			8, 1, or_n};
 	op_tab[0xe6] = (struct inst_s) {"AND A8",		8, 1, and_a8};
 	op_tab[0xa0] = (struct inst_s) {"AND B",		4, 0, and_b};
 	op_tab[0xa1] = (struct inst_s) {"AND C",		4, 0, and_c};
@@ -267,4 +268,6 @@ void	init_op_tab()
 	op_tab[0xe7] = (struct inst_s) {"RST 20",		16, 0, rst_20};
 	op_tab[0xd7] = (struct inst_s) {"RST 10",		16, 0, rst_10};
 	op_tab[0xc7] = (struct inst_s) {"RST 0",		16, 0, rst_0};
+	op_tab[0xf8] = (struct inst_s) {"LDHL SP, s",	12, 1, ld_hl_sp_s};
+	op_tab[0xe8] = (struct inst_s) {"ADD SP, s",	16, 1, add_sp_s};
 }

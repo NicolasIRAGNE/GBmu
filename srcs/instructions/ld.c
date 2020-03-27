@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 17:14:49 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/25 13:56:06 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/27 12:59:13 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -478,4 +478,20 @@ int		ldi_a_ptr_hl(struct gb_cpu_s* gb)
 {
 	ld_reg_8(&(gb->reg.a), read_8(gb, gb->reg.hl));
 	gb->reg.hl += 1;
+}
+
+int		ld_hl_sp_s(struct gb_cpu_s* gb)
+{
+	// absolutely not sure about this one
+	uint32_t ret;
+
+	ret = gb->reg.sp + (int8_t)gb->current_instruction->args;
+	
+	cpu_toggle_flag(gb, CARRY_FLAG, ret > USHRT_MAX);
+	if ( (((gb->reg.sp & 0xf00) + ((int8_t)gb->current_instruction->args & 0xf00)) & 0x1000) )
+		cpu_set_flag(gb, HALF_CARRY_FLAG);
+	else
+		cpu_unset_flag(gb, HALF_CARRY_FLAG);
+	gb->reg.hl = (uint16_t)ret;
+	cpu_unset_flag(gb, ZERO_FLAG | SUBSTRACTION_FLAG);
 }

@@ -9,6 +9,7 @@
 		"pthread.h": "c",
 		"renderer.h": "c",
 		"stdlib.h": "c",
-		"signal.h": "c"
+		"signal.h": "c",
+		"type_traits": "c"
 	}
 }

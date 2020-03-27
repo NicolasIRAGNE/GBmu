@@ -27,7 +27,9 @@ SET (SOURCES
 	srcs/instructions/or.c
 	srcs/instructions/and.c
 	srcs/instructions/add.c
+	srcs/instructions/adc.c
 	srcs/instructions/sub.c
+	srcs/instructions/sbc.c
 	srcs/instructions/call.c
 	srcs/instructions/inc.c
 	srcs/instructions/dec.c
