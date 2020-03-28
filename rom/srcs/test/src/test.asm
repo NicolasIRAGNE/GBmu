@@ -117,13 +117,11 @@ TileData:
 ; ****************************************************************************************
 
 begin:
-	ld a, $1b
-	ld b, $00
+	ld b, $ff
 
 loop:
-	rlca
-	inc b
-	jr nz, loop
+	rl b
+	jr loop
 
 done:
 	jr done

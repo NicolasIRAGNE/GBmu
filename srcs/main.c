@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 11:37:03 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/27 12:06:52 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/28 14:07:19 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,10 @@ struct gb_cpu_s*	gb_global;
 
 int		open_rom(char* name, struct rom_s* rom)
 {
-	struct stat st;
 	int fd;
 	int ret;
 
-	ret = stat(name, &st);
+	ret = stat(name, &rom->st);
 	if (ret)
 	{
 		perror(name);
@@ -41,7 +40,7 @@ int		open_rom(char* name, struct rom_s* rom)
 		return (fd);
 	}
 	
-	void* ptr = mmap(NULL, st.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
+	void* ptr = mmap(NULL, rom->st.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
 	if (!ptr)
 	{
 		perror("mmap");

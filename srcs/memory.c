@@ -6,12 +6,13 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 18:10:17 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/27 12:44:59 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/28 14:59:31 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gb.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 uint16_t	read_16(struct gb_cpu_s* gb, uint16_t a16)
 {
@@ -33,8 +34,17 @@ uint8_t	read_8(struct gb_cpu_s* gb, uint16_t a16)
 	}
 	else if (a16 < 0x8000)
 	{
-		if (gb->mbc.mode == MBC_MODE_ROM && gb->mbc.bank != 0)
+		if (gb->mbc.mode == MBC_MODE_ROM && gb->mbc.bank != 0 && gb->rom_ptr->header->type != 0)
+		{
+			if (gb->mbc.bank * 0x4000 + a16 - 0x4000 > gb->rom_ptr->st.st_size)
+			{
+				debug_print_gb(gb);
+				dprintf(2, "fatal: attempting to read outside the cartridge at %x in bank %x. aborting...\n", a16, gb->mbc.bank);
+				abort();
+				return (0);
+			}
 			return (((uint8_t*)(gb->rom_ptr->ptr))[gb->mbc.bank * 0x4000 + a16 - 0x4000]);
+		}
 		else
 			return (((uint8_t*)(gb->rom_ptr->ptr))[a16]);
 	}
@@ -118,8 +128,6 @@ void	write_8(struct gb_cpu_s* gb, uint16_t a16, uint8_t x)
 	}
 	else if (a16 < 0xa000)
 	{
-		// if (a16 < 0x97FF)
-			// gb->paused = 1;
 		((uint8_t*)(gb->vram))[a16 - 0x8000] = x;
 		return ;
 	}

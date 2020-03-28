@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:08:21 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/27 11:44:24 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/28 14:02:55 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ struct rom_hdr_s
 
 struct rom_s
 {
+	struct stat			st;
 	struct rom_hdr_s*	header;
 	void*				ptr;
 };

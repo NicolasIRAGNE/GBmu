@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:19:41 by niragne           #+#    #+#             */
-/*   Updated: 2020/02/13 11:45:27 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/28 12:39:05 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int		srl_l(struct gb_cpu_s* gb)
 	srl_reg8(gb, &(gb->reg.l));
 }
 
-int		srl_hl(struct gb_cpu_s* gb)
+int		srl_ptr_hl(struct gb_cpu_s* gb)
 {
 	srl_mem8(gb, gb->reg.hl);
 }

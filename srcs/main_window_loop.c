@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 14:11:30 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/23 15:30:53 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/28 15:30:52 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,11 @@ int		display_test(struct gbmu_wrapper_s* wrapper, struct tile_s* array)
 {
 	int i = 0;
 	int index = 0;
+	uint8_t	lcdc;
 
 	while (i < BGMAP_SIZE)
 	{
+		lcdc = read_8(wrapper->gb, LCDC_OFFSET);
 		SDL_Rect pos = (SDL_Rect) {(index * TILE_SURFACE_WIDTH) % (MAIN_SURFACE_WIDTH), (index / 32) * TILE_SURFACE_HEIGHT, TILE_SURFACE_WIDTH, TILE_SURFACE_HEIGHT};
 		print_tile(wrapper->main_context, array + wrapper->gb->vram[BGMAP1_OFFSET + i], index, pos);
 		i++;

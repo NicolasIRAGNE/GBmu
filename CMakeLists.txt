@@ -38,7 +38,9 @@ SET (SOURCES
 	srcs/instructions/cb.c
 	srcs/instructions/srl.c
 	srcs/instructions/rr.c
+	srcs/instructions/rrc.c
 	srcs/instructions/rl.c
+	srcs/instructions/rlc.c
 	srcs/instructions/bit.c
 	srcs/instructions/res.c
 	srcs/instructions/swap.c
