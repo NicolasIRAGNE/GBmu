@@ -18,9 +18,10 @@ int		rr_reg8(struct gb_cpu_s* gb, uint8_t* reg)
 	ret = *reg;
 	ret >>= 1;
 	if (gb->reg.f & CARRY_FLAG)
-		ret += 1;
+		ret |= 0x80;
 	cpu_toggle_flag(gb, CARRY_FLAG, *reg & 1);
-	cpu_unset_flag(gb, SUBSTRACTION_FLAG | ZERO_FLAG | HALF_CARRY_FLAG);
+	cpu_toggle_flag(gb, ZERO_FLAG, !ret);	
+	cpu_unset_flag(gb, SUBSTRACTION_FLAG | HALF_CARRY_FLAG);
 	*reg = (uint8_t)ret;
 }
 
@@ -34,7 +35,8 @@ int		rr_mem8(struct gb_cpu_s* gb, uint16_t addr)
 	if (gb->reg.f & CARRY_FLAG)
 		ret += 1;
 	cpu_toggle_flag(gb, CARRY_FLAG, tmp & 1);
-	cpu_unset_flag(gb, SUBSTRACTION_FLAG | ZERO_FLAG | HALF_CARRY_FLAG);
+	cpu_toggle_flag(gb, ZERO_FLAG, !tmp);	
+	cpu_unset_flag(gb, SUBSTRACTION_FLAG | HALF_CARRY_FLAG);
 	write_8(gb, addr, ret);
 }
 
