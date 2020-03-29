@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:26 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/29 15:14:56 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/29 18:17:46 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ void*	execute_thread_entry(void* user_data)
 
 int		handle_instruction(struct gb_cpu_s* gb)
 {
+	uint16_t tima;
+
 	uint8_t op = update_current_instruction(gb);
 	if (gb->debugger->verbose_level > 0)
 			debug_print_gb(gb);
@@ -80,5 +82,18 @@ int		handle_instruction(struct gb_cpu_s* gb)
 	else
 		gb->jmp = 0;
 	gb->cycle += gb->current_instruction->cycles;
+
+	// timer thing
+	tima = read_8(gb, TIMA_OFFSET);
+	tima += 1;
+	if (tima > 0xff)
+	{
+		if (gb->interrupt_enable_register & INT_TIMER_REQUEST)
+		{
+			gb->interrupt = INT_TIMER;
+			gb->interrupt_enable_register &= ~INT_TIMER_REQUEST;
+		}
+	}
+	write_8(gb, TIMA_OFFSET, tima);
 	return (0);
 }

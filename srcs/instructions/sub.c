@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/12 13:27:30 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/27 13:38:35 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/29 17:47:23 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ int		sub(struct gb_cpu_s* gb, uint8_t value)
 		cpu_set_flag(gb, HALF_CARRY_FLAG);
 	else
 		cpu_unset_flag(gb, HALF_CARRY_FLAG);
-
-
 	cpu_toggle_flag(gb, ZERO_FLAG, !ret);
 	cpu_toggle_flag(gb, CARRY_FLAG, ret > 255);
 	cpu_set_flag(gb, SUBSTRACTION_FLAG);

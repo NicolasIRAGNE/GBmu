@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 17:15:01 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/29 15:16:02 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/29 17:54:11 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int		di(struct gb_cpu_s* gb)
 int		ei(struct gb_cpu_s* gb)
 {
 	gb->ime = 1;
+	gb->paused = 1;
 }
 
 int		cpl(struct gb_cpu_s* gb)
