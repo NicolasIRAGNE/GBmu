@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:16:07 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/28 13:16:15 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/30 16:29:25 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,25 @@ void	init_ext_op_tab()
 	ext_op_tab[0x15] = (struct ext_inst_s) {"RL L", 	rl_l};
 	ext_op_tab[0x16] = (struct ext_inst_s) {"RL (HL)",	rl_ptr_hl};
 	ext_op_tab[0x17] = (struct ext_inst_s) {"RL A", 	rl_a};
+
+	ext_op_tab[0x20] = (struct ext_inst_s) {"SLA B", 	sla_b};
+	ext_op_tab[0x21] = (struct ext_inst_s) {"SLA C", 	sla_c};
+	ext_op_tab[0x22] = (struct ext_inst_s) {"SLA D", 	sla_d};
+	ext_op_tab[0x23] = (struct ext_inst_s) {"SLA E", 	sla_e};
+	ext_op_tab[0x24] = (struct ext_inst_s) {"SLA H", 	sla_h};
+	ext_op_tab[0x25] = (struct ext_inst_s) {"SLA L", 	sla_l};
+	ext_op_tab[0x26] = (struct ext_inst_s) {"SLA (HL)",	sla_ptr_hl};
+	ext_op_tab[0x27] = (struct ext_inst_s) {"SLA A", 	sla_a};
+
+	ext_op_tab[0x28] = (struct ext_inst_s) {"SRA B", 	sra_b};
+	ext_op_tab[0x29] = (struct ext_inst_s) {"SRA C", 	sra_c};
+	ext_op_tab[0x2a] = (struct ext_inst_s) {"SRA D", 	sra_d};
+	ext_op_tab[0x2b] = (struct ext_inst_s) {"SRA E", 	sra_e};
+	ext_op_tab[0x2c] = (struct ext_inst_s) {"SRA H", 	sra_h};
+	ext_op_tab[0x2d] = (struct ext_inst_s) {"SRA L", 	sra_l};
+	ext_op_tab[0x2e] = (struct ext_inst_s) {"SRA (HL)",	sra_ptr_hl};
+	ext_op_tab[0x2f] = (struct ext_inst_s) {"SRA A", 	sra_a};
+
 
 	ext_op_tab[0x18] = (struct ext_inst_s) {"RR B", 	rr_b};
 	ext_op_tab[0x19] = (struct ext_inst_s) {"RR C", 	rr_c};

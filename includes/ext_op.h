@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:04:14 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/28 13:13:04 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/30 16:28:35 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,24 @@ int		rl_e(struct gb_cpu_s* gb);
 int		rl_h(struct gb_cpu_s* gb);
 int		rl_l(struct gb_cpu_s* gb);
 int		rl_ptr_hl(struct gb_cpu_s* gb);
+
+int		sla_a(struct gb_cpu_s* gb);
+int		sla_b(struct gb_cpu_s* gb);
+int		sla_c(struct gb_cpu_s* gb);
+int		sla_d(struct gb_cpu_s* gb);
+int		sla_e(struct gb_cpu_s* gb);
+int		sla_h(struct gb_cpu_s* gb);
+int		sla_l(struct gb_cpu_s* gb);
+int		sla_ptr_hl(struct gb_cpu_s* gb);
+
+int		sra_a(struct gb_cpu_s* gb);
+int		sra_b(struct gb_cpu_s* gb);
+int		sra_c(struct gb_cpu_s* gb);
+int		sra_d(struct gb_cpu_s* gb);
+int		sra_e(struct gb_cpu_s* gb);
+int		sra_h(struct gb_cpu_s* gb);
+int		sra_l(struct gb_cpu_s* gb);
+int		sra_ptr_hl(struct gb_cpu_s* gb);
 
 int		rrc_a(struct gb_cpu_s* gb);
 

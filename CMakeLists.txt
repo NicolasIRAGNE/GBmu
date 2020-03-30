@@ -40,6 +40,8 @@ SET (SOURCES
 	srcs/instructions/rr.c
 	srcs/instructions/rrc.c
 	srcs/instructions/rl.c
+	srcs/instructions/sla.c
+	srcs/instructions/sra.c
 	srcs/instructions/rlc.c
 	srcs/instructions/bit.c
 	srcs/instructions/res.c

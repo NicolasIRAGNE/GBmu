@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/27 10:58:13 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/27 13:35:24 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/30 18:07:10 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,27 @@
 int		sbc(struct gb_cpu_s* gb, uint8_t value)
 {
 	uint16_t ret;
-	ret = gb->reg.a - value;
-
+	int hflag = 0;
+	int cflag = 0;
+	
 	if (gb->reg.f & CARRY_FLAG)
-		ret--;
+	{
+		if( (value & 0x0f) + 1 > 0x0f)
+			hflag = 1;
+		if (value + 1 > 0xff)
+			cflag = 1;
+		value++;
+	}
 
-	if ( (((gb->reg.a & 0xf) - (value & 0xf)) & 0x10) )
+	ret = gb->reg.a - value;
+	if ( (((gb->reg.a & 0xf) - (value & 0xf)) & 0x10) || (hflag))
 		cpu_set_flag(gb, HALF_CARRY_FLAG);
 	else
 		cpu_unset_flag(gb, HALF_CARRY_FLAG);
 
 
 	cpu_toggle_flag(gb, ZERO_FLAG, !ret);
-	cpu_toggle_flag(gb, CARRY_FLAG, ret > 255);
+	cpu_toggle_flag(gb, CARRY_FLAG, ret > 255 || (cflag));
 	cpu_set_flag(gb, SUBSTRACTION_FLAG);
 	gb->reg.a = (uint8_t)ret;
 }
