@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 17:14:49 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/29 17:46:28 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/30 19:00:28 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -494,15 +494,14 @@ int		ldi_a_ptr_hl(struct gb_cpu_s* gb)
 int		ld_hl_sp_s(struct gb_cpu_s* gb)
 {
 	// absolutely not sure about this one
-	uint32_t ret;
+	uint16_t ret;
+	int8_t value = (int8_t)(gb->current_instruction->args);
 
-	ret = gb->reg.sp + (int8_t)gb->current_instruction->args;
-	
-	cpu_toggle_flag(gb, CARRY_FLAG, ret > USHRT_MAX);
-	if ( (((gb->reg.sp & 0xf00) + ((int8_t)gb->current_instruction->args & 0xf00)) & 0x1000) )
-		cpu_set_flag(gb, HALF_CARRY_FLAG);
-	else
-		cpu_unset_flag(gb, HALF_CARRY_FLAG);
+	ret = gb->reg.sp + value;
+
+	cpu_toggle_flag(gb, CARRY_FLAG, ((gb->reg.sp ^ value ^ (ret & 0xFFFF)) & 0x100) == 0x100);
+	cpu_toggle_flag(gb, HALF_CARRY_FLAG, ((gb->reg.sp ^ value ^ (ret & 0xFFFF)) & 0x10) == 0x10);
+
 	gb->reg.hl = (uint16_t)ret;
 	cpu_unset_flag(gb, ZERO_FLAG | SUBSTRACTION_FLAG);
 }

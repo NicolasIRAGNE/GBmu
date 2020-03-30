@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/12 13:27:30 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/29 17:46:41 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/30 19:01:45 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int		add_16(struct gb_cpu_s* gb, uint16_t value)
 	ret = gb->reg.hl + value;
 	cpu_toggle_flag(gb, CARRY_FLAG, ret > USHRT_MAX);
 	cpu_unset_flag(gb, SUBSTRACTION_FLAG);
-	if ( (((gb->reg.hl & 0xf00) + (value & 0xf00)) & 0x1000) )
+	if ( (((gb->reg.hl & 0xfff) + (value & 0xfff)) & 0x1000) )
 		cpu_set_flag(gb, HALF_CARRY_FLAG);
 	else
 		cpu_unset_flag(gb, HALF_CARRY_FLAG);
@@ -111,14 +111,13 @@ int		add_sp_s(struct gb_cpu_s* gb)
 {
 	// absolutely not sure about this one
 	uint32_t ret;
+	int8_t value = (int8_t)(gb->current_instruction->args);
 
-	ret = gb->reg.sp + (int8_t)gb->current_instruction->args;
+	ret = gb->reg.sp + value;
 	
-	cpu_toggle_flag(gb, CARRY_FLAG, ret > USHRT_MAX);
-	if ( (((gb->reg.sp & 0xf00) + ((int8_t)gb->current_instruction->args & 0xf00)) & 0x1000) )
-		cpu_set_flag(gb, HALF_CARRY_FLAG);
-	else
-		cpu_unset_flag(gb, HALF_CARRY_FLAG);
+	cpu_toggle_flag(gb, CARRY_FLAG, ((gb->reg.sp ^ value ^ (ret & 0xFFFF)) & 0x100) == 0x100);
+	cpu_toggle_flag(gb, HALF_CARRY_FLAG, ((gb->reg.sp ^ value ^ (ret & 0xFFFF)) & 0x10) == 0x10);
+	
 	gb->reg.sp = (uint16_t)ret;
 	cpu_unset_flag(gb, ZERO_FLAG | SUBSTRACTION_FLAG);
 }
