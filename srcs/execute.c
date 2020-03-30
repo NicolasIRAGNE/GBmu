@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:26 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/29 18:17:46 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/30 14:54:04 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,40 @@ uint8_t	update_current_instruction(struct gb_cpu_s* gb)
 	return (op);
 }
 
+int		set_interrupt(struct gb_cpu_s* gb)
+{
+	int ret = 0;
+	uint8_t interrupt_requests = read_8(gb, IF_OFFSET);
+	if (interrupt_requests & INT_VBLANK_REQUEST)
+	{
+		if (gb->interrupt_enable_register & INT_TIMER_REQUEST)
+		{
+			gb->interrupt = INT_VBLANK_ADDR;
+			interrupt_requests &= ~INT_VBLANK_REQUEST;
+			ret = INT_VBLANK_ADDR;
+		}
+	}
+	else if (interrupt_requests & INT_TIMER_REQUEST)
+	{
+		if (gb->interrupt_enable_register & INT_TIMER_REQUEST)
+		{
+			gb->interrupt = INT_TIMER_ADDR;
+			interrupt_requests &= ~INT_TIMER_REQUEST;
+			ret = INT_TIMER_ADDR;
+		}
+	}
+	if (ret)
+		write_8(gb, IF_OFFSET, interrupt_requests);
+	return (ret);
+}
+
 void	execute_loop(struct gb_cpu_s* gb)
 {
 	int err = 0;
 
 	while(gb->running)
 	{
-		if (gb->interrupt)
+		if (gb->ime && set_interrupt(gb))
 		{
 			interrupt_a16(gb, gb->interrupt);
 			gb->interrupt = 0;
@@ -86,13 +113,11 @@ int		handle_instruction(struct gb_cpu_s* gb)
 	// timer thing
 	tima = read_8(gb, TIMA_OFFSET);
 	tima += 1;
+
 	if (tima > 0xff)
 	{
-		if (gb->interrupt_enable_register & INT_TIMER_REQUEST)
-		{
-			gb->interrupt = INT_TIMER;
-			gb->interrupt_enable_register &= ~INT_TIMER_REQUEST;
-		}
+		uint8_t interrupt_requests = read_8(gb, IF_OFFSET);
+		write_8(gb, IF_OFFSET, interrupt_requests | INT_TIMER_REQUEST);
 	}
 	write_8(gb, TIMA_OFFSET, tima);
 	return (0);

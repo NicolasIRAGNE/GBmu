@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:34:47 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/29 18:17:45 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/30 14:29:53 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@
 # define WY_OFFSET		(IO_OFFSET | 0x4a)
 # define WX_OFFSET		(IO_OFFSET | 0x4b)
 
+# define IF_OFFSET		(IO_OFFSET | 0x0F)
 
 # define BGMAP1_OFFSET	0x1800
 # define BGMAP2_OFFSET	0x1C00
@@ -59,8 +60,8 @@
 # define INT_SERIAL_REQUEST	(1 << 3)
 # define INT_JOYPAD_REQUEST	(1 << 4)
 
-# define INT_VBLANK		0x40
-# define INT_TIMER		0x50
+# define INT_VBLANK_ADDR		0x40
+# define INT_TIMER_ADDR			0x50
 
 struct registers_s {
 	struct {

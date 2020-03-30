@@ -1,0 +1,13 @@
+FF0F - IF : interrupt requests
+FFFF - IE : interrupt enable
+
+as far as I understand, interrupts work like this:
+
+an event requests an interrupt
+at the next cpu tick, check if IME is on and if the requested interrupt
+is enabled at 0xFFFF
+
+if so: clear the interrupt request bit
+else: don't do anything
+
+if multiple interrupts are requested, the less significant bits have the priority
