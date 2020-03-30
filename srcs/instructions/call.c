@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 19:30:21 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/30 14:53:57 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/30 19:22:13 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	call(struct gb_cpu_s* gb, uint16_t a16)
 
 int		interrupt_a16(struct gb_cpu_s* gb, uint16_t addr)
 {
+	gb->paused = 1;
 	if (gb->ime)
 	{
 		di(gb);

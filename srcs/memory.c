@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 18:10:17 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/28 14:59:31 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/30 19:13:00 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ void	write_8(struct gb_cpu_s* gb, uint16_t a16, uint8_t x)
 	}
 	else if (a16 < 0xc000)
 	{
-		printf("WARNING: WRITING TO EXTRA RAM\n");
+		// printf("WARNING: WRITING TO EXTRA RAM\n");
 		((uint8_t*)(gb->extra_ram))[a16 - 0xa000] = x;
 		return ;
 	}
@@ -161,7 +161,7 @@ void	write_8(struct gb_cpu_s* gb, uint16_t a16, uint8_t x)
 	}
 	else
 	{
-		printf("WARNING: WRITING TO UNIMPLEMENTED ZONE %4x\n", a16);
+		// printf("WARNING: WRITING TO UNIMPLEMENTED ZONE %4x\n", a16);
 		return ;
 	}	
 }
