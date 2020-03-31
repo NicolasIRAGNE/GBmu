@@ -45,6 +45,18 @@ int		rl_a(struct gb_cpu_s* gb)
 	rl_reg8(gb, &(gb->reg.a));
 }
 
+int		rla(struct gb_cpu_s* gb)
+{
+	uint16_t ret;
+	ret = gb->reg.a;
+	ret <<= 1;
+	if (gb->reg.f & CARRY_FLAG)
+		ret += 0x1;
+	cpu_toggle_flag(gb, CARRY_FLAG, gb->reg.a & 0x80);
+	cpu_unset_flag(gb, ZERO_FLAG | SUBSTRACTION_FLAG | HALF_CARRY_FLAG);
+	gb->reg.a = (uint8_t)ret;
+}
+
 int		rl_b(struct gb_cpu_s* gb)
 {
 	rl_reg8(gb, &(gb->reg.b));

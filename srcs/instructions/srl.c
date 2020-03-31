@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:19:41 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/28 12:39:05 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/31 15:05:53 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int		srl_reg8(struct gb_cpu_s* gb, uint8_t* reg)
 	ret >>= 1;
 	cpu_toggle_flag(gb, ZERO_FLAG, !ret);
 	cpu_toggle_flag(gb, CARRY_FLAG, *reg & 1);
-	cpu_unset_flag(gb, SUBSTRACTION_FLAG);
+	cpu_unset_flag(gb, SUBSTRACTION_FLAG | HALF_CARRY_FLAG);
 	*reg = (uint8_t)ret;
 }
 
@@ -30,7 +30,7 @@ int		srl_mem8(struct gb_cpu_s* gb, uint16_t addr)
 	cpu_toggle_flag(gb, CARRY_FLAG, ret & 1);
 	ret >>= 1;
 	cpu_toggle_flag(gb, ZERO_FLAG, !ret);
-	cpu_unset_flag(gb, SUBSTRACTION_FLAG);
+	cpu_unset_flag(gb, SUBSTRACTION_FLAG| HALF_CARRY_FLAG);
 	write_8(gb, addr, ret);
 }
 

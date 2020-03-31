@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/28 12:54:59 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/30 16:55:22 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/31 15:02:42 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,16 @@ int		rrc_ptr_hl(struct gb_cpu_s* gb)
 int		rrc_a(struct gb_cpu_s* gb)
 {
 	rrc_reg8(gb, &(gb->reg.a));
+}
+
+int		rrca(struct gb_cpu_s* gb)
+{
+	uint16_t ret;
+	ret = gb->reg.a;
+	ret >>= 1;
+	if (gb->reg.a & 1)
+		ret |= 0x80;
+	cpu_toggle_flag(gb, CARRY_FLAG, gb->reg.a & 1);
+	cpu_unset_flag(gb, ZERO_FLAG | HALF_CARRY_FLAG | SUBSTRACTION_FLAG);
+	gb->reg.a = (uint8_t)ret;
 }

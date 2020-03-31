@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 16:08:31 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/25 15:38:49 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/31 15:23:24 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,6 @@ void	cp_reg8(struct gb_cpu_s* gb, uint8_t* reg, uint8_t x)
 
 }
 
-void	cp_mem8(struct gb_cpu_s* gb, uint8_t* reg, uint8_t x)
-{
-	uint16_t ret;
-	ret = *reg - x;
-	cpu_toggle_flag(gb, ZERO_FLAG, !ret);
-	cpu_toggle_flag(gb, CARRY_FLAG, ret > 255);
-	cpu_set_flag(gb, SUBSTRACTION_FLAG);
-}
-
 int	cp_a8(struct gb_cpu_s* gb)
 {
 	cp_reg8(gb, &(gb->reg.a), gb->current_instruction->args);	
@@ -43,7 +34,7 @@ int	cp_a8(struct gb_cpu_s* gb)
 
 int	cp_ptr_hl(struct gb_cpu_s* gb)
 {
-	cp_mem8(gb, &(gb->reg.a), read_8(gb, gb->reg.hl));	
+	cp_reg8(gb, &(gb->reg.a), read_8(gb, gb->reg.hl));	
 }
 
 int	cp_a(struct gb_cpu_s* gb)

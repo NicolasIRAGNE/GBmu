@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 17:14:49 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/30 19:19:59 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/31 15:21:54 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -470,7 +470,7 @@ int		ldd_hl_a(struct gb_cpu_s* gb)
 
 int		ldd_a_ptr_hl(struct gb_cpu_s* gb)
 {
-	ld_reg_8(&(gb->reg.a), read_8(gb, gb->current_instruction->args));
+	ld_reg_8(&(gb->reg.a), read_8(gb, gb->reg.hl));
 	gb->reg.hl -= 1;
 }
 

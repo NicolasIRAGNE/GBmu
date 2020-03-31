@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 19:54:52 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/27 13:44:58 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/31 15:26:19 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	inc_mem8(struct gb_cpu_s* gb, uint16_t addr)
 		cpu_unset_flag(gb, HALF_CARRY_FLAG);
 	x++;
 	cpu_toggle_flag(gb, ZERO_FLAG, !x);
-	cpu_set_flag(gb, SUBSTRACTION_FLAG);
+	cpu_unset_flag(gb, SUBSTRACTION_FLAG);
 	write_8(gb, addr, x);
 }
 

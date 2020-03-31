@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:16:07 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/30 19:01:52 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/31 15:21:01 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	init_op_tab()
 	op_tab[0x04] = (struct inst_s) {"INC B",		4, 0, inc_b};
 	op_tab[0x05] = (struct inst_s) {"DEC B",		4, 0, dec_b};
 	op_tab[0x06] = (struct inst_s) {"LD B A8",		8, 1, ld_b_a8};
-	op_tab[0x07] = (struct inst_s) {"RLC A",		8, 0, rlc_a};
+	op_tab[0x07] = (struct inst_s) {"RLC A",		8, 0, rlca};
 	op_tab[0x08] = (struct inst_s) {"LD (nn) SP",	20, 2, ld_ptr_nn_sp};
 	op_tab[0x09] = (struct inst_s) {"ADD BC",		8, 0, add_bc};
 	op_tab[0x0a] = (struct inst_s) {"LD A (BC)",	8, 0, ld_a_ptr_bc};
@@ -34,7 +34,7 @@ void	init_op_tab()
 	op_tab[0x0c] = (struct inst_s) {"INC C",		4, 0, inc_c};
 	op_tab[0x0d] = (struct inst_s) {"DEC C",		4, 0, dec_c};
 	op_tab[0x0e] = (struct inst_s) {"LD C A8",		8, 1, ld_c_a8};
-	op_tab[0x0f] = (struct inst_s) {"RRC A",		8, 0, rrc_a};
+	op_tab[0x0f] = (struct inst_s) {"RRC A",		8, 0, rrca};
 	op_tab[0x10] = (struct inst_s) {"STOP",			4, 0, stop};
 	op_tab[0x11] = (struct inst_s) {"LD DE A16",	12, 2, ld_de_a16};
 	op_tab[0x12] = (struct inst_s) {"LD (DE) A",	8, 0, ld_ptr_de_a};
@@ -42,7 +42,7 @@ void	init_op_tab()
 	op_tab[0x14] = (struct inst_s) {"INC D",		4, 0, inc_d};
 	op_tab[0x15] = (struct inst_s) {"DEC D",		4, 0, dec_d};
 	op_tab[0x16] = (struct inst_s) {"LD D A8",		8, 1, ld_d_a8};
-	op_tab[0x17] = (struct inst_s) {"RL A",			8, 0, rl_a};
+	op_tab[0x17] = (struct inst_s) {"RL A",			8, 0, rla};
 	op_tab[0x18] = (struct inst_s) {"JR A8",		12, 1, jr_a8};
 	op_tab[0x19] = (struct inst_s) {"ADD DE",		8, 0, add_de};
 	op_tab[0x1a] = (struct inst_s) {"LD A (DE)",	8, 0, ld_a_ptr_de};
@@ -50,7 +50,7 @@ void	init_op_tab()
 	op_tab[0x1c] = (struct inst_s) {"INC E",		4, 0, inc_e};
 	op_tab[0x1d] = (struct inst_s) {"DEC E",		4, 0, dec_e};
 	op_tab[0x1e] = (struct inst_s) {"LD E A8",		8, 1, ld_e_a8};
-	op_tab[0x1f] = (struct inst_s) {"RR A",			8, 0, rr_a};
+	op_tab[0x1f] = (struct inst_s) {"RR A",			8, 0, rra};
 	op_tab[0x20] = (struct inst_s) {"JR NZ A8",		8, 1, jr_nz_a8};
 	op_tab[0x21] = (struct inst_s) {"LD HL A16",	12, 2, ld_hl_a16};
 	op_tab[0x22] = (struct inst_s) {"LDI (HL) A",	8, 0, ldi_hl_a};

@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 20:05:58 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/25 15:43:56 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/31 15:24:56 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,10 @@ void	dec_mem8(struct gb_cpu_s* gb, uint16_t addr)
 	uint8_t	x;
 
 	x = read_8(gb, addr);
+	if ( (((x & 0xf) - (1 & 0xf)) & 0x10))
+		cpu_set_flag(gb, HALF_CARRY_FLAG);
+	else
+		cpu_unset_flag(gb, HALF_CARRY_FLAG);
 	x--;
 	cpu_toggle_flag(gb, ZERO_FLAG, !x);
 	cpu_set_flag(gb, SUBSTRACTION_FLAG);

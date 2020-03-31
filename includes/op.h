@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:59 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/27 13:45:02 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/31 15:00:43 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -276,6 +276,11 @@ int			cp_d(struct gb_cpu_s* gb);
 int			cp_e(struct gb_cpu_s* gb);
 int			cp_h(struct gb_cpu_s* gb);
 int			cp_l(struct gb_cpu_s* gb);
+
+int			rla(struct gb_cpu_s* gb);
+int			rlca(struct gb_cpu_s* gb);
+int			rrca(struct gb_cpu_s* gb);
+int			rra(struct gb_cpu_s* gb);
 
 /*
 ** Jump

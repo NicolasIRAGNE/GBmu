@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:16:07 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/30 16:29:25 by niragne          ###   ########.fr       */
+/*   Updated: 2020/03/31 15:29:57 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	init_ext_op_tab()
 	ext_op_tab[0x05] = (struct ext_inst_s) {"RLC L", 	rlc_l};
 	ext_op_tab[0x06] = (struct ext_inst_s) {"RLC (HL)", rlc_ptr_hl};
 	ext_op_tab[0x07] = (struct ext_inst_s) {"RLC A", 	rlc_a};
-
 	ext_op_tab[0x08] = (struct ext_inst_s) {"RRC B", 	rrc_b};
 	ext_op_tab[0x09] = (struct ext_inst_s) {"RRC C", 	rrc_c};
 	ext_op_tab[0x0a] = (struct ext_inst_s) {"RRC D", 	rrc_d};
@@ -36,7 +35,6 @@ void	init_ext_op_tab()
 	ext_op_tab[0x0d] = (struct ext_inst_s) {"RRC L", 	rrc_l};
 	ext_op_tab[0x0e] = (struct ext_inst_s) {"RRC (HL)", rrc_ptr_hl};
 	ext_op_tab[0x0f] = (struct ext_inst_s) {"RRC A", 	rrc_a};
-
 	ext_op_tab[0x10] = (struct ext_inst_s) {"RL B", 	rl_b};
 	ext_op_tab[0x11] = (struct ext_inst_s) {"RL C", 	rl_c};
 	ext_op_tab[0x12] = (struct ext_inst_s) {"RL D", 	rl_d};
@@ -45,26 +43,6 @@ void	init_ext_op_tab()
 	ext_op_tab[0x15] = (struct ext_inst_s) {"RL L", 	rl_l};
 	ext_op_tab[0x16] = (struct ext_inst_s) {"RL (HL)",	rl_ptr_hl};
 	ext_op_tab[0x17] = (struct ext_inst_s) {"RL A", 	rl_a};
-
-	ext_op_tab[0x20] = (struct ext_inst_s) {"SLA B", 	sla_b};
-	ext_op_tab[0x21] = (struct ext_inst_s) {"SLA C", 	sla_c};
-	ext_op_tab[0x22] = (struct ext_inst_s) {"SLA D", 	sla_d};
-	ext_op_tab[0x23] = (struct ext_inst_s) {"SLA E", 	sla_e};
-	ext_op_tab[0x24] = (struct ext_inst_s) {"SLA H", 	sla_h};
-	ext_op_tab[0x25] = (struct ext_inst_s) {"SLA L", 	sla_l};
-	ext_op_tab[0x26] = (struct ext_inst_s) {"SLA (HL)",	sla_ptr_hl};
-	ext_op_tab[0x27] = (struct ext_inst_s) {"SLA A", 	sla_a};
-
-	ext_op_tab[0x28] = (struct ext_inst_s) {"SRA B", 	sra_b};
-	ext_op_tab[0x29] = (struct ext_inst_s) {"SRA C", 	sra_c};
-	ext_op_tab[0x2a] = (struct ext_inst_s) {"SRA D", 	sra_d};
-	ext_op_tab[0x2b] = (struct ext_inst_s) {"SRA E", 	sra_e};
-	ext_op_tab[0x2c] = (struct ext_inst_s) {"SRA H", 	sra_h};
-	ext_op_tab[0x2d] = (struct ext_inst_s) {"SRA L", 	sra_l};
-	ext_op_tab[0x2e] = (struct ext_inst_s) {"SRA (HL)",	sra_ptr_hl};
-	ext_op_tab[0x2f] = (struct ext_inst_s) {"SRA A", 	sra_a};
-
-
 	ext_op_tab[0x18] = (struct ext_inst_s) {"RR B", 	rr_b};
 	ext_op_tab[0x19] = (struct ext_inst_s) {"RR C", 	rr_c};
 	ext_op_tab[0x1a] = (struct ext_inst_s) {"RR D", 	rr_d};
@@ -73,7 +51,30 @@ void	init_ext_op_tab()
 	ext_op_tab[0x1d] = (struct ext_inst_s) {"RR L", 	rr_l};
 	ext_op_tab[0x1e] = (struct ext_inst_s) {"RR (HL)",	rr_ptr_hl};
 	ext_op_tab[0x1f] = (struct ext_inst_s) {"RR A", 	rr_a};
-
+	ext_op_tab[0x20] = (struct ext_inst_s) {"SLA B", 	sla_b};
+	ext_op_tab[0x21] = (struct ext_inst_s) {"SLA C", 	sla_c};
+	ext_op_tab[0x22] = (struct ext_inst_s) {"SLA D", 	sla_d};
+	ext_op_tab[0x23] = (struct ext_inst_s) {"SLA E", 	sla_e};
+	ext_op_tab[0x24] = (struct ext_inst_s) {"SLA H", 	sla_h};
+	ext_op_tab[0x25] = (struct ext_inst_s) {"SLA L", 	sla_l};
+	ext_op_tab[0x26] = (struct ext_inst_s) {"SLA (HL)",	sla_ptr_hl};
+	ext_op_tab[0x27] = (struct ext_inst_s) {"SLA A", 	sla_a};
+	ext_op_tab[0x28] = (struct ext_inst_s) {"SRA B", 	sra_b};
+	ext_op_tab[0x29] = (struct ext_inst_s) {"SRA C", 	sra_c};
+	ext_op_tab[0x2a] = (struct ext_inst_s) {"SRA D", 	sra_d};
+	ext_op_tab[0x2b] = (struct ext_inst_s) {"SRA E", 	sra_e};
+	ext_op_tab[0x2c] = (struct ext_inst_s) {"SRA H", 	sra_h};
+	ext_op_tab[0x2d] = (struct ext_inst_s) {"SRA L", 	sra_l};
+	ext_op_tab[0x2e] = (struct ext_inst_s) {"SRA (HL)",	sra_ptr_hl};
+	ext_op_tab[0x2f] = (struct ext_inst_s) {"SRA A", 	sra_a};
+	ext_op_tab[0x30] = (struct ext_inst_s) {"SWAP B", 	swap_b};
+	ext_op_tab[0x31] = (struct ext_inst_s) {"SWAP C", 	swap_c};
+	ext_op_tab[0x32] = (struct ext_inst_s) {"SWAP D", 	swap_d};
+	ext_op_tab[0x33] = (struct ext_inst_s) {"SWAP E", 	swap_e};
+	ext_op_tab[0x34] = (struct ext_inst_s) {"SWAP H", 	swap_h};
+	ext_op_tab[0x35] = (struct ext_inst_s) {"SWAP L", 	swap_l};
+	ext_op_tab[0x36] = (struct ext_inst_s) {"SWAP (HL)",swap_ptr_hl};
+	ext_op_tab[0x37] = (struct ext_inst_s) {"SWAP A", 	swap_a};
 	ext_op_tab[0x38] = (struct ext_inst_s) {"SRL B", 	srl_b};
 	ext_op_tab[0x39] = (struct ext_inst_s) {"SRL C", 	srl_c};
 	ext_op_tab[0x3a] = (struct ext_inst_s) {"SRL D", 	srl_d};
@@ -82,39 +83,6 @@ void	init_ext_op_tab()
 	ext_op_tab[0x3d] = (struct ext_inst_s) {"SRL L", 	srl_l};
 	ext_op_tab[0x3e] = (struct ext_inst_s) {"SRL (HL)", srl_ptr_hl};
 	ext_op_tab[0x3f] = (struct ext_inst_s) {"SRL A", 	srl_a};
-	ext_op_tab[0x78] = (struct ext_inst_s) {"BIT 7 B", 	bit7_b};
-	ext_op_tab[0x79] = (struct ext_inst_s) {"BIT 7 C", 	bit7_c};
-	ext_op_tab[0x7a] = (struct ext_inst_s) {"BIT 7 D", 	bit7_d};
-	ext_op_tab[0x7b] = (struct ext_inst_s) {"BIT 7 E", 	bit7_e};
-	ext_op_tab[0x7c] = (struct ext_inst_s) {"BIT 7 H", 	bit7_h};
-	ext_op_tab[0x7d] = (struct ext_inst_s) {"BIT 7 L", 	bit7_l};
-	ext_op_tab[0x7e] = (struct ext_inst_s) {"BIT 7 (HL)", 	bit7_ptr_hl};
-	ext_op_tab[0x7f] = (struct ext_inst_s) {"BIT 7 A", 	bit7_a};
-	ext_op_tab[0x68] = (struct ext_inst_s) {"BIT 5 B", 	bit5_b};
-	ext_op_tab[0x69] = (struct ext_inst_s) {"BIT 5 C", 	bit5_c};
-	ext_op_tab[0x6a] = (struct ext_inst_s) {"BIT 5 D", 	bit5_d};
-	ext_op_tab[0x6b] = (struct ext_inst_s) {"BIT 5 E", 	bit5_e};
-	ext_op_tab[0x6c] = (struct ext_inst_s) {"BIT 5 H", 	bit5_h};
-	ext_op_tab[0x6d] = (struct ext_inst_s) {"BIT 5 L", 	bit5_l};
-	ext_op_tab[0x6e] = (struct ext_inst_s) {"BIT 5 (HL)", 	bit5_ptr_hl};
-	ext_op_tab[0x6f] = (struct ext_inst_s) {"BIT 5 A", 	bit5_a};
-	ext_op_tab[0x58] = (struct ext_inst_s) {"BIT 3 B", 	bit3_b};
-	ext_op_tab[0x59] = (struct ext_inst_s) {"BIT 3 C", 	bit3_c};
-	ext_op_tab[0x5a] = (struct ext_inst_s) {"BIT 3 D", 	bit3_d};
-	ext_op_tab[0x5b] = (struct ext_inst_s) {"BIT 3 E", 	bit3_e};
-	ext_op_tab[0x5c] = (struct ext_inst_s) {"BIT 3 H", 	bit3_h};
-	ext_op_tab[0x5d] = (struct ext_inst_s) {"BIT 3 L", 	bit3_l};
-	ext_op_tab[0x5e] = (struct ext_inst_s) {"BIT 3 (HL)", 	bit3_ptr_hl};
-	ext_op_tab[0x5f] = (struct ext_inst_s) {"BIT 3 A", 	bit3_a};
-	ext_op_tab[0x48] = (struct ext_inst_s) {"BIT 1 B", 	bit1_b};
-	ext_op_tab[0x49] = (struct ext_inst_s) {"BIT 1 C", 	bit1_c};
-	ext_op_tab[0x4a] = (struct ext_inst_s) {"BIT 1 D", 	bit1_d};
-	ext_op_tab[0x4b] = (struct ext_inst_s) {"BIT 1 E", 	bit1_e};
-	ext_op_tab[0x4c] = (struct ext_inst_s) {"BIT 1 H", 	bit1_h};
-	ext_op_tab[0x4d] = (struct ext_inst_s) {"BIT 1 L", 	bit1_l};
-	ext_op_tab[0x4e] = (struct ext_inst_s) {"BIT 1 (HL)", 	bit1_ptr_hl};
-	ext_op_tab[0x4f] = (struct ext_inst_s) {"BIT 1 A", 	bit1_a};
-
 	ext_op_tab[0x40] = (struct ext_inst_s) {"BIT 0 B", 	bit0_b};
 	ext_op_tab[0x41] = (struct ext_inst_s) {"BIT 0 C", 	bit0_c};
 	ext_op_tab[0x42] = (struct ext_inst_s) {"BIT 0 D", 	bit0_d};
@@ -123,7 +91,14 @@ void	init_ext_op_tab()
 	ext_op_tab[0x45] = (struct ext_inst_s) {"BIT 0 L", 	bit0_l};
 	ext_op_tab[0x46] = (struct ext_inst_s) {"BIT 0 (HL)", 	bit0_ptr_hl};
 	ext_op_tab[0x47] = (struct ext_inst_s) {"BIT 0 A", 	bit0_a};
-
+	ext_op_tab[0x48] = (struct ext_inst_s) {"BIT 1 B", 	bit1_b};
+	ext_op_tab[0x49] = (struct ext_inst_s) {"BIT 1 C", 	bit1_c};
+	ext_op_tab[0x4a] = (struct ext_inst_s) {"BIT 1 D", 	bit1_d};
+	ext_op_tab[0x4b] = (struct ext_inst_s) {"BIT 1 E", 	bit1_e};
+	ext_op_tab[0x4c] = (struct ext_inst_s) {"BIT 1 H", 	bit1_h};
+	ext_op_tab[0x4d] = (struct ext_inst_s) {"BIT 1 L", 	bit1_l};
+	ext_op_tab[0x4e] = (struct ext_inst_s) {"BIT 1 (HL)", 	bit1_ptr_hl};
+	ext_op_tab[0x4f] = (struct ext_inst_s) {"BIT 1 A", 	bit1_a};
 	ext_op_tab[0x50] = (struct ext_inst_s) {"BIT 2 B", 	bit2_b};
 	ext_op_tab[0x51] = (struct ext_inst_s) {"BIT 2 C", 	bit2_c};
 	ext_op_tab[0x52] = (struct ext_inst_s) {"BIT 2 D", 	bit2_d};
@@ -132,7 +107,14 @@ void	init_ext_op_tab()
 	ext_op_tab[0x55] = (struct ext_inst_s) {"BIT 2 L", 	bit2_l};
 	ext_op_tab[0x56] = (struct ext_inst_s) {"BIT 2 (HL)", 	bit2_ptr_hl};
 	ext_op_tab[0x57] = (struct ext_inst_s) {"BIT 2 A", 	bit2_a};
-
+	ext_op_tab[0x58] = (struct ext_inst_s) {"BIT 3 B", 	bit3_b};
+	ext_op_tab[0x59] = (struct ext_inst_s) {"BIT 3 C", 	bit3_c};
+	ext_op_tab[0x5a] = (struct ext_inst_s) {"BIT 3 D", 	bit3_d};
+	ext_op_tab[0x5b] = (struct ext_inst_s) {"BIT 3 E", 	bit3_e};
+	ext_op_tab[0x5c] = (struct ext_inst_s) {"BIT 3 H", 	bit3_h};
+	ext_op_tab[0x5d] = (struct ext_inst_s) {"BIT 3 L", 	bit3_l};
+	ext_op_tab[0x5e] = (struct ext_inst_s) {"BIT 3 (HL)", 	bit3_ptr_hl};
+	ext_op_tab[0x5f] = (struct ext_inst_s) {"BIT 3 A", 	bit3_a};
 	ext_op_tab[0x60] = (struct ext_inst_s) {"BIT 4 B", 	bit4_b};
 	ext_op_tab[0x61] = (struct ext_inst_s) {"BIT 4 C", 	bit4_c};
 	ext_op_tab[0x62] = (struct ext_inst_s) {"BIT 4 D", 	bit4_d};
@@ -141,7 +123,14 @@ void	init_ext_op_tab()
 	ext_op_tab[0x65] = (struct ext_inst_s) {"BIT 4 L", 	bit4_l};
 	ext_op_tab[0x66] = (struct ext_inst_s) {"BIT 4 (HL)", 	bit4_ptr_hl};
 	ext_op_tab[0x67] = (struct ext_inst_s) {"BIT 4 A", 	bit4_a};
-
+	ext_op_tab[0x68] = (struct ext_inst_s) {"BIT 5 B", 	bit5_b};
+	ext_op_tab[0x69] = (struct ext_inst_s) {"BIT 5 C", 	bit5_c};
+	ext_op_tab[0x6a] = (struct ext_inst_s) {"BIT 5 D", 	bit5_d};
+	ext_op_tab[0x6b] = (struct ext_inst_s) {"BIT 5 E", 	bit5_e};
+	ext_op_tab[0x6c] = (struct ext_inst_s) {"BIT 5 H", 	bit5_h};
+	ext_op_tab[0x6d] = (struct ext_inst_s) {"BIT 5 L", 	bit5_l};
+	ext_op_tab[0x6e] = (struct ext_inst_s) {"BIT 5 (HL)", 	bit5_ptr_hl};
+	ext_op_tab[0x6f] = (struct ext_inst_s) {"BIT 5 A", 	bit5_a};
 	ext_op_tab[0x70] = (struct ext_inst_s) {"BIT 6 B", 	bit6_b};
 	ext_op_tab[0x71] = (struct ext_inst_s) {"BIT 6 C", 	bit6_c};
 	ext_op_tab[0x72] = (struct ext_inst_s) {"BIT 6 D", 	bit6_d};
@@ -150,7 +139,141 @@ void	init_ext_op_tab()
 	ext_op_tab[0x75] = (struct ext_inst_s) {"BIT 6 L", 	bit6_l};
 	ext_op_tab[0x76] = (struct ext_inst_s) {"BIT 6 (HL)", 	bit6_ptr_hl};
 	ext_op_tab[0x77] = (struct ext_inst_s) {"BIT 6 A", 	bit6_a};
+	ext_op_tab[0x78] = (struct ext_inst_s) {"BIT 7 B", 	bit7_b};
+	ext_op_tab[0x79] = (struct ext_inst_s) {"BIT 7 C", 	bit7_c};
+	ext_op_tab[0x7a] = (struct ext_inst_s) {"BIT 7 D", 	bit7_d};
+	ext_op_tab[0x7b] = (struct ext_inst_s) {"BIT 7 E", 	bit7_e};
+	ext_op_tab[0x7c] = (struct ext_inst_s) {"BIT 7 H", 	bit7_h};
+	ext_op_tab[0x7d] = (struct ext_inst_s) {"BIT 7 L", 	bit7_l};
+	ext_op_tab[0x7e] = (struct ext_inst_s) {"BIT 7 (HL)", 	bit7_ptr_hl};
+	ext_op_tab[0x7f] = (struct ext_inst_s) {"BIT 7 A", 	bit7_a};
+	ext_op_tab[0x80] = (struct ext_inst_s) {"RES 0 B", res0_b};
+	ext_op_tab[0x81] = (struct ext_inst_s) {"RES 0 C", res0_c};
+	ext_op_tab[0x82] = (struct ext_inst_s) {"RES 0 D", res0_d};
+	ext_op_tab[0x83] = (struct ext_inst_s) {"RES 0 E", res0_e};
+	ext_op_tab[0x84] = (struct ext_inst_s) {"RES 0 H", res0_h};
+	ext_op_tab[0x85] = (struct ext_inst_s) {"RES 0 L", res0_l};
+	ext_op_tab[0x86] = (struct ext_inst_s) {"RES 0 (HL)", res0_ptr_hl};
+	ext_op_tab[0x87] = (struct ext_inst_s) {"RES 0 A", res0_a};
+	ext_op_tab[0x88] = (struct ext_inst_s) {"RES 1 B", res1_b};
+	ext_op_tab[0x89] = (struct ext_inst_s) {"RES 1 C", res1_c};
+	ext_op_tab[0x8a] = (struct ext_inst_s) {"RES 1 D", res1_d};
+	ext_op_tab[0x8b] = (struct ext_inst_s) {"RES 1 E", res1_e};
+	ext_op_tab[0x8c] = (struct ext_inst_s) {"RES 1 H", res1_h};
+	ext_op_tab[0x8d] = (struct ext_inst_s) {"RES 1 L", res1_l};
+	ext_op_tab[0x8e] = (struct ext_inst_s) {"RES 1 (HL)", res1_ptr_hl};
+	ext_op_tab[0x8f] = (struct ext_inst_s) {"RES 1 A", res1_a};
+	ext_op_tab[0x90] = (struct ext_inst_s) {"RES 2 B", res2_b};
+	ext_op_tab[0x91] = (struct ext_inst_s) {"RES 2 C", res2_c};
+	ext_op_tab[0x92] = (struct ext_inst_s) {"RES 2 D", res2_d};
+	ext_op_tab[0x93] = (struct ext_inst_s) {"RES 2 E", res2_e};
+	ext_op_tab[0x94] = (struct ext_inst_s) {"RES 2 H", res2_h};
+	ext_op_tab[0x95] = (struct ext_inst_s) {"RES 2 L", res2_l};
+	ext_op_tab[0x96] = (struct ext_inst_s) {"RES 2 (HL)", res2_ptr_hl};
+	ext_op_tab[0x97] = (struct ext_inst_s) {"RES 2 A", res2_a};
+	ext_op_tab[0x98] = (struct ext_inst_s) {"RES 3 B", res3_b};
+	ext_op_tab[0x99] = (struct ext_inst_s) {"RES 3 C", res3_c};
+	ext_op_tab[0x9a] = (struct ext_inst_s) {"RES 3 D", res3_d};
+	ext_op_tab[0x9b] = (struct ext_inst_s) {"RES 3 E", res3_e};
+	ext_op_tab[0x9c] = (struct ext_inst_s) {"RES 3 H", res3_h};
+	ext_op_tab[0x9d] = (struct ext_inst_s) {"RES 3 L", res3_l};
+	ext_op_tab[0x9e] = (struct ext_inst_s) {"RES 3 (HL)", res3_ptr_hl};
+	ext_op_tab[0x9f] = (struct ext_inst_s) {"RES 3 A", res3_a};
+	ext_op_tab[0xa0] = (struct ext_inst_s) {"RES 4 B", res4_b};
+	ext_op_tab[0xa1] = (struct ext_inst_s) {"RES 4 C", res4_c};
+	ext_op_tab[0xa2] = (struct ext_inst_s) {"RES 4 D", res4_d};
+	ext_op_tab[0xa3] = (struct ext_inst_s) {"RES 4 E", res4_e};
+	ext_op_tab[0xa4] = (struct ext_inst_s) {"RES 4 H", res4_h};
+	ext_op_tab[0xa5] = (struct ext_inst_s) {"RES 4 L", res4_l};
+	ext_op_tab[0xa6] = (struct ext_inst_s) {"RES 4 (HL)", res4_ptr_hl};
+	ext_op_tab[0xa7] = (struct ext_inst_s) {"RES 4 A", res4_a};
+	ext_op_tab[0xa8] = (struct ext_inst_s) {"RES 5 B", res5_b};
+	ext_op_tab[0xa9] = (struct ext_inst_s) {"RES 5 C", res5_c};
+	ext_op_tab[0xaa] = (struct ext_inst_s) {"RES 5 D", res5_d};
+	ext_op_tab[0xab] = (struct ext_inst_s) {"RES 5 E", res5_e};
+	ext_op_tab[0xac] = (struct ext_inst_s) {"RES 5 H", res5_h};
+	ext_op_tab[0xad] = (struct ext_inst_s) {"RES 5 L", res5_l};
+	ext_op_tab[0xae] = (struct ext_inst_s) {"RES 5 (HL)", res5_ptr_hl};
+	ext_op_tab[0xaf] = (struct ext_inst_s) {"RES 5 A", res5_a};
+	ext_op_tab[0xb0] = (struct ext_inst_s) {"RES 6 B", res6_b};
+	ext_op_tab[0xb1] = (struct ext_inst_s) {"RES 6 C", res6_c};
+	ext_op_tab[0xb2] = (struct ext_inst_s) {"RES 6 D", res6_d};
+	ext_op_tab[0xb3] = (struct ext_inst_s) {"RES 6 E", res6_e};
+	ext_op_tab[0xb4] = (struct ext_inst_s) {"RES 6 H", res6_h};
+	ext_op_tab[0xb5] = (struct ext_inst_s) {"RES 6 L", res6_l};
+	ext_op_tab[0xb6] = (struct ext_inst_s) {"RES 6 (HL)", res6_ptr_hl};
+	ext_op_tab[0xb7] = (struct ext_inst_s) {"RES 6 A", res6_a};
+	ext_op_tab[0xb8] = (struct ext_inst_s) {"RES 7 B", res7_b};
+	ext_op_tab[0xb9] = (struct ext_inst_s) {"RES 7 C", res7_c};
+	ext_op_tab[0xba] = (struct ext_inst_s) {"RES 7 D", res7_d};
+	ext_op_tab[0xbb] = (struct ext_inst_s) {"RES 7 E", res7_e};
+	ext_op_tab[0xbc] = (struct ext_inst_s) {"RES 7 H", res7_h};
+	ext_op_tab[0xbd] = (struct ext_inst_s) {"RES 7 L", res7_l};
+	ext_op_tab[0xbe] = (struct ext_inst_s) {"RES 7 (HL)", res7_ptr_hl};
+	ext_op_tab[0xbf] = (struct ext_inst_s) {"RES 7 A", res7_a};
+	ext_op_tab[0xc0] = (struct ext_inst_s) {"SET 0 B", set0_b};
+	ext_op_tab[0xc1] = (struct ext_inst_s) {"SET 0 C", set0_c};
+	ext_op_tab[0xc2] = (struct ext_inst_s) {"SET 0 D", set0_d};
+	ext_op_tab[0xc3] = (struct ext_inst_s) {"SET 0 E", set0_e};
+	ext_op_tab[0xc4] = (struct ext_inst_s) {"SET 0 H", set0_h};
+	ext_op_tab[0xc5] = (struct ext_inst_s) {"SET 0 L", set0_l};
+	ext_op_tab[0xc6] = (struct ext_inst_s) {"SET 0 (HL)", set0_ptr_hl};
+	ext_op_tab[0xc7] = (struct ext_inst_s) {"SET 0 A", set0_a};
+	ext_op_tab[0xc8] = (struct ext_inst_s) {"SET 1 B", set1_b};
+	ext_op_tab[0xc9] = (struct ext_inst_s) {"SET 1 C", set1_c};
+	ext_op_tab[0xca] = (struct ext_inst_s) {"SET 1 D", set1_d};
+	ext_op_tab[0xcb] = (struct ext_inst_s) {"SET 1 E", set1_e};
+	ext_op_tab[0xcc] = (struct ext_inst_s) {"SET 1 H", set1_h};
+	ext_op_tab[0xcd] = (struct ext_inst_s) {"SET 1 L", set1_l};
+	ext_op_tab[0xce] = (struct ext_inst_s) {"SET 1 (HL)", set1_ptr_hl};
+	ext_op_tab[0xcf] = (struct ext_inst_s) {"SET 1 A", set1_a};
+	ext_op_tab[0xd0] = (struct ext_inst_s) {"SET 2 B", set2_b};
+	ext_op_tab[0xd1] = (struct ext_inst_s) {"SET 2 C", set2_c};
+	ext_op_tab[0xd2] = (struct ext_inst_s) {"SET 2 D", set2_d};
+	ext_op_tab[0xd3] = (struct ext_inst_s) {"SET 2 E", set2_e};
+	ext_op_tab[0xd4] = (struct ext_inst_s) {"SET 2 H", set2_h};
+	ext_op_tab[0xd5] = (struct ext_inst_s) {"SET 2 L", set2_l};
+	ext_op_tab[0xd6] = (struct ext_inst_s) {"SET 2 (HL)", set2_ptr_hl};
+	ext_op_tab[0xd7] = (struct ext_inst_s) {"SET 2 A", set2_a};
+	ext_op_tab[0xd8] = (struct ext_inst_s) {"SET 3 B", set3_b};
+	ext_op_tab[0xd9] = (struct ext_inst_s) {"SET 3 C", set3_c};
+	ext_op_tab[0xda] = (struct ext_inst_s) {"SET 3 D", set3_d};
+	ext_op_tab[0xdb] = (struct ext_inst_s) {"SET 3 E", set3_e};
+	ext_op_tab[0xdc] = (struct ext_inst_s) {"SET 3 H", set3_h};
+	ext_op_tab[0xdd] = (struct ext_inst_s) {"SET 3 L", set3_l};
+	ext_op_tab[0xde] = (struct ext_inst_s) {"SET 3 (HL)", set3_ptr_hl};
+	ext_op_tab[0xdf] = (struct ext_inst_s) {"SET 3 A", set3_a};
+	ext_op_tab[0xe0] = (struct ext_inst_s) {"SET 4 B", set4_b};
+	ext_op_tab[0xe1] = (struct ext_inst_s) {"SET 4 C", set4_c};
+	ext_op_tab[0xe2] = (struct ext_inst_s) {"SET 4 D", set4_d};
+	ext_op_tab[0xe3] = (struct ext_inst_s) {"SET 4 E", set4_e};
+	ext_op_tab[0xe4] = (struct ext_inst_s) {"SET 4 H", set4_h};
+	ext_op_tab[0xe5] = (struct ext_inst_s) {"SET 4 L", set4_l};
+	ext_op_tab[0xe6] = (struct ext_inst_s) {"SET 4 (HL)", set4_ptr_hl};
+	ext_op_tab[0xe7] = (struct ext_inst_s) {"SET 4 A", set4_a};
+	ext_op_tab[0xe8] = (struct ext_inst_s) {"SET 5 B", set5_b};
+	ext_op_tab[0xe9] = (struct ext_inst_s) {"SET 5 C", set5_c};
+	ext_op_tab[0xea] = (struct ext_inst_s) {"SET 5 D", set5_d};
+	ext_op_tab[0xeb] = (struct ext_inst_s) {"SET 5 E", set5_e};
+	ext_op_tab[0xec] = (struct ext_inst_s) {"SET 5 H", set5_h};
+	ext_op_tab[0xed] = (struct ext_inst_s) {"SET 5 L", set5_l};
+	ext_op_tab[0xee] = (struct ext_inst_s) {"SET 5 (HL)", set5_ptr_hl};
+	ext_op_tab[0xef] = (struct ext_inst_s) {"SET 5 A", set5_a};
+	ext_op_tab[0xf0] = (struct ext_inst_s) {"SET 6 B", set6_b};
+	ext_op_tab[0xf1] = (struct ext_inst_s) {"SET 6 C", set6_c};
+	ext_op_tab[0xf2] = (struct ext_inst_s) {"SET 6 D", set6_d};
+	ext_op_tab[0xf3] = (struct ext_inst_s) {"SET 6 E", set6_e};
+	ext_op_tab[0xf4] = (struct ext_inst_s) {"SET 6 H", set6_h};
+	ext_op_tab[0xf5] = (struct ext_inst_s) {"SET 6 L", set6_l};
+	ext_op_tab[0xf6] = (struct ext_inst_s) {"SET 6 (HL)", set6_ptr_hl};
+	ext_op_tab[0xf7] = (struct ext_inst_s) {"SET 6 A", set6_a};
+	ext_op_tab[0xf8] = (struct ext_inst_s) {"SET 7 B", set7_b};
+	ext_op_tab[0xf9] = (struct ext_inst_s) {"SET 7 C", set7_c};
+	ext_op_tab[0xfa] = (struct ext_inst_s) {"SET 7 D", set7_d};
+	ext_op_tab[0xfb] = (struct ext_inst_s) {"SET 7 E", set7_e};
+	ext_op_tab[0xfc] = (struct ext_inst_s) {"SET 7 H", set7_h};
+	ext_op_tab[0xfd] = (struct ext_inst_s) {"SET 7 L", set7_l};
+	ext_op_tab[0xfe] = (struct ext_inst_s) {"SET 7 (HL)", set7_ptr_hl};
+	ext_op_tab[0xff] = (struct ext_inst_s) {"SET 7 A", set7_a};
 
-	ext_op_tab[0x87] = (struct ext_inst_s) {"RES 0 A", 	res0_a};
-	ext_op_tab[0x37] = (struct ext_inst_s) {"SWAP  A", 	swap_a};
 }

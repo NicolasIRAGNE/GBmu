@@ -33,11 +33,23 @@ int		rr_mem8(struct gb_cpu_s* gb, uint16_t addr)
 	tmp = ret;
 	ret >>= 1;
 	if (gb->reg.f & CARRY_FLAG)
-		ret += 1;
+		ret |= 0x80;
 	cpu_toggle_flag(gb, CARRY_FLAG, tmp & 1);
-	cpu_toggle_flag(gb, ZERO_FLAG, !tmp);	
+	cpu_toggle_flag(gb, ZERO_FLAG, !ret);	
 	cpu_unset_flag(gb, SUBSTRACTION_FLAG | HALF_CARRY_FLAG);
 	write_8(gb, addr, ret);
+}
+
+int		rra(struct gb_cpu_s* gb)
+{
+	uint16_t ret;
+	ret = gb->reg.a;
+	ret >>= 1;
+	if (gb->reg.f & CARRY_FLAG)
+		ret |= 0x80;
+	cpu_toggle_flag(gb, CARRY_FLAG, gb->reg.a & 1);
+	cpu_unset_flag(gb, ZERO_FLAG | SUBSTRACTION_FLAG | HALF_CARRY_FLAG);
+	gb->reg.a = (uint8_t)ret;
 }
 
 int		rr_a(struct gb_cpu_s* gb)
