@@ -14,6 +14,7 @@ It should run on osx and linux as long as these dependencies are met. Not tested
 
 ### How to use
 cd build && cmake .. && make
+
 usage: ./gbmu <rom_file>
 
 ### Debugger 
