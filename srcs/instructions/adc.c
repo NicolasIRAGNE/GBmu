@@ -6,13 +6,13 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/27 10:55:56 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/30 18:08:58 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/09 16:57:16 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "op.h"
 
-int		adc(struct gb_cpu_s* gb, uint8_t value)
+void		adc(struct gb_cpu_s* gb, uint8_t value)
 {
 	uint16_t ret;
 	int hflag = 0;
@@ -38,47 +38,47 @@ int		adc(struct gb_cpu_s* gb, uint8_t value)
 	cpu_toggle_flag(gb, ZERO_FLAG, !gb->reg.a);
 }
 
-int		adc_n(struct gb_cpu_s* gb)
+void		adc_n(struct gb_cpu_s* gb)
 {
 	adc(gb, gb->current_instruction->args);
 }
 
-int		adc_a(struct gb_cpu_s* gb)
+void		adc_a(struct gb_cpu_s* gb)
 {
 	adc(gb, gb->reg.a);
 }
 
-int		adc_b(struct gb_cpu_s* gb)
+void		adc_b(struct gb_cpu_s* gb)
 {
 	adc(gb, gb->reg.b);
 }
 
-int		adc_c(struct gb_cpu_s* gb)
+void		adc_c(struct gb_cpu_s* gb)
 {
 	adc(gb, gb->reg.c);
 }
 
-int		adc_d(struct gb_cpu_s* gb)
+void		adc_d(struct gb_cpu_s* gb)
 {
 	adc(gb, gb->reg.d);
 }
 
-int		adc_e(struct gb_cpu_s* gb)
+void		adc_e(struct gb_cpu_s* gb)
 {
 	adc(gb, gb->reg.e);
 }
 
-int		adc_h(struct gb_cpu_s* gb)
+void		adc_h(struct gb_cpu_s* gb)
 {
 	adc(gb, gb->reg.h);
 }
 
-int		adc_l(struct gb_cpu_s* gb)
+void		adc_l(struct gb_cpu_s* gb)
 {
 	adc(gb, gb->reg.l);
 }
 
-int		adc_ptr_hl(struct gb_cpu_s* gb)
+void		adc_ptr_hl(struct gb_cpu_s* gb)
 {
 	adc(gb, read_8(gb, gb->reg.hl));
 }

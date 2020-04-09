@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 16:08:31 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/31 15:23:24 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/09 16:58:54 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,47 +27,47 @@ void	cp_reg8(struct gb_cpu_s* gb, uint8_t* reg, uint8_t x)
 
 }
 
-int	cp_a8(struct gb_cpu_s* gb)
+void	cp_a8(struct gb_cpu_s* gb)
 {
 	cp_reg8(gb, &(gb->reg.a), gb->current_instruction->args);	
 }
 
-int	cp_ptr_hl(struct gb_cpu_s* gb)
+void	cp_ptr_hl(struct gb_cpu_s* gb)
 {
 	cp_reg8(gb, &(gb->reg.a), read_8(gb, gb->reg.hl));	
 }
 
-int	cp_a(struct gb_cpu_s* gb)
+void	cp_a(struct gb_cpu_s* gb)
 {
 	cp_reg8(gb, &(gb->reg.a), gb->reg.a);	
 }
 
-int	cp_b(struct gb_cpu_s* gb)
+void	cp_b(struct gb_cpu_s* gb)
 {
 	cp_reg8(gb, &(gb->reg.a), gb->reg.b);	
 }
 
-int	cp_c(struct gb_cpu_s* gb)
+void	cp_c(struct gb_cpu_s* gb)
 {
 	cp_reg8(gb, &(gb->reg.a), gb->reg.c);	
 }
 
-int	cp_d(struct gb_cpu_s* gb)
+void	cp_d(struct gb_cpu_s* gb)
 {
 	cp_reg8(gb, &(gb->reg.a), gb->reg.d);	
 }
 
-int	cp_e(struct gb_cpu_s* gb)
+void	cp_e(struct gb_cpu_s* gb)
 {
 	cp_reg8(gb, &(gb->reg.a), gb->reg.e);	
 }
 
-int	cp_h(struct gb_cpu_s* gb)
+void	cp_h(struct gb_cpu_s* gb)
 {
 	cp_reg8(gb, &(gb->reg.a), gb->reg.h);	
 }
 
-int	cp_l(struct gb_cpu_s* gb)
+void	cp_l(struct gb_cpu_s* gb)
 {
 	cp_reg8(gb, &(gb->reg.a), gb->reg.l);	
 }

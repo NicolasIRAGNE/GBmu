@@ -6,13 +6,13 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:19:41 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/31 15:05:53 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/09 17:02:11 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ext_op.h"
 
-int		srl_reg8(struct gb_cpu_s* gb, uint8_t* reg)
+void	srl_reg8(struct gb_cpu_s* gb, uint8_t* reg)
 {
 	uint16_t ret;
 	ret = *reg;
@@ -23,7 +23,7 @@ int		srl_reg8(struct gb_cpu_s* gb, uint8_t* reg)
 	*reg = (uint8_t)ret;
 }
 
-int		srl_mem8(struct gb_cpu_s* gb, uint16_t addr)
+void	srl_mem8(struct gb_cpu_s* gb, uint16_t addr)
 {
 	uint16_t ret;
 	ret = read_8(gb, addr);
@@ -34,42 +34,42 @@ int		srl_mem8(struct gb_cpu_s* gb, uint16_t addr)
 	write_8(gb, addr, ret);
 }
 
-int		srl_a(struct gb_cpu_s* gb)
+void	srl_a(struct gb_cpu_s* gb)
 {
 	srl_reg8(gb, &(gb->reg.a));
 }
 
-int		srl_b(struct gb_cpu_s* gb)
+void	srl_b(struct gb_cpu_s* gb)
 {
 	srl_reg8(gb, &(gb->reg.b));
 }
 
-int		srl_c(struct gb_cpu_s* gb)
+void	srl_c(struct gb_cpu_s* gb)
 {
 	srl_reg8(gb, &(gb->reg.c));
 }
 
-int		srl_d(struct gb_cpu_s* gb)
+void	srl_d(struct gb_cpu_s* gb)
 {
 	srl_reg8(gb, &(gb->reg.d));
 }
 
-int		srl_e(struct gb_cpu_s* gb)
+void	srl_e(struct gb_cpu_s* gb)
 {
 	srl_reg8(gb, &(gb->reg.e));
 }
 
-int		srl_h(struct gb_cpu_s* gb)
+void	srl_h(struct gb_cpu_s* gb)
 {
 	srl_reg8(gb, &(gb->reg.h));
 }
 
-int		srl_l(struct gb_cpu_s* gb)
+void	srl_l(struct gb_cpu_s* gb)
 {
 	srl_reg8(gb, &(gb->reg.l));
 }
 
-int		srl_ptr_hl(struct gb_cpu_s* gb)
+void	srl_ptr_hl(struct gb_cpu_s* gb)
 {
 	srl_mem8(gb, gb->reg.hl);
 }

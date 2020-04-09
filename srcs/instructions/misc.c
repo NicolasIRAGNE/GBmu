@@ -6,51 +6,52 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 17:15:01 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/30 19:18:44 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/09 17:16:19 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gb.h"
 
-int		nop(struct gb_cpu_s* gb)
+void	nop(struct gb_cpu_s* gb)
 {
-	
+	(void)gb;
 }
 
-int		di(struct gb_cpu_s* gb)
+void	di(struct gb_cpu_s* gb)
 {	
 	gb->ime = 0;
 }
 
-int		ei(struct gb_cpu_s* gb)
+void	ei(struct gb_cpu_s* gb)
 {
 	gb->ime = 1;
 }
 
-int		cpl(struct gb_cpu_s* gb)
+void	cpl(struct gb_cpu_s* gb)
 {
 	gb->reg.a = ~gb->reg.a;
 	cpu_set_flag(gb, HALF_CARRY_FLAG | SUBSTRACTION_FLAG);
 }
 
-int		stop(struct gb_cpu_s* gb)
+void	stop(struct gb_cpu_s* gb)
 {
+	(void)gb;
 	//TODO
 }
 
-int		halt(struct gb_cpu_s* gb)
+void	halt(struct gb_cpu_s* gb)
 {
 	gb->halted = 1;
 }
 
-int		scf(struct gb_cpu_s* gb)
+void	scf(struct gb_cpu_s* gb)
 {
 	cpu_unset_flag(gb, SUBSTRACTION_FLAG);
 	cpu_unset_flag(gb, HALF_CARRY_FLAG);
 	cpu_set_flag(gb, CARRY_FLAG);
 }
 
-int		ccf(struct gb_cpu_s* gb)
+void	ccf(struct gb_cpu_s* gb)
 {
 	cpu_unset_flag(gb, SUBSTRACTION_FLAG);
 	cpu_unset_flag(gb, HALF_CARRY_FLAG);
@@ -60,7 +61,7 @@ int		ccf(struct gb_cpu_s* gb)
 		cpu_set_flag(gb, CARRY_FLAG);
 }
 
-int		daa(struct gb_cpu_s* gb)
+void	daa(struct gb_cpu_s* gb)
 {
 	//TODO
 	uint16_t ret = gb->reg.a;

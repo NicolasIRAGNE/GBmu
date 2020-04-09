@@ -6,13 +6,13 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/30 15:22:52 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/30 18:08:29 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/09 17:01:55 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ext_op.h"
 
-int		sla_reg8(struct gb_cpu_s* gb, uint8_t* reg)
+void	sla_reg8(struct gb_cpu_s* gb, uint8_t* reg)
 {
 	uint16_t ret;
 	ret = *reg;
@@ -23,7 +23,7 @@ int		sla_reg8(struct gb_cpu_s* gb, uint8_t* reg)
 	*reg = (uint8_t)ret;
 }
 
-int		sla_mem8(struct gb_cpu_s* gb, uint16_t addr)
+void	sla_mem8(struct gb_cpu_s* gb, uint16_t addr)
 {
 	uint16_t ret;
 	uint16_t tmp;
@@ -36,42 +36,42 @@ int		sla_mem8(struct gb_cpu_s* gb, uint16_t addr)
 	write_8(gb, addr, ret);
 }
 
-int		sla_a(struct gb_cpu_s* gb)
+void	sla_a(struct gb_cpu_s* gb)
 {
 	sla_reg8(gb, &(gb->reg.a));
 }
 
-int		sla_b(struct gb_cpu_s* gb)
+void	sla_b(struct gb_cpu_s* gb)
 {
 	sla_reg8(gb, &(gb->reg.b));
 }
 
-int		sla_c(struct gb_cpu_s* gb)
+void	sla_c(struct gb_cpu_s* gb)
 {
 	sla_reg8(gb, &(gb->reg.c));
 }
 
-int		sla_d(struct gb_cpu_s* gb)
+void	sla_d(struct gb_cpu_s* gb)
 {
 	sla_reg8(gb, &(gb->reg.d));
 }
 
-int		sla_e(struct gb_cpu_s* gb)
+void	sla_e(struct gb_cpu_s* gb)
 {
 	sla_reg8(gb, &(gb->reg.e));
 }
 
-int		sla_h(struct gb_cpu_s* gb)
+void	sla_h(struct gb_cpu_s* gb)
 {
 	sla_reg8(gb, &(gb->reg.h));
 }
 
-int		sla_l(struct gb_cpu_s* gb)
+void	sla_l(struct gb_cpu_s* gb)
 {
 	sla_reg8(gb, &(gb->reg.l));
 }
 
-int		sla_ptr_hl(struct gb_cpu_s* gb)
+void	sla_ptr_hl(struct gb_cpu_s* gb)
 {
 	sla_mem8(gb, gb->reg.hl);
 }

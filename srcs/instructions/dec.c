@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 20:05:58 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/31 15:24:56 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/09 17:16:41 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,65 +40,66 @@ void	dec_mem8(struct gb_cpu_s* gb, uint16_t addr)
 
 void	dec_reg16(struct gb_cpu_s* gb, uint16_t* reg)
 {
+	(void)gb;
 	*reg = *reg - 1;
 }
 
-int		dec_a(struct gb_cpu_s* gb)
+void	dec_a(struct gb_cpu_s* gb)
 {
 	dec_reg8(gb, &(gb->reg.a));
 }
 
-int		dec_b(struct gb_cpu_s* gb)
+void	dec_b(struct gb_cpu_s* gb)
 {
 	dec_reg8(gb, &(gb->reg.b));
 }
 
-int		dec_c(struct gb_cpu_s* gb)
+void	dec_c(struct gb_cpu_s* gb)
 {
 	dec_reg8(gb, &(gb->reg.c));
 }
 
-int		dec_d(struct gb_cpu_s* gb)
+void	dec_d(struct gb_cpu_s* gb)
 {
 	dec_reg8(gb, &(gb->reg.d));
 }
 
-int		dec_e(struct gb_cpu_s* gb)
+void	dec_e(struct gb_cpu_s* gb)
 {
 	dec_reg8(gb, &(gb->reg.e));
 }
 
-int		dec_h(struct gb_cpu_s* gb)
+void	dec_h(struct gb_cpu_s* gb)
 {
 	dec_reg8(gb, &(gb->reg.h));
 }
 
-int		dec_l(struct gb_cpu_s* gb)
+void	dec_l(struct gb_cpu_s* gb)
 {
 	dec_reg8(gb, &(gb->reg.l));
 }
 
-int		dec_hl(struct gb_cpu_s* gb)
+void	dec_hl(struct gb_cpu_s* gb)
 {
 	dec_reg16(gb, &(gb->reg.hl));
 }
 
-int		dec_bc(struct gb_cpu_s* gb)
+void	dec_bc(struct gb_cpu_s* gb)
 {
 	dec_reg16(gb, &(gb->reg.bc));
 }
 
-int		dec_de(struct gb_cpu_s* gb)
+void	dec_de(struct gb_cpu_s* gb)
 {
 	dec_reg16(gb, &(gb->reg.de));
 }
 
-int		dec_sp(struct gb_cpu_s* gb)
+void	dec_sp(struct gb_cpu_s* gb)
 {
 	dec_reg16(gb, &(gb->reg.sp));
 }
 
-int		dec_ptr_hl(struct gb_cpu_s* gb)
+void	dec_ptr_hl(struct gb_cpu_s* gb)
 {
 	dec_mem8(gb, gb->reg.hl);
 }

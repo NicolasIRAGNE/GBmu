@@ -12,7 +12,7 @@
 
 #include "ext_op.h"
 
-int		rl_reg8(struct gb_cpu_s* gb, uint8_t* reg)
+void	rl_reg8(struct gb_cpu_s* gb, uint8_t* reg)
 {
 	uint16_t ret;
 	ret = *reg;
@@ -25,7 +25,7 @@ int		rl_reg8(struct gb_cpu_s* gb, uint8_t* reg)
 	*reg = (uint8_t)ret;
 }
 
-int		rl_mem8(struct gb_cpu_s* gb, uint16_t addr)
+void	rl_mem8(struct gb_cpu_s* gb, uint16_t addr)
 {
 	uint16_t ret;
 	uint16_t tmp;
@@ -40,12 +40,12 @@ int		rl_mem8(struct gb_cpu_s* gb, uint16_t addr)
 	write_8(gb, addr, ret);
 }
 
-int		rl_a(struct gb_cpu_s* gb)
+void	rl_a(struct gb_cpu_s* gb)
 {
 	rl_reg8(gb, &(gb->reg.a));
 }
 
-int		rla(struct gb_cpu_s* gb)
+void	rla(struct gb_cpu_s* gb)
 {
 	uint16_t ret;
 	ret = gb->reg.a;
@@ -57,37 +57,37 @@ int		rla(struct gb_cpu_s* gb)
 	gb->reg.a = (uint8_t)ret;
 }
 
-int		rl_b(struct gb_cpu_s* gb)
+void	rl_b(struct gb_cpu_s* gb)
 {
 	rl_reg8(gb, &(gb->reg.b));
 }
 
-int		rl_c(struct gb_cpu_s* gb)
+void	rl_c(struct gb_cpu_s* gb)
 {
 	rl_reg8(gb, &(gb->reg.c));
 }
 
-int		rl_d(struct gb_cpu_s* gb)
+void	rl_d(struct gb_cpu_s* gb)
 {
 	rl_reg8(gb, &(gb->reg.d));
 }
 
-int		rl_e(struct gb_cpu_s* gb)
+void	rl_e(struct gb_cpu_s* gb)
 {
 	rl_reg8(gb, &(gb->reg.e));
 }
 
-int		rl_h(struct gb_cpu_s* gb)
+void	rl_h(struct gb_cpu_s* gb)
 {
 	rl_reg8(gb, &(gb->reg.h));
 }
 
-int		rl_l(struct gb_cpu_s* gb)
+void	rl_l(struct gb_cpu_s* gb)
 {
 	rl_reg8(gb, &(gb->reg.l));
 }
 
-int		rl_ptr_hl(struct gb_cpu_s* gb)
+void	rl_ptr_hl(struct gb_cpu_s* gb)
 {
 	rl_mem8(gb, gb->reg.hl);
 }

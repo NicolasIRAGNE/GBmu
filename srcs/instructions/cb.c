@@ -6,14 +6,14 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:10:03 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/28 12:48:33 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/09 16:58:37 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "op.h"
 #include <stdio.h>
 
-int		cb_n(struct gb_cpu_s* gb)
+void	cb_n(struct gb_cpu_s* gb)
 {
 	uint8_t op = gb->current_instruction->args;
 	struct ext_inst_s* inst;

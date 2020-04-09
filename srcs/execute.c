@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:26 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/30 19:21:47 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/09 17:10:05 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ int		handle_instruction(struct gb_cpu_s* gb)
 	if (tima > 0xff)
 	{
 		uint8_t interrupt_requests = read_8(gb, IF_OFFSET);
+		(void)interrupt_requests;
 		// write_8(gb, IF_OFFSET, interrupt_requests | INT_TIMER_REQUEST);
 	}
 	write_8(gb, TIMA_OFFSET, tima);

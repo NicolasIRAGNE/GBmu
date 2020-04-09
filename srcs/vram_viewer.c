@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 13:46:09 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/28 14:22:34 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/09 17:13:40 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int		display_vram(struct gbmu_wrapper_s* wrapper, struct tile_s* array)
 
 void	vram_viewer_loop(struct gbmu_wrapper_s* wrapper, struct tile_s* array)
 {
-	SDL_Event event;
    	// while (SDL_PollEvent(&event)) 
 	// {
    		// if (event.type == SDL_KEYDOWN)
@@ -43,8 +42,6 @@ void	vram_viewer_loop(struct gbmu_wrapper_s* wrapper, struct tile_s* array)
 			// }
 		// }
    	// }
-	Uint32 *pixels;
-	pixels = wrapper->vram_viewer_context->surface->pixels;
 	if (display_vram(wrapper, array))
 	{
 		printf("jette toi dans lcanal\n");

@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 11:37:03 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/28 14:07:19 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/09 17:09:40 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int		open_rom(char* name, struct rom_s* rom)
 
 void	sigint_handler(int foo)
 {
+	(void)foo;
 	printf("Received SIGINT\n");
 	gb_global->paused = 1;
 }
@@ -88,8 +89,6 @@ int		main(int ac, char** av)
 	init_op_tab();
 	init_ext_op_tab();
 	
-	int err;
-	err = 0;
 
 	pthread_t thread;
 

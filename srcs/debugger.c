@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 14:05:57 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/27 11:29:22 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/09 17:13:17 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ int		command_next(struct gb_cpu_s* gb, char* s, uint16_t arg)
 	/*
 	** Ugly... This should probably be refactored.
 	*/
+	(void)s;
+	(void)arg;
 	uint8_t ret = handle_instruction(gb);
 	gpu_tick(gb);
 
@@ -48,6 +50,7 @@ int		command_next(struct gb_cpu_s* gb, char* s, uint16_t arg)
 
 int		command_add_breakpoint(struct gb_cpu_s* gb, char* s, uint16_t arg)
 {
+	(void)s;
 	printf("Adding breakpoint %x\n", arg);
 	add_breakpoint(&(gb->debugger->breakpoints), arg);
 	print_breakpoints(gb->debugger->breakpoints);
@@ -56,6 +59,7 @@ int		command_add_breakpoint(struct gb_cpu_s* gb, char* s, uint16_t arg)
 
 int		command_set_verbose(struct gb_cpu_s* gb, char* s, uint16_t arg)
 {
+	(void)s;
 	printf("Changing verbose level to %x\n", arg);
 	gb->debugger->verbose_level = arg;
 	return (0);
@@ -63,6 +67,8 @@ int		command_set_verbose(struct gb_cpu_s* gb, char* s, uint16_t arg)
 
 int		command_info(struct gb_cpu_s* gb, char* s, uint16_t arg)
 {
+	(void)s;
+	(void)arg;
 	update_current_instruction(gb);
 	debug_print_gb(gb);
 	return (0);
@@ -70,24 +76,32 @@ int		command_info(struct gb_cpu_s* gb, char* s, uint16_t arg)
 
 int		command_not_found(struct gb_cpu_s* gb, char* s, uint16_t arg)
 {
+	(void)gb;
+	(void)arg;	
+	
 	printf("undefined command: \"%s\"\n", s);
 	return (0);
 }
 
 int		command_quit(struct gb_cpu_s* gb, char* s, uint16_t arg)
 {
+	(void)s;
+	(void)arg;	
 	gb->running = 0;	
 	return (0);
 }
 
 int		command_run(struct gb_cpu_s* gb, char* s, uint16_t arg)
 {
+	(void)s;
+	(void)arg;	
 	gb->paused = 0;
 	return (0);
 }
 
 int		command_print(struct gb_cpu_s* gb, char* s, uint16_t arg)
 {
+	(void)s;
 	printf("%x: %x\n", arg, read_8(gb, arg));	
 	printf("%x: %x\n", arg, read_16(gb, arg));	
 	return (0);
@@ -95,6 +109,8 @@ int		command_print(struct gb_cpu_s* gb, char* s, uint16_t arg)
 
 int		command_del(struct gb_cpu_s* gb, char* s, uint16_t arg)
 {
+	(void)s;
+	(void)arg;
 	clear_breakpoints(&(gb->debugger->breakpoints));
 	return (0);
 }
@@ -103,6 +119,9 @@ int		command_help(struct gb_cpu_s* gb, char* s, uint16_t arg)
 {
 	struct command_s* ret;
 	int i = 0;
+	(void)s;
+	(void)gb;
+	(void)arg;
 
 	while (i * sizeof(struct command_s) < sizeof(commands))
 	{

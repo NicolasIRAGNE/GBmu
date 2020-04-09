@@ -6,14 +6,14 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/12 13:27:30 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/30 18:25:46 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/09 17:02:31 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "gb.h"
 
-int		sub(struct gb_cpu_s* gb, uint8_t value)
+void	sub(struct gb_cpu_s* gb, uint8_t value)
 {
 	uint16_t ret;
 	ret = gb->reg.a - value;
@@ -28,47 +28,47 @@ int		sub(struct gb_cpu_s* gb, uint8_t value)
 	gb->reg.a = (uint8_t)ret;
 }
 
-int		sub_a(struct gb_cpu_s* gb)
+void	sub_a(struct gb_cpu_s* gb)
 {
 	sub(gb, gb->reg.a);
 }
 
-int		sub_b(struct gb_cpu_s* gb)
+void	sub_b(struct gb_cpu_s* gb)
 {
 	sub(gb, gb->reg.b);
 }
 
-int		sub_c(struct gb_cpu_s* gb)
+void	sub_c(struct gb_cpu_s* gb)
 {
 	sub(gb, gb->reg.c);
 }
 
-int		sub_d(struct gb_cpu_s* gb)
+void	sub_d(struct gb_cpu_s* gb)
 {
 	sub(gb, gb->reg.d);
 }
 
-int		sub_e(struct gb_cpu_s* gb)
+void	sub_e(struct gb_cpu_s* gb)
 {
 	sub(gb, gb->reg.e);
 }
 
-int		sub_h(struct gb_cpu_s* gb)
+void	sub_h(struct gb_cpu_s* gb)
 {
 	sub(gb, gb->reg.h);
 }
 
-int		sub_l(struct gb_cpu_s* gb)
+void	sub_l(struct gb_cpu_s* gb)
 {
 	sub(gb, gb->reg.l);
 }
 
-int		sub_a8(struct gb_cpu_s* gb)
+void	sub_a8(struct gb_cpu_s* gb)
 {
 	sub(gb, gb->current_instruction->args);
 }
 
-int		sub_ptr_hl(struct gb_cpu_s* gb)
+void	sub_ptr_hl(struct gb_cpu_s* gb)
 {
 	sub(gb, read_8(gb, gb->reg.hl));
 }

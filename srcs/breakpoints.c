@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/15 16:37:38 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/18 13:31:31 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/09 17:14:52 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ int		add_breakpoint(struct breakpoint_s** lst, uint16_t addr)
 	if (new == NULL)
 		return (1);
 	
-	struct breakpoint_s* tmp = *lst;
 	if (breakpoint_pushback(lst, new))
 		free(new);
 	return (0);
@@ -67,6 +66,7 @@ int		print_breakpoints(struct breakpoint_s* lst)
 		printf("Breakpoint at %x\n", lst->addr);
 		lst = lst->next;
 	}
+	return (0);
 }
 
 int		find_breakpoint(struct breakpoint_s* lst, uint16_t addr)

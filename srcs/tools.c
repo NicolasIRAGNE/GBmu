@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 13:47:25 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/05 13:48:42 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/09 17:13:57 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ uint32_t	get_color_from_palette(uint8_t index)
 
 void	memset_4(uint32_t* ptr, uint32_t c, size_t n)
 {
-	int i = 0;
+	size_t i = 0;
 
 	while (i < n)
 	{

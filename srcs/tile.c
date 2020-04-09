@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 13:48:02 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/28 14:31:21 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/09 17:14:16 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ void	resize_tile(uint32_t* pixels, struct tile_s* tile, int x, int y)
 int		print_tile(struct sdl_context_s* context, struct tile_s* tile, int index, SDL_Rect pos)
 {
 	SDL_Surface* tile_surface;
+	(void)index;
 
 	tile_surface = SDL_CreateRGBSurface(0, TILE_SURFACE_WIDTH, TILE_SURFACE_HEIGHT, 32, 0, 0, 0, 0);
 	if (!tile_surface)
