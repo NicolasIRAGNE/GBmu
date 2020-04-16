@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 11:56:05 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/04 16:32:47 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/16 11:13:43 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int		init_sdl()
 
 int     init_vram_viewer(struct sdl_context_s* context)
 {
-	if (SDL_CreateWindowAndRenderer(VRAM_WINDOW_WIDTH, VRAM_WINDOW_HEIGHT, SDL_WINDOW_SHOWN, &(context->win), &(context->renderer)))
+	if (SDL_CreateWindowAndRenderer(VRAM_WINDOW_WIDTH, VRAM_WINDOW_HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE, &(context->win), &(context->renderer)))
 	{
 		fprintf(stderr, "failed to initialize create window or renderer(%s)\n", SDL_GetError());
 		return (1);

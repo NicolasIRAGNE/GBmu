@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:34:47 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/30 14:29:53 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/16 11:24:36 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ struct registers_s {
 	struct {
 		union {
 			struct {
+			
 				uint8_t c;
 				uint8_t b;
 			};
@@ -143,7 +144,7 @@ struct	gb_cpu_s
 	int					running : 1;
 	int					paused : 1;
 	uint16_t			interrupt;
-	uint32_t			cycle;
+	uint64_t			cycle;
 	struct gbmu_debugger_s*	debugger;
 
 	int					ime : 1; // Interrupt Master Enable Flag
@@ -167,7 +168,6 @@ struct	gb_cpu_s
 };
 
 /*
-
 This is, as far as I understand, the memory map of the gameboy:
 
 0000 - 7FFF (32kb) : ROM AREA
@@ -187,6 +187,5 @@ FF80 - FFFE : HRAM
 FFFF		: Interrupt?
 
 */
-
 
 #endif

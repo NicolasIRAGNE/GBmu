@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 14:05:57 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/09 17:13:17 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/09 18:03:35 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,8 @@ int		command_not_found(struct gb_cpu_s* gb, char* s, uint16_t arg)
 int		command_quit(struct gb_cpu_s* gb, char* s, uint16_t arg)
 {
 	(void)s;
-	(void)arg;	
-	gb->running = 0;	
+	(void)arg;
+	gb->running = 0;
 	return (0);
 }
 

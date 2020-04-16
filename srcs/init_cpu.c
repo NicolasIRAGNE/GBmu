@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:30:05 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/30 19:20:35 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/16 11:24:27 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,10 @@ int		init_cpu(struct gb_cpu_s* gb)
 	if (init_boot_rom(gb))
 		return (1);
 	gb->reg.sp = 0xFFFE;
-	gb->reg.de = 0x0008;
-	gb->reg.af = 0x1180;
-	gb->reg.hl = 0x007c;
-	gb->reg.pc = 0x100;
+	gb->reg.af = 0;
+	gb->reg.de = 0;
+	gb->reg.hl = 0;
+	gb->reg.pc = 0;
 	gb->booted = (gb->reg.pc) >= 0x100;
 	gb->running = 1;
 	gb->vram_viewer_running = 1;

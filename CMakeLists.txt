@@ -59,7 +59,7 @@ message (${SDL2_INCLUDE_DIRS})
 
 INCLUDE_DIRECTORIES(includes)
 
-set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -lpthread -Wall -Wextra -Werror")
+set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra")
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
