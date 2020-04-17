@@ -1,0 +1,127 @@
+%grammarName DebuggerGrammar
+
+%terminalPrefix Terminal
+%nonTerminalPrefix NonTerminal
+%prefix Symbol
+
+%returnType int
+%contextType CustomStack
+%passContextBy reference
+
+%contextFileBaseName CustomStack
+%contextInstance context
+%generateMain true
+
+%blankAsDelimiter false
+
+%programName debuggerTest
+
+%tokens
+
+>   Greater
+>=  GreaterOrEqual
+<   Lesser
+<=  LesserOrEqual
+&&  And
+||  Or
+&   BinaryAnd
+|   BinaryOr
+<<	LeftShift
+>>	RightShift
+!=  NotEqual
+==  Equal
+*   Multiply
+/   Divide
+%   Modulo
+-   Minus
++   Plus
+d	Decimal
+x	Hexadecimal
+o	Octal
+b	Binary
+(   OpenParenthesis
+)   ClosedParenthesis
+hh  halfWordFormat
+h   wordFormat
+print Print
+
+SEPARATOR  Separator    separator
+INTEGER    Integer		unsigned_int
+VARIABLE   Variable 	string
+
+%nonterminals
+
+%start command
+
+command            : printCommand
+|                    xCommand
+|                    simpleCommand
+|                    _EPS_
+;
+
+separatorPipeline       : separatorPipeline SEPARATOR
+|                         SEPARATOR
+;
+separatorPipelineOrEPS    : separatorPipeline
+|						  _EPS_
+;
+printCommand       : print separatorPipeline value
+|	                 print / format separatorPipeline value
+;
+xCommand           : x xSuffix separatorPipeline value
+|                    x value
+;
+unit			   : hh
+| 					 h
+;
+xSuffix            : / INTEGER format unit
+|                    / INTEGER format
+|                    / format
+;
+format             : d
+|				     x
+|				     o
+|				     b
+;
+value			   : innerValue
+|                    _EPS_
+;
+innerValue         : andOr
+|					 ( separatorPipeline innerValue separatorPipeline )
+;
+andOr : comparison
+|        andOr && comparison
+|        andOr || comparison
+;
+comparison : expr
+|        comparison separatorPipelineOrEPS > separatorPipelineOrEPS expr
+|        comparison separatorPipelineOrEPS >= separatorPipelineOrEPS expr
+|        comparison separatorPipelineOrEPS < separatorPipelineOrEPS expr
+|        comparison separatorPipelineOrEPS <= separatorPipelineOrEPS expr
+|        comparison separatorPipelineOrEPS != separatorPipelineOrEPS expr
+|        comparison separatorPipelineOrEPS == separatorPipelineOrEPS expr
+;
+expr               : term
+|                    expr separatorPipelineOrEPS + separatorPipelineOrEPS term
+|                    expr separatorPipelineOrEPS - separatorPipelineOrEPS term
+;
+simpleCommand      : commandName
+|                    commandName separatorPipeline commandSuffix
+;
+commandName        : VARIABLE
+;
+commandSuffix      : VARIABLE commandSuffix separatorPipeline 
+|                    VARIABLE
+;
+term               : factor
+|                    term separatorPipelineOrEPS * separatorPipelineOrEPS factor
+|                    term separatorPipelineOrEPS / separatorPipelineOrEPS factor
+|                    term separatorPipelineOrEPS >> separatorPipelineOrEPS factor
+|                    term separatorPipelineOrEPS << separatorPipelineOrEPS factor
+|                    term separatorPipelineOrEPS | separatorPipelineOrEPS factor
+|                    term separatorPipelineOrEPS & separatorPipelineOrEPS factor
+;
+factor         :   INTEGER
+|                  - factor
+|                  + factor
+;
