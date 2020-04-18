@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/17 03:08:44 by ldedier            #+#    #+#            */
-/*   Updated: 2020/04/17 03:08:44 by ldedier           ###   ########.fr      */
+/*   Created: 2020/04/17 12:47:46 by ldedier            #+#    #+#            */
+/*   Updated: 2020/04/17 12:47:46 by ldedier           ###   ########.fr      */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,6 @@ int	SymbolNonTerminalXCommand::traverse(ASTNode<int, CustomStack &> & ast, Custo
 
 void	SymbolNonTerminalXCommand::computeProductions(AbstractGrammar<int, CustomStack &> & cfg)
 {
-	addProduction(cfg, 4, (std::string[]){"x", "xsuffix", "separatorpipeline", "value"});
-	addProduction(cfg, 2, (std::string[]){"x", "value"});
+	addProduction(cfg, {"x", "xsuffix", "separatorpipeline", "value"});
+	addProduction(cfg, {"x", "value"});
 }

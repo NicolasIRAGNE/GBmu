@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/17 03:08:44 by ldedier            #+#    #+#            */
-/*   Updated: 2020/04/17 03:08:44 by ldedier           ###   ########.fr      */
+/*   Created: 2020/04/17 12:47:46 by ldedier            #+#    #+#            */
+/*   Updated: 2020/04/17 12:47:46 by ldedier           ###   ########.fr      */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	SymbolNonTerminalXSuffix::traverse(ASTNode<int, CustomStack &> & ast, Custom
 
 void	SymbolNonTerminalXSuffix::computeProductions(AbstractGrammar<int, CustomStack &> & cfg)
 {
-	addProduction(cfg, 4, (std::string[]){"/", "integer", "format", "unit"});
-	addProduction(cfg, 3, (std::string[]){"/", "integer", "format"});
-	addProduction(cfg, 2, (std::string[]){"/", "format"});
+	addProduction(cfg, {"/", "integer", "format", "unit"});
+	addProduction(cfg, {"/", "integer", "format"});
+	addProduction(cfg, {"/", "format"});
 }

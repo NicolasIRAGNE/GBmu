@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/17 03:08:44 by ldedier            #+#    #+#            */
-/*   Updated: 2020/04/17 03:08:44 by ldedier           ###   ########.fr      */
+/*   Created: 2020/04/17 12:47:46 by ldedier            #+#    #+#            */
+/*   Updated: 2020/04/17 12:47:46 by ldedier           ###   ########.fr      */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,6 @@ int	SymbolNonTerminalSeparatorPipeline::traverse(ASTNode<int, CustomStack &> & a
 
 void	SymbolNonTerminalSeparatorPipeline::computeProductions(AbstractGrammar<int, CustomStack &> & cfg)
 {
-	addProduction(cfg, 2, (std::string[]){"separatorpipeline", "separator"});
-	addProduction(cfg, 1, (std::string[]){"separator"});
+	addProduction(cfg, {"separatorpipeline", "separator"});
+	addProduction(cfg, {"separator"});
 }

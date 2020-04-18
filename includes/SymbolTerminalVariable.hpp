@@ -5,18 +5,18 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/17 03:08:44 by ldedier            #+#    #+#            */
-/*   Updated: 2020/04/17 03:08:44 by ldedier           ###   ########.fr      */
+/*   Created: 2020/04/17 12:47:46 by ldedier            #+#    #+#            */
+/*   Updated: 2020/04/17 12:47:46 by ldedier           ###   ########.fr      */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SYMBOLTERMINALVARIABLE_HPP
 # define SYMBOLTERMINALVARIABLE_HPP
 
-# include "AbstractTerminal.hpp"
+# include "AbstractStringTerminal.hpp"
 # include "CustomStack.hpp"
 
-class SymbolTerminalVariable : public AbstractTerminal<int, CustomStack &>
+class SymbolTerminalVariable : public AbstractStringTerminal<int, CustomStack &>
 {
 	public:
 		SymbolTerminalVariable(void);

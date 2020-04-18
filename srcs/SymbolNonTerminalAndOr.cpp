@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/17 03:08:44 by ldedier            #+#    #+#            */
-/*   Updated: 2020/04/17 03:08:44 by ldedier           ###   ########.fr      */
+/*   Created: 2020/04/17 12:47:46 by ldedier            #+#    #+#            */
+/*   Updated: 2020/04/17 12:47:46 by ldedier           ###   ########.fr      */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	SymbolNonTerminalAndOr::traverse(ASTNode<int, CustomStack &> & ast, CustomSt
 
 void	SymbolNonTerminalAndOr::computeProductions(AbstractGrammar<int, CustomStack &> & cfg)
 {
-	addProduction(cfg, 1, (std::string[]){"comparison"});
-	addProduction(cfg, 3, (std::string[]){"andor", "&&", "comparison"});
-	addProduction(cfg, 3, (std::string[]){"andor", "||", "comparison"});
+	addProduction(cfg, {"comparison"});
+	addProduction(cfg, {"andor", "&&", "comparison"});
+	addProduction(cfg, {"andor", "||", "comparison"});
 }

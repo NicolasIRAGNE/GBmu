@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/17 03:08:44 by ldedier            #+#    #+#            */
-/*   Updated: 2020/04/17 03:08:44 by ldedier           ###   ########.fr      */
+/*   Created: 2020/04/17 12:47:46 by ldedier            #+#    #+#            */
+/*   Updated: 2020/04/17 12:47:46 by ldedier           ###   ########.fr      */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,11 @@ int	SymbolNonTerminalTerm::traverse(ASTNode<int, CustomStack &> & ast, CustomSta
 
 void	SymbolNonTerminalTerm::computeProductions(AbstractGrammar<int, CustomStack &> & cfg)
 {
-	addProduction(cfg, 1, (std::string[]){"factor"});
-	addProduction(cfg, 5, (std::string[]){"term", "separatorpipelineoreps", "*", "separatorpipelineoreps", "factor"});
-	addProduction(cfg, 5, (std::string[]){"term", "separatorpipelineoreps", "/", "separatorpipelineoreps", "factor"});
-	addProduction(cfg, 5, (std::string[]){"term", "separatorpipelineoreps", ">>", "separatorpipelineoreps", "factor"});
-	addProduction(cfg, 5, (std::string[]){"term", "separatorpipelineoreps", "<<", "separatorpipelineoreps", "factor"});
-	addProduction(cfg, 5, (std::string[]){"term", "separatorpipelineoreps", "|", "separatorpipelineoreps", "factor"});
-	addProduction(cfg, 5, (std::string[]){"term", "separatorpipelineoreps", "&", "separatorpipelineoreps", "factor"});
+	addProduction(cfg, {"factor"});
+	addProduction(cfg, {"term", "separatorpipelineoreps", "*", "separatorpipelineoreps", "factor"});
+	addProduction(cfg, {"term", "separatorpipelineoreps", "/", "separatorpipelineoreps", "factor"});
+	addProduction(cfg, {"term", "separatorpipelineoreps", ">>", "separatorpipelineoreps", "factor"});
+	addProduction(cfg, {"term", "separatorpipelineoreps", "<<", "separatorpipelineoreps", "factor"});
+	addProduction(cfg, {"term", "separatorpipelineoreps", "|", "separatorpipelineoreps", "factor"});
+	addProduction(cfg, {"term", "separatorpipelineoreps", "&", "separatorpipelineoreps", "factor"});
 }

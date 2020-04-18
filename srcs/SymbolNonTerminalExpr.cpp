@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/17 03:08:44 by ldedier            #+#    #+#            */
-/*   Updated: 2020/04/17 03:08:44 by ldedier           ###   ########.fr      */
+/*   Created: 2020/04/17 12:47:46 by ldedier            #+#    #+#            */
+/*   Updated: 2020/04/17 12:47:46 by ldedier           ###   ########.fr      */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	SymbolNonTerminalExpr::traverse(ASTNode<int, CustomStack &> & ast, CustomSta
 
 void	SymbolNonTerminalExpr::computeProductions(AbstractGrammar<int, CustomStack &> & cfg)
 {
-	addProduction(cfg, 1, (std::string[]){"term"});
-	addProduction(cfg, 5, (std::string[]){"expr", "separatorpipelineoreps", "+", "separatorpipelineoreps", "term"});
-	addProduction(cfg, 5, (std::string[]){"expr", "separatorpipelineoreps", "-", "separatorpipelineoreps", "term"});
+	addProduction(cfg, {"term"});
+	addProduction(cfg, {"expr", "separatorpipelineoreps", "+", "separatorpipelineoreps", "term"});
+	addProduction(cfg, {"expr", "separatorpipelineoreps", "-", "separatorpipelineoreps", "term"});
 }

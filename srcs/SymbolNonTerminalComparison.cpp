@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/17 03:08:44 by ldedier            #+#    #+#            */
-/*   Updated: 2020/04/17 03:08:44 by ldedier           ###   ########.fr      */
+/*   Created: 2020/04/17 12:47:46 by ldedier            #+#    #+#            */
+/*   Updated: 2020/04/17 12:47:46 by ldedier           ###   ########.fr      */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,11 @@ int	SymbolNonTerminalComparison::traverse(ASTNode<int, CustomStack &> & ast, Cus
 
 void	SymbolNonTerminalComparison::computeProductions(AbstractGrammar<int, CustomStack &> & cfg)
 {
-	addProduction(cfg, 1, (std::string[]){"expr"});
-	addProduction(cfg, 5, (std::string[]){"comparison", "separatorpipelineoreps", ">", "separatorpipelineoreps", "expr"});
-	addProduction(cfg, 5, (std::string[]){"comparison", "separatorpipelineoreps", ">=", "separatorpipelineoreps", "expr"});
-	addProduction(cfg, 5, (std::string[]){"comparison", "separatorpipelineoreps", "<", "separatorpipelineoreps", "expr"});
-	addProduction(cfg, 5, (std::string[]){"comparison", "separatorpipelineoreps", "<=", "separatorpipelineoreps", "expr"});
-	addProduction(cfg, 5, (std::string[]){"comparison", "separatorpipelineoreps", "!=", "separatorpipelineoreps", "expr"});
-	addProduction(cfg, 5, (std::string[]){"comparison", "separatorpipelineoreps", "==", "separatorpipelineoreps", "expr"});
+	addProduction(cfg, {"expr"});
+	addProduction(cfg, {"comparison", "separatorpipelineoreps", ">", "separatorpipelineoreps", "expr"});
+	addProduction(cfg, {"comparison", "separatorpipelineoreps", ">=", "separatorpipelineoreps", "expr"});
+	addProduction(cfg, {"comparison", "separatorpipelineoreps", "<", "separatorpipelineoreps", "expr"});
+	addProduction(cfg, {"comparison", "separatorpipelineoreps", "<=", "separatorpipelineoreps", "expr"});
+	addProduction(cfg, {"comparison", "separatorpipelineoreps", "!=", "separatorpipelineoreps", "expr"});
+	addProduction(cfg, {"comparison", "separatorpipelineoreps", "==", "separatorpipelineoreps", "expr"});
 }

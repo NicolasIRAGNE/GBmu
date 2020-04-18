@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/17 03:08:44 by ldedier            #+#    #+#            */
-/*   Updated: 2020/04/17 03:08:44 by ldedier           ###   ########.fr      */
+/*   Created: 2020/04/17 12:47:46 by ldedier            #+#    #+#            */
+/*   Updated: 2020/04/17 12:47:46 by ldedier           ###   ########.fr      */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ int	SymbolNonTerminalCommand::traverse(ASTNode<int, CustomStack &> & ast, Custom
 
 void	SymbolNonTerminalCommand::computeProductions(AbstractGrammar<int, CustomStack &> & cfg)
 {
-	addProduction(cfg, 1, (std::string[]){"printcommand"});
-	addProduction(cfg, 1, (std::string[]){"xcommand"});
-	addProduction(cfg, 1, (std::string[]){"simplecommand"});
-	addProduction(cfg, 0, nullptr);
+	addProduction(cfg, {"printcommand"});
+	addProduction(cfg, {"xcommand"});
+	addProduction(cfg, {"simplecommand"});
+	addProduction(cfg, {});
 }

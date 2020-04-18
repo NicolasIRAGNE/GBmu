@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/17 03:08:44 by ldedier            #+#    #+#            */
-/*   Updated: 2020/04/17 03:08:44 by ldedier           ###   ########.fr      */
+/*   Created: 2020/04/17 12:47:46 by ldedier            #+#    #+#            */
+/*   Updated: 2020/04/17 12:47:46 by ldedier           ###   ########.fr      */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,6 @@ int	SymbolNonTerminalCommandSuffix::traverse(ASTNode<int, CustomStack &> & ast, 
 
 void	SymbolNonTerminalCommandSuffix::computeProductions(AbstractGrammar<int, CustomStack &> & cfg)
 {
-	addProduction(cfg, 3, (std::string[]){"variable", "commandsuffix", "separatorpipeline"});
-	addProduction(cfg, 1, (std::string[]){"variable"});
+	addProduction(cfg, {"variable", "commandsuffix", "separatorpipeline"});
+	addProduction(cfg, {"variable"});
 }
