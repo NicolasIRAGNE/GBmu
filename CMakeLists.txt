@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.13)
+SET(CMAKE_CXX_STANDARD 17)
 
 project(gbmu)
 
@@ -49,18 +50,29 @@ SET (SOURCES
 	srcs/instructions/swap.c
 	)
 
+# EXECUTE_PROCESS(COMMAND "python3" "libyacc/generator/ParserGenerator.py" "debuggerGrammar" 
+				# WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+				# RESULT_VARIABLE CMD_RESULT
+				# OUTPUT_VARIABLE CMD_OUTPUT
+			# )
+
+message(STATUS ${CMD_OUTPUT})
+
+FILE(GLOB GENERATED_LIBYACC_SOURCES srcs/debugger/*.cpp)
+
 SET (INCLUDES
     )
 
 find_package(SDL2 REQUIRED)
 find_package(Threads)
 INCLUDE_DIRECTORIES(${SDL2_INCLUDE_DIRS})
-message (${SDL2_INCLUDE_DIRS})
 
 INCLUDE_DIRECTORIES(includes)
+INCLUDE_DIRECTORIES(libyacc/includes)
+INCLUDE_DIRECTORIES(includes/debugger)
 
-set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -lpthread -Wall -Wextra ")
+set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -lpthread -Wall -Wextra")
 
-add_executable(${PROJECT_NAME} ${SOURCES})
+add_executable(${PROJECT_NAME} ${SOURCES} ${GENERATED_LIBYACC_SOURCES})
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
 # SET_TARGET_PROPERTIES(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE TRUE)

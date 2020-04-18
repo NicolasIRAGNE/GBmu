@@ -10,6 +10,8 @@
 		"renderer.h": "c",
 		"stdlib.h": "c",
 		"signal.h": "c",
-		"type_traits": "c"
+		"type_traits": "c",
+		"iostream": "cpp",
+		"vector": "cpp"
 	}
 }
