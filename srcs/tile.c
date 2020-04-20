@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 13:48:02 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/09 17:14:16 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/20 12:12:34 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,11 @@ struct tile_s	create_tile(struct gb_cpu_s* gb, uint16_t index)
 
 void	resize_tile(uint32_t* pixels, struct tile_s* tile, int x, int y)
 {
+	/*
+	** This function takes an 8*8 tile and makes it x times wider and y times taller.
+	** This function is also useless because I am a moron and SDL does it by default.
+	** But I am leaving it in since I spent way too much time on it.
+	*/
 	int i = 0;
 	int j = 0;
 	int k = 0;
@@ -136,7 +141,7 @@ int		print_tile(struct sdl_context_s* context, struct tile_s* tile, int index, S
 	}
 	uint32_t* pixels = tile_surface->pixels;
 
-	resize_tile(pixels, tile, 8, 8);
+	resize_tile(pixels, tile, 1, 1);
 
 	if (SDL_BlitSurface(tile_surface, NULL, context->surface, &pos))
 	{

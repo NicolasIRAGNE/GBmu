@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/23 10:37:45 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/22 13:27:58 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/20 11:59:36 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,18 @@
 
 # define VRAM_WINDOW_WIDTH 256
 # define VRAM_WINDOW_HEIGHT 512
-# define VRAM_SURFACE_WIDTH 1024
-# define VRAM_SURFACE_HEIGHT 2048
+# define VRAM_SURFACE_WIDTH (128)
+# define VRAM_SURFACE_HEIGHT (256)
 
 # define MAIN_WINDOW_WIDTH (256 * 2)
 # define MAIN_WINDOW_HEIGHT (256 * 2)
 
 
-# define TILE_SURFACE_WIDTH		64
-# define TILE_SURFACE_HEIGHT	64
+# define TILE_SURFACE_WIDTH		8
+# define TILE_SURFACE_HEIGHT	8
 
-# define MAIN_SURFACE_WIDTH (256 * 8)
-# define MAIN_SURFACE_HEIGHT (256 * 8)
+# define MAIN_SURFACE_WIDTH (256)
+# define MAIN_SURFACE_HEIGHT (256)
 
 # define TILE_SIZE				16
 # define TILES_COUNT ((VRAM_TILE_BANK_SIZE + 1) / TILE_SIZE)
