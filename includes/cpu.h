@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:34:47 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/21 14:26:56 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/21 18:58:06 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,18 @@ struct	mbc_s
 	enum mbc_mode_e mode;
 };
 
+struct	joypad_s
+{
+	uint8_t		start : 1;
+	uint8_t		select : 1;
+	uint8_t		b : 1;
+	uint8_t		a : 1;
+	uint8_t		down : 1;
+	uint8_t		up : 1;
+	uint8_t		left : 1;
+	uint8_t		right : 1;
+};
+
 struct	gb_cpu_s
 {
 	int					jmp : 1; // Flag used by the emulator. Ugly but hopefully temporary ?
@@ -181,6 +193,7 @@ struct	gb_cpu_s
 	struct rom_s*		rom_ptr;
 	struct gb_gpu_s		gpu;
 	struct mbc_s		mbc;
+	struct joypad_s		joypad;
 	uint8_t				boot_rom[BOOT_ROM_SIZE];
 	uint8_t				vram[VRAM_SIZE];
 	uint8_t				ram[RAM_SIZE];

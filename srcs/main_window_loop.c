@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 14:11:30 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/21 15:30:16 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/21 18:47:44 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ void	main_window_loop(struct gbmu_wrapper_s* wrapper, struct tile_s* array)
 		}
    	}
 
-	// if (!wrapper->gb->paused)
-		// handle_joypad(wrapper->gb);
+	if (!wrapper->gb->paused)
+		handle_joypad(wrapper->gb);
 
 	if (display_test(wrapper, array))
 	{

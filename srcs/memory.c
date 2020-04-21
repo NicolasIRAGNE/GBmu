@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 18:10:17 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/21 15:30:04 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/21 19:07:11 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,26 @@ uint8_t	read_8(struct gb_cpu_s* gb, uint16_t a16)
 	else if (a16 < 0xe000)
 	{
 		return (((uint8_t*)(gb->ram))[a16 - 0xc000]);		
+	}
+	else if (a16 == JOYP_OFFSET)
+	{
+		uint8_t ret = 0;
+		if (gb->joypad_mode == JOYPAD_MODE_BUTTONS)
+		{
+			ret |= ((gb->joypad.a) != 0) << 0;
+			ret |= ((gb->joypad.b) != 0) << 1;
+			ret |= ((gb->joypad.select) != 0) << 2;
+			ret |= ((gb->joypad.start) != 0) << 3;
+		}
+		else if (gb->joypad_mode == JOYPAD_MODE_DIRECTIONS)
+		{
+			ret |= ((gb->joypad.right) != 0) << 0;
+			ret |= ((gb->joypad.left) != 0) << 1;
+			ret |= ((gb->joypad.up) != 0) << 2;
+			ret |= ((gb->joypad.down) != 0) << 3;
+		}
+		ret = ~ret;
+		return (ret);
 	}
 	else if (a16 >= 0xFF00 && a16 < 0xFF80)
 	{
@@ -151,7 +171,7 @@ void	write_8(struct gb_cpu_s* gb, uint16_t a16, uint8_t x)
 		else if (x == SELECT_NONE)
 		{
 			gb->joypad_mode = JOYPAD_MODE_NONE;
-		gb->paused = 1;
+		// gb->paused = 1;
 		}
 		return ;
 	}
