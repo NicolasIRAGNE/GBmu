@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/23 10:37:45 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/20 11:59:36 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/21 14:32:30 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int		print_tile(struct sdl_context_s* context, struct tile_s* tile, int index, S
 void	resize_tile(uint32_t* pixels, struct tile_s* tile, int x, int y);
 void	fill_tile_array(struct gb_cpu_s* gb, struct tile_s* array);
 void	main_window_loop(struct gbmu_wrapper_s* wrapper, struct tile_s* array);
-
+void	handle_joypad(struct gb_cpu_s* gb);
 
 
 #endif

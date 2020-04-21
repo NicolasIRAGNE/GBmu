@@ -20,6 +20,7 @@ SET (SOURCES
 	srcs/tile.c
 	srcs/breakpoints.c
 	srcs/main_window_loop.c
+	srcs/handle_joypad.c
 	srcs/instructions/jp.c
 	srcs/instructions/ld.c
 	srcs/instructions/misc.c

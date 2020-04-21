@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 14:11:30 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/20 12:09:20 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/21 15:30:16 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int		display_test(struct gbmu_wrapper_s* wrapper, struct tile_s* array)
 void	main_window_loop(struct gbmu_wrapper_s* wrapper, struct tile_s* array)
 {
 	SDL_Event event;
+
    	while (SDL_PollEvent(&event)) 
 	{
    		if (event.type == SDL_KEYDOWN)
@@ -43,6 +44,10 @@ void	main_window_loop(struct gbmu_wrapper_s* wrapper, struct tile_s* array)
 				wrapper->gb->paused = 1;
 		}
    	}
+
+	// if (!wrapper->gb->paused)
+		// handle_joypad(wrapper->gb);
+
 	if (display_test(wrapper, array))
 	{
 		printf("jette toi dans lcanal\n");

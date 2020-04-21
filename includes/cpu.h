@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:34:47 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/16 11:24:36 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/21 14:26:56 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@
 
 # define VRAM_TILE_BANK_SIZE 0x1800
 
-# define IO_OFFSET	 0xFF00
+# define IO_OFFSET		0xFF00
+# define JOYP_OFFSET	(IO_OFFSET | 0x00)
 
 // TIMER
 # define DIV_OFFSET		(IO_OFFSET | 0x04)
@@ -33,6 +34,7 @@
 # define TMA_OFFSET		(IO_OFFSET | 0x06)
 # define TAC_OFFSET		(IO_OFFSET | 0x07)
 
+// LCD SCREEN
 # define LCDC_OFFSET 	(IO_OFFSET | 0x40)
 # define STAT_OFFSET 	(IO_OFFSET | 0x41)
 # define SCY_OFFSET		(IO_OFFSET | 0x42)
@@ -58,10 +60,26 @@
 # define INT_STAT_REQUEST	(1 << 1)
 # define INT_TIMER_REQUEST	(1 << 2)
 # define INT_SERIAL_REQUEST	(1 << 3)
-# define INT_JOYPAD_REQUEST	(1 << 4)
+# define INT_JOYPAD_REQUEST	(1 << 4) // useless i think ?
 
 # define INT_VBLANK_ADDR		0x40
 # define INT_TIMER_ADDR			0x50
+
+// Joypad
+# define SELECT_NONE			0x30
+# define SELECT_BUTTON_KEYS		0x20
+# define SELECT_DIRECTION_KEYS	0x10
+
+# define JOYP_INPUT_DOWN		(1 << 3)
+# define JOYP_INPUT_UP			(1 << 2)
+# define JOYP_INPUT_LEFT		(1 << 1)
+# define JOYP_INPUT_RIGHT		(1 << 0)
+
+# define JOYP_INPUT_START		(1 << 3)
+# define JOYP_INPUT_SELECT		(1 << 2)
+# define JOYP_INPUT_B			(1 << 1)
+# define JOYP_INPUT_A			(1 << 0)
+
 
 struct registers_s {
 	struct {
@@ -130,6 +148,13 @@ enum	mbc_mode_e
 	MBC_MODE_RAM
 };
 
+enum	joypad_mode_e
+{
+	JOYPAD_MODE_NONE,
+	JOYPAD_MODE_BUTTONS,
+	JOYPAD_MODE_DIRECTIONS,
+};
+
 struct	mbc_s
 {
 	uint8_t bank;
@@ -165,6 +190,7 @@ struct	gb_cpu_s
 	uint8_t				io_ports[IO_PORTS_SIZE];
 	uint8_t				oam[OAM_SIZE];
 	uint8_t				interrupt_enable_register;
+	enum joypad_mode_e	joypad_mode;
 };
 
 /*

@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 18:10:17 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/09 17:29:11 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/21 15:30:04 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,19 @@ void	write_8(struct gb_cpu_s* gb, uint16_t a16, uint8_t x)
 	else if (a16 < 0xe000)
 	{
 		((uint8_t*)(gb->ram))[a16 - 0xc000] = x;
+		return ;
+	}
+	else if (a16 == JOYP_OFFSET)
+	{
+		if (x == SELECT_BUTTON_KEYS)
+			gb->joypad_mode = JOYPAD_MODE_BUTTONS;
+		else if (x == SELECT_DIRECTION_KEYS)
+			gb->joypad_mode = JOYPAD_MODE_DIRECTIONS;
+		else if (x == SELECT_NONE)
+		{
+			gb->joypad_mode = JOYPAD_MODE_NONE;
+		gb->paused = 1;
+		}
 		return ;
 	}
 	else if (a16 >= 0xFF00 && a16 < 0xFF80)
