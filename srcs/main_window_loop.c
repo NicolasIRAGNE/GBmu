@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 14:11:30 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/21 18:47:44 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/22 19:26:24 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,31 @@ int		display_test(struct gbmu_wrapper_s* wrapper, struct tile_s* array)
 		lcdc = read_8(wrapper->gb, LCDC_OFFSET);
 		(void)lcdc;
 		SDL_Rect pos = (SDL_Rect) {(index * TILE_SURFACE_WIDTH) % (MAIN_SURFACE_WIDTH), (index / 32) * TILE_SURFACE_HEIGHT, TILE_SURFACE_WIDTH, TILE_SURFACE_HEIGHT};
-		print_tile(wrapper->main_context, array + wrapper->gb->vram[BGMAP1_OFFSET + i], index, pos);
+		uint16_t tile_index = wrapper->gb->vram[BGMAP1_OFFSET + i];
+		// if (tile_index + 0x100 < 256 + 128)
+			// tile_index += 0x100;
+		print_tile(wrapper->main_context, array + tile_index, 0, pos);
 		i++;
 		index++;
 	}
+	i = 0;
+	index = 0;
+	while (i < OAM_SIZE)
+	{
+		uint8_t y = 	wrapper->gb->oam[i + 0];
+		uint8_t x = 	wrapper->gb->oam[i + 1];
+		uint8_t tile =	wrapper->gb->oam[i + 2];
+		uint8_t attr =	wrapper->gb->oam[i + 3];
+		// if (wrapper->gb->paused == 0)
+			// printf("X = %x Y = %x TILE = %x ATTR = %x\n", x, y, tile, attr);
+		SDL_Rect pos1 = (SDL_Rect) {x - 8, y - 16,  TILE_SURFACE_WIDTH, TILE_SURFACE_HEIGHT};
+		SDL_Rect pos2 = (SDL_Rect) {x - 8, y - 8,  TILE_SURFACE_WIDTH, TILE_SURFACE_HEIGHT};
+		print_tile(wrapper->main_context, array + tile, attr, pos1);
+		// print_tile(wrapper->main_context, array + tile + 1, attr, pos2);
+		i += 4;
+	}
+	// if (wrapper->gb->paused == 0)
+		// printf("\n");
 	return (0);
 }
 
@@ -44,10 +65,10 @@ void	main_window_loop(struct gbmu_wrapper_s* wrapper, struct tile_s* array)
 				wrapper->gb->paused = 1;
 		}
    	}
-
 	if (!wrapper->gb->paused)
 		handle_joypad(wrapper->gb);
 
+	SDL_FillRect(wrapper->main_context->surface, NULL, 0);
 	if (display_test(wrapper, array))
 	{
 		printf("jette toi dans lcanal\n");

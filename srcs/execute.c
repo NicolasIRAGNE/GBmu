@@ -6,13 +6,14 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:26 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/20 11:59:02 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/22 18:56:29 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gb.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 uint8_t	update_current_instruction(struct gb_cpu_s* gb)
 {
@@ -32,7 +33,7 @@ int		set_interrupt(struct gb_cpu_s* gb)
 	uint8_t interrupt_requests = read_8(gb, IF_OFFSET);
 	if (interrupt_requests & INT_VBLANK_REQUEST)
 	{
-		if (gb->interrupt_enable_register & INT_TIMER_REQUEST)
+		if (gb->interrupt_enable_register & INT_VBLANK_REQUEST)
 		{
 			gb->interrupt = INT_VBLANK_ADDR;
 			interrupt_requests &= ~INT_VBLANK_REQUEST;
@@ -56,6 +57,7 @@ int		set_interrupt(struct gb_cpu_s* gb)
 void	execute_loop(struct gb_cpu_s* gb)
 {
 	int err = 0;
+	int last_sleep = 0;
 
 	while(gb->running)
 	{
@@ -69,9 +71,14 @@ void	execute_loop(struct gb_cpu_s* gb)
 		else if (1)
 			err = handle_instruction(gb);
 		gpu_tick(gb);
-
 		if (err)
 			gb->paused = 1;
+		
+		if (gb->cycle - last_sleep >= 300)
+		{
+			last_sleep = gb->cycle;
+			usleep(1);
+		}
 	}
 }
 
@@ -118,7 +125,7 @@ int		handle_instruction(struct gb_cpu_s* gb)
 	{
 		uint8_t interrupt_requests = read_8(gb, IF_OFFSET);
 		(void)interrupt_requests;
-		// write_8(gb, IF_OFFSET, interrupt_requests | INT_TIMER_REQUEST);
+		write_8(gb, IF_OFFSET, interrupt_requests | INT_TIMER_REQUEST);
 	}
 	write_8(gb, TIMA_OFFSET, tima);
 	return (0);

@@ -6,13 +6,14 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 18:10:17 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/21 19:07:11 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/22 19:25:01 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gb.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 uint16_t	read_16(struct gb_cpu_s* gb, uint16_t a16)
 {
@@ -54,7 +55,7 @@ uint8_t	read_8(struct gb_cpu_s* gb, uint16_t a16)
 	}
 	else if (a16 < 0xc000)
 	{
-		printf("WARNING: READING FROM EXTRA RAM\n");
+		// printf("WARNING: READING FROM EXTRA RAM\n");
 		return (((uint8_t*)(gb->extra_ram))[a16 - 0xa000]);
 	}
 	else if (a16 < 0xe000)
@@ -81,6 +82,10 @@ uint8_t	read_8(struct gb_cpu_s* gb, uint16_t a16)
 		ret = ~ret;
 		return (ret);
 	}
+	else if (a16 == 0xff04)
+	{
+		return (rand());	
+	}
 	else if (a16 >= 0xFF00 && a16 < 0xFF80)
 	{
 		return (((uint8_t*)(gb->io_ports))[a16 - 0xFF00]);		
@@ -102,6 +107,7 @@ uint8_t	read_8(struct gb_cpu_s* gb, uint16_t a16)
 
 void	write_8(struct gb_cpu_s* gb, uint16_t a16, uint8_t x)
 {
+	static uint64_t last_dma = 0;
 	if (a16 < 0x2000)
 	{
 		if (x == 0x0a)
@@ -173,6 +179,21 @@ void	write_8(struct gb_cpu_s* gb, uint16_t a16, uint8_t x)
 			gb->joypad_mode = JOYPAD_MODE_NONE;
 		// gb->paused = 1;
 		}
+		// ((uint8_t*)(gb->io_ports))[a16 - 0xFF00] = (((uint8_t*)(gb->io_ports))[a16 - 0xFF00] & 0x0f) | (x & 0xf0);
+		return ;
+	}
+	else if (a16 == DMA_OFFSET)
+	{
+		if (gb->cycle - last_dma > 160)
+		{
+			last_dma = gb->cycle;
+			memcpy(gb->oam, gb->ram, OAM_SIZE);
+		}
+		return ;
+	}
+	else if (a16 >= 0xFE00 && a16 < 0xFEA0)
+	{
+		((uint8_t*)(gb->oam))[a16 - 0xFE00] = x;
 		return ;
 	}
 	else if (a16 >= 0xFF00 && a16 < 0xFF80)
@@ -194,7 +215,7 @@ void	write_8(struct gb_cpu_s* gb, uint16_t a16, uint8_t x)
 	}
 	else
 	{
-		// printf("WARNING: WRITING TO UNIMPLEMENTED ZONE %4x\n", a16);
+		printf("WARNING: WRITING TO UNIMPLEMENTED ZONE %4x\n", a16);
 		return ;
 	}	
 }

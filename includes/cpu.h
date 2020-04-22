@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:34:47 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/21 18:58:06 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/22 17:22:58 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@
 # define SCX_OFFSET		(IO_OFFSET | 0x43)
 # define LY_OFFSET		(IO_OFFSET | 0x44)
 # define LYC_OFFSET		(IO_OFFSET | 0x45)
+# define DMA_OFFSET		(IO_OFFSET | 0x46)
 # define WY_OFFSET		(IO_OFFSET | 0x4a)
 # define WX_OFFSET		(IO_OFFSET | 0x4b)
 
@@ -67,8 +68,8 @@
 
 // Joypad
 # define SELECT_NONE			0x30
-# define SELECT_BUTTON_KEYS		0x20
-# define SELECT_DIRECTION_KEYS	0x10
+# define SELECT_DIRECTION_KEYS	0x20
+# define SELECT_BUTTON_KEYS		0x10
 
 # define JOYP_INPUT_DOWN		(1 << 3)
 # define JOYP_INPUT_UP			(1 << 2)

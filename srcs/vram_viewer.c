@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 13:46:09 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/09 17:13:40 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/22 19:30:43 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int		display_vram(struct gbmu_wrapper_s* wrapper, struct tile_s* array)
 	{
 	SDL_Rect pos = (SDL_Rect) {(index * TILE_SURFACE_WIDTH) % (VRAM_SURFACE_WIDTH), (index / 16) * TILE_SURFACE_HEIGHT, TILE_SURFACE_WIDTH, TILE_SURFACE_HEIGHT};
 
-		if (print_tile(wrapper->vram_viewer_context, array + index, index, pos))
+		if (print_tile(wrapper->vram_viewer_context, array + index, 0, pos))
 			return (1);
 		i += TILE_SIZE;
 		index += 1;
@@ -42,6 +42,7 @@ void	vram_viewer_loop(struct gbmu_wrapper_s* wrapper, struct tile_s* array)
 			// }
 		// }
    	// }
+	SDL_FillRect(wrapper->vram_viewer_context->surface, NULL, 0);
 	if (display_vram(wrapper, array))
 	{
 		printf("jette toi dans lcanal\n");

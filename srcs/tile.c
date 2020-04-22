@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 13:48:02 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/21 14:06:49 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/22 19:11:35 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,20 @@ struct tile_s	create_tile(struct gb_cpu_s* gb, uint16_t index)
 	
 	int i = 0;
 	int k = 0;
+	uint16_t offset = 0;
 	uint8_t msb;
 	uint16_t msb_tmp;
 	uint8_t lsb;
 	uint16_t lsb_tmp;
 	uint16_t test;
 
+	if (index + 4096 < 0x17FF)
+		offset += 0; // Why 4096 and not 2048 ? No idea
+
 	while (i < 8)
 	{
-		msb = gb->vram[index + k];
-		lsb = gb->vram[index + k + 1];
+		msb = gb->vram[index + offset + k];
+		lsb = gb->vram[index + offset + k + 1];
 
 		msb_tmp = ((msb & 0b00000001) << 1)
 				| ((msb & 0b00000010) << 2)
@@ -128,20 +132,47 @@ void	resize_tile(uint32_t* pixels, struct tile_s* tile, int x, int y)
 		// printf("\n");
 }
 
-int		print_tile(struct sdl_context_s* context, struct tile_s* tile, int index, SDL_Rect pos)
+void	flip_tile(uint32_t* pixels, struct tile_s* tile, int x, int y)
+{
+	int i = 0;
+	int j = 0;
+	
+	while (i < 8)
+	{
+		while (j < 8)
+		{
+			uint32_t color = get_color_from_palette(tile->index[i][j]);
+			int line = i;
+			int column = j;
+			if (x)
+				line = (TILE_SURFACE_WIDTH - i - 1);
+			if (y)
+				column = (TILE_SURFACE_HEIGHT - j - 1);
+			pixels[line * TILE_SURFACE_WIDTH + column] =  color;
+			j++;
+		}
+		// printf("\n");
+		j = 0;
+		i++;
+	}
+		// printf("\n");
+}
+
+int		print_tile(struct sdl_context_s* context, struct tile_s* tile, int attr, SDL_Rect pos)
 {
 	SDL_Surface* tile_surface;
-	(void)index;
 
-	tile_surface = SDL_CreateRGBSurface(0, TILE_SURFACE_WIDTH, TILE_SURFACE_HEIGHT, 32, 0, 0, 0, 0);
+	tile_surface = SDL_CreateRGBSurfaceWithFormat(0, TILE_SURFACE_WIDTH, TILE_SURFACE_HEIGHT, 32, SDL_PIXELFORMAT_RGBA8888);
+
 	if (!tile_surface)
 	{
 		fprintf(stderr, "failed to create tile surface (%s)\n", SDL_GetError());
 		return (1);
 	}
+	SDL_SetSurfaceBlendMode(tile_surface, SDL_BLENDMODE_BLEND);
 	uint32_t* pixels = tile_surface->pixels;
 
-	resize_tile(pixels, tile, 1, 1);
+	flip_tile(pixels, tile, attr & 0x10, attr & 0x20);
 
 	if (SDL_BlitSurface(tile_surface, NULL, context->surface, &pos))
 	{
