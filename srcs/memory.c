@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 18:10:17 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/22 19:25:01 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/22 20:27:08 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,7 @@ void	write_8(struct gb_cpu_s* gb, uint16_t a16, uint8_t x)
 			gb->joypad_mode = JOYPAD_MODE_NONE;
 		// gb->paused = 1;
 		}
-		// ((uint8_t*)(gb->io_ports))[a16 - 0xFF00] = (((uint8_t*)(gb->io_ports))[a16 - 0xFF00] & 0x0f) | (x & 0xf0);
+		((uint8_t*)(gb->io_ports))[a16 - 0xFF00] = (((uint8_t*)(gb->io_ports))[a16 - 0xFF00] & 0x0f) | (x & 0xf0);
 		return ;
 	}
 	else if (a16 == DMA_OFFSET)

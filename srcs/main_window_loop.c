@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 14:11:30 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/22 19:26:24 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/22 21:41:44 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,24 @@
 int		display_test(struct gbmu_wrapper_s* wrapper, struct tile_s* array)
 {
 	int i = 0;
+	int j = 0;
 	int index = 0;
-	uint8_t	lcdc;
 
-	while (i < BGMAP_SIZE)
+	int scy = read_8(wrapper->gb, SCY_OFFSET) / 8;
+	int scx = (read_8(wrapper->gb, SCX_OFFSET)) / 8 ;
+
+	while (i < USERSCREEN_WIDTH / TILE_SURFACE_WIDTH)
 	{
-		lcdc = read_8(wrapper->gb, LCDC_OFFSET);
-		(void)lcdc;
-		SDL_Rect pos = (SDL_Rect) {(index * TILE_SURFACE_WIDTH) % (MAIN_SURFACE_WIDTH), (index / 32) * TILE_SURFACE_HEIGHT, TILE_SURFACE_WIDTH, TILE_SURFACE_HEIGHT};
-		uint16_t tile_index = wrapper->gb->vram[BGMAP1_OFFSET + i];
-		// if (tile_index + 0x100 < 256 + 128)
-			// tile_index += 0x100;
-		print_tile(wrapper->main_context, array + tile_index, 0, pos);
+		j = 0;
+		while (j < USERSCREEN_HEIGHT / TILE_SURFACE_HEIGHT)
+		{
+			uint16_t tile_index = wrapper->gb->vram[BGMAP1_OFFSET + (i + scx) % 32 + ((j + scy) % 32) * 32];
+			if (tile_index + 0x100 < 256 + 128)
+				tile_index += 0x100;
+			SDL_Rect pos = (SDL_Rect) {i * 8 , j * 8, TILE_SURFACE_WIDTH, TILE_SURFACE_HEIGHT};
+			print_tile(wrapper->main_context, array + tile_index, 0, pos);
+			j++;
+		}
 		i++;
 		index++;
 	}
@@ -43,7 +49,7 @@ int		display_test(struct gbmu_wrapper_s* wrapper, struct tile_s* array)
 		SDL_Rect pos1 = (SDL_Rect) {x - 8, y - 16,  TILE_SURFACE_WIDTH, TILE_SURFACE_HEIGHT};
 		SDL_Rect pos2 = (SDL_Rect) {x - 8, y - 8,  TILE_SURFACE_WIDTH, TILE_SURFACE_HEIGHT};
 		print_tile(wrapper->main_context, array + tile, attr, pos1);
-		// print_tile(wrapper->main_context, array + tile + 1, attr, pos2);
+		print_tile(wrapper->main_context, array + tile + 1, attr, pos2);
 		i += 4;
 	}
 	// if (wrapper->gb->paused == 0)

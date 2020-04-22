@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:26 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/22 18:56:29 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/22 21:53:08 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	execute_loop(struct gb_cpu_s* gb)
 		if (err)
 			gb->paused = 1;
 		
-		if (gb->cycle - last_sleep >= 300)
+		if (gb->cycle - last_sleep >= 250)
 		{
 			last_sleep = gb->cycle;
 			usleep(1);

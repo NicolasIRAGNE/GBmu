@@ -6,14 +6,15 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 13:08:59 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/22 11:57:08 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/22 21:53:24 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gb.h"
 
 # define HBLANK_TIME 204 //204
-# define VBLANK_TIME 456 //456
+# define VBLANK_TIME (456 * 6) //456
+// ????
 
 void	gpu_tick(struct gb_cpu_s* gb)
 {
