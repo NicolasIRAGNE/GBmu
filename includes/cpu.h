@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:34:47 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/22 21:48:20 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/23 13:21:48 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,16 @@
 
 # define IF_OFFSET		(IO_OFFSET | 0x0F)
 
+// LCDC
+# define LCDC_ON					(1 << 7)
+# define LCDC_WINDOW_SELECT			(1 << 6)
+# define LCDC_WINDOW_ON				(1 << 5)
+# define LCDC_TILE_DATA_SELECT		(1 << 4)
+# define LCDC_TILE_MAP_SELECT		(1 << 3)
+# define LCDC_SPRITE_SIZE			(1 << 2)
+# define LCDC_SPRITE_ON				(1 << 1)
+# define LCDC_DISPLAY_PRIORITY		(1 << 0)
+
 # define BGMAP1_OFFSET	0x1800
 # define BGMAP2_OFFSET	0x1C00
 # define BGMAP_SIZE		0x0400
@@ -64,6 +74,7 @@
 # define INT_JOYPAD_REQUEST	(1 << 4) // useless i think ?
 
 # define INT_VBLANK_ADDR		0x40
+# define INT_STAT_ADDR			0x48
 # define INT_TIMER_ADDR			0x50
 
 // Joypad
@@ -81,6 +92,12 @@
 # define JOYP_INPUT_B			(1 << 1)
 # define JOYP_INPUT_A			(1 << 0)
 
+// Stat register
+# define STAT_LYC_INT			(1 << 6)
+# define STAT_MODE_2_INT		(1 << 5)
+# define STAT_MODE_1_INT		(1 << 4)
+# define STAT_MODE_0_INT		(1 << 3)
+# define STAT_LYC_FLAG			(1 << 2)
 
 struct registers_s {
 	struct {
@@ -126,6 +143,13 @@ struct registers_s {
 	
 	uint16_t	sp; // Stack pointer
 	uint16_t	pc; // Program counter
+};
+
+enum	tile_type_e
+{
+	TILE_TYPE_BACKGROUND,
+	TILE_TYPE_SPRITE,
+	TILE_TYPE_WINDOW,
 };
 
 enum	gpu_mode_e

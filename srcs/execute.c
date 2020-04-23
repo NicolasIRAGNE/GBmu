@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:26 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/22 21:53:08 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/23 13:11:03 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,15 @@ int		set_interrupt(struct gb_cpu_s* gb)
 			ret = INT_VBLANK_ADDR;
 		}
 	}
+	else if (interrupt_requests & INT_STAT_REQUEST)
+	{
+		if (gb->interrupt_enable_register & INT_STAT_REQUEST)
+		{
+			gb->interrupt = INT_STAT_ADDR;
+			interrupt_requests &= ~INT_STAT_REQUEST;
+			ret = INT_STAT_ADDR;
+		}
+	}
 	else if (interrupt_requests & INT_TIMER_REQUEST)
 	{
 		if (gb->interrupt_enable_register & INT_TIMER_REQUEST)
@@ -57,7 +66,7 @@ int		set_interrupt(struct gb_cpu_s* gb)
 void	execute_loop(struct gb_cpu_s* gb)
 {
 	int err = 0;
-	int last_sleep = 0;
+	uint64_t last_sleep = 0;
 
 	while(gb->running)
 	{
@@ -70,14 +79,13 @@ void	execute_loop(struct gb_cpu_s* gb)
 			parse_command(gb);
 		else if (1)
 			err = handle_instruction(gb);
-		gpu_tick(gb);
 		if (err)
 			gb->paused = 1;
-		
-		if (gb->cycle - last_sleep >= 250)
+		if (gb->cycle - last_sleep >= 360)
 		{
+			gpu_tick(gb);		
 			last_sleep = gb->cycle;
-			usleep(1);
+			// usleep(1);
 		}
 	}
 }

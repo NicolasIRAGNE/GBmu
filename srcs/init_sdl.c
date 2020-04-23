@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 11:56:05 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/22 18:00:38 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/23 16:12:48 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 int		init_sdl()
 {
-	if (SDL_Init(SDL_INIT_VIDEO))
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK))
 	{
 		fprintf(stderr, "failed to initialize SDL (%s)\n", SDL_GetError());
 		return (1);
@@ -52,5 +52,17 @@ int     init_main_window(struct sdl_context_s* context)
 		fprintf(stderr, "failed to create surface (%s)\n", SDL_GetError());
 		return (1);
 	}
+
+	if (SDL_NumJoysticks() > 0)
+	{
+		if (SDL_IsGameController(0))
+			context->controller = SDL_GameControllerOpen(0);
+		if (!context->controller)
+		{
+			fprintf(stderr, "failed to load joystick (%s)\n", SDL_GetError());
+		}
+	}
+	else
+		printf("No joystick detected.\n");
     return (0);
 }

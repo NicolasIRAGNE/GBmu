@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 13:48:02 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/22 21:52:43 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/23 12:57:18 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ void	resize_tile(uint32_t* pixels, struct tile_s* tile, int x, int y)
 	{
 		while (j < 8)
 		{
-			uint32_t color = get_color_from_palette(tile->index[i][j]);
+			uint32_t color = get_color_from_palette(tile->index[i][j], TILE_TYPE_BACKGROUND);
 			// printf("%d ", tile->index[i][j]);
 			while (k < y)
 			{
@@ -132,7 +132,7 @@ void	resize_tile(uint32_t* pixels, struct tile_s* tile, int x, int y)
 		// printf("\n");
 }
 
-void	flip_tile(uint32_t* pixels, struct tile_s* tile, int x, int y)
+void	flip_tile(uint32_t* pixels, struct tile_s* tile, int x, int y, enum tile_type_e type)
 {
 	int i = 0;
 	int j = 0;
@@ -141,7 +141,7 @@ void	flip_tile(uint32_t* pixels, struct tile_s* tile, int x, int y)
 	{
 		while (j < 8)
 		{
-			uint32_t color = get_color_from_palette(tile->index[i][j]);
+			uint32_t color = get_color_from_palette(tile->index[i][j], type);
 			int line = i;
 			int column = j;
 			if (x)
@@ -158,7 +158,7 @@ void	flip_tile(uint32_t* pixels, struct tile_s* tile, int x, int y)
 		// printf("\n");
 }
 
-int		print_tile(struct sdl_context_s* context, struct tile_s* tile, int attr, SDL_Rect pos)
+int		print_tile(struct sdl_context_s* context, struct tile_s* tile, int attr, SDL_Rect pos, enum tile_type_e type)
 {
 	SDL_Surface* tile_surface;
 
@@ -172,7 +172,7 @@ int		print_tile(struct sdl_context_s* context, struct tile_s* tile, int attr, SD
 	SDL_SetSurfaceBlendMode(tile_surface, SDL_BLENDMODE_BLEND);
 	uint32_t* pixels = tile_surface->pixels;
 
-	flip_tile(pixels, tile, attr & 0x10, attr & 0x20);
+	flip_tile(pixels, tile, attr & 0x40, attr & 0x20, type);
 
 	if (SDL_BlitSurface(tile_surface, NULL, context->surface, &pos))
 	{

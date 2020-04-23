@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:08:21 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/09 17:27:37 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/23 14:00:52 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,7 @@ void    cpu_toggle_flag(struct gb_cpu_s* gb, uint8_t flag, int cond);
 void    cpu_set_flag(struct gb_cpu_s* gb, uint8_t flag);
 void    cpu_unset_flag(struct gb_cpu_s* gb, uint8_t flag);
 void	memset_4(uint32_t* ptr, uint32_t c, size_t n);
+void	process_dma_transfer(struct gb_cpu_s* gb, uint8_t a8);
 
 /*
 ** Video

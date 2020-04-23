@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 18:10:17 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/22 20:27:08 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/23 14:00:37 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,7 @@ void	write_8(struct gb_cpu_s* gb, uint16_t a16, uint8_t x)
 		if (gb->cycle - last_dma > 160)
 		{
 			last_dma = gb->cycle;
-			memcpy(gb->oam, gb->ram, OAM_SIZE);
+			process_dma_transfer(gb, x);
 		}
 		return ;
 	}
@@ -224,4 +224,16 @@ void	write_16(struct gb_cpu_s* gb, uint16_t a16, uint16_t x)
 {
 	write_8(gb, a16, (x & 0xff));
 	write_8(gb, a16 + 1, (x & 0xff00) >> 8);
+}
+
+void	process_dma_transfer(struct gb_cpu_s* gb, uint8_t a8)
+{
+	int i = 0;
+
+	while (i < OAM_SIZE)
+	{
+		uint8_t x = read_8(gb, ((a8 << 8) | i));
+		write_8(gb, 0xFE00 | i, x);
+		i++;
+	}
 }

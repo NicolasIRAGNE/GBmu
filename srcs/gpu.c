@@ -6,18 +6,20 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 13:08:59 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/22 21:53:24 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/23 12:15:31 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gb.h"
 
-# define HBLANK_TIME 204 //204
-# define VBLANK_TIME (456 * 6) //456
-// ????
+# define HBLANK_TIME	(204 * 1) //204
+# define VBLANK_TIME	(456 * 1) //456
+# define OAM_TIME		(80)
+# define VRAM_TIME		(172)
 
 void	gpu_tick(struct gb_cpu_s* gb)
 {
+	uint8_t lyc = read_8(gb, LYC_OFFSET);
 	gb->gpu.tick += gb->current_instruction->cycles;
 	if (gb->gpu.mode == GPU_MODE_HBLANK)
 	{
@@ -52,16 +54,34 @@ void	gpu_tick(struct gb_cpu_s* gb)
 	
 	else if (gb->gpu.mode == GPU_MODE_OAM)
 	{
-		gb->gpu.mode = GPU_MODE_VRAM;
+		if (gb->gpu.tick >= OAM_TIME)
+		{
+			gb->gpu.tick -= OAM_TIME;
+			gb->gpu.mode = GPU_MODE_VRAM;
+		}
 	}
 
 	else if (gb->gpu.mode == GPU_MODE_VRAM)
 	{
-		gb->gpu.mode = GPU_MODE_HBLANK;		
+		if (gb->gpu.tick >= VRAM_TIME)
+		{
+			gb->gpu.tick -= VRAM_TIME;
+			gb->gpu.mode = GPU_MODE_HBLANK;
+		}
 	}
 
-	// write_8(gb, LY_OFFSET, 0x90);
-	// write_8(gb, LY_OFFSET, rand());
+	uint8_t stat = read_8(gb, STAT_OFFSET);
+	if (gb->gpu.y_coord == lyc)
+	{
+		if (stat & STAT_LYC_INT)
+		{
+			uint8_t interrupt_requests = read_8(gb, IF_OFFSET);
+			write_8(gb, IF_OFFSET, interrupt_requests | INT_STAT_REQUEST);
+		}
+		stat |= STAT_LYC_FLAG;
+	}
+	else
+		stat &= ~STAT_LYC_FLAG;
+	write_8(gb, STAT_OFFSET, stat);
 	write_8(gb, LY_OFFSET, gb->gpu.y_coord);
-
 }
