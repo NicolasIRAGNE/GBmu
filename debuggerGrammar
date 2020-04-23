@@ -12,7 +12,7 @@
 %contextInstance context
 %generateMain true
 
-%blankAsDelimiter false
+%blankAsDelimiter true
 
 %programName debuggerTest
 
@@ -45,7 +45,6 @@ hh  halfWordFormat
 h   wordFormat
 print Print
 
-SEPARATOR  Separator    separator
 INTEGER    Integer		unsigned_int
 VARIABLE   Variable 	string
 
@@ -58,17 +57,10 @@ command            : printCommand
 |                    simpleCommand
 |                    _EPS_
 ;
-
-separatorPipeline       : separatorPipeline SEPARATOR
-|                         SEPARATOR
+printCommand       : print  value
+|	                 print / format value
 ;
-separatorPipelineOrEPS    : separatorPipeline
-|						  _EPS_
-;
-printCommand       : print separatorPipeline value
-|	                 print / format separatorPipeline value
-;
-xCommand           : x xSuffix separatorPipeline value
+xCommand           : x xSuffix  value
 |                    x value
 ;
 unit			   : hh
@@ -87,41 +79,42 @@ value			   : innerValue
 |                    _EPS_
 ;
 innerValue         : andOr
-|					 ( separatorPipeline innerValue separatorPipeline )
+|					 ( innerValue )
 ;
-andOr : comparison
+andOr :  comparison
 |        andOr && comparison
 |        andOr || comparison
 ;
 comparison : expr
-|        comparison separatorPipelineOrEPS > separatorPipelineOrEPS expr
-|        comparison separatorPipelineOrEPS >= separatorPipelineOrEPS expr
-|        comparison separatorPipelineOrEPS < separatorPipelineOrEPS expr
-|        comparison separatorPipelineOrEPS <= separatorPipelineOrEPS expr
-|        comparison separatorPipelineOrEPS != separatorPipelineOrEPS expr
-|        comparison separatorPipelineOrEPS == separatorPipelineOrEPS expr
+|        comparison  >  expr
+|        comparison  >=  expr
+|        comparison  <  expr
+|        comparison  <=  expr
+|        comparison  !=  expr
+|        comparison  ==  expr
 ;
 expr               : term
-|                    expr separatorPipelineOrEPS + separatorPipelineOrEPS term
-|                    expr separatorPipelineOrEPS - separatorPipelineOrEPS term
+|                    expr  +  term
+|                    expr  -  term
 ;
 simpleCommand      : commandName
-|                    commandName separatorPipeline commandSuffix
+|                    commandName commandSuffix
 ;
 commandName        : VARIABLE
 ;
-commandSuffix      : VARIABLE commandSuffix separatorPipeline 
+commandSuffix      : VARIABLE commandSuffix
 |                    VARIABLE
 ;
 term               : factor
-|                    term separatorPipelineOrEPS * separatorPipelineOrEPS factor
-|                    term separatorPipelineOrEPS / separatorPipelineOrEPS factor
-|                    term separatorPipelineOrEPS >> separatorPipelineOrEPS factor
-|                    term separatorPipelineOrEPS << separatorPipelineOrEPS factor
-|                    term separatorPipelineOrEPS | separatorPipelineOrEPS factor
-|                    term separatorPipelineOrEPS & separatorPipelineOrEPS factor
+|                    term  *  factor
+|                    term  /  factor
+|                    term  >>  factor
+|                    term  <<  factor
+|                    term  |  factor
+|                    term  &  factor
 ;
 factor         :   INTEGER
+|				   ( innerValue )
 |                  - factor
 |                  + factor
 ;

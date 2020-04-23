@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/17 12:47:46 by ldedier            #+#    #+#            */
-/*   Updated: 2020/04/17 12:47:46 by ldedier           ###   ########.fr      */
+/*   Created: 2020/04/18 16:30:57 by ldedier            #+#    #+#            */
+/*   Updated: 2020/04/18 16:30:57 by ldedier           ###   ########.fr      */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@
 #include "SymbolNonTerminalPrintCommand.hpp"
 #include "SymbolNonTerminalXCommand.hpp"
 #include "SymbolNonTerminalSimpleCommand.hpp"
-#include "SymbolNonTerminalSeparatorPipeline.hpp"
-#include "SymbolNonTerminalSeparatorPipelineOrEPS.hpp"
 #include "SymbolNonTerminalValue.hpp"
 #include "SymbolNonTerminalFormat.hpp"
 #include "SymbolNonTerminalXSuffix.hpp"
@@ -61,7 +59,6 @@
 #include "SymbolTerminalHalfWordFormat.hpp"
 #include "SymbolTerminalWordFormat.hpp"
 #include "SymbolTerminalPrint.hpp"
-#include "SymbolTerminalSeparator.hpp"
 #include "SymbolTerminalInteger.hpp"
 #include "SymbolTerminalVariable.hpp"
 

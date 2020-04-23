@@ -5,14 +5,14 @@
 #                                                     +:+ +:+         +:+      #
 #    By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2020/04/17 12:47:46 by ldedier            #+#    #+#             #
-#    Updated: 2020/04/17 12:47:46 by ldedier           ###   ########.fr       #
+#    Created: 2020/04/18 16:30:57 by ldedier            #+#    #+#             #
+#    Updated: 2020/04/18 16:30:57 by ldedier           ###   ########.fr       #
 #                                                                              #
 # **************************************************************************** #
 
 NAME			=	debuggerTest
 
-CC				=	g++
+CC				=	g++ -std=c++11
 
 ECHO			=	echo
 MKDIR			=	mkdir
@@ -51,15 +51,12 @@ INCLUDES		=	DebuggerGrammar.hpp \
 					SymbolTerminalHalfWordFormat.hpp \
 					SymbolTerminalWordFormat.hpp \
 					SymbolTerminalPrint.hpp \
-					SymbolTerminalSeparator.hpp \
 					SymbolTerminalInteger.hpp \
 					SymbolTerminalVariable.hpp \
 					SymbolNonTerminalCommand.hpp \
 					SymbolNonTerminalPrintCommand.hpp \
 					SymbolNonTerminalXCommand.hpp \
 					SymbolNonTerminalSimpleCommand.hpp \
-					SymbolNonTerminalSeparatorPipeline.hpp \
-					SymbolNonTerminalSeparatorPipelineOrEPS.hpp \
 					SymbolNonTerminalValue.hpp \
 					SymbolNonTerminalFormat.hpp \
 					SymbolNonTerminalXSuffix.hpp \
@@ -101,15 +98,12 @@ SRCS			=	DebuggerGrammar.cpp \
 					SymbolTerminalHalfWordFormat.cpp \
 					SymbolTerminalWordFormat.cpp \
 					SymbolTerminalPrint.cpp \
-					SymbolTerminalSeparator.cpp \
 					SymbolTerminalInteger.cpp \
 					SymbolTerminalVariable.cpp \
 					SymbolNonTerminalCommand.cpp \
 					SymbolNonTerminalPrintCommand.cpp \
 					SymbolNonTerminalXCommand.cpp \
 					SymbolNonTerminalSimpleCommand.cpp \
-					SymbolNonTerminalSeparatorPipeline.cpp \
-					SymbolNonTerminalSeparatorPipelineOrEPS.cpp \
 					SymbolNonTerminalValue.cpp \
 					SymbolNonTerminalFormat.cpp \
 					SymbolNonTerminalXSuffix.cpp \

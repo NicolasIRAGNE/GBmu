@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/17 12:47:46 by ldedier            #+#    #+#            */
-/*   Updated: 2020/04/17 12:47:46 by ldedier           ###   ########.fr      */
+/*   Created: 2020/04/18 16:30:57 by ldedier            #+#    #+#            */
+/*   Updated: 2020/04/18 16:30:57 by ldedier           ###   ########.fr      */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ int	SymbolNonTerminalComparison::traverse(ASTNode<int, CustomStack &> & ast, Cus
 void	SymbolNonTerminalComparison::computeProductions(AbstractGrammar<int, CustomStack &> & cfg)
 {
 	addProduction(cfg, {"expr"});
-	addProduction(cfg, {"comparison", "separatorpipelineoreps", ">", "separatorpipelineoreps", "expr"});
-	addProduction(cfg, {"comparison", "separatorpipelineoreps", ">=", "separatorpipelineoreps", "expr"});
-	addProduction(cfg, {"comparison", "separatorpipelineoreps", "<", "separatorpipelineoreps", "expr"});
-	addProduction(cfg, {"comparison", "separatorpipelineoreps", "<=", "separatorpipelineoreps", "expr"});
-	addProduction(cfg, {"comparison", "separatorpipelineoreps", "!=", "separatorpipelineoreps", "expr"});
-	addProduction(cfg, {"comparison", "separatorpipelineoreps", "==", "separatorpipelineoreps", "expr"});
+	addProduction(cfg, {"comparison", ">", "expr"});
+	addProduction(cfg, {"comparison", ">=", "expr"});
+	addProduction(cfg, {"comparison", "<", "expr"});
+	addProduction(cfg, {"comparison", "<=", "expr"});
+	addProduction(cfg, {"comparison", "!=", "expr"});
+	addProduction(cfg, {"comparison", "==", "expr"});
 }

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/17 12:47:46 by ldedier            #+#    #+#            */
-/*   Updated: 2020/04/17 12:47:46 by ldedier           ###   ########.fr      */
+/*   Created: 2020/04/18 16:30:57 by ldedier            #+#    #+#            */
+/*   Updated: 2020/04/18 16:30:57 by ldedier           ###   ########.fr      */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	SymbolNonTerminalFactor::traverse(ASTNode<int, CustomStack &> & ast, CustomS
 void	SymbolNonTerminalFactor::computeProductions(AbstractGrammar<int, CustomStack &> & cfg)
 {
 	addProduction(cfg, {"integer"});
+	addProduction(cfg, {"(", "innervalue", ")"});
 	addProduction(cfg, {"-", "factor"});
 	addProduction(cfg, {"+", "factor"});
 }

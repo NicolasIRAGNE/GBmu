@@ -5,21 +5,19 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/17 12:47:46 by ldedier            #+#    #+#            */
-/*   Updated: 2020/04/17 12:47:46 by ldedier           ###   ########.fr      */
+/*   Created: 2020/04/18 16:30:57 by ldedier            #+#    #+#            */
+/*   Updated: 2020/04/18 16:30:57 by ldedier           ###   ########.fr      */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/DebuggerGrammar.hpp"
 #include "../includes/CustomStack.hpp"
 
-DebuggerGrammar::DebuggerGrammar(void) : AbstractGrammar(new SymbolNonTerminalCommand(), false)
+DebuggerGrammar::DebuggerGrammar(void) : AbstractGrammar(new SymbolNonTerminalCommand(), true)
 {
 	addNonTerminal(new SymbolNonTerminalPrintCommand());
 	addNonTerminal(new SymbolNonTerminalXCommand());
 	addNonTerminal(new SymbolNonTerminalSimpleCommand());
-	addNonTerminal(new SymbolNonTerminalSeparatorPipeline());
-	addNonTerminal(new SymbolNonTerminalSeparatorPipelineOrEPS());
 	addNonTerminal(new SymbolNonTerminalValue());
 	addNonTerminal(new SymbolNonTerminalFormat());
 	addNonTerminal(new SymbolNonTerminalXSuffix());
@@ -59,7 +57,6 @@ DebuggerGrammar::DebuggerGrammar(void) : AbstractGrammar(new SymbolNonTerminalCo
 	addTerminal(new SymbolTerminalHalfWordFormat());
 	addTerminal(new SymbolTerminalWordFormat());
 	addTerminal(new SymbolTerminalPrint());
-	addTerminal(new SymbolTerminalSeparator());
 	addTerminal(new SymbolTerminalInteger());
 	addTerminal(new SymbolTerminalVariable());
 
