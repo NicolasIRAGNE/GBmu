@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 13:48:02 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/23 20:08:05 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/23 21:18:17 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,6 @@ struct tile_s	create_tile(struct gb_cpu_s* gb, uint16_t index)
 	uint8_t lsb;
 	uint16_t lsb_tmp;
 	uint16_t test;
-
-	if (index + 4096 < 0x17FF)
-		offset += 0; // Why 4096 and not 2048 ? No idea
 
 	while (i < 8)
 	{
