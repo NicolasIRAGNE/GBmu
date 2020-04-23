@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 18:10:17 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/23 20:29:05 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/23 21:26:49 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ uint8_t	read_8(struct gb_cpu_s* gb, uint16_t a16)
 	else
 	{
 		printf("WARNING: READING FROM UNIMPLEMENTED ZONE %4x\n", a16);
-		return (0);
+		return (0xff);
 	}
 }
 
