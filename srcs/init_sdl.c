@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 11:56:05 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/23 16:12:48 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/23 16:26:46 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,9 @@ int     init_main_window(struct sdl_context_s* context)
 		}
 	}
 	else
+	{
+		context->controller = NULL;
 		printf("No joystick detected.\n");
-    return (0);
+	}
+	return (0);
 }

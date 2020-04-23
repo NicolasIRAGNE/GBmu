@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:26 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/23 13:11:03 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/23 16:53:02 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ void	execute_loop(struct gb_cpu_s* gb)
 			// usleep(1);
 		}
 	}
+	save_game(gb);
 }
 
 void*	execute_thread_entry(void* user_data)

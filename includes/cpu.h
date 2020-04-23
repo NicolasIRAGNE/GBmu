@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:34:47 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/23 13:21:48 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/23 16:48:48 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,6 +183,7 @@ enum	joypad_mode_e
 struct	mbc_s
 {
 	uint8_t bank;
+	uint8_t	ram_bank; // TODO : Handle multiple ram banks.
 	enum mbc_mode_e mode;
 };
 

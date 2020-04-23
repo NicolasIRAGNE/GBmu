@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:08:21 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/23 14:00:52 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/23 17:14:17 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,9 @@
 # define EOC	"\x1B[0m"
 
 # define BOOT_ROM "../DMG_ROM.bin"
+# define SAVE_DIR "../saves/"
 
-# define DEFAULT_VERBOSE 1
+# define DEFAULT_VERBOSE 0
 
 struct rom_hdr_s
 {
@@ -150,6 +151,11 @@ void	process_dma_transfer(struct gb_cpu_s* gb, uint8_t a8);
 */
 void*	thread_entry(void* user_data);
 
+/*
+** Saving & Loading
+*/
+int		save_game(struct gb_cpu_s* gb);
+int		load_game(struct gb_cpu_s* gb);
 
 
 #endif

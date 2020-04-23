@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 14:11:30 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/23 16:11:25 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/23 16:37:48 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int		display_test(struct gbmu_wrapper_s* wrapper, struct tile_s* array)
 			uint16_t tile_index;
 			if (lcdc & LCDC_WINDOW_ON && (i > wx && j > wy))
 			{
-				tile_index = wrapper->gb->vram[BGMAP2_OFFSET + (i - wx + scx - 1) % 32 + ((j - wy + scy - 1) % 32) * 32];		
+				tile_index = wrapper->gb->vram[BGMAP2_OFFSET + (i - wx - 1) % 32 + ((j - wy - 1) % 32) * 32];		
 			}
 			else
 			{

@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/16 13:27:32 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/23 16:13:04 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/23 16:48:27 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	renderer_loop(struct gbmu_wrapper_s* wrapper)
 	    startTime = endTime;
         endTime = SDL_GetTicks();
 	}
-	SDL_GameControllerClose(wrapper->main_context->controller);
+	if (wrapper->main_context->controller)
+		SDL_GameControllerClose(wrapper->main_context->controller);
 	
 }

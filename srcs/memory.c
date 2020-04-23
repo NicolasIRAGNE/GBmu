@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 18:10:17 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/23 14:00:37 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/23 16:48:52 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,11 @@ void	write_8(struct gb_cpu_s* gb, uint16_t a16, uint8_t x)
 			gb->mbc.bank = tmp | (x & 0b1100000);
 			if (gb->debugger->verbose_level >= 1)
 				printf("SWITCHING BANK UPPER BITS %x \n", gb->mbc.bank);
+		}
+		else if (gb->mbc.mode == MBC_MODE_RAM)
+		{
+			gb->mbc.ram_bank =(x & 0b1100000) >> 5;
+			printf("SWITCHING RAM BANK %x \n", gb->mbc.ram_bank);
 		}
 		return ;
 	}

@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 11:37:03 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/16 11:10:04 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/23 17:14:38 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ int		main(int ac, char** av)
 		return (1);
 	if (init_main_window(&main_window_context))
 		return (1);
+	load_game(&gb);
 	// atexit(SDL_Quit);
 	signal(SIGINT, sigint_handler);
 	pthread_create (&thread, NULL, execute_thread_entry , &gb);
