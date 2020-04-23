@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/23 10:37:45 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/23 16:13:41 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/23 19:13:52 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,13 @@ int     init_main_window(struct sdl_context_s* context);
 int     init_sdl();
 void	renderer_loop(struct gbmu_wrapper_s* wrapper);
 struct tile_s	create_tile(struct gb_cpu_s* gb, uint16_t index);
-uint32_t	get_color_from_palette(uint8_t index, enum tile_type_e type);
-int		print_tile(struct sdl_context_s* context, struct tile_s* tile, int index, SDL_Rect pos, enum tile_type_e type);
+uint32_t	get_color_from_palette(uint8_t index, uint32_t* palette);
+int		print_tile(struct gb_cpu_s* gb, struct sdl_context_s* context, struct tile_s* tile, int index, SDL_Rect pos, enum tile_type_e type);
 void	resize_tile(uint32_t* pixels, struct tile_s* tile, int x, int y);
 void	fill_tile_array(struct gb_cpu_s* gb, struct tile_s* array);
 void	main_window_loop(struct gbmu_wrapper_s* wrapper, struct tile_s* array);
 void	handle_joypad(struct gb_cpu_s* gb, SDL_GameController* controller);
+void	update_palettes(struct gb_cpu_s* gb);
 
 
 #endif

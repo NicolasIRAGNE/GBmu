@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 13:08:59 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/23 12:15:31 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/23 17:55:20 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ void	gpu_tick(struct gb_cpu_s* gb)
 	}
 	else
 		stat &= ~STAT_LYC_FLAG;
+	stat = (stat & 0b11111100) | gb->gpu.mode;
 	write_8(gb, STAT_OFFSET, stat);
 	write_8(gb, LY_OFFSET, gb->gpu.y_coord);
 }

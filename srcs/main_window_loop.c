@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 14:11:30 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/23 16:37:48 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/23 19:41:33 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int		display_test(struct gbmu_wrapper_s* wrapper, struct tile_s* array)
 	int wy = (read_8(wrapper->gb, WY_OFFSET)) / 8 ;
 	uint8_t lcdc = (read_8(wrapper->gb, LCDC_OFFSET)) ;
 
+	update_palettes(wrapper->gb);
 	wx--;
 	wy--;
 
@@ -44,7 +45,7 @@ int		display_test(struct gbmu_wrapper_s* wrapper, struct tile_s* array)
 			if (!(lcdc & LCDC_TILE_DATA_SELECT) && tile_index + 0x100 < 256 + 128)
 				tile_index += 0x100;
 			SDL_Rect pos = (SDL_Rect) {i * 8 , j * 8, TILE_SURFACE_WIDTH, TILE_SURFACE_HEIGHT};
-			print_tile(wrapper->main_context, array + tile_index, 0, pos, TILE_TYPE_BACKGROUND);
+			print_tile(wrapper->gb, wrapper->main_context, array + tile_index, 0, pos, TILE_TYPE_BACKGROUND);
 			j++;
 		}
 		i++;
@@ -64,15 +65,15 @@ int		display_test(struct gbmu_wrapper_s* wrapper, struct tile_s* array)
 		SDL_Rect pos2 = (SDL_Rect) {x - 8, y - 8,  TILE_SURFACE_WIDTH, TILE_SURFACE_HEIGHT};
 		if (attr & 0x40)
 		{
-			print_tile(wrapper->main_context, array + tile, attr, pos2, TILE_TYPE_SPRITE);
+			print_tile(wrapper->gb, wrapper->main_context, array + tile, attr, pos2, TILE_TYPE_SPRITE);
 			if (lcdc & LCDC_SPRITE_SIZE)
-				print_tile(wrapper->main_context, array + tile + 1, attr, pos1, TILE_TYPE_SPRITE);
+				print_tile(wrapper->gb, wrapper->main_context, array + tile + 1, attr, pos1, TILE_TYPE_SPRITE);
 		}
 		else
 		{
-			print_tile(wrapper->main_context, array + tile, attr, pos1, TILE_TYPE_SPRITE);
+			print_tile(wrapper->gb, wrapper->main_context, array + tile, attr, pos1, TILE_TYPE_SPRITE);
 			if (lcdc & LCDC_SPRITE_SIZE)
-				print_tile(wrapper->main_context, array + tile + 1, attr, pos2, TILE_TYPE_SPRITE);
+				print_tile(wrapper->gb, wrapper->main_context, array + tile + 1, attr, pos2, TILE_TYPE_SPRITE);
 		}
 		i += 4;
 	}

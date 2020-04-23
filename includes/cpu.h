@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:34:47 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/23 16:48:48 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/23 18:55:29 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,9 @@
 # define LY_OFFSET		(IO_OFFSET | 0x44)
 # define LYC_OFFSET		(IO_OFFSET | 0x45)
 # define DMA_OFFSET		(IO_OFFSET | 0x46)
+# define BGP_OFFSET		(IO_OFFSET | 0x47)
+# define OBP0_OFFSET	(IO_OFFSET | 0x48)
+# define OBP1_OFFSET	(IO_OFFSET | 0x49)
 # define WY_OFFSET		(IO_OFFSET | 0x4a)
 # define WX_OFFSET		(IO_OFFSET | 0x4b)
 
@@ -230,6 +233,8 @@ struct	gb_cpu_s
 	uint8_t				oam[OAM_SIZE];
 	uint8_t				interrupt_enable_register;
 	enum joypad_mode_e	joypad_mode;
+	uint32_t			bg_palettes[8][4];
+	uint32_t			obj_palettes[8][4];
 };
 
 /*

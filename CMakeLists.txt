@@ -22,6 +22,7 @@ SET (SOURCES
 	srcs/main_window_loop.c
 	srcs/handle_joypad.c
 	srcs/save_game.c
+	srcs/palette.c
 	srcs/instructions/jp.c
 	srcs/instructions/ld.c
 	srcs/instructions/misc.c

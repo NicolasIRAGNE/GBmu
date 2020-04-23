@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 13:48:02 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/23 12:57:18 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/23 20:08:05 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,40 +99,40 @@ struct tile_s	create_tile(struct gb_cpu_s* gb, uint16_t index)
 	return (ret);
 }
 
-void	resize_tile(uint32_t* pixels, struct tile_s* tile, int x, int y)
-{
-	/*
-	** This function takes an 8*8 tile and makes it x times wider and y times taller.
-	** This function is also useless because I am a moron and SDL does it by default.
-	** But I am leaving it in since I spent way too much time on it.
-	*/
-	int i = 0;
-	int j = 0;
-	int k = 0;
+// void	resize_tile(uint32_t* pixels, struct tile_s* tile, int x, int y)
+// {
+// 	/*
+// 	** This function takes an 8*8 tile and makes it x times wider and y times taller.
+// 	** This function is also useless because I am a moron and SDL does it by default.
+// 	** But I am leaving it in since I spent way too much time on it.
+// 	*/
+// 	int i = 0;
+// 	int j = 0;
+// 	int k = 0;
 
-	while (i < 8)
-	{
-		while (j < 8)
-		{
-			uint32_t color = get_color_from_palette(tile->index[i][j], TILE_TYPE_BACKGROUND);
-			// printf("%d ", tile->index[i][j]);
-			while (k < y)
-			{
-				memset_4(pixels + i * TILE_SURFACE_WIDTH * x + j * y + k * TILE_SURFACE_HEIGHT, color, x);
-				k++;
+// 	while (i < 8)
+// 	{
+// 		while (j < 8)
+// 		{
+// 			uint32_t color = get_color_from_palette(tile->index[i][j], TILE_TYPE_BACKGROUND);
+// 			// printf("%d ", tile->index[i][j]);
+// 			while (k < y)
+// 			{
+// 				memset_4(pixels + i * TILE_SURFACE_WIDTH * x + j * y + k * TILE_SURFACE_HEIGHT, color, x);
+// 				k++;
 
-			}
-			k = 0;
-			j++;
-		}
-		// printf("\n");
-		j = 0;
-		i++;
-	}
-		// printf("\n");
-}
+// 			}
+// 			k = 0;
+// 			j++;
+// 		}
+// 		// printf("\n");
+// 		j = 0;
+// 		i++;
+// 	}
+// 		// printf("\n");
+// }
 
-void	flip_tile(uint32_t* pixels, struct tile_s* tile, int x, int y, enum tile_type_e type)
+void	flip_tile(uint32_t* pixels, struct tile_s* tile, int x, int y, uint32_t* palette)
 {
 	int i = 0;
 	int j = 0;
@@ -141,14 +141,14 @@ void	flip_tile(uint32_t* pixels, struct tile_s* tile, int x, int y, enum tile_ty
 	{
 		while (j < 8)
 		{
-			uint32_t color = get_color_from_palette(tile->index[i][j], type);
+			uint32_t color = get_color_from_palette(tile->index[i][j], palette);
 			int line = i;
 			int column = j;
 			if (x)
 				line = (TILE_SURFACE_WIDTH - i - 1);
 			if (y)
 				column = (TILE_SURFACE_HEIGHT - j - 1);
-			pixels[line * TILE_SURFACE_WIDTH + column] =  color;
+			pixels[line * TILE_SURFACE_WIDTH + column] = color;
 			j++;
 		}
 		// printf("\n");
@@ -158,7 +158,7 @@ void	flip_tile(uint32_t* pixels, struct tile_s* tile, int x, int y, enum tile_ty
 		// printf("\n");
 }
 
-int		print_tile(struct sdl_context_s* context, struct tile_s* tile, int attr, SDL_Rect pos, enum tile_type_e type)
+int		print_tile(struct gb_cpu_s* gb, struct sdl_context_s* context, struct tile_s* tile, int attr, SDL_Rect pos, enum tile_type_e type)
 {
 	SDL_Surface* tile_surface;
 
@@ -172,7 +172,18 @@ int		print_tile(struct sdl_context_s* context, struct tile_s* tile, int attr, SD
 	SDL_SetSurfaceBlendMode(tile_surface, SDL_BLENDMODE_BLEND);
 	uint32_t* pixels = tile_surface->pixels;
 
-	flip_tile(pixels, tile, attr & 0x40, attr & 0x20, type);
+
+	if (type == TILE_TYPE_SPRITE)
+	{
+		if (attr & 0b10000)
+			flip_tile(pixels, tile, attr & 0x40, attr & 0x20, gb->obj_palettes[1]);
+		else
+			flip_tile(pixels, tile, attr & 0x40, attr & 0x20, gb->obj_palettes[0]);
+	}
+	else
+	{
+		flip_tile(pixels, tile, attr & 0x40, attr & 0x20, gb->bg_palettes[0]);		
+	}
 
 	if (SDL_BlitSurface(tile_surface, NULL, context->surface, &pos))
 	{
