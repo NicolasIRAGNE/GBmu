@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/24 15:36:19 by ldedier            #+#    #+#            */
-/*   Updated: 2020/04/24 15:36:19 by ldedier           ###   ########.fr      */
+/*   Created: 2020/04/24 15:36:19 by ldedier           #+#    #+#             */
+/*   Updated: 2020/04/24 17:04:26 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 #include "SymbolNonTerminalFormat.hpp"
 #include "SymbolNonTerminalXSuffix.hpp"
 #include "SymbolNonTerminalUnit.hpp"
-#include "SymbolNonTerminalInnerValue.hpp"
 #include "SymbolNonTerminalAndOr.hpp"
 #include "SymbolNonTerminalComparison.hpp"
 #include "SymbolNonTerminalExpr.hpp"

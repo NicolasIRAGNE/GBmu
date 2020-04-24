@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/18 16:30:57 by ldedier            #+#    #+#            */
-/*   Updated: 2020/04/18 16:30:57 by ldedier           ###   ########.fr      */
+/*   Created: 2020/04/18 16:30:57 by ldedier           #+#    #+#             */
+/*   Updated: 2020/04/24 16:04:05 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,8 @@ SymbolTerminalInteger::~SymbolTerminalInteger(void)
 
 int	SymbolTerminalInteger::traverse(ASTNode<int, DebuggerContext &> & ast, DebuggerContext & context) const
 {
-	static_cast<void>(ast);
 	static_cast<void>(context);
-	return (0);
+	return ast.getToken()->getIntValue();
 }
 
 static bool belongToFormat(char c, t_integer_format format)

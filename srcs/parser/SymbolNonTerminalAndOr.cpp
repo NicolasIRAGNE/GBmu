@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/24 15:36:19 by ldedier            #+#    #+#            */
-/*   Updated: 2020/04/24 15:36:19 by ldedier           ###   ########.fr      */
+/*   Created: 2020/04/24 15:36:19 by ldedier           #+#    #+#             */
+/*   Updated: 2020/04/24 16:10:41 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,12 @@ SymbolNonTerminalAndOr::~SymbolNonTerminalAndOr(void)
 
 int	SymbolNonTerminalAndOr::traverse(ASTNode<int, DebuggerContext &> & ast, DebuggerContext & context) const
 {
-	static_cast<void>(ast);
-	static_cast<void>(context);
-	return (0);
+	if (ast.getChildren().size() == 1)
+		return ast.getChild(0)->getTraversed(context);
+	if (ast.getChild(1)->getSymbol().getIdentifier() == "&&")
+		return ast.getChild(0)->getTraversed(context) && ast.getChild(2)->getTraversed(context);
+	else
+		return ast.getChild(0)->getTraversed(context) || ast.getChild(2)->getTraversed(context);
 }
 
 void	SymbolNonTerminalAndOr::computeProductions(AbstractGrammar<int, DebuggerContext &> & cfg)
