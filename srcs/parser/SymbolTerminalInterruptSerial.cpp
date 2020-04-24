@@ -5,14 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/30 16:25:25 by ldedier            #+#    #+#            */
-/*   Updated: 2020/04/30 16:25:25 by ldedier           ###   ########.fr      */
+/*   Created: 2020/04/30 16:25:25 by ldedier           #+#    #+#             */
+/*   Updated: 2020/04/30 20:56:17 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "SymbolTerminalInterruptSerial.hpp"
 
-SymbolTerminalInterruptSerial::SymbolTerminalInterruptSerial(void) : AbstractTerminal("serial")
+SymbolTerminalInterruptSerial::SymbolTerminalInterruptSerial(void) : SymbolTerminalVariable("serial")
 {
 	
 }

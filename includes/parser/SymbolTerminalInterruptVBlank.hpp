@@ -5,18 +5,18 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/30 16:25:25 by ldedier            #+#    #+#            */
-/*   Updated: 2020/04/30 16:25:25 by ldedier           ###   ########.fr      */
+/*   Created: 2020/04/30 16:25:25 by ldedier           #+#    #+#             */
+/*   Updated: 2020/04/30 20:56:17 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SYMBOLTERMINALINTERRUPTVBLANK_HPP
 # define SYMBOLTERMINALINTERRUPTVBLANK_HPP
 
-# include "AbstractTerminal.hpp"
+# include "SymbolTerminalVariable.hpp"
 # include "DebuggerContext.hpp"
 
-class SymbolTerminalInterruptVBlank : public AbstractTerminal<int, DebuggerContext &>
+class SymbolTerminalInterruptVBlank : public SymbolTerminalVariable
 {
 	public:
 		SymbolTerminalInterruptVBlank(void);

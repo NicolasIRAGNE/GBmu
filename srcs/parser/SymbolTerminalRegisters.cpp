@@ -5,14 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/30 16:25:25 by ldedier            #+#    #+#            */
-/*   Updated: 2020/04/30 16:25:25 by ldedier           ###   ########.fr      */
+/*   Created: 2020/04/30 16:25:25 by ldedier           #+#    #+#             */
+/*   Updated: 2020/04/30 21:44:05 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "SymbolTerminalRegisters.hpp"
 
-SymbolTerminalRegisters::SymbolTerminalRegisters(void) : AbstractTerminal("registers")
+SymbolTerminalRegisters::SymbolTerminalRegisters(void) : SymbolTerminalCommand("registers")
 {
 	
 }

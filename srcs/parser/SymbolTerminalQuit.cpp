@@ -5,14 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/30 16:25:25 by ldedier            #+#    #+#            */
-/*   Updated: 2020/04/30 16:25:25 by ldedier           ###   ########.fr      */
+/*   Created: 2020/04/30 16:25:25 by ldedier           #+#    #+#             */
+/*   Updated: 2020/04/30 21:44:26 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "SymbolTerminalQuit.hpp"
 
-SymbolTerminalQuit::SymbolTerminalQuit(void) : AbstractTerminal("quit")
+SymbolTerminalQuit::SymbolTerminalQuit(void) : SymbolTerminalCommand("quit")
 {
 	
 }

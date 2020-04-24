@@ -5,12 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/30 16:25:25 by ldedier            #+#    #+#            */
-/*   Updated: 2020/04/30 16:25:25 by ldedier           ###   ########.fr      */
+/*   Created: 2020/04/30 16:25:25 by ldedier           #+#    #+#             */
+/*   Updated: 2020/04/30 18:46:21 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "SymbolNonTerminalPrintCommand.hpp"
+# include <iomanip>
 
 SymbolNonTerminalPrintCommand::SymbolNonTerminalPrintCommand(void) : AbstractNonTerminal("printcommand")
 {
@@ -24,8 +25,20 @@ SymbolNonTerminalPrintCommand::~SymbolNonTerminalPrintCommand(void)
 
 int	SymbolNonTerminalPrintCommand::traverse(ASTNode<int, DebuggerContext &> & ast, DebuggerContext & context) const
 {
-	static_cast<void>(ast);
-	static_cast<void>(context);
+	int res;
+
+	if (ast.getChildren().size() > 2)
+	{
+		ast.getChild(2)->getTraversed(context); //fill format
+		res = ast.getChild(3)->getTraversed(context);
+	}
+	else
+	{
+		context.format = DebuggerContext::E_DEBUGGER_FORMAT_DECIMAL;
+		res = ast.getChild(1)->getTraversed(context);
+	}
+	std::cout << std::setbase(context.format);
+	std::cout << res << std::endl; 
 	return (0);
 }
 

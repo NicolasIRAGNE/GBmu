@@ -1,31 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   SymbolTerminalOctal.cpp                            :+:      :+:    :+:   */
+/*   ok.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/18 14:56:29 by ldedier            #+#    #+#            */
-/*   Updated: 2020/04/18 14:56:29 by ldedier           ###   ########.fr      */
+/*   Created: 2020/05/01 14:41:33 by ldedier           #+#    #+#             */
+/*   Updated: 2020/05/01 14:41:33 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "SymbolTerminalOctal.hpp"
-
-SymbolTerminalOctal::SymbolTerminalOctal(void) : AbstractTerminal("o")
+int main(int argc, char **argv)
 {
+	(void)argc;
+	(void)argv;
+
 	
-}
-
-SymbolTerminalOctal::~SymbolTerminalOctal(void)
-{
-	
-}
-
-int	SymbolTerminalOctal::traverse(ASTNode<int, CustomStack &> & ast, CustomStack & context) const
-{
-	static_cast<void>(ast);
-	static_cast<void>(context);
 	return (0);
 }
-

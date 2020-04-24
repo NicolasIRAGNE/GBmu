@@ -5,8 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2020/04/30 16:25:25 by ldedier            #+#    #+#             #
-#    Updated: 2020/04/30 16:25:25 by ldedier           ###   ########.fr       #
+#    Created: 2020/04/30 16:25:25 by ldedier           #+#    #+#              #
+#    Updated: 2020/04/30 20:56:17 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ BINDIR			=	./
 INCLUDESDIR		=	includes/parser/
 
 INCLUDES		=	DebuggerGrammar.hpp \
+					SymbolTerminalVariable.hpp \
 					SymbolTerminalInterruptStat.hpp \
 					SymbolTerminalSet.hpp \
 					SymbolTerminalGreaterOrEqual.hpp \
@@ -227,7 +228,7 @@ VPATH				=	$(INCLUDESDIR) \
 					=	$(SRCDIR)
 
 OBJECTS			=	$(addprefix $(OBJDIR), $(SRCS:.cpp=.o))
-CFLAGS			=	-I $(INCLUDESDIR) -Wall -Wextra -Werror -I libyacc/includes
+CFLAGS			=	-I $(INCLUDESDIR) -Wall -Wextra -Werror -I includes -I libyacc/includes
 
 OK_COLOR			=	\x1b[32;01m
 EOC					=	\033[0m

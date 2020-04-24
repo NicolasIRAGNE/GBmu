@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/30 16:25:25 by ldedier            #+#    #+#            */
-/*   Updated: 2020/04/30 16:25:25 by ldedier           ###   ########.fr      */
+/*   Created: 2020/04/30 16:25:25 by ldedier           #+#    #+#             */
+/*   Updated: 2020/04/30 18:46:27 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,10 @@ SymbolNonTerminalValue::~SymbolNonTerminalValue(void)
 
 int	SymbolNonTerminalValue::traverse(ASTNode<int, DebuggerContext &> & ast, DebuggerContext & context) const
 {
-	static_cast<void>(ast);
-	static_cast<void>(context);
+	if (ast.getChildren().size() == 1)
+		return ast.getChild(0)->getTraversed(context);
+	else
+		return context.cpu.cycle; //TODO use true value
 	return (0);
 }
 

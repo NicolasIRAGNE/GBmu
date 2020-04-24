@@ -5,18 +5,18 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/30 16:25:25 by ldedier            #+#    #+#            */
-/*   Updated: 2020/04/30 16:25:25 by ldedier           ###   ########.fr      */
+/*   Created: 2020/04/30 16:25:25 by ldedier           #+#    #+#             */
+/*   Updated: 2020/04/30 21:44:22 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SYMBOLTERMINALQUIT_HPP
 # define SYMBOLTERMINALQUIT_HPP
 
-# include "AbstractTerminal.hpp"
+# include "SymbolTerminalCommand.hpp"
 # include "DebuggerContext.hpp"
 
-class SymbolTerminalQuit : public AbstractTerminal<int, DebuggerContext &>
+class SymbolTerminalQuit : public SymbolTerminalCommand
 {
 	public:
 		SymbolTerminalQuit(void);

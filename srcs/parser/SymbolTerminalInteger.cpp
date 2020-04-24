@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/18 16:30:57 by ldedier           #+#    #+#             */
-/*   Updated: 2020/04/24 19:39:53 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/04/30 19:57:39 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,15 +62,8 @@ static t_integer_format getIntegerFormat(std::string string, int *startIndex)
 			*startIndex = 0;
 			return (E_INTEGERFORMAT_DECIMAL);
 		}
-		else if (string.at(0) == '$')
-			return (E_INTEGERFORMAT_HEXADECIMAL);
 		else
 			return (E_INTEGERFORMAT_UNKNOWN);
-	}
-	else if (string.length() > 1 && string.at(0) == '$')
-	{
-		*startIndex = 1;
-		return (E_INTEGERFORMAT_HEXADECIMAL);
 	}
 	else if (string.length() >= 2 && string.at(0) == '0' && tolower(string.at(1)) == 'x')
 	{
@@ -113,7 +106,7 @@ bool SymbolTerminalInteger::staysEligibleForCurrent(std::string & current)
 bool SymbolTerminalInteger::isEligibleForCurrent(std::string & current)
 {
 	return SymbolTerminalInteger::staysEligibleForCurrent(current)
-		&& current.compare("0x") && current.compare("$");
+		&& current.compare("0x");
 }
 
 Token<int, DebuggerContext &> *SymbolTerminalInteger::createToken(std::string tokenContent)
@@ -122,8 +115,5 @@ Token<int, DebuggerContext &> *SymbolTerminalInteger::createToken(std::string to
 	t_integer_format	format;
 
 	format = getIntegerFormat(tokenContent, &index);
-	if (tokenContent.length() && tokenContent.at(0) == '$')
-		return new Token<int, DebuggerContext &>(*this, stoi("0x" + tokenContent.substr(1), 0, format));
-	else
-		return new Token<int, DebuggerContext &>(*this, stoi(tokenContent, 0, format));
+	return new Token<int, DebuggerContext &>(*this, stoi(tokenContent, 0, format));
 }

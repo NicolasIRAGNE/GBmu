@@ -5,18 +5,18 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/30 16:25:25 by ldedier            #+#    #+#            */
-/*   Updated: 2020/04/30 16:25:25 by ldedier           ###   ########.fr      */
+/*   Created: 2020/04/30 16:25:25 by ldedier           #+#    #+#             */
+/*   Updated: 2020/04/30 21:42:57 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SYMBOLTERMINALSTEP_HPP
 # define SYMBOLTERMINALSTEP_HPP
 
-# include "AbstractTerminal.hpp"
+# include "SymbolTerminalCommand.hpp"
 # include "DebuggerContext.hpp"
 
-class SymbolTerminalStep : public AbstractTerminal<int, DebuggerContext &>
+class SymbolTerminalStep : public SymbolTerminalCommand
 {
 	public:
 		SymbolTerminalStep(void);

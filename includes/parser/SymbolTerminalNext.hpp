@@ -5,18 +5,18 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/30 16:25:25 by ldedier            #+#    #+#            */
-/*   Updated: 2020/04/30 16:25:25 by ldedier           ###   ########.fr      */
+/*   Created: 2020/04/30 16:25:25 by ldedier           #+#    #+#             */
+/*   Updated: 2020/04/30 21:37:04 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SYMBOLTERMINALNEXT_HPP
 # define SYMBOLTERMINALNEXT_HPP
 
-# include "AbstractTerminal.hpp"
+# include "SymbolTerminalCommand.hpp"
 # include "DebuggerContext.hpp"
 
-class SymbolTerminalNext : public AbstractTerminal<int, DebuggerContext &>
+class SymbolTerminalNext : public SymbolTerminalCommand
 {
 	public:
 		SymbolTerminalNext(void);
