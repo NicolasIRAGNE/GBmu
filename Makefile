@@ -5,8 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2020/04/18 16:30:57 by ldedier            #+#    #+#             #
-#    Updated: 2020/04/18 16:30:57 by ldedier           ###   ########.fr       #
+#    Created: 2020/04/24 15:36:19 by ldedier            #+#    #+#             #
+#    Updated: 2020/04/24 15:36:19 by ldedier           ###   ########.fr       #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,10 +19,10 @@ MKDIR			=	mkdir
 
 DEBUG ?= 0
 
-SRCDIR			=	srcs/
+SRCDIR			=	srcs/parser/
 OBJDIR			=	objs/
 BINDIR			=	./
-INCLUDESDIR		=	includes/
+INCLUDESDIR		=	includes/parser/
 
 INCLUDES		=	DebuggerGrammar.hpp \
 					SymbolTerminalGreater.hpp \
@@ -69,7 +69,7 @@ INCLUDES		=	DebuggerGrammar.hpp \
 					SymbolNonTerminalCommandName.hpp \
 					SymbolNonTerminalCommandSuffix.hpp \
 					SymbolNonTerminalFactor.hpp \
-					CustomStack.hpp \
+					DebuggerContext.hpp \
 
 SRCS			=	DebuggerGrammar.cpp \
 					SymbolTerminalGreater.cpp \
@@ -117,13 +117,13 @@ SRCS			=	DebuggerGrammar.cpp \
 					SymbolNonTerminalCommandSuffix.cpp \
 					SymbolNonTerminalFactor.cpp \
 					main.cpp \
-					CustomStack.cpp \
+					DebuggerContext.cpp \
 
 VPATH				=	$(INCLUDESDIR) \
 					=	$(SRCDIR)
 
 OBJECTS			=	$(addprefix $(OBJDIR), $(SRCS:.cpp=.o))
-CFLAGS			=	-I $(INCLUDESDIR) -Wall -Wextra -Werror -I ../includes -I libyacc/includes
+CFLAGS			=	-I $(INCLUDESDIR) -Wall -Wextra -Werror -I includes -I libyacc/includes
 
 OK_COLOR			=	\x1b[32;01m
 EOC					=	\033[0m
