@@ -6,7 +6,7 @@
 #    By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#              #
-#    Updated: 2020/05/02 18:28:40 by ldedier          ###   ########.fr        #
+#    Updated: 2020/05/02 19:14:15 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -231,7 +231,7 @@ VPATH				=	$(INCLUDESDIR) \
 					=	$(SRCDIR)
 
 OBJECTS			=	$(addprefix $(OBJDIR), $(SRCS:.cpp=.o))
-CFLAGS			=	-I $(INCLUDESDIR) -Wall -Wextra -Werror -I libyacc/includes
+CFLAGS			=	-I $(INCLUDESDIR) -Wall -Wextra -Werror -I includes -I libyacc/includes
 
 OK_COLOR			=	\x1b[32;01m
 EOC					=	\033[0m
