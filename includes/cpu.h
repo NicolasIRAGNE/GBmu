@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:34:47 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/23 18:55:29 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/24 15:16:09 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@
 # define STAT_MODE_1_INT		(1 << 4)
 # define STAT_MODE_0_INT		(1 << 3)
 # define STAT_LYC_FLAG			(1 << 2)
+struct	gb_cpu_s;
 
 struct registers_s {
 	struct {
@@ -188,6 +189,7 @@ struct	mbc_s
 	uint8_t bank;
 	uint8_t	ram_bank; // TODO : Handle multiple ram banks.
 	enum mbc_mode_e mode;
+	int		(*f)(struct gb_cpu_s*, int);	
 };
 
 struct	joypad_s
@@ -226,7 +228,7 @@ struct	gb_cpu_s
 	uint8_t				boot_rom[BOOT_ROM_SIZE];
 	uint8_t				vram[VRAM_SIZE];
 	uint8_t				ram[RAM_SIZE];
-	uint8_t				extra_ram[EXTRA_RAM_SIZE];
+	uint8_t				extra_ram[EXTRA_RAM_SIZE * 8];
 	uint8_t				wram[WRAM_SIZE];
 	uint8_t				hram[HRAM_SIZE];
 	uint8_t				io_ports[IO_PORTS_SIZE];

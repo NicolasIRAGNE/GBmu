@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 13:47:25 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/23 19:47:26 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/24 17:17:46 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,13 @@ void	memset_4(uint32_t* ptr, uint32_t c, size_t n)
 		ptr[i] = c;
 		i += 1;
 	}
+}
+
+int		clamp(int val, int min, int max)
+{
+	if (val < min)
+		return (min);
+	if (val > max)
+		return (max);
+	return (val);
 }

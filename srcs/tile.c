@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 13:48:02 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/23 21:18:17 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/24 16:28:14 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ void	flip_tile(uint32_t* pixels, struct tile_s* tile, int x, int y, uint32_t* pa
 		// printf("\n");
 }
 
-int		print_tile(struct gb_cpu_s* gb, struct sdl_context_s* context, struct tile_s* tile, int attr, SDL_Rect pos, enum tile_type_e type)
+int		print_tile(struct gb_cpu_s* gb, SDL_Surface* surface, struct tile_s* tile, int attr, SDL_Rect pos, enum tile_type_e type)
 {
 	SDL_Surface* tile_surface;
 
@@ -182,7 +182,7 @@ int		print_tile(struct gb_cpu_s* gb, struct sdl_context_s* context, struct tile_
 		flip_tile(pixels, tile, attr & 0x40, attr & 0x20, gb->bg_palettes[0]);		
 	}
 
-	if (SDL_BlitSurface(tile_surface, NULL, context->surface, &pos))
+	if (SDL_BlitSurface(tile_surface, NULL, surface, &pos))
 	{
 		fprintf(stderr, "failed to blit surface (%s)\n", SDL_GetError());
 		return (1);

@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 18:10:17 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/23 21:26:49 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/24 15:48:24 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,21 @@ uint8_t	read_8(struct gb_cpu_s* gb, uint16_t a16)
 	}
 	else if (a16 < 0x8000)
 	{
-		if (gb->mbc.mode == MBC_MODE_ROM && gb->mbc.bank != 0 && gb->rom_ptr->header->type != 0)
+		uint8_t tmp;
+		if (gb->mbc.mode == MBC_MODE_RAM)
+			tmp = gb->mbc.bank & 0b11111;
+		else
+			tmp = gb->mbc.bank;
+		if (tmp != 0 && gb->rom_ptr->header->type != 0)
 		{
-			if (gb->mbc.bank * 0x4000 + a16 - 0x4000 > gb->rom_ptr->st.st_size)
+			if (tmp * 0x4000 + a16 - 0x4000 > gb->rom_ptr->st.st_size)
 			{
 				debug_print_gb(gb);
-				dprintf(2, "fatal: attempting to read outside the cartridge at %x in bank %x. aborting...\n", a16, gb->mbc.bank);
+				dprintf(2, "fatal: attempting to read outside the cartridge at %x in bank %x. aborting...\n", a16, tmp);
 				abort();
 				return (0);
 			}
-			return (((uint8_t*)(gb->rom_ptr->ptr))[gb->mbc.bank * 0x4000 + a16 - 0x4000]);
+			return (((uint8_t*)(gb->rom_ptr->ptr))[tmp * 0x4000 + a16 - 0x4000]);
 		}
 		else
 			return (((uint8_t*)(gb->rom_ptr->ptr))[a16]);
@@ -56,7 +61,10 @@ uint8_t	read_8(struct gb_cpu_s* gb, uint16_t a16)
 	else if (a16 < 0xc000)
 	{
 		// printf("WARNING: READING FROM EXTRA RAM\n");
-		return (((uint8_t*)(gb->extra_ram))[a16 - 0xa000]);
+		if (gb->mbc.mode == MBC_MODE_RAM)
+			return (((uint8_t*)(gb->extra_ram))[a16 - 0xa000 + gb->mbc.ram_bank * RAM_SIZE]);		
+		else
+			return (((uint8_t*)(gb->extra_ram))[a16 - 0xa000]);
 	}
 	else if (a16 < 0xe000)
 	{
@@ -100,7 +108,7 @@ uint8_t	read_8(struct gb_cpu_s* gb, uint16_t a16)
 	}
 	else
 	{
-		printf("WARNING: READING FROM UNIMPLEMENTED ZONE %4x\n", a16);
+		// printf("WARNING: READING FROM UNIMPLEMENTED ZONE %4x\n", a16);
 		return (0xff);
 	}
 }
@@ -126,26 +134,16 @@ void	write_8(struct gb_cpu_s* gb, uint16_t a16, uint8_t x)
 	}
 	else if (a16 < 0x4000)
 	{
-		uint8_t tmp = x & 0b1100000;
-		gb->mbc.bank = tmp | (x & 0b11111);
-		if (gb->debugger->verbose_level >= 1)
-			printf("SWITCHING BANK LOWER BITS %x \n", gb->mbc.bank);
+		gb->mbc.bank = x; // ??
+		// if (gb->debugger->verbose_level >= 1)
+			// printf("SWITCHING BANK LOWER BITS %x \n", gb->mbc.bank);
 		return ;
 	}
 	else if (a16 < 0x6000)
 	{
-		if (gb->mbc.mode == MBC_MODE_ROM)
-		{
-			uint8_t tmp = x & 0b0011111;
-			gb->mbc.bank = tmp | (x & 0b1100000);
-			if (gb->debugger->verbose_level >= 1)
-				printf("SWITCHING BANK UPPER BITS %x \n", gb->mbc.bank);
-		}
-		else if (gb->mbc.mode == MBC_MODE_RAM)
-		{
-			gb->mbc.ram_bank =(x & 0b1100000) >> 5;
-			printf("SWITCHING RAM BANK %x \n", gb->mbc.ram_bank);
-		}
+		uint8_t tmp = x & 0b1100000;
+		gb->mbc.bank = (gb->mbc.bank & 0b11111) | tmp;
+		// gb->mbc.ram_bank =(x & 0b1100000) >> 5;
 		return ;
 	}
 	else if (a16 < 0x8000)
@@ -164,8 +162,10 @@ void	write_8(struct gb_cpu_s* gb, uint16_t a16, uint8_t x)
 	}
 	else if (a16 < 0xc000)
 	{
-		// printf("WARNING: WRITING TO EXTRA RAM\n");
-		((uint8_t*)(gb->extra_ram))[a16 - 0xa000] = x;
+		if (gb->mbc.mode == MBC_MODE_RAM)
+			((uint8_t*)(gb->extra_ram))[a16 - 0xa000 + gb->mbc.ram_bank * RAM_SIZE] = x;
+		else
+			((uint8_t*)(gb->extra_ram))[a16 - 0xa000] = x;
 		return ;
 	}
 	else if (a16 < 0xe000)
@@ -220,7 +220,7 @@ void	write_8(struct gb_cpu_s* gb, uint16_t a16, uint8_t x)
 	}
 	else
 	{
-		printf("WARNING: WRITING TO UNIMPLEMENTED ZONE %4x\n", a16);
+		// printf("WARNING: WRITING TO UNIMPLEMENTED ZONE %4x\n", a16);
 		return ;
 	}	
 }
