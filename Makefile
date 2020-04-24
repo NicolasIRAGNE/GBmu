@@ -5,8 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2020/04/24 15:36:19 by ldedier           #+#    #+#              #
-#    Updated: 2020/04/24 17:04:00 by ldedier          ###   ########.fr        #
+#    Created: 2020/04/24 19:16:33 by ldedier            #+#    #+#             #
+#    Updated: 2020/04/24 19:16:33 by ldedier           ###   ########.fr       #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,12 +51,26 @@ INCLUDES		=	DebuggerGrammar.hpp \
 					SymbolTerminalHalfWordFormat.hpp \
 					SymbolTerminalWordFormat.hpp \
 					SymbolTerminalPrint.hpp \
+					SymbolTerminalStep.hpp \
+					SymbolTerminalNext.hpp \
+					SymbolTerminalBreakpoint.hpp \
+					SymbolTerminalDelete.hpp \
+					SymbolTerminalInfo.hpp \
+					SymbolTerminalRegisters.hpp \
+					SymbolTerminalQuit.hpp \
+					SymbolTerminalVerbose.hpp \
 					SymbolTerminalInteger.hpp \
-					SymbolTerminalVariable.hpp \
 					SymbolNonTerminalCommand.hpp \
 					SymbolNonTerminalPrintCommand.hpp \
 					SymbolNonTerminalXCommand.hpp \
-					SymbolNonTerminalSimpleCommand.hpp \
+					SymbolNonTerminalStepCommand.hpp \
+					SymbolNonTerminalNextCommand.hpp \
+					SymbolNonTerminalBreakpointCommand.hpp \
+					SymbolNonTerminalDeleteCommand.hpp \
+					SymbolNonTerminalInfoCommand.hpp \
+					SymbolNonTerminalRegistersCommand.hpp \
+					SymbolNonTerminalQuitCommand.hpp \
+					SymbolNonTerminalVerboseCommand.hpp \
 					SymbolNonTerminalValue.hpp \
 					SymbolNonTerminalFormat.hpp \
 					SymbolNonTerminalXSuffix.hpp \
@@ -65,8 +79,6 @@ INCLUDES		=	DebuggerGrammar.hpp \
 					SymbolNonTerminalComparison.hpp \
 					SymbolNonTerminalExpr.hpp \
 					SymbolNonTerminalTerm.hpp \
-					SymbolNonTerminalCommandName.hpp \
-					SymbolNonTerminalCommandSuffix.hpp \
 					SymbolNonTerminalFactor.hpp \
 					DebuggerContext.hpp \
 
@@ -97,12 +109,26 @@ SRCS			=	DebuggerGrammar.cpp \
 					SymbolTerminalHalfWordFormat.cpp \
 					SymbolTerminalWordFormat.cpp \
 					SymbolTerminalPrint.cpp \
+					SymbolTerminalStep.cpp \
+					SymbolTerminalNext.cpp \
+					SymbolTerminalBreakpoint.cpp \
+					SymbolTerminalDelete.cpp \
+					SymbolTerminalInfo.cpp \
+					SymbolTerminalRegisters.cpp \
+					SymbolTerminalQuit.cpp \
+					SymbolTerminalVerbose.cpp \
 					SymbolTerminalInteger.cpp \
-					SymbolTerminalVariable.cpp \
 					SymbolNonTerminalCommand.cpp \
 					SymbolNonTerminalPrintCommand.cpp \
 					SymbolNonTerminalXCommand.cpp \
-					SymbolNonTerminalSimpleCommand.cpp \
+					SymbolNonTerminalStepCommand.cpp \
+					SymbolNonTerminalNextCommand.cpp \
+					SymbolNonTerminalBreakpointCommand.cpp \
+					SymbolNonTerminalDeleteCommand.cpp \
+					SymbolNonTerminalInfoCommand.cpp \
+					SymbolNonTerminalRegistersCommand.cpp \
+					SymbolNonTerminalQuitCommand.cpp \
+					SymbolNonTerminalVerboseCommand.cpp \
 					SymbolNonTerminalValue.cpp \
 					SymbolNonTerminalFormat.cpp \
 					SymbolNonTerminalXSuffix.cpp \
@@ -111,8 +137,6 @@ SRCS			=	DebuggerGrammar.cpp \
 					SymbolNonTerminalComparison.cpp \
 					SymbolNonTerminalExpr.cpp \
 					SymbolNonTerminalTerm.cpp \
-					SymbolNonTerminalCommandName.cpp \
-					SymbolNonTerminalCommandSuffix.cpp \
 					SymbolNonTerminalFactor.cpp \
 					main.cpp \
 					DebuggerContext.cpp \
@@ -121,7 +145,7 @@ VPATH				=	$(INCLUDESDIR) \
 					=	$(SRCDIR)
 
 OBJECTS			=	$(addprefix $(OBJDIR), $(SRCS:.cpp=.o))
-CFLAGS			=	-I $(INCLUDESDIR) -Wall -Wextra -Werror -I includes -I libyacc/includes
+CFLAGS			=	-I $(INCLUDESDIR) -Wall -Wextra -Werror -I ../includes -I libyacc/includes
 
 OK_COLOR			=	\x1b[32;01m
 EOC					=	\033[0m

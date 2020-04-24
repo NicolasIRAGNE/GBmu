@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/24 15:36:19 by ldedier           #+#    #+#             */
-/*   Updated: 2020/04/24 17:04:26 by ldedier          ###   ########.fr       */
+/*   Created: 2020/04/24 19:16:33 by ldedier            #+#    #+#            */
+/*   Updated: 2020/04/24 19:16:33 by ldedier           ###   ########.fr      */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,14 @@
 #include "SymbolNonTerminalCommand.hpp"
 #include "SymbolNonTerminalPrintCommand.hpp"
 #include "SymbolNonTerminalXCommand.hpp"
-#include "SymbolNonTerminalSimpleCommand.hpp"
+#include "SymbolNonTerminalStepCommand.hpp"
+#include "SymbolNonTerminalNextCommand.hpp"
+#include "SymbolNonTerminalBreakpointCommand.hpp"
+#include "SymbolNonTerminalDeleteCommand.hpp"
+#include "SymbolNonTerminalInfoCommand.hpp"
+#include "SymbolNonTerminalRegistersCommand.hpp"
+#include "SymbolNonTerminalQuitCommand.hpp"
+#include "SymbolNonTerminalVerboseCommand.hpp"
 #include "SymbolNonTerminalValue.hpp"
 #include "SymbolNonTerminalFormat.hpp"
 #include "SymbolNonTerminalXSuffix.hpp"
@@ -28,8 +35,6 @@
 #include "SymbolNonTerminalComparison.hpp"
 #include "SymbolNonTerminalExpr.hpp"
 #include "SymbolNonTerminalTerm.hpp"
-#include "SymbolNonTerminalCommandName.hpp"
-#include "SymbolNonTerminalCommandSuffix.hpp"
 #include "SymbolNonTerminalFactor.hpp"
 
 #include "SymbolTerminalGreater.hpp"
@@ -58,8 +63,15 @@
 #include "SymbolTerminalHalfWordFormat.hpp"
 #include "SymbolTerminalWordFormat.hpp"
 #include "SymbolTerminalPrint.hpp"
+#include "SymbolTerminalStep.hpp"
+#include "SymbolTerminalNext.hpp"
+#include "SymbolTerminalBreakpoint.hpp"
+#include "SymbolTerminalDelete.hpp"
+#include "SymbolTerminalInfo.hpp"
+#include "SymbolTerminalRegisters.hpp"
+#include "SymbolTerminalQuit.hpp"
+#include "SymbolTerminalVerbose.hpp"
 #include "SymbolTerminalInteger.hpp"
-#include "SymbolTerminalVariable.hpp"
 
 class DebuggerGrammar : public AbstractGrammar<int, DebuggerContext &>
 {

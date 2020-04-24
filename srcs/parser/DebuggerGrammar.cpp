@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/24 15:36:19 by ldedier           #+#    #+#             */
-/*   Updated: 2020/04/24 17:03:36 by ldedier          ###   ########.fr       */
+/*   Created: 2020/04/24 19:16:33 by ldedier            #+#    #+#            */
+/*   Updated: 2020/04/24 19:16:33 by ldedier           ###   ########.fr      */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,14 @@ DebuggerGrammar::DebuggerGrammar(void) : AbstractGrammar(new SymbolNonTerminalCo
 {
 	addNonTerminal(new SymbolNonTerminalPrintCommand());
 	addNonTerminal(new SymbolNonTerminalXCommand());
-	addNonTerminal(new SymbolNonTerminalSimpleCommand());
+	addNonTerminal(new SymbolNonTerminalStepCommand());
+	addNonTerminal(new SymbolNonTerminalNextCommand());
+	addNonTerminal(new SymbolNonTerminalBreakpointCommand());
+	addNonTerminal(new SymbolNonTerminalDeleteCommand());
+	addNonTerminal(new SymbolNonTerminalInfoCommand());
+	addNonTerminal(new SymbolNonTerminalRegistersCommand());
+	addNonTerminal(new SymbolNonTerminalQuitCommand());
+	addNonTerminal(new SymbolNonTerminalVerboseCommand());
 	addNonTerminal(new SymbolNonTerminalValue());
 	addNonTerminal(new SymbolNonTerminalFormat());
 	addNonTerminal(new SymbolNonTerminalXSuffix());
@@ -26,8 +33,6 @@ DebuggerGrammar::DebuggerGrammar(void) : AbstractGrammar(new SymbolNonTerminalCo
 	addNonTerminal(new SymbolNonTerminalComparison());
 	addNonTerminal(new SymbolNonTerminalExpr());
 	addNonTerminal(new SymbolNonTerminalTerm());
-	addNonTerminal(new SymbolNonTerminalCommandName());
-	addNonTerminal(new SymbolNonTerminalCommandSuffix());
 	addNonTerminal(new SymbolNonTerminalFactor());
 
 	addTerminal(new SymbolTerminalGreater());
@@ -56,8 +61,15 @@ DebuggerGrammar::DebuggerGrammar(void) : AbstractGrammar(new SymbolNonTerminalCo
 	addTerminal(new SymbolTerminalHalfWordFormat());
 	addTerminal(new SymbolTerminalWordFormat());
 	addTerminal(new SymbolTerminalPrint());
+	addTerminal(new SymbolTerminalStep());
+	addTerminal(new SymbolTerminalNext());
+	addTerminal(new SymbolTerminalBreakpoint());
+	addTerminal(new SymbolTerminalDelete());
+	addTerminal(new SymbolTerminalInfo());
+	addTerminal(new SymbolTerminalRegisters());
+	addTerminal(new SymbolTerminalQuit());
+	addTerminal(new SymbolTerminalVerbose());
 	addTerminal(new SymbolTerminalInteger());
-	addTerminal(new SymbolTerminalVariable());
 
 	computeGrammar();
 }
