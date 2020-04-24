@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/18 16:30:57 by ldedier            #+#    #+#            */
-/*   Updated: 2020/04/18 16:30:57 by ldedier           ###   ########.fr      */
+/*   Created: 2020/04/18 14:56:29 by ldedier            #+#    #+#            */
+/*   Updated: 2020/04/18 14:56:29 by ldedier           ###   ########.fr      */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,15 @@
 # define SYMBOLTERMINALINTEGER_HPP
 
 # include "AbstractUnsignedIntegerTerminal.hpp"
-# include "DebuggerContext.hpp"
+# include "CustomStack.hpp"
 
-class SymbolTerminalInteger : public AbstractTerminal<int, DebuggerContext &>
+class SymbolTerminalInteger : public AbstractUnsignedIntegerTerminal<int, CustomStack &>
 {
 	public:
 		SymbolTerminalInteger(void);
 		~SymbolTerminalInteger(void);
-		virtual int traverse(ASTNode<int, DebuggerContext &> & ast, DebuggerContext & context) const;
-		virtual bool isEligibleForCurrent(std::string & current);
-		virtual bool staysEligibleForCurrent(std::string & current);
-		virtual Token<int, DebuggerContext &> *createToken(std::string tokenContent);
+		virtual int traverse(ASTNode<int, CustomStack &> & ast, CustomStack & context) const;
+
 	private:
 
 };
