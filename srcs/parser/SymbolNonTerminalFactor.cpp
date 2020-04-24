@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/24 19:16:33 by ldedier            #+#    #+#            */
-/*   Updated: 2020/04/24 19:16:33 by ldedier           ###   ########.fr      */
+/*   Created: 2020/04/24 15:36:19 by ldedier           #+#    #+#             */
+/*   Updated: 2020/04/24 19:38:51 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,16 @@ SymbolNonTerminalFactor::~SymbolNonTerminalFactor(void)
 
 int	SymbolNonTerminalFactor::traverse(ASTNode<int, DebuggerContext &> & ast, DebuggerContext & context) const
 {
-	static_cast<void>(ast);
-	static_cast<void>(context);
+	if (ast.getChildren().size() == 1)
+		return ast.getChild(0)->getTraversed(context);
+	else if (ast.getChild(1)->getSymbol().getIdentifier() == "andor")
+		return ast.getChild(1)->getTraversed(context);
+	else if (ast.getChild(0)->getSymbol().getIdentifier() == "-")
+		return - ast.getChild(1)->getTraversed(context);
+	else if (ast.getChild(0)->getSymbol().getIdentifier() == "+")
+		return ast.getChild(1)->getTraversed(context);
+	else if (ast.getChild(0)->getSymbol().getIdentifier() == "*")
+		return ast.getChild(1)->getTraversed(context) + 0xdeadbeef; //TODO : return dereferenced getchild(1) 
 	return (0);
 }
 

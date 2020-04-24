@@ -5,8 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2020/04/24 19:16:33 by ldedier            #+#    #+#             #
-#    Updated: 2020/04/24 19:16:33 by ldedier           ###   ########.fr       #
+#    Created: 2020/04/24 15:36:19 by ldedier           #+#    #+#              #
+#    Updated: 2020/04/24 17:04:00 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -145,7 +145,7 @@ VPATH				=	$(INCLUDESDIR) \
 					=	$(SRCDIR)
 
 OBJECTS			=	$(addprefix $(OBJDIR), $(SRCS:.cpp=.o))
-CFLAGS			=	-I $(INCLUDESDIR) -Wall -Wextra -Werror -I ../includes -I libyacc/includes
+CFLAGS			=	-I $(INCLUDESDIR) -Wall -Wextra -Werror -I includes -I libyacc/includes
 
 OK_COLOR			=	\x1b[32;01m
 EOC					=	\033[0m
