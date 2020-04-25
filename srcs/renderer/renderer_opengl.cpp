@@ -71,12 +71,8 @@ int Renderer::Init()
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     //glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 
-    std::vector<uint8_t> data(160*144*4*2);
-    std::memset(data.data(), 0x10, data.size());
-
     glGenTextures(1, &m_Texture);
     glBindTexture(GL_TEXTURE_2D, m_Texture);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 160, 144, 0, GL_RGBA, GL_UNSIGNED_BYTE, data.data());
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
@@ -97,6 +93,25 @@ int Renderer::Destroy()
 
 int Renderer::Render() {
     glClear(GL_COLOR_BUFFER_BIT);
+
+    static uint8_t salut = 0;
+    std::vector<uint8_t> data(160 * 144 * 4 * 2);
+    std::memset(data.data(), salut, data.size());
+    salut++;
+
+    glGenBuffers(1, &m_Pbo);
+    glBindBuffer(GL_PIXEL_UNPACK_BUFFER, m_Pbo);
+    glBufferData(GL_PIXEL_UNPACK_BUFFER, 160 * 144 * 4, NULL, GL_STREAM_DRAW);
+    void* mappedBuffer = glMapBuffer(GL_PIXEL_UNPACK_BUFFER, GL_WRITE_ONLY);
+
+    memcpy(mappedBuffer, data.data(), 160 * 144 * 4);
+
+    glBindBuffer(GL_PIXEL_UNPACK_BUFFER, m_Pbo);
+    glUnmapBuffer(GL_PIXEL_UNPACK_BUFFER);
+    glBindTexture(GL_TEXTURE_2D, m_Texture);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 160, 144, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
 
     glUseProgram(m_Program);
     glBindVertexArray(m_Vao);
