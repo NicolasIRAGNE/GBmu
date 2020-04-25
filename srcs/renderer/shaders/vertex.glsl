@@ -1,12 +1,11 @@
 #version 330
 
-in vec2 in_position;
-in vec4 in_color;
-out vec2 position;
-out vec4 color;
+in vec2 inVertex;
+in vec2 inTexCoord;
+
+out vec2 vTexCoord;
 
 void main() {
-    position = in_position;
-    gl_Position = vec4(in_position.x, in_position.y, 0.0, 1.0);
-    color = in_color;
+    gl_Position = vec4(inVertex.x, inVertex.y, 0.0, 1.0);
+    vTexCoord = inTexCoord;
 }

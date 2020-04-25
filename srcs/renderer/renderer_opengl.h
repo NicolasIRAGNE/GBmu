@@ -32,6 +32,7 @@ private:
     GLuint m_Program {0};
     GLuint m_Vao {0};
     GLuint m_Vbo {0};
+    GLuint m_Texture {0};
 };
 
 }
