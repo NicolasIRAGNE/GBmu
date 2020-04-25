@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/23 16:49:30 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/23 17:14:42 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/25 15:56:22 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int		save_game(struct gb_cpu_s* gb)
 		perror(save_file);
 		return (1);
 	}
-	write(fd, gb->extra_ram, EXTRA_RAM_SIZE);
+	write(fd, gb->extra_ram, gb->mbc.ram_size);
 	close(fd);
 	return(0);
 }
@@ -44,16 +44,16 @@ int		load_game(struct gb_cpu_s* gb)
 		perror(save_file);
 		return (1);
 	}
-	int rd = read(fd, gb->extra_ram, EXTRA_RAM_SIZE);
+	int rd = read(fd, gb->extra_ram, gb->mbc.ram_size);
 	if (rd < 0)
 	{
 		perror(save_file);
 		close(fd);
 		return (0);
 	}
-	if (rd != EXTRA_RAM_SIZE)
+	if (rd != (int)gb->mbc.ram_size)
 	{
-		fprintf(stderr, "warning: read %d bytes from save data. file may be corrupted.\n", rd);
+		fprintf(stderr, "warning: read %d bytes from save data (expected %d). file may be corrupted.\n", rd, gb->mbc.ram_size);
 	}
 	close(fd);
 	return(0);

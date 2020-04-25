@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 13:48:02 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/24 16:28:14 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/25 13:39:03 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,6 @@ void	flip_tile(uint32_t* pixels, struct tile_s* tile, int x, int y, uint32_t* pa
 {
 	int i = 0;
 	int j = 0;
-	
 	while (i < 8)
 	{
 		while (j < 8)
@@ -141,9 +140,9 @@ void	flip_tile(uint32_t* pixels, struct tile_s* tile, int x, int y, uint32_t* pa
 			uint32_t color = get_color_from_palette(tile->index[i][j], palette);
 			int line = i;
 			int column = j;
-			if (x)
-				line = (TILE_SURFACE_WIDTH - i - 1);
 			if (y)
+				line = (TILE_SURFACE_WIDTH - i - 1);
+			if (x)
 				column = (TILE_SURFACE_HEIGHT - j - 1);
 			pixels[line * TILE_SURFACE_WIDTH + column] = color;
 			j++;
@@ -173,13 +172,13 @@ int		print_tile(struct gb_cpu_s* gb, SDL_Surface* surface, struct tile_s* tile, 
 	if (type == TILE_TYPE_SPRITE)
 	{
 		if (attr & 0b10000)
-			flip_tile(pixels, tile, attr & 0x40, attr & 0x20, gb->obj_palettes[1]);
+			flip_tile(pixels, tile, attr & ATTR_X_FLIP, attr & ATTR_Y_FLIP, gb->obj_palettes[1]);
 		else
-			flip_tile(pixels, tile, attr & 0x40, attr & 0x20, gb->obj_palettes[0]);
+			flip_tile(pixels, tile, attr & ATTR_X_FLIP, attr & ATTR_Y_FLIP, gb->obj_palettes[0]);
 	}
 	else
 	{
-		flip_tile(pixels, tile, attr & 0x40, attr & 0x20, gb->bg_palettes[0]);		
+		flip_tile(pixels, tile, attr & ATTR_X_FLIP, attr & ATTR_Y_FLIP, gb->bg_palettes[0]);		
 	}
 
 	if (SDL_BlitSurface(tile_surface, NULL, surface, &pos))

@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/24 12:10:20 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/24 18:14:48 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/25 13:49:34 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,18 +88,15 @@ void	display_sprites(struct gbmu_wrapper_s* wrapper, uint8_t lcdc, struct tile_s
 		uint8_t attr =	wrapper->gb->oam[i + 3];
 		SDL_Rect pos1 = (SDL_Rect) {x - 8, y - 16,  TILE_SURFACE_WIDTH, TILE_SURFACE_HEIGHT};
 		SDL_Rect pos2 = (SDL_Rect) {x - 8, y - 8,  TILE_SURFACE_WIDTH, TILE_SURFACE_HEIGHT};
-		if (attr & 0x40)
+
+		if (attr & ATTR_Y_FLIP && lcdc & LCDC_SPRITE_SIZE)
 		{
-			print_tile(wrapper->gb, wrapper->main_context->surface, array + tile, attr, pos2, TILE_TYPE_SPRITE);
-			if (lcdc & LCDC_SPRITE_SIZE)
-				print_tile(wrapper->gb, wrapper->main_context->surface, array + tile + 1, attr, pos1, TILE_TYPE_SPRITE);
+			pos1 = pos2;
+			pos2 = (SDL_Rect) {x - 8, y - 16,  TILE_SURFACE_WIDTH, TILE_SURFACE_HEIGHT};
 		}
-		else
-		{
-			print_tile(wrapper->gb, wrapper->main_context->surface, array + tile, attr, pos1, TILE_TYPE_SPRITE);
-			if (lcdc & LCDC_SPRITE_SIZE)
-				print_tile(wrapper->gb, wrapper->main_context->surface, array + tile + 1, attr, pos2, TILE_TYPE_SPRITE);
-		}
+		print_tile(wrapper->gb, wrapper->main_context->surface, array + tile, attr, pos1, TILE_TYPE_SPRITE);		
+		if (lcdc & LCDC_SPRITE_SIZE)
+			print_tile(wrapper->gb, wrapper->main_context->surface, array + tile + 1, attr, pos2, TILE_TYPE_SPRITE);
 		i += 4;
 	}
 }

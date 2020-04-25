@@ -10,6 +10,7 @@
 		"renderer.h": "c",
 		"stdlib.h": "c",
 		"signal.h": "c",
-		"type_traits": "c"
+		"type_traits": "c",
+		"*.tcc": "c"
 	}
 }

@@ -1,43 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tools.c                                            :+:      :+:    :+:   */
+/*   mbc2.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/03/05 13:47:25 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/25 14:35:51 by niragne          ###   ########.fr       */
+/*   Created: 2020/04/25 12:53:23 by niragne           #+#    #+#             */
+/*   Updated: 2020/04/25 12:53:50 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gb.h"
+#include <stdio.h>
 
-uint32_t	get_color_from_palette(uint8_t index, uint32_t* palette)
+void	write_mbc2(struct gb_cpu_s* gb, uint16_t addr, uint8_t x)
 {
-	return (palette[index]);
-}
-
-void	memset_4(uint32_t* ptr, uint32_t c, size_t n)
-{
-	size_t i = 0;
-
-	while (i < n)
+	if (addr < 0x2000)
 	{
-		ptr[i] = c;
-		i += 1;
+		if (!(addr & 0x0100))
+		{
+			gb->ram_enabled = 1;
+		}
+		else
+			gb->ram_enabled = 0;
 	}
-}
-
-int		clamp(int val, int min, int max)
-{
-	if (val < min)
-		return (min);
-	if (val > max)
-		return (max);
-	return (val);
-}
-
-void	memcpy_mbc(struct gb_cpu_s* gb)
-{
-	
+	else if (addr < 0x4000)
+	{
+		if (!(addr & 0x0100))
+			return;
+		gb->mbc.bank = (x & 0b1111);
+		return ;
+	}
 }

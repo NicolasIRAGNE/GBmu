@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/21 14:07:07 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/23 16:25:40 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/25 16:01:42 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 void	handle_joypad(struct gb_cpu_s* gb, SDL_GameController* controller)
 {
 	const Uint8 *state = SDL_GetKeyboardState(NULL);
-	struct joypad_s temp;
+	struct joypad_s temp = {};
 
 	if (controller)
 	{

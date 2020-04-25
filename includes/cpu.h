@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:34:47 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/24 15:16:09 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/25 15:31:33 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # define RAM_SIZE 0x2000		// 8kiB
 # define EXTRA_RAM_SIZE 0x2000	// 8kiB
 # define IO_PORTS_SIZE 0x100	// 256B
-# define OAM_SIZE 0x9f			// 160B
+# define OAM_SIZE 0xa0			// 160B
 # define BOOT_ROM_SIZE 0x100	// 256B
 
 # define VRAM_TILE_BANK_SIZE 0x1800
@@ -186,10 +186,13 @@ enum	joypad_mode_e
 
 struct	mbc_s
 {
-	uint8_t bank;
+	uint16_t bank;
 	uint8_t	ram_bank; // TODO : Handle multiple ram banks.
 	enum mbc_mode_e mode;
-	int		(*f)(struct gb_cpu_s*, int);	
+	uint8_t	(*read)(struct gb_cpu_s*, uint16_t);	
+	void	(*write)(struct gb_cpu_s*, uint16_t, uint8_t);
+	uint32_t	rom_size;
+	uint32_t	ram_size;
 };
 
 struct	joypad_s
@@ -228,7 +231,7 @@ struct	gb_cpu_s
 	uint8_t				boot_rom[BOOT_ROM_SIZE];
 	uint8_t				vram[VRAM_SIZE];
 	uint8_t				ram[RAM_SIZE];
-	uint8_t				extra_ram[EXTRA_RAM_SIZE * 8];
+	uint8_t				extra_ram[EXTRA_RAM_SIZE * 16];
 	uint8_t				wram[WRAM_SIZE];
 	uint8_t				hram[HRAM_SIZE];
 	uint8_t				io_ports[IO_PORTS_SIZE];

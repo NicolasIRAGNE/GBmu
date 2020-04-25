@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 11:37:03 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/24 16:44:09 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/25 15:49:13 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,8 @@ int		main(int ac, char** av)
 	rom.header = rom.ptr + 0x100;
 	debug_print_rom(&rom);
 
-	if (init_cpu(&gb))
+	if (init_cpu(&gb, &rom))
 		return (1);
-	gb.rom_ptr = &rom;
 	gb.debugger = &debugger;
 	update_current_instruction(&gb);
 	init_op_tab();
