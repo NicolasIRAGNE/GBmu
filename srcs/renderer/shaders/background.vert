@@ -3,5 +3,5 @@
 in vec2 inVertex;
 
 void main() {
-    gl_Position = vec4(inVertex.x, inVertex.y, 0.0, 1.0);
+    gl_Position = vec4(inVertex, 0.f, 1.f);
 }

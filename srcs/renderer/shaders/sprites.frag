@@ -9,7 +9,8 @@ struct Infos {
 uniform sampler2D tex;
 uniform struct Infos infos;
 
-in vec2 position;
+in vec2 vPosInTile;
+in float fTileIndex;
 
 out vec4 fragColor;
 
@@ -31,28 +32,25 @@ uint GetValueAt(uint addr)
     return ret;
 }
 
-void main()
-{
-    uvec2 pixelPos = uvec2(gl_FragCoord.x / 2.f, 144.f - gl_FragCoord.y / 2.f);
-    pixelPos = pixelPos + uvec2(infos.scx, infos.scy);
+vec4 GetColorFromTileIndex(uint index, uvec2 posInTile)
+{   
+    uint msb = GetValueAt(index * 16u + posInTile.y * 2u);
+    uint lsb = GetValueAt(index * 16u + posInTile.y * 2u + 1u);
 
-    uvec2 tilePos = pixelPos / 8u;
-    uvec2 pixelPosInTile = pixelPos % 8u;
-    
-	uint tileIndex = GetValueAt(0x1800u + tilePos.y * 32u + tilePos.x);
-	if (((infos.lcdc & 16u) == 0u) && (tileIndex + 0x100u < 256u + 128u)) {
-		tileIndex = tileIndex + 0x100u;
-    }
-    
-    uint msb = GetValueAt(tileIndex * 16u + pixelPosInTile.y * 2u);
-    uint lsb = GetValueAt(tileIndex * 16u + pixelPosInTile.y * 2u + 1u);
-
-    uint posInByte = (7u - pixelPosInTile.x);
+    uint posInByte = (7u - posInTile.x);
     uint bit = 1u << posInByte;
     uint colorIndex = ((msb & bit) << (posInByte + 1u))
                     | ((lsb & bit) << posInByte);
 
     colorIndex = colorIndex >> (posInByte * 2u);
-    
-    fragColor = monochromePalette[colorIndex];
+
+    return monochromePalette[colorIndex];
+}
+
+void main()
+{
+    uvec2 pixelPosInTile = uvec2(vPosInTile);
+    uint tileIndex = uint(fTileIndex);
+
+    fragColor = GetColorFromTileIndex(tileIndex, pixelPosInTile);
 }

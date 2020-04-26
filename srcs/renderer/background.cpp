@@ -17,12 +17,6 @@ Background::~Background()
 
 int Background::Init()
 {
-    float vertices[] = {
-        -0.5f, -0.5f,
-         0.5f, -0.5f,
-         0.0f,  0.5f,
-    };
-
     m_Program = compileProgram(
         "C:/Users/iwan/GBmu/srcs/renderer/shaders/background.vert",
         "C:/Users/iwan/GBmu/srcs/renderer/shaders/background.frag");

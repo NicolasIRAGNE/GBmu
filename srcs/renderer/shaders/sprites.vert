@@ -1,7 +1,21 @@
 #version 330
 
-in vec2 inVertex;
+in vec4 inVertex;
+
+out vec2 vPosInTile;
+out float fTileIndex;
+
+vec2 posInTile[6] = vec2[](
+    vec2(0.f, 0.f),
+    vec2(0.f, 8.f),
+    vec2(8.f, 0.f),
+    vec2(0.f, 8.f),
+    vec2(8.f, 0.f),
+    vec2(8.f, 8.f));
 
 void main() {
-    gl_Position = vec4(inVertex.x, inVertex.y, 0.0, 1.0);
+    gl_Position = vec4(inVertex.xy, 0.f, 1.f);
+
+    vPosInTile = posInTile[gl_VertexID % 6];
+    fTileIndex = inVertex.z;
 }
