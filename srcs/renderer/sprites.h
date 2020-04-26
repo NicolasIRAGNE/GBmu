@@ -17,12 +17,14 @@ public:
     int Draw();
 
 private:
+    void UpdateVertex();
+
+private:
     gb_cpu_s* m_Gb;
 
     GLuint m_Program {0};
     GLuint m_Vao {0};
     GLuint m_Vbo {0};
-    GLint m_InfosLoc {-1};
 };
 
 };

@@ -6,6 +6,7 @@
 #include <GL/glew.h>
 
 #include "background.h"
+#include "sprites.h"
 
 struct gb_cpu_s;
 
@@ -36,6 +37,7 @@ private:
     GLuint m_Pbo {0};
 
     Background m_Background;
+    Sprites m_Sprites;
 };
 
 }

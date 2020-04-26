@@ -17,7 +17,7 @@ static void checkGlError() {
 namespace GBMU {
 
 Renderer::Renderer(SDL_Window* window, gb_cpu_s* gb) :
-    m_Window(window), m_Gb(gb), m_Background(gb) {}
+    m_Window(window), m_Gb(gb), m_Background(gb), m_Sprites(gb) {}
 
 Renderer::~Renderer() {
     Destroy();
@@ -33,6 +33,10 @@ int Renderer::Init()
         return -1;
     }
 
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glClearColor(1.f, 0.f, 0.f, 1.0f);
+
     glGenTextures(1, &m_Texture);
     glBindTexture(GL_TEXTURE_2D, m_Texture);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -46,11 +50,17 @@ int Renderer::Init()
         return ret;
     }
 
+    ret = m_Sprites.Init();
+    if (ret < 0) {
+        return ret;
+    }
+
     return 0;
 }
 
 int Renderer::Destroy()
 {
+    m_Sprites.Destroy();
     m_Background.Destroy();
 
     glDeleteBuffers(1, &m_Pbo);
@@ -71,6 +81,7 @@ int Renderer::Render() {
     glBindTexture(GL_TEXTURE_2D, m_Texture);
 
     m_Background.Draw();
+    //m_Sprites.Draw();
 
     glBindTexture(GL_TEXTURE_2D, m_Texture);
 

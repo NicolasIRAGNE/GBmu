@@ -7,7 +7,6 @@ struct Infos {
 };
 
 uniform sampler2D tex;
-uniform struct Infos infos;
 
 in vec2 vPosInTile;
 in float fTileIndex;
@@ -15,7 +14,7 @@ in float fTileIndex;
 out vec4 fragColor;
 
 vec4 monochromePalette[4] = vec4[](
-    vec4(0.8f, 0.8f, 0.8f, 1.f),
+    vec4(0.8f, 0.8f, 0.8f, 0.f),
     vec4(0.5f, 0.5f, 0.5f, 1.f),
     vec4(0.3f, 0.3f, 0.3f, 1.f),
     vec4(0.1f, 0.1f, 0.1f, 1.f)

@@ -1,6 +1,6 @@
 #version 330
 
-in vec4 inVertex;
+in vec3 inVertex;
 
 out vec2 vPosInTile;
 out float fTileIndex;

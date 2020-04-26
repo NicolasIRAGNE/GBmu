@@ -47,10 +47,6 @@ int Background::Init()
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glClearColor(1.f, 0.f, 0.f, 1.0f);
-
     m_InfosLoc = glGetUniformLocation(m_Program, "infos");
 
     return 0;
@@ -67,8 +63,6 @@ int Background::Destroy()
 
 int Background::Draw()
 {
-
-
     int scy = read_8(m_Gb, SCY_OFFSET);
     int scx = read_8(m_Gb, SCX_OFFSET);
     uint8_t lcdc = (read_8(m_Gb, LCDC_OFFSET));

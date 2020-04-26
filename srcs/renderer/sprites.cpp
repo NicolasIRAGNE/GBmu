@@ -32,19 +32,13 @@ int Sprites::Init()
     glBindVertexArray(m_Vao);
     glGenBuffers(1, &m_Vbo);
     glBindBuffer(GL_ARRAY_BUFFER, m_Vbo);
-    glBufferData(GL_ARRAY_BUFFER, OAM_SIZE * 6 * 2 * 4, nullptr, GL_STREAM_DRAW);
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
+    glBufferData(GL_ARRAY_BUFFER, OAM_SIZE * 2 * 6 * 3 * 4, nullptr, GL_STREAM_DRAW);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
     glEnableVertexAttribArray(0);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
-
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glClearColor(1.f, 0.f, 0.f, 1.0f);
-
-    m_InfosLoc = glGetUniformLocation(m_Program, "infos");
 
     return 0;
 }
@@ -60,24 +54,35 @@ int Sprites::Destroy()
 
 int Sprites::Draw()
 {
-
-
-    int scy = read_8(m_Gb, SCY_OFFSET);
-    int scx = read_8(m_Gb, SCX_OFFSET);
-    uint8_t lcdc = (read_8(m_Gb, LCDC_OFFSET));
-    glUniform3ui(m_InfosLoc, scx, scy, lcdc);
+    UpdateVertex();
 
     glUseProgram(m_Program);
     glBindVertexArray(m_Vao);
     glBindBuffer(GL_ARRAY_BUFFER, m_Vbo);
 
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
     glUseProgram(0);
 
     return 0;
+}
+
+void Sprites::UpdateVertex()
+{
+    float quad[] = {
+        -1.f,  1.f, 1.f,
+        -1.f, -1.f, 1.f,
+         1.f,  1.f, 1.f,
+        -1.f, -1.f, 1.f,
+         1.f,  1.f, 1.f,
+         1.f, -1.f, 1.f,
+    };
+
+    glBindBuffer(GL_ARRAY_BUFFER, m_Vbo);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(quad), quad);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 };
