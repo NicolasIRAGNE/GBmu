@@ -2,8 +2,8 @@
 
 uniform sampler2D tex;
 
-uniform uint wx;
-uniform uint wy;
+uniform int wx;
+uniform int wy;
 uniform uint lcdc;
 
 uniform vec4 colors[4];

@@ -77,11 +77,11 @@ int Window::Draw()
 
     glUseProgram(m_Program);
 
-    uint8_t wx = (read_8(m_Gb, WX_OFFSET)) - 7;
-    uint8_t wy = (read_8(m_Gb, WY_OFFSET));
+    int wx = (read_8(m_Gb, WX_OFFSET)) - 7;
+    int wy = (read_8(m_Gb, WY_OFFSET));
     uint8_t lcdc = (read_8(m_Gb, LCDC_OFFSET));
-    glUniform1ui(m_WxLoc, wx);
-    glUniform1ui(m_WyLoc, wy);
+    glUniform1i(m_WxLoc, wx);
+    glUniform1i(m_WyLoc, wy);
     glUniform1ui(m_LcdcLoc, lcdc);
 
     glUseProgram(0);
