@@ -81,7 +81,7 @@ int Window::Draw()
     uint8_t wy = (read_8(m_Gb, WY_OFFSET));
     uint8_t lcdc = (read_8(m_Gb, LCDC_OFFSET));
     glUniform1ui(m_WxLoc, wx);
-    glUniform1ui(m_WyLoc, wx);
+    glUniform1ui(m_WyLoc, wy);
     glUniform1ui(m_LcdcLoc, lcdc);
 
     glUseProgram(0);
@@ -105,9 +105,10 @@ void Window::UpdateVertex(int wx, int wy)
 {
     float x1 = (float)wx / 160.f * 2.f - 1.f;
     float y1 = (float)wy / 144 * 2.f - 1.f;
+    y1 *= -1.f;
 
-    float x2 = 1.f;
-    float y2 = 1.f;
+    float x2 =  1.f;
+    float y2 = -1.f;
 
     float quad[] = {
         x1, y1,
