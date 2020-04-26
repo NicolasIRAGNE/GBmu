@@ -1,24 +1,15 @@
 #version 330
 
-struct Infos {
-    uint scx;
-    uint scy;
-    uint lcdc;
-};
-
 uniform sampler2D tex;
+
+uniform vec4 colors1[4];
+uniform vec4 colors2[4];
 
 in vec2 vPosInTile;
 in float fTileIndex;
+in float fAttr;
 
 out vec4 fragColor;
-
-vec4 monochromePalette[4] = vec4[](
-    vec4(0.8f, 0.8f, 0.8f, 0.f),
-    vec4(0.5f, 0.5f, 0.5f, 1.f),
-    vec4(0.3f, 0.3f, 0.3f, 1.f),
-    vec4(0.1f, 0.1f, 0.1f, 1.f)
-);
 
 uint GetValueAt(uint addr)
 {
@@ -42,8 +33,12 @@ vec4 GetColorFromTileIndex(uint index, uvec2 posInTile)
                     | ((lsb & bit) << posInByte);
 
     colorIndex = colorIndex >> (posInByte * 2u);
-
-    return monochromePalette[colorIndex];
+    
+	if ((uint(fAttr) & 16u) != 0u) {
+        return colors2[colorIndex];
+    }
+    
+    return colors1[colorIndex];
 }
 
 void main()

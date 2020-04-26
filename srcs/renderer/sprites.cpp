@@ -32,13 +32,16 @@ int Sprites::Init()
     glBindVertexArray(m_Vao);
     glGenBuffers(1, &m_Vbo);
     glBindBuffer(GL_ARRAY_BUFFER, m_Vbo);
-    glBufferData(GL_ARRAY_BUFFER, OAM_SIZE * 2 * 6 * 3 * sizeof(float), nullptr, GL_STREAM_DRAW);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+    glBufferData(GL_ARRAY_BUFFER, OAM_SIZE * 2 * 6 * 4 * sizeof(float), nullptr, GL_STREAM_DRAW);
+    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
     glEnableVertexAttribArray(0);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
+
+    m_Colors1Loc = glGetUniformLocation(m_Program, "colors1");
+    m_Colors2Loc = glGetUniformLocation(m_Program, "colors2");
 
     return 0;
 }
@@ -54,6 +57,8 @@ int Sprites::Destroy()
 
 int Sprites::Draw()
 {
+    UpdateColors();
+
     int nbQuad = UpdateVertex();
 
     glUseProgram(m_Program);
@@ -80,7 +85,7 @@ int Sprites::UpdateVertex()
          1.f, -1.f, 1.f,
     };
 
-    float data[OAM_SIZE * 2 * 6 * 3] = {};
+    float data[OAM_SIZE * 2 * 6 * 4];
 
     uint8_t lcdc = (read_8(m_Gb, LCDC_OFFSET));
 
@@ -110,18 +115,18 @@ int Sprites::UpdateVertex()
             std::swap(y1, y2);
         }
 
-        FillData(data + dataIndex, x1, y1, x2, y2, tile);
-        dataIndex += 18;
+        FillData(data + dataIndex, x1, y1, x2, y2, tile, attr);
+        dataIndex += 24;
     }
 
     glBindBuffer(GL_ARRAY_BUFFER, m_Vbo);
     glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(data), data);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-    return dataIndex / 18;
+    return dataIndex / 24;
 }
 
-void Sprites::FillData(float* data, int x1, int y1, int x2, int y2, int tile)
+void Sprites::FillData(float* data, int x1, int y1, int x2, int y2, int tile, int attr)
 {
     float x1f = (float)(x1) / 160.f * 2.f - 1.f;
     float y1f = (float)(y1) / 144.f * 2.f - 1.f;
@@ -129,12 +134,44 @@ void Sprites::FillData(float* data, int x1, int y1, int x2, int y2, int tile)
     float x2f = (float)(x2) / 160.f * 2.f - 1.f;
     float y2f = (float)(y2) / 144.f * 2.f - 1.f;
 
-    data[0]  = x1f; data[1]  = y2f; data[2]  = (float)tile;
-    data[3]  = x1f; data[4]  = y1f; data[5]  = (float)tile;
-    data[6]  = x2f; data[7]  = y2f; data[8]  = (float)tile;
-    data[9]  = x1f; data[10] = y1f; data[11] = (float)tile;
-    data[12] = x2f; data[13] = y2f; data[14] = (float)tile;
-    data[15] = x2f; data[16] = y1f; data[17] = (float)tile;
+    data[0]  = x1f; data[1]  = y2f; data[2]  = (float)tile; data[3]  = (float)attr;
+    data[4]  = x1f; data[5]  = y1f; data[6]  = (float)tile; data[7]  = (float)attr;
+    data[8]  = x2f; data[9]  = y2f; data[10] = (float)tile; data[11] = (float)attr;
+    data[12] = x1f; data[13] = y1f; data[14] = (float)tile; data[15] = (float)attr;
+    data[16] = x2f; data[17] = y2f; data[18] = (float)tile; data[19] = (float)attr;
+    data[20] = x2f; data[21] = y1f; data[22] = (float)tile; data[23] = (float)attr;
+}
+
+void Sprites::UpdateColors()
+{
+    constexpr float monochromePalette[4][4] = {
+        {0.f,  0.f,  0.f,  0.f},
+        {0.5f, 0.5f, 0.5f, 1.f},
+        {0.3f, 0.3f, 0.3f, 1.f},
+        {0.1f, 0.1f, 0.1f, 1.f},
+    };
+
+    float colors[4][4];
+
+    uint8_t obp0 = read_8(m_Gb, OBP0_OFFSET);
+    std::memcpy(&colors[0], &monochromePalette[(obp0 & 0b00000011) >> 0], 4 * sizeof(float));
+    std::memcpy(&colors[2], &monochromePalette[(obp0 & 0b00001100) >> 2], 4 * sizeof(float));
+    std::memcpy(&colors[1], &monochromePalette[(obp0 & 0b00110000) >> 4], 4 * sizeof(float));
+    std::memcpy(&colors[3], &monochromePalette[(obp0 & 0b11000000) >> 6], 4 * sizeof(float));
+
+    glUseProgram(m_Program);
+    glUniform4fv(m_Colors1Loc, 4, (const GLfloat*)colors);
+    glUseProgram(0);
+
+    uint8_t obp1 = read_8(m_Gb, OBP1_OFFSET);
+    std::memcpy(&colors[0], &monochromePalette[(obp1 & 0b00000011) >> 0], 4 * sizeof(float));
+    std::memcpy(&colors[2], &monochromePalette[(obp1 & 0b00001100) >> 2], 4 * sizeof(float));
+    std::memcpy(&colors[1], &monochromePalette[(obp1 & 0b00110000) >> 4], 4 * sizeof(float));
+    std::memcpy(&colors[3], &monochromePalette[(obp1 & 0b11000000) >> 6], 4 * sizeof(float));
+
+    glUseProgram(m_Program);
+    glUniform4fv(m_Colors2Loc, 4, (const GLfloat*)colors);
+    glUseProgram(0);
 }
 
 };

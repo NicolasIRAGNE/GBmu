@@ -6,14 +6,9 @@ uniform uint scx;
 uniform uint scy;
 uniform uint lcdc;
 
-out vec4 fragColor;
+uniform vec4 colors[4];
 
-vec4 monochromePalette[4] = vec4[](
-    vec4(0.8f, 0.8f, 0.8f, 1.f),
-    vec4(0.5f, 0.5f, 0.5f, 1.f),
-    vec4(0.3f, 0.3f, 0.3f, 1.f),
-    vec4(0.1f, 0.1f, 0.1f, 1.f)
-);
+out vec4 fragColor;
 
 uint GetValueAt(uint addr)
 {
@@ -38,7 +33,7 @@ vec4 GetColorFromTileIndex(uint index, uvec2 posInTile)
 
     colorIndex = colorIndex >> (posInByte * 2u);
 
-    return monochromePalette[colorIndex];
+    return colors[colorIndex];
 }
 
 void main()

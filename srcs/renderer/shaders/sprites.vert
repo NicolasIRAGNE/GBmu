@@ -1,9 +1,10 @@
 #version 330
 
-in vec3 inVertex;
+in vec4 inVertex;
 
 out vec2 vPosInTile;
 out float fTileIndex;
+out float fAttr;
 
 vec2 posInTile[6] = vec2[](
     vec2(0.f, 0.f),
@@ -18,4 +19,5 @@ void main() {
 
     vPosInTile = posInTile[gl_VertexID % 6];
     fTileIndex = inVertex.z;
+    fAttr = inVertex.w;
 }

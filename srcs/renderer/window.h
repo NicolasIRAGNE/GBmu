@@ -18,6 +18,7 @@ public:
 
 private:
     void UpdateVertex(int wx, int wy);
+    void UpdateColors();
 
 private:
     gb_cpu_s* m_Gb;
@@ -25,9 +26,11 @@ private:
     GLuint m_Program {0};
     GLuint m_Vao {0};
     GLuint m_Vbo {0};
+
     GLint m_WxLoc {-1};
     GLint m_WyLoc {-1};
     GLint m_LcdcLoc {-1};
+    GLint m_ColorsLoc{ -1 };
 };
 
 };

@@ -54,9 +54,10 @@ int Background::Init()
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
-    m_ScxLoc  = glGetUniformLocation(m_Program, "scx");
-    m_ScyLoc  = glGetUniformLocation(m_Program, "scy");
-    m_LcdcLoc = glGetUniformLocation(m_Program, "lcdc");
+    m_ScxLoc    = glGetUniformLocation(m_Program, "scx");
+    m_ScyLoc    = glGetUniformLocation(m_Program, "scy");
+    m_LcdcLoc   = glGetUniformLocation(m_Program, "lcdc");
+    m_ColorsLoc = glGetUniformLocation(m_Program, "colors");
 
     return 0;
 }
@@ -72,6 +73,8 @@ int Background::Destroy()
 
 int Background::Draw()
 {
+    UpdateColors();
+
     glUseProgram(m_Program);
 
     uint8_t scy = read_8(m_Gb, SCY_OFFSET);
@@ -94,6 +97,28 @@ int Background::Draw()
     glUseProgram(0);
 
     return 0;
+}
+
+void Background::UpdateColors()
+{
+    constexpr float monochromePalette[4][4] = {
+        {0.8f, 0.8f, 0.8f, 1.f},
+        {0.5f, 0.5f, 0.5f, 1.f},
+        {0.3f, 0.3f, 0.3f, 1.f},
+        {0.1f, 0.1f, 0.1f, 1.f},
+    };
+
+    float colors[4][4];
+
+    uint8_t bgp = read_8(m_Gb, BGP_OFFSET);
+    std::memcpy(&colors[0], &monochromePalette[(bgp & 0b00000011) >> 0], 4 * sizeof(float));
+    std::memcpy(&colors[2], &monochromePalette[(bgp & 0b00001100) >> 2], 4 * sizeof(float));
+    std::memcpy(&colors[1], &monochromePalette[(bgp & 0b00110000) >> 4], 4 * sizeof(float));
+    std::memcpy(&colors[3], &monochromePalette[(bgp & 0b11000000) >> 6], 4 * sizeof(float));
+
+    glUseProgram(m_Program);
+    glUniform4fv(m_ColorsLoc, 4, (const GLfloat*)colors);
+    glUseProgram(0);
 }
 
 };
