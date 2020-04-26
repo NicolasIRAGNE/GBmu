@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdint.h>
+
 #include <GL/glew.h>
 
 struct gb_cpu_s;
@@ -18,6 +20,7 @@ public:
 
 private:
     int UpdateVertex();
+    void FillData(float* data, int x1, int y1, int x2, int y2, int tile);
 
 private:
     gb_cpu_s* m_Gb;

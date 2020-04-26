@@ -96,11 +96,11 @@ int Sprites::UpdateVertex()
             continue;
         }
 
-        float x1 = (float)(x - 8) / 160.f * 2.f - 1.f;
-        float y1 = (float)(y - 16) / 144.f * 2.f - 1.f;
+        int x1 = x - 8;
+        int y1 = y - 16;
 
-        float x2 = (float)(x) / 160.f * 2.f - 1.f;
-        float y2 = (float)(y - 8) / 144.f * 2.f - 1.f;
+        int x2 = x;
+        int y2 = y - 8;
 
         if (attr & 0x20) {
             std::swap(x1, x2);
@@ -110,30 +110,7 @@ int Sprites::UpdateVertex()
             std::swap(y1, y2);
         }
 
-        data[dataIndex + 0]  = x1;
-        data[dataIndex + 1]  = y2;
-        data[dataIndex + 2]  = (float)tile;
-
-        data[dataIndex + 3]  = x1;
-        data[dataIndex + 4]  = y1;
-        data[dataIndex + 5]  = (float)tile;
-
-        data[dataIndex + 6]  = x2;
-        data[dataIndex + 7]  = y2;
-        data[dataIndex + 8]  = (float)tile;
-
-        data[dataIndex + 9]  = x1;
-        data[dataIndex + 10] = y1;
-        data[dataIndex + 11] = (float)tile;
-
-        data[dataIndex + 12] = x2;
-        data[dataIndex + 13] = y2;
-        data[dataIndex + 14] = (float)tile;
-
-        data[dataIndex + 15] = x2;
-        data[dataIndex + 16] = y1;
-        data[dataIndex + 17] = (float)tile;
-
+        FillData(data + dataIndex, x1, y1, x2, y2, tile);
         dataIndex += 18;
     }
 
@@ -142,6 +119,22 @@ int Sprites::UpdateVertex()
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     return dataIndex / 18;
+}
+
+void Sprites::FillData(float* data, int x1, int y1, int x2, int y2, int tile)
+{
+    float x1f = (float)(x1) / 160.f * 2.f - 1.f;
+    float y1f = (float)(y1) / 144.f * 2.f - 1.f;
+
+    float x2f = (float)(x2) / 160.f * 2.f - 1.f;
+    float y2f = (float)(y2) / 144.f * 2.f - 1.f;
+
+    data[0]  = x1f; data[1]  = y2f; data[2]  = (float)tile;
+    data[3]  = x1f; data[4]  = y1f; data[5]  = (float)tile;
+    data[6]  = x2f; data[7]  = y2f; data[8]  = (float)tile;
+    data[9]  = x1f; data[10] = y1f; data[11] = (float)tile;
+    data[12] = x2f; data[13] = y2f; data[14] = (float)tile;
+    data[15] = x2f; data[16] = y1f; data[17] = (float)tile;
 }
 
 };
