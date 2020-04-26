@@ -60,7 +60,12 @@ SET (SOURCES
 
 	srcs/renderer/renderer_opengl.h
 	srcs/renderer/renderer_opengl.cpp
+	srcs/renderer/background.h
+	srcs/renderer/background.cpp
+	srcs/renderer/sprites.h
+	srcs/renderer/sprites.cpp
 	srcs/renderer/gl_utils/compile_program.h
+	srcs/renderer/gl_utils/compile_program.cpp
 	)
 
 SET (INCLUDES

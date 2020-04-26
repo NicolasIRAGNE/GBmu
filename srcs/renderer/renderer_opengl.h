@@ -5,9 +5,9 @@
 #include <SDL.h>
 #include <GL/glew.h>
 
-extern "C" {
-#include "gb.h"
-}
+#include "background.h"
+
+struct gb_cpu_s;
 
 namespace GBMU {
 
@@ -24,17 +24,18 @@ public:
     int Loop();
 
 private:
+    void UpdateVram();
+
+private:
     SDL_Window* m_Window;
     gb_cpu_s* m_Gb;
 
     SDL_GLContext m_GlContext {nullptr};
 
-    GLuint m_Program {0};
-    GLuint m_Vao {0};
-    GLuint m_Vbo {0};
-    GLuint m_Pbo {0};
     GLuint m_Texture {0};
-    GLint m_InfosLoc {-1};
+    GLuint m_Pbo {0};
+
+    Background m_Background;
 };
 
 }
