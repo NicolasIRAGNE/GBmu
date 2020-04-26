@@ -25,6 +25,7 @@ SET (SOURCES
 	srcs/palette.c
 	srcs/mbc1.c
 	srcs/mbc2.c
+	srcs/mbc3.c
 	srcs/mbc5.c
 	srcs/userscreen.c
 	srcs/instructions/jp.c
@@ -66,7 +67,7 @@ message (${SDL2_INCLUDE_DIRS})
 
 INCLUDE_DIRECTORIES(includes)
 
-set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra")
+set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -g3")
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})

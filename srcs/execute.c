@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:26 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/25 15:56:46 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/26 14:23:07 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	execute_loop(struct gb_cpu_s* gb)
 			gb->paused = 1;
 		if (gb->cycle - last_sleep >= 360)
 		{
-			gpu_tick(gb);		
+			gpu_tick(gb);
 			last_sleep = gb->cycle;
 			// usleep(1);
 		}

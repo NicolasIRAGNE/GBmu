@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:34:47 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/25 15:31:33 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/26 13:36:31 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,8 @@ struct	gb_gpu_s
 enum	mbc_mode_e
 {
 	MBC_MODE_ROM,
-	MBC_MODE_RAM
+	MBC_MODE_RAM,
+	MBC_MODE_RTC
 };
 
 enum	joypad_mode_e
@@ -187,7 +188,8 @@ enum	joypad_mode_e
 struct	mbc_s
 {
 	uint16_t bank;
-	uint8_t	ram_bank; // TODO : Handle multiple ram banks.
+	uint16_t ram_bank; // TODO : Handle multiple ram banks.
+	uint8_t rtc;
 	enum mbc_mode_e mode;
 	uint8_t	(*read)(struct gb_cpu_s*, uint16_t);	
 	void	(*write)(struct gb_cpu_s*, uint16_t, uint8_t);

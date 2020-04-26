@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 13:08:59 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/23 17:55:20 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/26 14:23:23 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 
 void	gpu_tick(struct gb_cpu_s* gb)
 {
+	uint8_t stat = read_8(gb, STAT_OFFSET) | 0b10000000;
 	uint8_t lyc = read_8(gb, LYC_OFFSET);
 	gb->gpu.tick += gb->current_instruction->cycles;
 	if (gb->gpu.mode == GPU_MODE_HBLANK)
@@ -70,7 +71,6 @@ void	gpu_tick(struct gb_cpu_s* gb)
 		}
 	}
 
-	uint8_t stat = read_8(gb, STAT_OFFSET);
 	if (gb->gpu.y_coord == lyc)
 	{
 		if (stat & STAT_LYC_INT)

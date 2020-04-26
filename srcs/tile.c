@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 13:48:02 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/25 13:39:03 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/26 14:42:02 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,30 +67,25 @@ struct tile_s	create_tile(struct gb_cpu_s* gb, uint16_t index)
 
 		k += 2;
 		ret.pixels_raw[i] = test;
-		int j = 0;
-		while (j < 8)
-		{
-			ret.index[i][7] = (test & (0b11 << 0)) >> 0;
-			ret.index[i][6] = (test & (0b11 << 2)) >> 2;
-			ret.index[i][5] = (test & (0b11 << 4)) >> 4;
-			ret.index[i][4] = (test & (0b11 << 6)) >> 6;
-			
-			ret.index[i][3] = (((test & 0xff00) >> 8) & (0b11 << 0)) >> 0;
-			ret.index[i][2] = (((test & 0xff00) >> 8) & (0b11 << 2)) >> 2;
-			ret.index[i][1] = (((test & 0xff00) >> 8) & (0b11 << 4)) >> 4;
-			ret.index[i][0] = (((test & 0xff00) >> 8) & (0b11 << 6)) >> 6;
+		ret.index[i][7] = (test & (0b11 << 0)) >> 0;
+		ret.index[i][6] = (test & (0b11 << 2)) >> 2;
+		ret.index[i][5] = (test & (0b11 << 4)) >> 4;
+		ret.index[i][4] = (test & (0b11 << 6)) >> 6;
+		
+		ret.index[i][3] = (((test & 0xff00) >> 8) & (0b11 << 0)) >> 0;
+		ret.index[i][2] = (((test & 0xff00) >> 8) & (0b11 << 2)) >> 2;
+		ret.index[i][1] = (((test & 0xff00) >> 8) & (0b11 << 4)) >> 4;
+		ret.index[i][0] = (((test & 0xff00) >> 8) & (0b11 << 6)) >> 6;
 
-			// ret.index[i][0] = 3;
-			// ret.index[i][1] = 2;
-			// ret.index[i][2] = 1;
-			// ret.index[i][3] = 0;
-			
-			// ret.index[i][4] = 0;
-			// ret.index[i][5] = 1;
-			// ret.index[i][6] = 2;
-			// ret.index[i][7] = 3;
-			j++;
-		}
+		// ret.index[i][0] = 3;
+		// ret.index[i][1] = 2;
+		// ret.index[i][2] = 1;
+		// ret.index[i][3] = 0;
+		
+		// ret.index[i][4] = 0;
+		// ret.index[i][5] = 1;
+		// ret.index[i][6] = 2;
+		// ret.index[i][7] = 3;
 		i++;
 	}
 	return (ret);

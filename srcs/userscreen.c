@@ -6,13 +6,13 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/24 12:10:20 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/25 13:49:34 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/26 13:28:15 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "renderer.h"
 
-void	display_background(struct gbmu_wrapper_s* wrapper, uint8_t lcdc, struct tile_s* array)
+void	display_background(struct gbmu_wrapper_s* wrapper, uint8_t lcdc, struct tile_s* array, SDL_Surface* tmp_surface)
 {
 	int scy_2 = read_8(wrapper->gb, SCY_OFFSET);
 	int scx_2 = read_8(wrapper->gb, SCX_OFFSET);
@@ -23,7 +23,6 @@ void	display_background(struct gbmu_wrapper_s* wrapper, uint8_t lcdc, struct til
 
 	int i = 0;
 
-    SDL_Surface* tmp_surface = SDL_CreateRGBSurface(0, BGMAP_SIZE, BGMAP_SIZE, 32, 0, 0, 0, 0);
 	while (i < 256 / TILE_SURFACE_WIDTH)
 	{
 		int j = 0;
@@ -54,7 +53,6 @@ void	display_background(struct gbmu_wrapper_s* wrapper, uint8_t lcdc, struct til
 	SDL_BlitSurface(tmp_surface, &src_topright, wrapper->main_context->surface, &topright);
 	SDL_BlitSurface(tmp_surface, &src_botleft , wrapper->main_context->surface, &botleft );
 	SDL_BlitSurface(tmp_surface, &src_botright, wrapper->main_context->surface, &botright);
-	SDL_FreeSurface(tmp_surface);
 
 	i = wx;
 	while (i < USERSCREEN_WIDTH / TILE_SURFACE_WIDTH)
@@ -65,7 +63,10 @@ void	display_background(struct gbmu_wrapper_s* wrapper, uint8_t lcdc, struct til
 			uint16_t tile_index;
 			if (lcdc & LCDC_WINDOW_ON)
 			{
-				tile_index = wrapper->gb->vram[BGMAP2_OFFSET + (i - wx) + ((j - wy)) * 32];		
+				if (lcdc & LCDC_WINDOW_SELECT)
+					tile_index = wrapper->gb->vram[BGMAP2_OFFSET + (i - wx) + ((j - wy)) * 32];		
+				else
+					tile_index = wrapper->gb->vram[BGMAP1_OFFSET + (i - wx) + ((j - wy)) * 32];
 				SDL_Rect pos = (SDL_Rect) {i * 8 + wx_2 % 8, j * 8 + wy_2 % 8, TILE_SURFACE_WIDTH, TILE_SURFACE_HEIGHT};
 				if (!(lcdc & LCDC_TILE_DATA_SELECT) && tile_index + 0x100 < 256 + 128)
 					tile_index += 0x100;

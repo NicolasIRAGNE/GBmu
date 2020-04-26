@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:08:21 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/25 14:22:29 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/26 13:43:05 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,9 @@ int		load_game(struct gb_cpu_s* gb);
 */
 void	write_mbc1(struct gb_cpu_s* gb, uint16_t addr, uint8_t x);
 uint8_t	read_mbc1(struct gb_cpu_s* gb, uint16_t addr);
+
+void	write_mbc3(struct gb_cpu_s* gb, uint16_t addr, uint8_t x);
+uint8_t	read_mbc3(struct gb_cpu_s* gb, uint16_t addr);
 
 void	write_mbc5(struct gb_cpu_s* gb, uint16_t addr, uint8_t x);
 uint8_t	read_mbc5(struct gb_cpu_s* gb, uint16_t addr);

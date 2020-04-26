@@ -6,24 +6,24 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 14:11:30 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/25 13:49:52 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/26 13:21:06 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "renderer.h"
 
-int		display_test(struct gbmu_wrapper_s* wrapper, struct tile_s* array)
+int		display_test(struct gbmu_wrapper_s* wrapper, struct tile_s* array, SDL_Surface* tmp_surface)
 {
 	uint8_t lcdc = (read_8(wrapper->gb, LCDC_OFFSET)) ;
 
 	update_palettes(wrapper->gb);
 
-	display_background(wrapper, lcdc, array);
+	display_background(wrapper, lcdc, array, tmp_surface);
 	display_sprites(wrapper, lcdc, array);
 	return (0);
 }
 
-void	main_window_loop(struct gbmu_wrapper_s* wrapper, struct tile_s* array)
+void	main_window_loop(struct gbmu_wrapper_s* wrapper, struct tile_s* array, SDL_Surface* tmp_surface)
 {
 	SDL_Event event;
 
@@ -41,7 +41,7 @@ void	main_window_loop(struct gbmu_wrapper_s* wrapper, struct tile_s* array)
 		handle_joypad(wrapper->gb, wrapper->main_context->controller);
 
 	SDL_FillRect(wrapper->main_context->surface, NULL, 0);
-	if (display_test(wrapper, array))
+	if (display_test(wrapper, array, tmp_surface))
 	{
 		printf("jette toi dans lcanal\n");
 		wrapper->gb->running = 0;

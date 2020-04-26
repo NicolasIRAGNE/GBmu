@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 13:47:25 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/25 14:35:51 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/26 13:43:22 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,4 @@ int		clamp(int val, int min, int max)
 	if (val > max)
 		return (max);
 	return (val);
-}
-
-void	memcpy_mbc(struct gb_cpu_s* gb)
-{
-	
 }

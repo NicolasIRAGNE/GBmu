@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:30:05 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/25 15:48:45 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/26 14:29:35 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int		init_cpu(struct gb_cpu_s* gb, struct rom_s* rom)
 	gb->ime = 1;
 	gb->interrupt_enable_register |= INT_VBLANK_REQUEST;
 	gb->interrupt_enable_register |= INT_TIMER_REQUEST;
-	gb->interrupt_enable_register |= INT_STAT_REQUEST;
+	// gb->interrupt_enable_register |= INT_STAT_REQUEST;
 	init_mbc(gb);
 	return (0);
 }
@@ -91,6 +91,12 @@ int		init_mbc(struct gb_cpu_s* gb)
 	{
 		gb->mbc.write = write_mbc1;
 		gb->mbc.read = read_mbc1;
+	}
+	else if (mbc_array[gb->rom_ptr->header->type] == 3)
+	{
+		gb->mbc.write = write_mbc3;
+		gb->mbc.read = read_mbc3;
+		gb->mbc.mode = MBC_MODE_RAM;
 	}
 	else if (mbc_array[gb->rom_ptr->header->type] == 5)
 	{

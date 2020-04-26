@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/25 12:53:11 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/25 14:59:22 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/26 14:20:11 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ uint8_t	read_mbc1(struct gb_cpu_s* gb, uint16_t addr)
 		{
 			if (tmp * 0x4000 + addr - 0x4000 > gb->rom_ptr->st.st_size)
 			{
-				debug_print_gb(gb);
 				dprintf(2, "fatal: attempting to read outside the cartridge at %x in bank %x. aborting...\n", addr, tmp);
 				abort();
 				return (0);
@@ -83,6 +82,8 @@ void	write_mbc1(struct gb_cpu_s* gb, uint16_t addr, uint8_t x)
 	{
 		gb->mbc.bank = (gb->mbc.bank & 0b11111) | (x & 0b1100000);
 		gb->mbc.ram_bank = (x & 0b1100000) >> 5;
+		if (gb->mbc.bank == 0x20 || gb->mbc.bank == 0x40 || gb->mbc.bank == 0x60)
+			gb->mbc.bank += 1;
 		return ;
 	}
 	else if (addr < 0x8000)
@@ -93,5 +94,14 @@ void	write_mbc1(struct gb_cpu_s* gb, uint16_t addr, uint8_t x)
 			gb->mbc.mode = MBC_MODE_RAM;
 		printf("SWITCHING MBC MODE %x \n", gb->mbc.mode);
 		return ;
+	}
+	else if (addr < 0xc000)
+	{
+		// printf("WARNING: READING FROM EXTRA RAM\n");
+		if (gb->mbc.mode == MBC_MODE_RAM)
+			((uint8_t*)(gb->extra_ram))[addr - 0xa000 + gb->mbc.ram_bank * EXTRA_RAM_SIZE] = x;		
+		else
+			((uint8_t*)(gb->extra_ram))[addr - 0xa000] = x;
+		return;
 	}
 }

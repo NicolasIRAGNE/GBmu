@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 18:10:17 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/25 14:14:36 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/26 14:20:04 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,10 +99,7 @@ void	write_8(struct gb_cpu_s* gb, uint16_t a16, uint8_t x)
 	}
 	else if (a16 < 0xc000)
 	{
-		if (gb->mbc.mode == MBC_MODE_RAM)
-			((uint8_t*)(gb->extra_ram))[a16 - 0xa000 + gb->mbc.ram_bank * RAM_SIZE] = x;
-		else
-			((uint8_t*)(gb->extra_ram))[a16 - 0xa000] = x;
+		gb->mbc.write(gb, a16, x);
 		return ;
 	}
 	else if (a16 < 0xe000)
