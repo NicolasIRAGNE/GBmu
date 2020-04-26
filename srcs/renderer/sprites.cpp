@@ -92,7 +92,7 @@ int Sprites::UpdateVertex()
     int dataIndex = 0;
     for (int i = 0; i < OAM_SIZE; i += 4)
     {
-        uint8_t y = 168 - m_Gb->oam[i + 0];
+        uint8_t y = m_Gb->oam[i + 0];
         uint8_t x = m_Gb->oam[i + 1];
         uint8_t tile = m_Gb->oam[i + 2];
         uint8_t attr = m_Gb->oam[i + 3];
@@ -113,10 +113,25 @@ int Sprites::UpdateVertex()
 
         if (attr & 0x40) {
             std::swap(y1, y2);
+            y1 += 8;
+            y2 += 8;
         }
 
         FillData(data + dataIndex, x1, y1, x2, y2, tile, attr);
         dataIndex += 24;
+
+        if (lcdc & LCDC_SPRITE_SIZE) {
+            if (attr & 0x40) {
+                y1 -= 8;
+                y2 -= 8;
+            }
+            else {
+                y1 += 8;
+                y2 += 8;
+            }
+            FillData(data + dataIndex, x1, y1, x2, y2, tile + 1, attr);
+            dataIndex += 24;
+        }
     }
 
     glBindBuffer(GL_ARRAY_BUFFER, m_Vbo);
@@ -129,10 +144,12 @@ int Sprites::UpdateVertex()
 void Sprites::FillData(float* data, int x1, int y1, int x2, int y2, int tile, int attr)
 {
     float x1f = (float)(x1) / 160.f * 2.f - 1.f;
-    float y1f = (float)(y1) / 144.f * 2.f - 1.f;
+    float y1f = (float)(y2) / 144.f * 2.f - 1.f;
+    y1f *= -1.f;
 
     float x2f = (float)(x2) / 160.f * 2.f - 1.f;
-    float y2f = (float)(y2) / 144.f * 2.f - 1.f;
+    float y2f = (float)(y1) / 144.f * 2.f - 1.f;
+    y2f *= -1.f;
 
     data[0]  = x1f; data[1]  = y2f; data[2]  = (float)tile; data[3]  = (float)attr;
     data[4]  = x1f; data[5]  = y1f; data[6]  = (float)tile; data[7]  = (float)attr;
@@ -144,17 +161,18 @@ void Sprites::FillData(float* data, int x1, int y1, int x2, int y2, int tile, in
 
 void Sprites::UpdateColors()
 {
-    constexpr float monochromePalette[4][4] = {
-        {0.f,  0.f,  0.f,  0.f},
+    constexpr float monochromePalette[5][4] = {
+        {0.8f, 0.8f, 0.8f, 1.f},
         {0.5f, 0.5f, 0.5f, 1.f},
         {0.3f, 0.3f, 0.3f, 1.f},
         {0.1f, 0.1f, 0.1f, 1.f},
+        {0.0f, 0.0f, 0.0f, 0.f}
     };
 
     float colors[4][4];
 
     uint8_t obp0 = read_8(m_Gb, OBP0_OFFSET);
-    std::memcpy(&colors[0], &monochromePalette[(obp0 & 0b00000011) >> 0], 4 * sizeof(float));
+    std::memcpy(&colors[0], &monochromePalette[5], 4 * sizeof(float));
     std::memcpy(&colors[2], &monochromePalette[(obp0 & 0b00001100) >> 2], 4 * sizeof(float));
     std::memcpy(&colors[1], &monochromePalette[(obp0 & 0b00110000) >> 4], 4 * sizeof(float));
     std::memcpy(&colors[3], &monochromePalette[(obp0 & 0b11000000) >> 6], 4 * sizeof(float));
@@ -164,7 +182,7 @@ void Sprites::UpdateColors()
     glUseProgram(0);
 
     uint8_t obp1 = read_8(m_Gb, OBP1_OFFSET);
-    std::memcpy(&colors[0], &monochromePalette[(obp1 & 0b00000011) >> 0], 4 * sizeof(float));
+    std::memcpy(&colors[0], &monochromePalette[5], 4 * sizeof(float));
     std::memcpy(&colors[2], &monochromePalette[(obp1 & 0b00001100) >> 2], 4 * sizeof(float));
     std::memcpy(&colors[1], &monochromePalette[(obp1 & 0b00110000) >> 4], 4 * sizeof(float));
     std::memcpy(&colors[3], &monochromePalette[(obp1 & 0b11000000) >> 6], 4 * sizeof(float));

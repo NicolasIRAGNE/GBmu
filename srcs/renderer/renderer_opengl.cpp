@@ -80,7 +80,12 @@ int Renderer::Render() {
     glBindTexture(GL_TEXTURE_2D, m_Texture);
 
     m_Background.Draw();
-    m_Menu.Draw();
+
+    uint8_t lcdc = (read_8(m_Gb, LCDC_OFFSET));
+    if (lcdc & LCDC_WINDOW_ON) {
+        m_Menu.Draw();
+    }
+
     m_Sprites.Draw();
 
     glBindTexture(GL_TEXTURE_2D, m_Texture);
