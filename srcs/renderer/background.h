@@ -22,7 +22,9 @@ private:
     GLuint m_Program {0};
     GLuint m_Vao {0};
     GLuint m_Vbo {0};
-    GLint m_InfosLoc {-1};
+    GLint m_ScxLoc {-1};
+    GLint m_ScyLoc {-1};
+    GLint m_LcdcLoc {-1};
 };
 
 };

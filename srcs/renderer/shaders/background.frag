@@ -1,13 +1,10 @@
 #version 330
 
-struct Infos {
-    uint scx;
-    uint scy;
-    uint lcdc;
-};
-
 uniform sampler2D tex;
-uniform struct Infos infos;
+
+uniform uint scx;
+uniform uint scy;
+uniform uint lcdc;
 
 out vec4 fragColor;
 
@@ -47,13 +44,13 @@ vec4 GetColorFromTileIndex(uint index, uvec2 posInTile)
 void main()
 {
     uvec2 pixelPos = uvec2(gl_FragCoord.x / 2.f, 144.f - gl_FragCoord.y / 2.f);
-    pixelPos = pixelPos + uvec2(infos.scx, infos.scy);
+    pixelPos = pixelPos + uvec2(scx, scy);
 
     uvec2 tilePos = pixelPos / 8u;
     uvec2 pixelPosInTile = pixelPos % 8u;
     
 	uint tileIndex = GetValueAt(0x1800u + tilePos.y * 32u + tilePos.x);
-	if (((infos.lcdc & 16u) == 0u) && (tileIndex + 0x100u < 256u + 128u)) {
+	if (((lcdc & 16u) == 0u) && (tileIndex + 0x100u < 256u + 128u)) {
 		tileIndex = tileIndex + 0x100u;
     }
     

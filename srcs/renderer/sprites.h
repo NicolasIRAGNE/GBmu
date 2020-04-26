@@ -17,7 +17,7 @@ public:
     int Draw();
 
 private:
-    void UpdateVertex();
+    int UpdateVertex();
 
 private:
     gb_cpu_s* m_Gb;

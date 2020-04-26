@@ -6,6 +6,13 @@ extern "C" {
 #include "gb.h"
 }
 
+static void checkGlError() {
+    GLenum aaa = glGetError();
+    if (aaa != GL_NO_ERROR) {
+        printf("%#x\n", aaa);
+    }
+}
+
 namespace GBMU {
 
 Background::Background(gb_cpu_s* gb) : m_Gb(gb) {}
@@ -47,7 +54,9 @@ int Background::Init()
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
-    m_InfosLoc = glGetUniformLocation(m_Program, "infos");
+    m_ScxLoc  = glGetUniformLocation(m_Program, "scx");
+    m_ScyLoc  = glGetUniformLocation(m_Program, "scy");
+    m_LcdcLoc = glGetUniformLocation(m_Program, "lcdc");
 
     return 0;
 }
@@ -63,10 +72,16 @@ int Background::Destroy()
 
 int Background::Draw()
 {
+    glUseProgram(m_Program);
+
     int scy = read_8(m_Gb, SCY_OFFSET);
     int scx = read_8(m_Gb, SCX_OFFSET);
     uint8_t lcdc = (read_8(m_Gb, LCDC_OFFSET));
-    glUniform3ui(m_InfosLoc, scx, scy, lcdc);
+    glUniform1i(m_ScxLoc, scx);
+    glUniform1i(m_ScyLoc, scy);
+    glUniform1ui(m_LcdcLoc, lcdc);
+
+    glUseProgram(0);
 
     glUseProgram(m_Program);
     glBindVertexArray(m_Vao);

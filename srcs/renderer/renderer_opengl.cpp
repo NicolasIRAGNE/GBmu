@@ -7,13 +7,6 @@ extern "C" {
 #include "gb.h"
 }
 
-static void checkGlError() {
-    GLenum aaa = glGetError();
-    if (aaa != GL_NO_ERROR) {
-        printf("%#x\n", aaa);
-    }
-}
-
 namespace GBMU {
 
 Renderer::Renderer(SDL_Window* window, gb_cpu_s* gb) :
@@ -81,7 +74,7 @@ int Renderer::Render() {
     glBindTexture(GL_TEXTURE_2D, m_Texture);
 
     m_Background.Draw();
-    //m_Sprites.Draw();
+    m_Sprites.Draw();
 
     glBindTexture(GL_TEXTURE_2D, m_Texture);
 
