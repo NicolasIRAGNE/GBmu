@@ -10,7 +10,7 @@ extern "C" {
 namespace GBMU {
 
 Renderer::Renderer(SDL_Window* window, gb_cpu_s* gb) :
-    m_Window(window), m_Gb(gb), m_Background(gb), m_Sprites(gb) {}
+    m_Window(window), m_Gb(gb), m_Background(gb), m_Menu(gb), m_Sprites(gb) {}
 
 Renderer::~Renderer() {
     Destroy();
@@ -43,6 +43,11 @@ int Renderer::Init()
         return ret;
     }
 
+    ret = m_Menu.Init();
+    if (ret < 0) {
+        return ret;
+    }
+
     ret = m_Sprites.Init();
     if (ret < 0) {
         return ret;
@@ -54,6 +59,7 @@ int Renderer::Init()
 int Renderer::Destroy()
 {
     m_Sprites.Destroy();
+    m_Menu.Destroy();
     m_Background.Destroy();
 
     glDeleteBuffers(1, &m_Pbo);
@@ -74,6 +80,7 @@ int Renderer::Render() {
     glBindTexture(GL_TEXTURE_2D, m_Texture);
 
     m_Background.Draw();
+    m_Menu.Draw();
     m_Sprites.Draw();
 
     glBindTexture(GL_TEXTURE_2D, m_Texture);

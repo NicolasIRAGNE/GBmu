@@ -62,6 +62,8 @@ SET (SOURCES
 	srcs/renderer/renderer_opengl.cpp
 	srcs/renderer/background.h
 	srcs/renderer/background.cpp
+	srcs/renderer/window.h
+	srcs/renderer/window.cpp
 	srcs/renderer/sprites.h
 	srcs/renderer/sprites.cpp
 	srcs/renderer/gl_utils/compile_program.h
