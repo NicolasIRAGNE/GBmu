@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 11:56:05 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/27 12:29:13 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/27 16:12:39 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,14 @@ int     init_main_window(struct sdl_context_s* context)
 		fprintf(stderr, "failed to initialize create window or renderer (%s)\n", SDL_GetError());
 		return (1);
 	}
-	context->surface = SDL_CreateRGBSurface(0, MAIN_SURFACE_WIDTH, MAIN_SURFACE_HEIGHT, 32, 0, 0, 0, 0);
-	if (!context->surface)
-	{
-		fprintf(stderr, "failed to create surface (%s)\n", SDL_GetError());
-		return (1);
-	}
-
+	context->glcontext = SDL_GL_CreateContext(context->win);
+	// context->surface = SDL_CreateRGBSurface(0, MAIN_SURFACE_WIDTH, MAIN_SURFACE_HEIGHT, 32, 0, 0, 0, 0);
+	// if (!context->surface)
+	// {
+		// fprintf(stderr, "failed to create surface (%s)\n", SDL_GetError());
+		// return (1);
+	// }
+	
 	if (SDL_NumJoysticks() > 0)
 	{
 		if (SDL_IsGameController(0))
@@ -73,4 +74,9 @@ int     init_main_window(struct sdl_context_s* context)
 		printf("No joystick detected.\n");
 	}
 	return (0);
+}
+
+void	destroy_context(struct sdl_context_s* context)
+{
+	SDL_GL_DeleteContext(context->glcontext);
 }

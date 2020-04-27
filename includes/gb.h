@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:08:21 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/26 13:43:05 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/27 16:07:08 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # include "op.h"
 # include "ext_op.h"
 # include <limits.h>
+
+# include "renderer/wrapper_c/wrapper.h"
 
 # define RED	"\x1B[31m"
 # define GRN	"\x1B[32m"
@@ -94,7 +96,7 @@ uint8_t	update_current_instruction(struct gb_cpu_s* gb);
 void	init_op_tab(void);
 void	init_ext_op_tab(void);
 void	gpu_tick(struct gb_cpu_s* gb);
-void*	execute_thread_entry(void* user_data);
+void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer);
 
 /*
 ** Memory

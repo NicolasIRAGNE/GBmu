@@ -1,8 +1,10 @@
 #pragma once
 
 #include <stdint.h>
+#define GL_GLEXT_PROTOTYPES
 
-#include <GL/glew.h>
+#include <GL/gl.h>
+#include <GL/glu.h>
 
 struct gb_cpu_s;
 

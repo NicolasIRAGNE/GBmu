@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:34:47 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/27 11:17:47 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/27 16:29:41 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,9 +167,9 @@ enum	gpu_mode_e
 
 struct	gb_gpu_s
 {
-	uint64_t tick;
-	int y_coord;
-	enum gpu_mode_e mode;	
+	uint64_t		tick;
+	uint8_t			y_coord;
+	enum gpu_mode_e	mode;	
 };
 
 enum	joypad_mode_e

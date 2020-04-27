@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:26 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/26 14:23:07 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/27 16:45:41 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include "renderer.h"
 
 uint8_t	update_current_instruction(struct gb_cpu_s* gb)
 {
@@ -63,10 +64,12 @@ int		set_interrupt(struct gb_cpu_s* gb)
 	return (ret);
 }
 
-void	execute_loop(struct gb_cpu_s* gb)
+void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 {
 	int err = 0;
 	uint64_t last_sleep = 0;
+	struct gb_cpu_s* gb = wrapper->gb;
+	uint8_t last_line = 0;
 
 	while(gb->running)
 	{
@@ -81,11 +84,19 @@ void	execute_loop(struct gb_cpu_s* gb)
 			err = handle_instruction(gb);
 		if (err)
 			gb->paused = 1;
-		if (gb->cycle - last_sleep >= 360)
+		if (gb->cycle - last_sleep >= 50)
 		{
+			last_line = gb->gpu.y_coord;
 			gpu_tick(gb);
 			last_sleep = gb->cycle;
 			// usleep(1);
+			if (gb->gpu.y_coord != last_line)
+				renderer_render(renderer);
+		}
+		if (wrapper->gb->gpu.y_coord == 143 && last_line != 143)
+		{
+			main_window_loop(wrapper, renderer);
+			SDL_GL_SwapWindow(wrapper->main_context->win);
 		}
 	}
 	if (gb->mbc.ram_size > 0)
@@ -93,11 +104,11 @@ void	execute_loop(struct gb_cpu_s* gb)
 	free(gb->extra_ram);
 }
 
-void*	execute_thread_entry(void* user_data)
-{
-	execute_loop((struct gb_cpu_s*) user_data);
-	return (NULL);
-}
+// void*	execute_thread_entry(void* user_data)
+// {
+// 	execute_loop((struct gb_cpu_s*) user_data);
+// 	return (NULL);
+// }
 
 int		handle_instruction(struct gb_cpu_s* gb)
 {

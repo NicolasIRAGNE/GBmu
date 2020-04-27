@@ -2,8 +2,11 @@
 
 #include "gl_utils/compile_program.h"
 
+#include <cstring>
+
 extern "C" {
 #include "gb.h"
+#include "renderer.h"
 }
 
 namespace GBMU {
@@ -18,8 +21,8 @@ Sprites::~Sprites()
 int Sprites::Init()
 {
     m_Program = compileProgram(
-        "C:/Users/iwan/GBmu/srcs/renderer/shaders/sprites.vert",
-        "C:/Users/iwan/GBmu/srcs/renderer/shaders/sprites.frag");
+        "../srcs/renderer/shaders/sprites.vert",
+        "../srcs/renderer/shaders/sprites.frag");
 
     if (!m_Program) {
         printf("failed to create program\n");
@@ -107,14 +110,16 @@ int Sprites::UpdateVertex()
         int x2 = x;
         int y2 = y - 8;
 
-        if (attr & 0x20) {
+        if (attr & ATTR_X_FLIP) {
             std::swap(x1, x2);
         }
 
-        if (attr & 0x40) {
+        if (attr & ATTR_Y_FLIP) {
             std::swap(y1, y2);
-            y1 += 8;
-            y2 += 8;
+			if (lcdc & LCDC_SPRITE_SIZE) {
+            	y1 += 8;
+            	y2 += 8;
+			}
         }
 
         FillData(data + dataIndex, x1, y1, x2, y2, tile, attr);

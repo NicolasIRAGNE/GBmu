@@ -68,6 +68,8 @@ SET (SOURCES
 	srcs/renderer/sprites.cpp
 	srcs/renderer/gl_utils/compile_program.h
 	srcs/renderer/gl_utils/compile_program.cpp
+
+	srcs/renderer/wrapper_c/wrapper.cpp
 	)
 
 SET (INCLUDES
@@ -76,6 +78,7 @@ SET (INCLUDES
 find_package(SDL2 REQUIRED)
 find_package(Threads)
 INCLUDE_DIRECTORIES(${SDL2_INCLUDE_DIRS})
+INCLUDE_DIRECTORIES(srcs)
 message (${SDL2_INCLUDE_DIRS})
 
 INCLUDE_DIRECTORIES(includes)

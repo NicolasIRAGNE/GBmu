@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <vector>
+#include <cstring>
 
 extern "C" {
 #include "gb.h"
@@ -9,8 +10,8 @@ extern "C" {
 
 namespace GBMU {
 
-Renderer::Renderer(SDL_Window* window, gb_cpu_s* gb) :
-    m_Window(window), m_Gb(gb), m_Background(gb), m_Menu(gb), m_Sprites(gb) {}
+Renderer::Renderer(gb_cpu_s* gb) :
+    m_Gb(gb), m_Background(gb), m_Menu(gb), m_Sprites(gb) {}
 
 Renderer::~Renderer() {
     Destroy();
@@ -18,14 +19,6 @@ Renderer::~Renderer() {
 
 int Renderer::Init()
 {
-    m_GlContext = SDL_GL_CreateContext(m_Window);
-
-    GLenum glewRet = glewInit();
-    if (glewRet != GLEW_OK) {
-        printf("failed to init glew\n");
-        return -1;
-    }
-
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glClearColor(1.f, 0.f, 0.f, 1.0f);
@@ -65,15 +58,11 @@ int Renderer::Destroy()
     glDeleteBuffers(1, &m_Pbo);
     glDeleteTextures(1, &m_Texture);
 
-    if (m_GlContext) {
-        SDL_GL_DeleteContext(m_GlContext);
-    }
-
     return 0;
 }
 
 int Renderer::Render() {
-    glClear(GL_COLOR_BUFFER_BIT);
+    // glClear(GL_COLOR_BUFFER_BIT);
 
     UpdateVram();
 
@@ -90,16 +79,6 @@ int Renderer::Render() {
 
     glBindTexture(GL_TEXTURE_2D, m_Texture);
 
-    SDL_GL_SwapWindow(m_Window);
-
-    return 0;
-}
-
-int Renderer::Loop() {
-    while (m_Gb->running) {
-        Render();
-    }
-
     return 0;
 }
 
@@ -109,7 +88,7 @@ void Renderer::UpdateVram()
     glBufferData(GL_PIXEL_UNPACK_BUFFER, VRAM_SIZE, NULL, GL_STREAM_DRAW);
     void* mappedBuffer = glMapBuffer(GL_PIXEL_UNPACK_BUFFER, GL_WRITE_ONLY);
 
-    memcpy(mappedBuffer, m_Gb->vram, VRAM_SIZE);
+    std::memcpy(mappedBuffer, m_Gb->vram, VRAM_SIZE);
 
     glBindBuffer(GL_PIXEL_UNPACK_BUFFER, m_Pbo);
     glUnmapBuffer(GL_PIXEL_UNPACK_BUFFER);

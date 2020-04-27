@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 11:37:03 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/25 15:49:13 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/27 16:15:37 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,6 @@ int		main(int ac, char** av)
 	init_op_tab();
 	init_ext_op_tab();
 	
-
-	pthread_t thread;
-
 	if (init_sdl())
 		return (1);
 	if (init_vram_viewer(&vram_viewer_context))
@@ -98,14 +95,13 @@ int		main(int ac, char** av)
 	if (init_main_window(&main_window_context))
 		return (1);
 	load_game(&gb);
-	// atexit(SDL_Quit);
 	signal(SIGINT, sigint_handler);
-	pthread_create (&thread, NULL, execute_thread_entry , &gb);
-	renderer_loop(&(struct gbmu_wrapper_s){&gb, &vram_viewer_context, &main_window_context});
-	pthread_join(thread, NULL);
-	// SDL_DestroyWindow(context.win);
-	// SDL_DestroyRenderer(context.renderer);
-	// SDL_DestroyTexture(context.texture);
 
+
+	void*	renderer = new_renderer(&gb);
+	renderer_init(renderer);
+	execute_loop(&(struct gbmu_wrapper_s){&gb, &vram_viewer_context, &main_window_context}, renderer);
+	delete_renderer(renderer);
+	destroy_context(&main_window_context);
 	return (0);
 }

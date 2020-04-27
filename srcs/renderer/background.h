@@ -1,6 +1,8 @@
 #pragma once
 
-#include <GL/glew.h>
+#define GL_GLEXT_PROTOTYPES
+#include <GL/gl.h>
+#include <GL/glu.h>
 
 struct gb_cpu_s;
 
@@ -30,6 +32,7 @@ private:
     GLint m_ScyLoc {-1};
     GLint m_LcdcLoc {-1};
     GLint m_ColorsLoc {-1};
+	GLint m_LineLoc {-1};
 };
 
 };

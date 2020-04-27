@@ -2,6 +2,8 @@
 
 #include "gl_utils/compile_program.h"
 
+#include <cstring>
+
 extern "C" {
 #include "gb.h"
 }
@@ -25,8 +27,8 @@ Window::~Window()
 int Window::Init()
 {
     m_Program = compileProgram(
-        "C:/Users/iwan/GBmu/srcs/renderer/shaders/window.vert",
-        "C:/Users/iwan/GBmu/srcs/renderer/shaders/window.frag");
+        "../srcs/renderer/shaders/window.vert",
+        "../srcs/renderer/shaders/window.frag");
 
     if (!m_Program) {
         printf("failed to create program\n");
