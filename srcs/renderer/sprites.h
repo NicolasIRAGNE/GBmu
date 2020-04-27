@@ -23,7 +23,7 @@ public:
 private:
     int UpdateVertex();
     void FillData(float* data, int x1, int y1, int x2, int y2, int tile, int attr);
-	void FillPosInTile(float* data, int y);
+	void FillPosInTile(float* data, int y, uint8_t attr);
     void UpdateColors();
 
 private:

@@ -126,7 +126,7 @@ int Sprites::UpdateVertex()
 
         FillData(data + dataIndex, x1, y1, x2, y2, tile, attr);
         dataIndex += 24;
-        FillPosInTile(posInTile + posInTileIndex, tmp_y);
+        FillPosInTile(posInTile + posInTileIndex, tmp_y, attr);
 		posInTileIndex += 12;
 
         if (lcdc & LCDC_SPRITE_SIZE) {
@@ -142,7 +142,7 @@ int Sprites::UpdateVertex()
             }
             FillData(data + dataIndex, x1, y1, x2, y2, tile + 1, attr);
             dataIndex += 24;
-			FillPosInTile(posInTile + posInTileIndex, tmp_y);
+			FillPosInTile(posInTile + posInTileIndex, tmp_y, attr);
 			posInTileIndex += 12;
         }
     }
@@ -178,9 +178,13 @@ void Sprites::FillData(float* data, int x1, int y1, int x2, int y2, int tile, in
     data[20] = x2f; data[21] = y1f; data[22] = (float)tile; data[23] = (float)attr;
 }
 
-void Sprites::FillPosInTile(float* data, int y)
+void Sprites::FillPosInTile(float* data, int y, uint8_t attr)
 {
 	float pos_y = m_Gb->gpu.y_coord - y;
+
+	if (attr & ATTR_Y_FLIP)
+		pos_y = 7 - pos_y;
+
     data[0]  = 0.f; data[1]  = pos_y;
 	data[2]  = 0.f; data[3]  = pos_y;
     data[4]  = 8.f; data[5]  = pos_y;

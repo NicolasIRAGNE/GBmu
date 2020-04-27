@@ -9,7 +9,7 @@ out float fAttr;
 
 void main() {
     gl_Position = vec4(inVertex.xy, 0.f, 1.f);
-
+	
     vPosInTile = posInTile;
     fTileIndex = inVertex.z;
     fAttr = inVertex.w;
