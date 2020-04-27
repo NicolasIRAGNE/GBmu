@@ -159,16 +159,4 @@ void*	thread_entry(void* user_data);
 int		save_game(struct gb_cpu_s* gb);
 int		load_game(struct gb_cpu_s* gb);
 
-/*
-** Memory Bank Controllers
-*/
-void	write_mbc1(struct gb_cpu_s* gb, uint16_t addr, uint8_t x);
-uint8_t	read_mbc1(struct gb_cpu_s* gb, uint16_t addr);
-
-void	write_mbc3(struct gb_cpu_s* gb, uint16_t addr, uint8_t x);
-uint8_t	read_mbc3(struct gb_cpu_s* gb, uint16_t addr);
-
-void	write_mbc5(struct gb_cpu_s* gb, uint16_t addr, uint8_t x);
-uint8_t	read_mbc5(struct gb_cpu_s* gb, uint16_t addr);
-
 #endif

@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:30:05 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/26 14:29:35 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/27 11:13:54 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int		init_cpu(struct gb_cpu_s* gb, struct rom_s* rom)
 	gb->reg.af = 0;
 	gb->reg.de = 0;
 	gb->reg.hl = 0;
-	gb->reg.pc = 0;
+	gb->reg.pc = 0x100;
 	gb->booted = (gb->reg.pc) >= 0x100;
 	gb->running = 1;
 	gb->vram_viewer_running = 1;
@@ -61,6 +61,7 @@ int		init_cpu(struct gb_cpu_s* gb, struct rom_s* rom)
 	gb->interrupt_enable_register |= INT_TIMER_REQUEST;
 	// gb->interrupt_enable_register |= INT_STAT_REQUEST;
 	init_mbc(gb);
+	gb->extra_ram = malloc(gb->mbc.ram_size);
 	return (0);
 }
 
@@ -87,28 +88,7 @@ int		init_mbc(struct gb_cpu_s* gb)
 	mbc_array[0x1d] = 5;
 	mbc_array[0x1e] = 5;
 
-	if (mbc_array[gb->rom_ptr->header->type] == 1)
-	{
-		gb->mbc.write = write_mbc1;
-		gb->mbc.read = read_mbc1;
-	}
-	else if (mbc_array[gb->rom_ptr->header->type] == 3)
-	{
-		gb->mbc.write = write_mbc3;
-		gb->mbc.read = read_mbc3;
-		gb->mbc.mode = MBC_MODE_RAM;
-	}
-	else if (mbc_array[gb->rom_ptr->header->type] == 5)
-	{
-		gb->mbc.write = write_mbc5;
-		gb->mbc.read = read_mbc5;
-	}
-	else
-	{
-		gb->mbc.write = write_mbc5;
-		gb->mbc.read = read_mbc5;
-		printf("unrecognized cartridge type. defaulting to MBC5.\n");
-	}
+	gb->mbc = get_mbc(mbc_array[gb->rom_ptr->header->type]);
 
 	if (gb->rom_ptr->header->rom_size <= 0x8)
 	{

@@ -6,13 +6,14 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:34:47 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/26 13:36:31 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/27 11:17:47 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CPU_H
 # define CPU_H
 # include <stdint.h>
+# include "mbc.h"
 
 # define VRAM_SIZE 0x2000		// 8kiB
 # define WRAM_SIZE 0x2000		// 8kiB
@@ -171,30 +172,11 @@ struct	gb_gpu_s
 	enum gpu_mode_e mode;	
 };
 
-enum	mbc_mode_e
-{
-	MBC_MODE_ROM,
-	MBC_MODE_RAM,
-	MBC_MODE_RTC
-};
-
 enum	joypad_mode_e
 {
 	JOYPAD_MODE_NONE,
 	JOYPAD_MODE_BUTTONS,
 	JOYPAD_MODE_DIRECTIONS,
-};
-
-struct	mbc_s
-{
-	uint16_t bank;
-	uint16_t ram_bank; // TODO : Handle multiple ram banks.
-	uint8_t rtc;
-	enum mbc_mode_e mode;
-	uint8_t	(*read)(struct gb_cpu_s*, uint16_t);	
-	void	(*write)(struct gb_cpu_s*, uint16_t, uint8_t);
-	uint32_t	rom_size;
-	uint32_t	ram_size;
 };
 
 struct	joypad_s
@@ -233,7 +215,7 @@ struct	gb_cpu_s
 	uint8_t				boot_rom[BOOT_ROM_SIZE];
 	uint8_t				vram[VRAM_SIZE];
 	uint8_t				ram[RAM_SIZE];
-	uint8_t				extra_ram[EXTRA_RAM_SIZE * 16];
+	uint8_t*			extra_ram;
 	uint8_t				wram[WRAM_SIZE];
 	uint8_t				hram[HRAM_SIZE];
 	uint8_t				io_ports[IO_PORTS_SIZE];

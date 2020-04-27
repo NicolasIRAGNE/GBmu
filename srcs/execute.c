@@ -90,6 +90,7 @@ void	execute_loop(struct gb_cpu_s* gb)
 	}
 	if (gb->mbc.ram_size > 0)
 		save_game(gb);
+	free(gb->extra_ram);
 }
 
 void*	execute_thread_entry(void* user_data)
