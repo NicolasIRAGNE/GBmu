@@ -206,7 +206,7 @@ void Sprites::UpdateColors()
     float colors[4][4];
 
     uint8_t obp0 = read_8(m_Gb, OBP0_OFFSET);
-    std::memcpy(&colors[0], &monochromePalette[5], 4 * sizeof(float));
+    std::memcpy(&colors[0], &monochromePalette[4], 4 * sizeof(float));
     std::memcpy(&colors[2], &monochromePalette[(obp0 & 0b00001100) >> 2], 4 * sizeof(float));
     std::memcpy(&colors[1], &monochromePalette[(obp0 & 0b00110000) >> 4], 4 * sizeof(float));
     std::memcpy(&colors[3], &monochromePalette[(obp0 & 0b11000000) >> 6], 4 * sizeof(float));
@@ -216,7 +216,7 @@ void Sprites::UpdateColors()
     glUseProgram(0);
 
     uint8_t obp1 = read_8(m_Gb, OBP1_OFFSET);
-    std::memcpy(&colors[0], &monochromePalette[5], 4 * sizeof(float));
+    std::memcpy(&colors[0], &monochromePalette[4], 4 * sizeof(float));
     std::memcpy(&colors[2], &monochromePalette[(obp1 & 0b00001100) >> 2], 4 * sizeof(float));
     std::memcpy(&colors[1], &monochromePalette[(obp1 & 0b00110000) >> 4], 4 * sizeof(float));
     std::memcpy(&colors[3], &monochromePalette[(obp1 & 0b11000000) >> 6], 4 * sizeof(float));

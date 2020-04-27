@@ -44,7 +44,10 @@ void main()
     uvec2 tilePos = pixelPos / 8u;
     uvec2 pixelPosInTile = pixelPos % 8u;
     
-	uint tileIndex = GetValueAt(0x1800u + tilePos.y * 32u + tilePos.x);
+	uint offset = 0x1800u;
+	if ((lcdc & 8u) != 0u)
+		offset = 0x1C00u;
+	uint tileIndex = GetValueAt(offset + tilePos.y * 32u + tilePos.x);
 	if (((lcdc & 16u) == 0u) && (tileIndex + 0x100u < 256u + 128u)) {
 		tileIndex = tileIndex + 0x100u;
     }

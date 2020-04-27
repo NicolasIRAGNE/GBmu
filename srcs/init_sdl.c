@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 11:56:05 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/27 16:12:39 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/27 20:58:37 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int     init_main_window(struct sdl_context_s* context)
 		return (1);
 	}
 	context->glcontext = SDL_GL_CreateContext(context->win);
+	SDL_GL_SetSwapInterval(0);
 	// context->surface = SDL_CreateRGBSurface(0, MAIN_SURFACE_WIDTH, MAIN_SURFACE_HEIGHT, 32, 0, 0, 0, 0);
 	// if (!context->surface)
 	// {
