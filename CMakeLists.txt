@@ -58,8 +58,9 @@ SET (SOURCES
 	srcs/instructions/set.c
 	srcs/instructions/swap.c
 
-	srcs/renderer_opengl.h
-	srcs/renderer_opengl.cpp
+	srcs/renderer/renderer_opengl.h
+	srcs/renderer/renderer_opengl.cpp
+	srcs/renderer/gl_utils/compile_program.h
 	)
 
 SET (INCLUDES
