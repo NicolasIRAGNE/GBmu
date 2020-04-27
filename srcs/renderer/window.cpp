@@ -60,6 +60,7 @@ int Window::Init()
     m_WyLoc     = glGetUniformLocation(m_Program, "wy");
     m_LcdcLoc   = glGetUniformLocation(m_Program, "lcdc");
     m_ColorsLoc = glGetUniformLocation(m_Program, "colors");
+    m_LineLoc	= glGetUniformLocation(m_Program, "line");
 
     return 0;
 }

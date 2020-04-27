@@ -32,7 +32,8 @@ private:
     GLint m_WxLoc {-1};
     GLint m_WyLoc {-1};
     GLint m_LcdcLoc {-1};
-    GLint m_ColorsLoc{ -1 };
+    GLint m_ColorsLoc {-1};
+	GLint m_LineLoc {-1};
 };
 
 };

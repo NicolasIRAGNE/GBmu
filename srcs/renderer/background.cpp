@@ -38,9 +38,9 @@ int Background::Init()
 
     float quad[] = {
         -1.f, -1.f,
-        -1.f,  1.f,
+        -1.f, -1.f + 2.f / 144.f,
          1.f, -1.f,
-         1.f,  1.f,
+         1.f, -1.f + 2.f / 144.f,
     };
 
     glGenVertexArrays(1, &m_Vao);
