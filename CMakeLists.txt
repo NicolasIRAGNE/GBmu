@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.13)
 
 project(gbmu)
 
+set(CMAKE_CXX_STANDARD 17)
+
 SET (SOURCES
 	srcs/main.c
 	srcs/debug.c
@@ -55,6 +57,9 @@ SET (SOURCES
 	srcs/instructions/res.c
 	srcs/instructions/set.c
 	srcs/instructions/swap.c
+
+	srcs/renderer_opengl.h
+	srcs/renderer_opengl.cpp
 	)
 
 SET (INCLUDES
@@ -69,6 +74,10 @@ INCLUDE_DIRECTORIES(includes)
 
 set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -g3")
 
+find_package(OpenGL REQUIRED)
+include_directories(${OPENGL_INCLUDE_DIRS})
+
 add_executable(${PROJECT_NAME} ${SOURCES})
-target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} ${OPENGL_LIBRARIES})
+
 # SET_TARGET_PROPERTIES(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE TRUE)
