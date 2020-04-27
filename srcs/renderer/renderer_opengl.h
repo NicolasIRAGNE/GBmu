@@ -34,6 +34,7 @@ private:
     GLuint m_Vbo {0};
     GLuint m_Pbo {0};
     GLuint m_Texture {0};
+    GLint m_InfosLoc {-1};
 };
 
 }

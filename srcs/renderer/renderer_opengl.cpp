@@ -46,18 +46,12 @@ int Renderer::Init()
     }
     
     glBindAttribLocation(m_Program, 0, "inVertex");
-    glBindAttribLocation(m_Program, 1, "inTexCoord");
 
     float quad[] = {
         -1.f, -1.f,
         -1.f,  1.f,
          1.f, -1.f,
          1.f,  1.f,
-
-         0.f,  1.f,
-         0.f,  0.f,
-         1.f,  1.f,
-         1.f,  0.f,
     };
 
     glGenVertexArrays(1, &m_Vao);
@@ -66,10 +60,8 @@ int Renderer::Init()
     glBindBuffer(GL_ARRAY_BUFFER, m_Vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(quad), quad, GL_STATIC_DRAW);
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * 6));
 
     glEnableVertexAttribArray(0);
-    glEnableVertexAttribArray(1);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
@@ -83,6 +75,8 @@ int Renderer::Init()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glBindTexture(GL_TEXTURE_2D, 0);
+
+    m_InfosLoc = glGetUniformLocation(m_Program, "infos");
 
     return 0;
 }
@@ -113,6 +107,11 @@ int Renderer::Render() {
 
     glBindTexture(GL_TEXTURE_2D, 0);
     glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
+
+    int scy = read_8(m_Gb, SCY_OFFSET);
+    int scx = read_8(m_Gb, SCX_OFFSET);
+    uint8_t lcdc = (read_8(m_Gb, LCDC_OFFSET));
+    glUniform3ui(m_InfosLoc, scx, scy, lcdc);
 
     glUseProgram(m_Program);
     glBindVertexArray(m_Vao);
