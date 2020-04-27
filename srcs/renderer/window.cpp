@@ -82,10 +82,13 @@ int Window::Draw()
 
     int wx = (read_8(m_Gb, WX_OFFSET)) - 7;
     int wy = (read_8(m_Gb, WY_OFFSET));
+	if (wy > m_Gb->gpu.y_coord)
+		return 0;
     uint8_t lcdc = (read_8(m_Gb, LCDC_OFFSET));
     glUniform1i(m_WxLoc, wx);
     glUniform1i(m_WyLoc, wy);
     glUniform1ui(m_LcdcLoc, lcdc);
+    glUniform1ui(m_LineLoc, m_Gb->gpu.y_coord);
 
     glUseProgram(0);
 
@@ -114,10 +117,10 @@ void Window::UpdateVertex(int wx, int wy)
     float y2 = -1.f;
 
     float quad[] = {
-        x1, y1,
-        x1, y2,
-        x2, y1,
-        x2, y2,
+        x1, -1.f,
+        x1, -1.f + 2.f / 144.f,
+        x2, -1.f,
+        x2, -1.f + 2.f / 144.f,
     };
 
     glBindBuffer(GL_ARRAY_BUFFER, m_Vbo);
