@@ -5,6 +5,13 @@
 
 #include "gl_utils/compile_program.h"
 
+static void checkGlError() {
+    GLenum aaa = glGetError();
+    if (aaa != GL_NO_ERROR) {
+        printf("%#x\n", aaa);
+    }
+}
+
 namespace GBMU {
 
 Renderer::Renderer(SDL_Window* window, gb_cpu_s* gb) : m_Window(window), m_Gb(gb) {}
@@ -69,14 +76,12 @@ int Renderer::Init()
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    //glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+    glClearColor(1.f, 0.f, 0.f, 1.0f);
 
     glGenTextures(1, &m_Texture);
     glBindTexture(GL_TEXTURE_2D, m_Texture);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
     glBindTexture(GL_TEXTURE_2D, 0);
 
     return 0;
@@ -94,22 +99,18 @@ int Renderer::Destroy()
 int Renderer::Render() {
     glClear(GL_COLOR_BUFFER_BIT);
 
-    static uint8_t salut = 0;
-    std::vector<uint8_t> data(160 * 144 * 4 * 2);
-    std::memset(data.data(), salut, data.size());
-    salut++;
-
     glGenBuffers(1, &m_Pbo);
     glBindBuffer(GL_PIXEL_UNPACK_BUFFER, m_Pbo);
-    glBufferData(GL_PIXEL_UNPACK_BUFFER, 160 * 144 * 4, NULL, GL_STREAM_DRAW);
+    glBufferData(GL_PIXEL_UNPACK_BUFFER, VRAM_SIZE, NULL, GL_STREAM_DRAW);
     void* mappedBuffer = glMapBuffer(GL_PIXEL_UNPACK_BUFFER, GL_WRITE_ONLY);
 
-    memcpy(mappedBuffer, data.data(), 160 * 144 * 4);
+    memcpy(mappedBuffer, m_Gb->vram, VRAM_SIZE);
 
     glBindBuffer(GL_PIXEL_UNPACK_BUFFER, m_Pbo);
     glUnmapBuffer(GL_PIXEL_UNPACK_BUFFER);
     glBindTexture(GL_TEXTURE_2D, m_Texture);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 160, 144, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_R8, 128, 64, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
+
     glBindTexture(GL_TEXTURE_2D, 0);
     glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
 
