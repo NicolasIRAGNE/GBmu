@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/25 12:26:42 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/26 14:05:17 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/27 19:51:02 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,5 +82,9 @@ void	write_mbc5(struct gb_cpu_s* gb, uint16_t addr, uint8_t x)
 		gb->mbc.ram_bank = x & 0xf;
 		printf("switching ram bank to %x\n", gb->mbc.ram_bank);
 		return ;
+	}
+	else if (addr < 0xc000)
+	{
+			((uint8_t*)(gb->extra_ram))[addr - 0xa000 + gb->mbc.ram_bank * RAM_SIZE] = x;
 	}
 }
