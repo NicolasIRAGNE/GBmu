@@ -106,31 +106,27 @@ int Sprites::UpdateVertex()
         int y2 = y - 8;
 
 		uint8_t line = m_Gb->gpu.y_coord;
-		if (line < y1 || line >= y2) {
-			continue;
+		int tmp_y = y1;
+		if (line >= y1 && line < y2) {
+        	if (attr & ATTR_X_FLIP) {
+        	    std::swap(x1, x2);
+        	}
+        	if (attr & ATTR_Y_FLIP) {
+        	    std::swap(y1, y2);
+				if (lcdc & LCDC_SPRITE_SIZE) {
+					tmp_y += 8;
+        	    	y1 += 8;
+        	    	y2 += 8;
+				}
+        	}
+        	FillData(data + dataIndex, x1, y1, x2, y2, tile, attr);
+        	dataIndex += 24;
+        	FillPosInTile(posInTile + posInTileIndex, tmp_y, attr);
+			posInTileIndex += 12;
 		}
 
-		int tmp_y = y1;
-        if (attr & ATTR_X_FLIP) {
-            std::swap(x1, x2);
-        }
-
-        if (attr & ATTR_Y_FLIP) {
-            std::swap(y1, y2);
-			if (lcdc & LCDC_SPRITE_SIZE) {
-				tmp_y += 8;
-            	y1 += 8;
-            	y2 += 8;
-			}
-        }
-
-        FillData(data + dataIndex, x1, y1, x2, y2, tile, attr);
-        dataIndex += 24;
-        FillPosInTile(posInTile + posInTileIndex, tmp_y, attr);
-		posInTileIndex += 12;
-
         if (lcdc & LCDC_SPRITE_SIZE) {
-            if (attr & 0x40) {
+            if (attr & ATTR_Y_FLIP) {
                 y1 -= 8;
                 y2 -= 8;
 				tmp_y -= 8;
@@ -140,10 +136,23 @@ int Sprites::UpdateVertex()
                 y2 += 8;
 				tmp_y += 8;
             }
-            FillData(data + dataIndex, x1, y1, x2, y2, tile + 1, attr);
-            dataIndex += 24;
-			FillPosInTile(posInTile + posInTileIndex, tmp_y, attr);
-			posInTileIndex += 12;
+			if (line >= y1 && line < y2) {	
+            	if (attr & ATTR_X_FLIP) {
+        	    	std::swap(x1, x2);
+        		}
+        		if (attr & ATTR_Y_FLIP) {
+        		    std::swap(y1, y2);
+					if (lcdc & LCDC_SPRITE_SIZE) {
+						tmp_y += 8;
+        		    	y1 += 8;
+        		    	y2 += 8;
+					}
+        		}
+				FillData(data + dataIndex, x1, y1, x2, y2, tile + 1, attr);
+            	dataIndex += 24;
+				FillPosInTile(posInTile + posInTileIndex, tmp_y, attr);
+				posInTileIndex += 12;
+			}
         }
     }
 
