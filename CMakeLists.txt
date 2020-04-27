@@ -25,6 +25,7 @@ SET (SOURCES
 	srcs/handle_joypad.c
 	srcs/save_game.c
 	srcs/palette.c
+	srcs/mbc.c
 	srcs/mbc1.c
 	srcs/mbc2.c
 	srcs/mbc3.c
