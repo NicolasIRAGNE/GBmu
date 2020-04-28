@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/23 16:49:30 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/25 15:56:22 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/28 23:19:38 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int		save_game(struct gb_cpu_s* gb)
 {
 	char* save_file;
 	asprintf(&save_file, SAVE_DIR"%.11s.sav", gb->rom_ptr->header->title);
+	printf("saving data to %s\n", save_file);	
 
 	int fd = open(save_file, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
 
@@ -37,6 +38,7 @@ int		load_game(struct gb_cpu_s* gb)
 {
 	char* save_file;
 	asprintf(&save_file, SAVE_DIR"%.11s.sav", gb->rom_ptr->header->title);
+	printf("loading save data from %s\n", save_file);	
 	int fd = open(save_file, O_RDONLY);
 
 	if (fd < 0)

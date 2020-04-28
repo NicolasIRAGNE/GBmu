@@ -30,6 +30,7 @@ SET (SOURCES
 	srcs/mbc2.c
 	srcs/mbc3.c
 	srcs/mbc5.c
+	srcs/errors.c
 	srcs/userscreen.c
 	srcs/savestate.c
 	srcs/instructions/jp.c

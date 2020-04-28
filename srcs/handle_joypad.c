@@ -6,16 +6,15 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/21 14:07:07 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/25 16:01:42 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/28 22:46:02 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gb.h"
 #include "renderer.h"
 
-void	handle_joypad(struct gb_cpu_s* gb, SDL_GameController* controller)
+void	handle_joypad(struct gb_cpu_s* gb, SDL_GameController* controller, const Uint8* state)
 {
-	const Uint8 *state = SDL_GetKeyboardState(NULL);
 	struct joypad_s temp = {};
 
 	if (controller)

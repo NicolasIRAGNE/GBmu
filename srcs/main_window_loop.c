@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 14:11:30 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/28 13:41:00 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/28 23:31:32 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,10 @@ int		display_test(struct gbmu_wrapper_s* wrapper, struct tile_s* array, SDL_Surf
 	return (0);
 }
 
-void	main_window_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
+void	main_window_loop(struct gbmu_wrapper_s* wrapper)
 {
 	SDL_Event event;
+	const Uint8 *state = SDL_GetKeyboardState(NULL);
 
    	while (SDL_PollEvent(&event)) 
 	{
@@ -35,12 +36,11 @@ void	main_window_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 				wrapper->gb->running = 0;
 			if (event.key.keysym.scancode == SDL_SCANCODE_SPACE)
 				wrapper->gb->paused = 1;
-			if (event.key.keysym.scancode == SDL_SCANCODE_F5)
-				savestate(wrapper->gb, 1);
-			if (event.key.keysym.scancode == SDL_SCANCODE_F9)
-				loadstate(wrapper->gb, 1);
+			check_savestate(wrapper->gb, state, event);
 		}
    	}
 	if (!wrapper->gb->paused)
-		handle_joypad(wrapper->gb, wrapper->main_context->controller);
+	{
+		handle_joypad(wrapper->gb, wrapper->main_context->controller, state);
+	}
 }
