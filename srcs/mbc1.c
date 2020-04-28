@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/25 12:53:11 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/28 13:06:59 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/28 15:33:10 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ uint8_t	read_mbc1(struct gb_cpu_s* gb, uint16_t addr)
 	else if (addr < 0x8000)
 	{
 		uint8_t tmp;
-		if (gb->mbc.mode == MBC_MODE_RAM)
+		if (gb->mbc.mode == MBC_MODE_RAM || gb->mbc.rom_size < 4 * 0x8000)
 			tmp = gb->mbc.bank & 0b11111;
 		else
 			tmp = gb->mbc.bank;

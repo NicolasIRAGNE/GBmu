@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:08:21 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/27 16:07:08 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/28 13:40:37 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@
 
 # define BOOT_ROM "../DMG_ROM.bin"
 # define SAVE_DIR "../saves/"
+# define SAVESTATE_DIR "../savestates/"
 
 # define DEFAULT_VERBOSE 0
 
@@ -160,5 +161,7 @@ void*	thread_entry(void* user_data);
 */
 int		save_game(struct gb_cpu_s* gb);
 int		load_game(struct gb_cpu_s* gb);
+int		savestate(struct gb_cpu_s* gb, int number);
+int		loadstate(struct gb_cpu_s* gb, int number);
 
 #endif

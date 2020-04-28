@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:26 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/28 12:24:06 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/28 14:35:17 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 			err = handle_instruction(gb);
 		if (err)
 			gb->paused = 1;
-		if (gb->cycle - last_sleep >= 205)
+		if (gb->cycle - last_sleep >= 204)
 		{
 
 			last_sleep = gb->cycle;
