@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 18:10:17 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/27 19:52:29 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/28 10:38:21 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,35 +25,9 @@ uint16_t	read_16(struct gb_cpu_s* gb, uint16_t a16)
 
 uint8_t	read_8(struct gb_cpu_s* gb, uint16_t a16)
 {
-	if (a16 < 0x100 && !gb->booted)
+	if (a16 < 0x8000)
 	{
-		return (((uint8_t*)(gb->boot_rom))[a16]);
-	}
-	else if (a16 < 0x4000)
-	{
-		return (((uint8_t*)(gb->rom_ptr->ptr))[a16]);
-	}
-	else if (a16 < 0x8000)
-	{
-
-		uint8_t tmp;
-		if (gb->mbc.mode == MBC_MODE_RAM)
-			tmp = gb->mbc.bank & 0b11111;
-		else
-			tmp = gb->mbc.bank;
-		if (tmp != 0 && gb->rom_ptr->header->type != 0)
-		{
-			if (tmp * 0x4000 + a16 - 0x4000 > gb->rom_ptr->st.st_size)
-			{
-				debug_print_gb(gb);
-				dprintf(2, "fatal: attempting to read outside the cartridge at %x in bank %x. aborting...\n", a16, tmp);
-				abort();
-				return (0);
-			}
-			return (((uint8_t*)(gb->rom_ptr->ptr))[tmp * 0x4000 + a16 - 0x4000]);
-		}
-		else
-			return (((uint8_t*)(gb->rom_ptr->ptr))[a16]);
+		return (gb->mbc.read(gb, a16));
 	}
 	else if (a16 < 0xa000)
 	{
@@ -61,8 +35,7 @@ uint8_t	read_8(struct gb_cpu_s* gb, uint16_t a16)
 	}
 	else if (a16 < 0xc000)
 	{
-		// printf("WARNING: READING FROM EXTRA RAM\n");
-			return (((uint8_t*)(gb->extra_ram))[a16 - 0xa000 + gb->mbc.ram_bank * RAM_SIZE]);		
+		return(gb->mbc.read(gb, a16));
 	}
 	else if (a16 < 0xe000)
 	{
@@ -121,6 +94,7 @@ void	write_8(struct gb_cpu_s* gb, uint16_t a16, uint8_t x)
 	}
 	else if (a16 < 0xa000)
 	{
+		gb->vram_updated = 1;
 		((uint8_t*)(gb->vram))[a16 - 0x8000] = x;
 		return ;
 	}

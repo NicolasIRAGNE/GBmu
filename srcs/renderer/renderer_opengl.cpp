@@ -64,7 +64,10 @@ int Renderer::Destroy()
 int Renderer::Render() {
     // glClear(GL_COLOR_BUFFER_BIT);
 
-    UpdateVram();
+	if (m_Gb->vram_updated) {
+		m_Gb->vram_updated = 0;
+		UpdateVram();
+	}
 
     glBindTexture(GL_TEXTURE_2D, m_Texture);
 
@@ -96,4 +99,4 @@ void Renderer::UpdateVram()
     glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
 }
 
-}
+} // namespace GBMU

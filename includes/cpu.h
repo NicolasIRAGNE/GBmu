@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:34:47 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/27 16:29:41 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/28 09:10:59 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,6 +198,7 @@ struct	gb_cpu_s
 	int					vram_viewer_running : 1;
 	int					running : 1;
 	int					paused : 1;
+	int					vram_updated : 1;
 	uint16_t			interrupt;
 	uint64_t			cycle;
 	struct gbmu_debugger_s*	debugger;
