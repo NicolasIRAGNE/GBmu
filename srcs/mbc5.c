@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/25 12:26:42 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/27 19:51:02 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/28 11:32:50 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,19 @@ void	write_mbc5(struct gb_cpu_s* gb, uint16_t addr, uint8_t x)
 		printf("switching ram bank to %x\n", gb->mbc.ram_bank);
 		return ;
 	}
+	else if (addr < 0xa000)
+	{
+		return ;
+	}
 	else if (addr < 0xc000)
 	{
-			((uint8_t*)(gb->extra_ram))[addr - 0xa000 + gb->mbc.ram_bank * RAM_SIZE] = x;
+		if ((uint16_t)(addr - 0xa000 + gb->mbc.ram_bank * EXTRA_RAM_SIZE) > gb->mbc.ram_size)
+		{
+			printf("ram size = %x, truc = %x\n", gb->mbc.ram_size, addr - 0xa000 + gb->mbc.ram_bank * EXTRA_RAM_SIZE);
+			dprintf(2, "fatal: attempting to write at %x in invalid ram bank %x. aborting...\n", addr, gb->mbc.ram_bank);
+			abort();
+		}
+		else
+			((uint8_t*)(gb->extra_ram))[addr - 0xa000 + gb->mbc.ram_bank * EXTRA_RAM_SIZE] = x;
 	}
 }

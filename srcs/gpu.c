@@ -6,14 +6,14 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 13:08:59 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/26 14:23:23 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/28 11:40:44 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gb.h"
 
-# define HBLANK_TIME	(204 * 1) //204
-# define VBLANK_TIME	(456 * 1) //456
+# define HBLANK_TIME	(204 * 2) //204
+# define VBLANK_TIME	(456 * 2) //456
 # define OAM_TIME		(80)
 # define VRAM_TIME		(172)
 

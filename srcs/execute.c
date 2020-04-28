@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:26 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/28 10:34:50 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/28 12:24:06 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 			err = handle_instruction(gb);
 		if (err)
 			gb->paused = 1;
-		if (gb->cycle - last_sleep >= 250)
+		if (gb->cycle - last_sleep >= 205)
 		{
 
 			last_sleep = gb->cycle;
@@ -92,8 +92,8 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 			if (gb->gpu.y_coord != last_line)
 				renderer_render(renderer);
 			last_line = gb->gpu.y_coord;
-			gpu_tick(gb);
 		}
+		gpu_tick(gb);
 		if (wrapper->gb->gpu.y_coord == 144 && last_line != 144)
 		{
 			main_window_loop(wrapper, renderer);

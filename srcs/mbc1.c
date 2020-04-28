@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/25 12:53:11 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/27 19:40:46 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/28 13:06:59 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ uint8_t	read_mbc1(struct gb_cpu_s* gb, uint16_t addr)
 			{
 				dprintf(2, "fatal: attempting to read outside the cartridge at %x in bank %x. aborting...\n", addr, tmp);
 				abort();
+				if (gb->mbc.ram_size > 0)
+					save_game(gb);
 				return (0);
 			}
 			return (((uint8_t*)(gb->rom_ptr->ptr))[tmp * 0x4000 + addr - 0x4000]);
