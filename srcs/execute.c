@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:26 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/28 14:35:17 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/28 23:31:54 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 		gpu_tick(gb);
 		if (wrapper->gb->gpu.y_coord == 144 && last_line != 144)
 		{
-			main_window_loop(wrapper, renderer);
+			main_window_loop(wrapper);
 			SDL_GL_SwapWindow(wrapper->main_context->win);
 		}
 	}

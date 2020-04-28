@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/25 12:26:42 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/28 11:32:50 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/28 23:21:33 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,8 @@ uint8_t	read_mbc5(struct gb_cpu_s* gb, uint16_t addr)
 		{
 			if (tmp * 0x4000 + addr - 0x4000 > gb->rom_ptr->st.st_size)
 			{
-				debug_print_gb(gb);
 				dprintf(2, "fatal: attempting to read outside the cartridge at %x in bank %x. aborting...\n", addr, tmp);
-				abort();
+				fatal(gb);
 				return (0);
 			}
 			return (((uint8_t*)(gb->rom_ptr->ptr))[tmp * 0x4000 + addr - 0x4000]);
@@ -91,9 +90,8 @@ void	write_mbc5(struct gb_cpu_s* gb, uint16_t addr, uint8_t x)
 	{
 		if ((uint16_t)(addr - 0xa000 + gb->mbc.ram_bank * EXTRA_RAM_SIZE) > gb->mbc.ram_size)
 		{
-			printf("ram size = %x, truc = %x\n", gb->mbc.ram_size, addr - 0xa000 + gb->mbc.ram_bank * EXTRA_RAM_SIZE);
 			dprintf(2, "fatal: attempting to write at %x in invalid ram bank %x. aborting...\n", addr, gb->mbc.ram_bank);
-			abort();
+			fatal(gb);
 		}
 		else
 			((uint8_t*)(gb->extra_ram))[addr - 0xa000 + gb->mbc.ram_bank * EXTRA_RAM_SIZE] = x;

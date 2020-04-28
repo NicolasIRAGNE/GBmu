@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/25 12:53:11 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/26 14:00:00 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/28 23:31:13 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,8 @@ uint8_t	read_mbc3(struct gb_cpu_s* gb, uint16_t addr)
 			tmp = gb->mbc.bank;
 			if (tmp * 0x4000 + addr - 0x4000 > gb->rom_ptr->st.st_size)
 			{
-				debug_print_gb(gb);
 				dprintf(2, "fatal: attempting to read outside the cartridge at %x in bank %x. aborting...\n", addr, tmp);
-				abort();
+				fatal(gb);
 				return (0);
 			}
 			return (((uint8_t*)(gb->rom_ptr->ptr))[tmp * 0x4000 + addr - 0x4000]);
@@ -60,7 +59,6 @@ uint8_t	read_mbc3(struct gb_cpu_s* gb, uint16_t addr)
 
 void	write_mbc3(struct gb_cpu_s* gb, uint16_t addr, uint8_t x)
 {
-	static uint8_t last_write = 0xff;
 	if (addr < 0x2000)
 	{
 		if (x == 0x0a)
