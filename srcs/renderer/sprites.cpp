@@ -85,75 +85,45 @@ int Sprites::UpdateVertex()
     float posInTile[OAM_SIZE * 2 * 6 * 2];
 
     uint8_t lcdc = (read_8(m_Gb, LCDC_OFFSET));
+    int line = m_Gb->gpu.y_coord;
 
     int dataIndex = 0;
     int posInTileIndex = 0;
     for (int i = 0; i < OAM_SIZE; i += 4)
     {
-        uint8_t y = m_Gb->oam[i + 0];
-        uint8_t x = m_Gb->oam[i + 1];
+        int y = m_Gb->oam[i + 0];
+        int x = m_Gb->oam[i + 1];
         uint8_t tile = m_Gb->oam[i + 2];
         uint8_t attr = m_Gb->oam[i + 3];
 
-        if (x == 0 || y == 0) {
+        if (!((line >= y - 16 && line < y - 8) || ((lcdc & LCDC_SPRITE_SIZE) && line >= y - 8 && line < y))) {
             continue;
         }
 
         int x1 = x - 8;
-        int y1 = y - 16;
+        int y1 = line;
 
         int x2 = x;
-        int y2 = y - 8;
+        int y2 = line + 1;
 
-		uint8_t line = m_Gb->gpu.y_coord;
-		int tmp_y = y1;
-		if (line >= y1 && line < y2) {
-        	if (attr & ATTR_X_FLIP) {
-        	    std::swap(x1, x2);
-        	}
-        	if (attr & ATTR_Y_FLIP) {
-        	    std::swap(y1, y2);
-				if (lcdc & LCDC_SPRITE_SIZE) {
-					tmp_y += 8;
-        	    	y1 += 8;
-        	    	y2 += 8;
-				}
-        	}
-        	FillData(data + dataIndex, x1, y1, x2, y2, tile, attr);
-        	dataIndex += 24;
-        	FillPosInTile(posInTile + posInTileIndex, tmp_y, attr);
-			posInTileIndex += 12;
-		}
+        int posInTileY = (line - y + 16) % 8;
 
-        if (lcdc & LCDC_SPRITE_SIZE) {
-            if (attr & ATTR_Y_FLIP) {
-                y1 -= 8;
-                y2 -= 8;
-				tmp_y -= 8;
-            }
-            else {
-                y1 += 8;
-                y2 += 8;
-				tmp_y += 8;
-            }
-			if (line >= y1 && line < y2) {	
-            	if (attr & ATTR_X_FLIP) {
-        	    	std::swap(x1, x2);
-        		}
-        		if (attr & ATTR_Y_FLIP) {
-        		    std::swap(y1, y2);
-					if (lcdc & LCDC_SPRITE_SIZE) {
-						tmp_y += 8;
-        		    	y1 += 8;
-        		    	y2 += 8;
-					}
-        		}
-				FillData(data + dataIndex, x1, y1, x2, y2, tile + 1, attr);
-            	dataIndex += 24;
-				FillPosInTile(posInTile + posInTileIndex, tmp_y, attr);
-				posInTileIndex += 12;
-			}
+        if (attr & ATTR_X_FLIP) {
+            std::swap(x1, x2);
         }
+
+        if (attr & ATTR_Y_FLIP) {
+            posInTileY = 7 - posInTileY;
+        }
+
+        if ((lcdc & LCDC_SPRITE_SIZE) && ((line < y - 8 && (attr & ATTR_Y_FLIP)) || (line >= y - 8 && !(attr & ATTR_Y_FLIP)))) {
+            tile += 1;
+        }
+
+        FillData(data + dataIndex, x1, y1, x2, y2, tile, attr);
+        dataIndex += 24;
+        FillPosInTile(posInTile + posInTileIndex, posInTileY, attr);
+        posInTileIndex += 12;
     }
 
     glBindBuffer(GL_ARRAY_BUFFER, m_Vbo);
@@ -166,18 +136,13 @@ int Sprites::UpdateVertex()
 
 void Sprites::FillData(float* data, int x1, int y1, int x2, int y2, int tile, int attr)
 {
-	uint8_t line = m_Gb->gpu.y_coord;
     float x1f = (float)(x1) / 160.f * 2.f - 1.f;
-    float y1f = (float)(line + 1) / 144.f * 2.f - 1.f;
+    float y1f = (float)(y1) / 144.f * 2.f - 1.f;
     y1f *= -1.f;
 
     float x2f = (float)(x2) / 160.f * 2.f - 1.f;
-    float y2f = (float)(line) / 144.f * 2.f - 1.f;
+    float y2f = (float)(y2) / 144.f * 2.f - 1.f;
     y2f *= -1.f;
-	
-	if (y2 < y1){
-		std::swap(y1f, y2f);
-	}
 
     data[0]  = x1f; data[1]  = y2f; data[2]  = (float)tile; data[3]  = (float)attr;
     data[4]  = x1f; data[5]  = y1f; data[6]  = (float)tile; data[7]  = (float)attr;
@@ -187,12 +152,9 @@ void Sprites::FillData(float* data, int x1, int y1, int x2, int y2, int tile, in
     data[20] = x2f; data[21] = y1f; data[22] = (float)tile; data[23] = (float)attr;
 }
 
-void Sprites::FillPosInTile(float* data, int y, uint8_t attr)
+void Sprites::FillPosInTile(float* data, int posInTileY, uint8_t attr)
 {
-	float pos_y = m_Gb->gpu.y_coord - y;
-
-	if (attr & ATTR_Y_FLIP)
-		pos_y = 7 - pos_y;
+	float pos_y = static_cast<float>(posInTileY);
 
     data[0]  = 0.f; data[1]  = pos_y;
 	data[2]  = 0.f; data[3]  = pos_y;
