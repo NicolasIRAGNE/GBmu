@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 14:11:30 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/27 16:17:17 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/28 13:41:00 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,10 @@ void	main_window_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 				wrapper->gb->running = 0;
 			if (event.key.keysym.scancode == SDL_SCANCODE_SPACE)
 				wrapper->gb->paused = 1;
+			if (event.key.keysym.scancode == SDL_SCANCODE_F5)
+				savestate(wrapper->gb, 1);
+			if (event.key.keysym.scancode == SDL_SCANCODE_F9)
+				loadstate(wrapper->gb, 1);
 		}
    	}
 	if (!wrapper->gb->paused)
