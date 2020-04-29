@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/25 12:26:42 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/28 23:21:33 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/29 15:17:38 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,20 @@ uint8_t	read_mbc5(struct gb_cpu_s* gb, uint16_t addr)
 	}
 	else if (addr < 0xc000)
 	{
-		return (((uint8_t*)(gb->extra_ram))[addr - 0xa000 + gb->mbc.ram_bank * RAM_SIZE]);		
+		if (!gb->ram_enabled)
+		{
+			dprintf(2, "warning: attempting to read from disabled RAM\n");
+			return (0xff);
+		}
+		uint32_t index;
+		index = addr - 0xa000 + gb->mbc.ram_bank * EXTRA_RAM_SIZE;
+		if (index >= gb->mbc.ram_size)
+		{
+			dprintf(2, "warning: attempting to read %x at invalid ram bank %x\n", addr, gb->mbc.ram_bank);				
+			return (0xff);
+		}
+		else
+			return (((uint8_t*)(gb->extra_ram))[index]);	
 	}
 	return (0xff);
 }
@@ -79,6 +92,7 @@ void	write_mbc5(struct gb_cpu_s* gb, uint16_t addr, uint8_t x)
 	else if (addr < 0x6000)
 	{
 		gb->mbc.ram_bank = x & 0xf;
+		gb->mbc.ram_bank &= (gb->mbc.ram_size / 0x2000) - 1;
 		printf("switching ram bank to %x\n", gb->mbc.ram_bank);
 		return ;
 	}
@@ -88,11 +102,13 @@ void	write_mbc5(struct gb_cpu_s* gb, uint16_t addr, uint8_t x)
 	}
 	else if (addr < 0xc000)
 	{
-		if ((uint16_t)(addr - 0xa000 + gb->mbc.ram_bank * EXTRA_RAM_SIZE) > gb->mbc.ram_size)
+		if (!gb->ram_enabled)
 		{
-			dprintf(2, "fatal: attempting to write at %x in invalid ram bank %x. aborting...\n", addr, gb->mbc.ram_bank);
-			fatal(gb);
+			dprintf(2, "warning: attempting to write to disabled RAM\n");
+			return ;
 		}
+		if ((uint16_t)(addr - 0xa000 + gb->mbc.ram_bank * EXTRA_RAM_SIZE) >= gb->mbc.ram_size)
+			dprintf(2, "warning: attempting to write at %x in invalid ram bank %x\n", addr, gb->mbc.ram_bank);
 		else
 			((uint8_t*)(gb->extra_ram))[addr - 0xa000 + gb->mbc.ram_bank * EXTRA_RAM_SIZE] = x;
 	}

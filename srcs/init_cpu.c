@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:30:05 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/28 23:22:14 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/29 14:34:14 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,15 +50,15 @@ int		init_cpu(struct gb_cpu_s* gb, struct rom_s* rom)
 	gb->reg.af = 0;
 	gb->reg.de = 0;
 	gb->reg.hl = 0;
-	gb->reg.pc = 0x100;
+	gb->reg.pc = 0;
 	gb->booted = (gb->reg.pc) >= 0x100;
 	gb->running = 1;
 	gb->vram_viewer_running = 1;
 	gb->paused = 0;
 	gb->current_instruction = NULL;
 	gb->ime = 1;
-	gb->interrupt_enable_register |= INT_VBLANK_REQUEST;
-	gb->interrupt_enable_register |= INT_TIMER_REQUEST;
+	// gb->interrupt_enable_register |= INT_VBLANK_REQUEST;
+	// gb->interrupt_enable_register |= INT_TIMER_REQUEST;
 	// gb->interrupt_enable_register |= INT_STAT_REQUEST;
 	init_mbc(gb);
 	gb->extra_ram = malloc(gb->mbc.ram_size);
@@ -68,6 +68,7 @@ int		init_cpu(struct gb_cpu_s* gb, struct rom_s* rom)
 int		init_mbc(struct gb_cpu_s* gb)
 {
 	uint8_t		mbc_array[0xff] = {};
+	mbc_array[0x00] = 0;
 	mbc_array[0x01] = 1;
 	mbc_array[0x02] = 1;
 	mbc_array[0x03] = 1;

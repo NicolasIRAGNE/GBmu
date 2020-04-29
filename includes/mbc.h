@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/27 10:37:00 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/27 10:49:05 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/29 14:35:07 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,10 @@ struct	mbc_s
 };
 
 struct mbc_s get_mbc(int index);
+
+void write_no_mbc(struct gb_cpu_s* gb, uint16_t addr, uint8_t x);
+uint8_t	read_no_mbc(struct gb_cpu_s* gb, uint16_t addr);
+
 
 void	write_mbc1(struct gb_cpu_s* gb, uint16_t addr, uint8_t x);
 uint8_t	read_mbc1(struct gb_cpu_s* gb, uint16_t addr);

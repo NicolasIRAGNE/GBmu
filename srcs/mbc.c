@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/27 10:40:38 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/27 10:54:17 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/29 14:34:34 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 struct mbc_s	mbc_array[] =
 {
-	{},
+	{"NONE", MBC_MODE_ROM, read_no_mbc, write_no_mbc, 0, 0, 0, 0, 0}, 
 	{"MBC1", MBC_MODE_ROM, read_mbc1, write_mbc1, 0, 0, 0, 0, 0}, 
 	{}, 
 	{"MBC3", MBC_MODE_RAM, read_mbc3, write_mbc3, 0, 0, 0, 0, 0}, 

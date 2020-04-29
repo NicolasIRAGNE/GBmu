@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/25 12:53:11 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/28 23:21:09 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/29 15:34:16 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ uint8_t	read_mbc1(struct gb_cpu_s* gb, uint16_t addr)
 	else if (addr < 0x8000)
 	{
 		uint8_t tmp;
-		if (gb->mbc.mode == MBC_MODE_RAM || gb->mbc.rom_size < 4 * 0x8000)
+		if (gb->mbc.mode == MBC_MODE_RAM || gb->rom_ptr->header->rom_size <= 0x04)
 			tmp = gb->mbc.bank & 0b11111;
 		else
 			tmp = gb->mbc.bank;
@@ -46,11 +46,23 @@ uint8_t	read_mbc1(struct gb_cpu_s* gb, uint16_t addr)
 	}
 	else if (addr < 0xc000)
 	{
-		// printf("WARNING: READING FROM EXTRA RAM\n");
+		if (!gb->ram_enabled)
+		{
+			dprintf(2, "warning: attempting to read from disabled RAM\n");
+			return (0xff);
+		}
+		uint32_t index;
 		if (gb->mbc.mode == MBC_MODE_RAM)
-			return (((uint8_t*)(gb->extra_ram))[addr - 0xa000 + gb->mbc.ram_bank * EXTRA_RAM_SIZE]);		
+			index = addr - 0xa000 + gb->mbc.ram_bank * EXTRA_RAM_SIZE;
 		else
-			return (((uint8_t*)(gb->extra_ram))[addr - 0xa000]);
+			index = addr - 0xa000;		
+		if (index >= gb->mbc.ram_size)
+		{
+			dprintf(2, "warning: attempting to read %x at invalid ram bank %x\n", addr, gb->mbc.ram_bank);				
+			return (0xff);
+		}
+		else
+			return (((uint8_t*)(gb->extra_ram))[index]);	
 	}
 	return (0xff);
 }
@@ -75,15 +87,29 @@ void	write_mbc1(struct gb_cpu_s* gb, uint16_t addr, uint8_t x)
 	}
 	else if (addr < 0x4000)
 	{
-		gb->mbc.bank = (gb->mbc.bank & 0b1100000) | (x & 0b11111);
+		if (gb->mbc.mode == MBC_MODE_ROM)
+			gb->mbc.bank = (gb->mbc.bank & 0b1100000) | (x & 0b11111);
+		else
+			gb->mbc.bank = (x & 0b11111);
+		if (gb->mbc.bank == 0x00 || gb->mbc.bank == 0x20 || gb->mbc.bank == 0x40 || gb->mbc.bank == 0x60)
+			gb->mbc.bank += 1;
+		gb->mbc.bank &= (gb->mbc.rom_size / 0x4000) - 1;
 		return ;
 	}
 	else if (addr < 0x6000)
 	{
-		gb->mbc.bank = (gb->mbc.bank & 0b11111) | (x & 0b1100000);
-		gb->mbc.ram_bank = (x & 0b1100000) >> 5;
-		if (gb->mbc.bank == 0x20 || gb->mbc.bank == 0x40 || gb->mbc.bank == 0x60)
-			gb->mbc.bank += 1;
+		if (gb->mbc.mode == MBC_MODE_RAM)
+		{
+			gb->mbc.ram_bank = (x & 0b11);
+			gb->mbc.ram_bank &= (gb->mbc.ram_size / 0x2000) - 1;
+		}
+		else
+		{
+			gb->mbc.bank = (gb->mbc.bank & 0b11111) | ((x & 0b11) << 5);	
+			if (gb->mbc.bank == 0x20 || gb->mbc.bank == 0x40 || gb->mbc.bank == 0x60)
+				gb->mbc.bank += 1;
+			gb->mbc.bank &= (gb->mbc.rom_size / 0x4000) - 1;
+		}
 		return ;
 	}
 	else if (addr < 0x8000)
@@ -97,11 +123,23 @@ void	write_mbc1(struct gb_cpu_s* gb, uint16_t addr, uint8_t x)
 	}
 	else if (addr < 0xc000)
 	{
-		// printf("WARNING: READING FROM EXTRA RAM\n");
+		if (!gb->ram_enabled)
+		{
+			dprintf(2, "warning: attempting to write to disabled RAM ar %x\n", addr);
+			return ;
+		}
+		uint32_t index;
 		if (gb->mbc.mode == MBC_MODE_RAM)
-			((uint8_t*)(gb->extra_ram))[addr - 0xa000 + gb->mbc.ram_bank * EXTRA_RAM_SIZE] = x;		
+			index = addr - 0xa000 + gb->mbc.ram_bank * EXTRA_RAM_SIZE;
 		else
-			((uint8_t*)(gb->extra_ram))[addr - 0xa000] = x;
+			index = addr - 0xa000;		
+		if (index >= gb->mbc.ram_size)
+		{
+			dprintf(2, "warning: attempting to write at %x in invalid extra ram bank %x\n", addr, gb->mbc.ram_bank);				
+			return ;
+		}
+		else
+			((uint8_t*)(gb->ram))[index] = x;
 		return;
 	}
 }
