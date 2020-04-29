@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/25 12:53:11 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/29 15:34:16 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/29 16:15:54 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ uint8_t	read_mbc1(struct gb_cpu_s* gb, uint16_t addr)
 	{
 		if (!gb->ram_enabled)
 		{
-			dprintf(2, "warning: attempting to read from disabled RAM\n");
+			dprintf(2, "warning: attempting to read from disabled RAM at %x\n", addr);
 			return (0xff);
 		}
 		uint32_t index;
@@ -125,7 +125,7 @@ void	write_mbc1(struct gb_cpu_s* gb, uint16_t addr, uint8_t x)
 	{
 		if (!gb->ram_enabled)
 		{
-			dprintf(2, "warning: attempting to write to disabled RAM ar %x\n", addr);
+			dprintf(2, "warning: attempting to write to disabled RAM at %x\n", addr);
 			return ;
 		}
 		uint32_t index;
@@ -139,7 +139,7 @@ void	write_mbc1(struct gb_cpu_s* gb, uint16_t addr, uint8_t x)
 			return ;
 		}
 		else
-			((uint8_t*)(gb->ram))[index] = x;
+			((uint8_t*)(gb->extra_ram))[index] = x;
 		return;
 	}
 }
