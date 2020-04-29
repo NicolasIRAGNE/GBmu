@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 17:15:01 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/23 13:02:35 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/29 16:56:33 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	cpl(struct gb_cpu_s* gb)
 void	stop(struct gb_cpu_s* gb)
 {
 	(void)gb;
+	gb->halted = 1;
 	//TODO
 }
 

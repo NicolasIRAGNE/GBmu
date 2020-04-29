@@ -6,14 +6,14 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 13:08:59 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/29 16:27:36 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/29 20:37:16 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gb.h"
 
-# define HBLANK_TIME	(204 * 2) //204
-# define VBLANK_TIME	(456 * 2) //456
+# define HBLANK_TIME	(204 * 5) //204
+# define VBLANK_TIME	(456 * 5) //456
 # define OAM_TIME		(80)
 # define VRAM_TIME		(172)
 
@@ -21,24 +21,30 @@ void	gpu_tick(struct gb_cpu_s* gb)
 {
 	uint8_t stat = read_8(gb, STAT_OFFSET) | 0b10000000;
 	uint8_t lyc = read_8(gb, LYC_OFFSET);
-	gb->gpu.tick += gb->current_instruction->cycles;
+	static uint64_t last_cycle = 0;
+	static int lyc_requested = 0;
+	gb->gpu.tick += gb->cycle - last_cycle;
+	last_cycle = gb->cycle;
 	if (gb->gpu.mode == GPU_MODE_HBLANK)
 	{
 		if (gb->gpu.tick >= HBLANK_TIME)
 		{
-			gb->gpu.y_coord++;
-			gb->gpu.tick -= HBLANK_TIME;
-			gb->gpu.mode = GPU_MODE_OAM;
-		}
-		if (gb->gpu.y_coord == 144)
-		{
-			gb->gpu.mode = GPU_MODE_VBLANK;
-			uint8_t interrupt_requests = read_8(gb, IF_OFFSET);
-			write_8(gb, IF_OFFSET, interrupt_requests | INT_VBLANK_REQUEST);
-			if (stat & STAT_MODE_1_INT)
+			if (gb->gpu.y_coord == 144)
 			{
+				gb->gpu.mode = GPU_MODE_VBLANK;
 				uint8_t interrupt_requests = read_8(gb, IF_OFFSET);
-				write_8(gb, IF_OFFSET, interrupt_requests | INT_STAT_REQUEST);
+				write_8(gb, IF_OFFSET, interrupt_requests | INT_VBLANK_REQUEST);
+				if (stat & STAT_MODE_1_INT)
+				{
+					uint8_t interrupt_requests = read_8(gb, IF_OFFSET);
+					write_8(gb, IF_OFFSET, interrupt_requests | INT_STAT_REQUEST);
+				}
+			}
+			else
+			{
+				gb->gpu.y_coord++;
+				gb->gpu.tick -= HBLANK_TIME;
+				gb->gpu.mode = GPU_MODE_OAM;
 			}
 		}
 	}
@@ -53,8 +59,8 @@ void	gpu_tick(struct gb_cpu_s* gb)
 		if (gb->gpu.y_coord == 153)
 		{
 			gb->gpu.y_coord = 0;
-			uint8_t interrupt_requests = read_8(gb, IF_OFFSET);
-			write_8(gb, IF_OFFSET, interrupt_requests & ~INT_VBLANK_REQUEST);
+			// uint8_t interrupt_requests = read_8(gb, IF_OFFSET);
+			// write_8(gb, IF_OFFSET, interrupt_requests & ~INT_VBLANK_REQUEST);
 			gb->gpu.mode = GPU_MODE_OAM;
 			if (stat & STAT_MODE_2_INT)
 			{
@@ -89,15 +95,19 @@ void	gpu_tick(struct gb_cpu_s* gb)
 
 	if (gb->gpu.y_coord == lyc)
 	{
-		if (stat & STAT_LYC_INT)
+		if (stat & STAT_LYC_INT && !lyc_requested)
 		{
+			lyc_requested = 1;
 			uint8_t interrupt_requests = read_8(gb, IF_OFFSET);
 			write_8(gb, IF_OFFSET, interrupt_requests | INT_STAT_REQUEST);
 		}
 		stat |= STAT_LYC_FLAG;
 	}
 	else
+	{
 		stat &= ~STAT_LYC_FLAG;
+		lyc_requested = 0;
+	}
 	stat = (stat & 0b11111100) | gb->gpu.mode;
 	write_8(gb, STAT_OFFSET, stat);
 	write_8(gb, LY_OFFSET, gb->gpu.y_coord);
