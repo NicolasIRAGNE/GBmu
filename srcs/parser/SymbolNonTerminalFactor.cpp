@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/24 15:36:19 by ldedier           #+#    #+#             */
-/*   Updated: 2020/04/24 19:38:51 by ldedier          ###   ########.fr       */
+/*   Created: 2020/04/30 14:52:38 by ldedier            #+#    #+#            */
+/*   Updated: 2020/04/30 14:52:38 by ldedier           ###   ########.fr      */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,22 +24,15 @@ SymbolNonTerminalFactor::~SymbolNonTerminalFactor(void)
 
 int	SymbolNonTerminalFactor::traverse(ASTNode<int, DebuggerContext &> & ast, DebuggerContext & context) const
 {
-	if (ast.getChildren().size() == 1)
-		return ast.getChild(0)->getTraversed(context);
-	else if (ast.getChild(1)->getSymbol().getIdentifier() == "andor")
-		return ast.getChild(1)->getTraversed(context);
-	else if (ast.getChild(0)->getSymbol().getIdentifier() == "-")
-		return - ast.getChild(1)->getTraversed(context);
-	else if (ast.getChild(0)->getSymbol().getIdentifier() == "+")
-		return ast.getChild(1)->getTraversed(context);
-	else if (ast.getChild(0)->getSymbol().getIdentifier() == "*")
-		return ast.getChild(1)->getTraversed(context) + 0xdeadbeef; //TODO : return dereferenced getchild(1) 
+	static_cast<void>(ast);
+	static_cast<void>(context);
 	return (0);
 }
 
 void	SymbolNonTerminalFactor::computeProductions(AbstractGrammar<int, DebuggerContext &> & cfg)
 {
 	addProduction(cfg, {"integer"});
+	addProduction(cfg, {"variable"});
 	addProduction(cfg, {"(", "andor", ")"});
 	addProduction(cfg, {"*", "factor"});
 	addProduction(cfg, {"-", "factor"});

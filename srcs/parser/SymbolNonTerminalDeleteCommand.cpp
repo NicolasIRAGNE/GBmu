@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/24 19:16:33 by ldedier            #+#    #+#            */
-/*   Updated: 2020/04/24 19:16:33 by ldedier           ###   ########.fr      */
+/*   Created: 2020/04/30 14:52:38 by ldedier            #+#    #+#            */
+/*   Updated: 2020/04/30 14:52:38 by ldedier           ###   ########.fr      */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,5 @@ int	SymbolNonTerminalDeleteCommand::traverse(ASTNode<int, DebuggerContext &> & a
 
 void	SymbolNonTerminalDeleteCommand::computeProductions(AbstractGrammar<int, DebuggerContext &> & cfg)
 {
-	addProduction(cfg, {"delete"});
+	addProduction(cfg, {"delete", "integerlist"});
 }

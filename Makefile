@@ -5,8 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2020/04/24 15:36:19 by ldedier           #+#    #+#              #
-#    Updated: 2020/04/24 17:04:00 by ldedier          ###   ########.fr        #
+#    Created: 2020/04/30 14:52:38 by ldedier            #+#    #+#             #
+#    Updated: 2020/04/30 14:52:38 by ldedier           ###   ########.fr       #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,125 +19,209 @@ MKDIR			=	mkdir
 
 DEBUG ?= 0
 
-SRCDIR			=	srcs/parser/
+SRCDIR			=	srcs/parser
 OBJDIR			=	objs/
 BINDIR			=	./
-INCLUDESDIR		=	includes/parser/
+INCLUDESDIR		=	includes/parser
 
 INCLUDES		=	DebuggerGrammar.hpp \
-					SymbolTerminalGreater.hpp \
+					SymbolTerminalInterruptStat.hpp \
+					SymbolTerminalSet.hpp \
 					SymbolTerminalGreaterOrEqual.hpp \
-					SymbolTerminalLesser.hpp \
-					SymbolTerminalLesserOrEqual.hpp \
-					SymbolTerminalAnd.hpp \
-					SymbolTerminalOr.hpp \
-					SymbolTerminalBinaryAnd.hpp \
-					SymbolTerminalBinaryOr.hpp \
-					SymbolTerminalLeftShift.hpp \
 					SymbolTerminalRightShift.hpp \
-					SymbolTerminalNotEqual.hpp \
-					SymbolTerminalEqual.hpp \
-					SymbolTerminalMultiply.hpp \
-					SymbolTerminalDivide.hpp \
-					SymbolTerminalModulo.hpp \
-					SymbolTerminalMinus.hpp \
-					SymbolTerminalPlus.hpp \
-					SymbolTerminalDecimal.hpp \
-					SymbolTerminalHexadecimal.hpp \
-					SymbolTerminalOctal.hpp \
-					SymbolTerminalBinary.hpp \
-					SymbolTerminalOpenParenthesis.hpp \
-					SymbolTerminalClosedParenthesis.hpp \
-					SymbolTerminalHalfWordFormat.hpp \
-					SymbolTerminalWordFormat.hpp \
-					SymbolTerminalPrint.hpp \
-					SymbolTerminalStep.hpp \
-					SymbolTerminalNext.hpp \
-					SymbolTerminalBreakpoint.hpp \
-					SymbolTerminalDelete.hpp \
-					SymbolTerminalInfo.hpp \
+					SymbolTerminalRegisterAF.hpp \
+					SymbolTerminalOr.hpp \
+					SymbolTerminalLesserOrEqual.hpp \
+					SymbolTerminalInterruptVBlank.hpp \
 					SymbolTerminalRegisters.hpp \
+					SymbolTerminalRegisterHL.hpp \
+					SymbolTerminalExpansion.hpp \
+					SymbolTerminalNotEqual.hpp \
+					SymbolTerminalHelp.hpp \
 					SymbolTerminalQuit.hpp \
-					SymbolTerminalVerbose.hpp \
+					SymbolTerminalModulo.hpp \
+					SymbolTerminalBinaryAnd.hpp \
+					SymbolTerminalClosedParenthesis.hpp \
+					SymbolTerminalOpenParenthesis.hpp \
+					SymbolTerminalPlus.hpp \
+					SymbolTerminalMultiply.hpp \
+					SymbolTerminalMinus.hpp \
+					SymbolTerminalDivide.hpp \
+					SymbolTerminalNext.hpp \
+					SymbolTerminalProgramCounter.hpp \
+					SymbolTerminalPrint.hpp \
 					SymbolTerminalInteger.hpp \
-					SymbolNonTerminalCommand.hpp \
+					SymbolTerminalDivOffset.hpp \
+					SymbolTerminalAssign.hpp \
+					SymbolTerminalLesser.hpp \
+					SymbolTerminalGreater.hpp \
+					SymbolTerminalInfo.hpp \
+					SymbolTerminalRegisterBC.hpp \
+					SymbolTerminalEqual.hpp \
+					SymbolTerminalInterruptJoypad.hpp \
+					SymbolTerminalRegisterDE.hpp \
+					SymbolTerminalWatch.hpp \
+					SymbolTerminalInterruptTimer.hpp \
+					SymbolTerminalHalfWordFormat.hpp \
+					SymbolTerminalTodoOffset.hpp \
+					SymbolTerminalTimaOffset.hpp \
+					SymbolTerminalAnd.hpp \
+					SymbolTerminalBreakpoint.hpp \
+					SymbolTerminalStep.hpp \
+					SymbolTerminalVerbose.hpp \
+					SymbolTerminalInterruptSerial.hpp \
+					SymbolTerminalLeftShift.hpp \
+					SymbolTerminalRegisterA.hpp \
+					SymbolTerminalUnwatch.hpp \
+					SymbolTerminalRegisterC.hpp \
+					SymbolTerminalRegisterB.hpp \
+					SymbolTerminalRegisterE.hpp \
+					SymbolTerminalRegisterD.hpp \
+					SymbolTerminalRegisterF.hpp \
+					SymbolTerminalInstruction.hpp \
+					SymbolTerminalRegisterH.hpp \
+					SymbolTerminalStackPointer.hpp \
+					SymbolTerminalRegisterL.hpp \
+					SymbolTerminalOctal.hpp \
+					SymbolTerminalReadMode.hpp \
+					SymbolTerminalWriteMode.hpp \
+					SymbolTerminalHexadecimal.hpp \
+					SymbolTerminalBinaryOr.hpp \
+					SymbolTerminalDelete.hpp \
 					SymbolNonTerminalPrintCommand.hpp \
-					SymbolNonTerminalXCommand.hpp \
-					SymbolNonTerminalStepCommand.hpp \
-					SymbolNonTerminalNextCommand.hpp \
-					SymbolNonTerminalBreakpointCommand.hpp \
-					SymbolNonTerminalDeleteCommand.hpp \
-					SymbolNonTerminalInfoCommand.hpp \
-					SymbolNonTerminalRegistersCommand.hpp \
+					SymbolNonTerminalWatchMode.hpp \
 					SymbolNonTerminalQuitCommand.hpp \
 					SymbolNonTerminalVerboseCommand.hpp \
-					SymbolNonTerminalValue.hpp \
-					SymbolNonTerminalFormat.hpp \
+					SymbolNonTerminalRegistersCommand.hpp \
+					SymbolNonTerminalRegisterName.hpp \
 					SymbolNonTerminalXSuffix.hpp \
 					SymbolNonTerminalUnit.hpp \
-					SymbolNonTerminalAndOr.hpp \
+					SymbolNonTerminalIntegerList.hpp \
+					SymbolNonTerminalIoPort.hpp \
+					SymbolNonTerminalCommandName.hpp \
+					SymbolNonTerminalUnwatchCommand.hpp \
 					SymbolNonTerminalComparison.hpp \
-					SymbolNonTerminalExpr.hpp \
-					SymbolNonTerminalTerm.hpp \
 					SymbolNonTerminalFactor.hpp \
+					SymbolNonTerminalWatchModeList.hpp \
+					SymbolNonTerminalStepCommand.hpp \
+					SymbolNonTerminalFormat.hpp \
+					SymbolNonTerminalInfoCommand.hpp \
+					SymbolNonTerminalNextCommand.hpp \
+					SymbolNonTerminalXCommand.hpp \
+					SymbolNonTerminalVariable.hpp \
+					SymbolNonTerminalSetCommand.hpp \
+					SymbolNonTerminalHelpCommand.hpp \
+					SymbolNonTerminalAssignable.hpp \
+					SymbolNonTerminalTerm.hpp \
+					SymbolNonTerminalWatchCommand.hpp \
+					SymbolNonTerminalAndOr.hpp \
+					SymbolNonTerminalExpr.hpp \
+					SymbolNonTerminalValue.hpp \
+					SymbolNonTerminalAssignableList.hpp \
+					SymbolNonTerminalVector.hpp \
+					SymbolNonTerminalCommand.hpp \
+					SymbolNonTerminalDeleteCommand.hpp \
+					SymbolNonTerminalBreakpointCommand.hpp \
 					DebuggerContext.hpp \
 
 SRCS			=	DebuggerGrammar.cpp \
-					SymbolTerminalGreater.cpp \
+					SymbolTerminalInterruptStat.cpp \
+					SymbolTerminalSet.cpp \
 					SymbolTerminalGreaterOrEqual.cpp \
-					SymbolTerminalLesser.cpp \
-					SymbolTerminalLesserOrEqual.cpp \
-					SymbolTerminalAnd.cpp \
-					SymbolTerminalOr.cpp \
-					SymbolTerminalBinaryAnd.cpp \
-					SymbolTerminalBinaryOr.cpp \
-					SymbolTerminalLeftShift.cpp \
 					SymbolTerminalRightShift.cpp \
-					SymbolTerminalNotEqual.cpp \
-					SymbolTerminalEqual.cpp \
-					SymbolTerminalMultiply.cpp \
-					SymbolTerminalDivide.cpp \
-					SymbolTerminalModulo.cpp \
-					SymbolTerminalMinus.cpp \
-					SymbolTerminalPlus.cpp \
-					SymbolTerminalDecimal.cpp \
-					SymbolTerminalHexadecimal.cpp \
-					SymbolTerminalOctal.cpp \
-					SymbolTerminalBinary.cpp \
-					SymbolTerminalOpenParenthesis.cpp \
-					SymbolTerminalClosedParenthesis.cpp \
-					SymbolTerminalHalfWordFormat.cpp \
-					SymbolTerminalWordFormat.cpp \
-					SymbolTerminalPrint.cpp \
-					SymbolTerminalStep.cpp \
-					SymbolTerminalNext.cpp \
-					SymbolTerminalBreakpoint.cpp \
-					SymbolTerminalDelete.cpp \
-					SymbolTerminalInfo.cpp \
+					SymbolTerminalRegisterAF.cpp \
+					SymbolTerminalOr.cpp \
+					SymbolTerminalLesserOrEqual.cpp \
+					SymbolTerminalInterruptVBlank.cpp \
 					SymbolTerminalRegisters.cpp \
+					SymbolTerminalRegisterHL.cpp \
+					SymbolTerminalExpansion.cpp \
+					SymbolTerminalNotEqual.cpp \
+					SymbolTerminalHelp.cpp \
 					SymbolTerminalQuit.cpp \
-					SymbolTerminalVerbose.cpp \
+					SymbolTerminalModulo.cpp \
+					SymbolTerminalBinaryAnd.cpp \
+					SymbolTerminalClosedParenthesis.cpp \
+					SymbolTerminalOpenParenthesis.cpp \
+					SymbolTerminalPlus.cpp \
+					SymbolTerminalMultiply.cpp \
+					SymbolTerminalMinus.cpp \
+					SymbolTerminalDivide.cpp \
+					SymbolTerminalNext.cpp \
+					SymbolTerminalProgramCounter.cpp \
+					SymbolTerminalPrint.cpp \
 					SymbolTerminalInteger.cpp \
-					SymbolNonTerminalCommand.cpp \
+					SymbolTerminalDivOffset.cpp \
+					SymbolTerminalAssign.cpp \
+					SymbolTerminalLesser.cpp \
+					SymbolTerminalGreater.cpp \
+					SymbolTerminalInfo.cpp \
+					SymbolTerminalRegisterBC.cpp \
+					SymbolTerminalEqual.cpp \
+					SymbolTerminalInterruptJoypad.cpp \
+					SymbolTerminalRegisterDE.cpp \
+					SymbolTerminalWatch.cpp \
+					SymbolTerminalInterruptTimer.cpp \
+					SymbolTerminalHalfWordFormat.cpp \
+					SymbolTerminalTodoOffset.cpp \
+					SymbolTerminalTimaOffset.cpp \
+					SymbolTerminalAnd.cpp \
+					SymbolTerminalBreakpoint.cpp \
+					SymbolTerminalStep.cpp \
+					SymbolTerminalVerbose.cpp \
+					SymbolTerminalInterruptSerial.cpp \
+					SymbolTerminalLeftShift.cpp \
+					SymbolTerminalRegisterA.cpp \
+					SymbolTerminalUnwatch.cpp \
+					SymbolTerminalRegisterC.cpp \
+					SymbolTerminalRegisterB.cpp \
+					SymbolTerminalRegisterE.cpp \
+					SymbolTerminalRegisterD.cpp \
+					SymbolTerminalRegisterF.cpp \
+					SymbolTerminalInstruction.cpp \
+					SymbolTerminalRegisterH.cpp \
+					SymbolTerminalStackPointer.cpp \
+					SymbolTerminalRegisterL.cpp \
+					SymbolTerminalOctal.cpp \
+					SymbolTerminalReadMode.cpp \
+					SymbolTerminalWriteMode.cpp \
+					SymbolTerminalHexadecimal.cpp \
+					SymbolTerminalBinaryOr.cpp \
+					SymbolTerminalDelete.cpp \
 					SymbolNonTerminalPrintCommand.cpp \
-					SymbolNonTerminalXCommand.cpp \
-					SymbolNonTerminalStepCommand.cpp \
-					SymbolNonTerminalNextCommand.cpp \
-					SymbolNonTerminalBreakpointCommand.cpp \
-					SymbolNonTerminalDeleteCommand.cpp \
-					SymbolNonTerminalInfoCommand.cpp \
-					SymbolNonTerminalRegistersCommand.cpp \
+					SymbolNonTerminalWatchMode.cpp \
 					SymbolNonTerminalQuitCommand.cpp \
 					SymbolNonTerminalVerboseCommand.cpp \
-					SymbolNonTerminalValue.cpp \
-					SymbolNonTerminalFormat.cpp \
+					SymbolNonTerminalRegistersCommand.cpp \
+					SymbolNonTerminalRegisterName.cpp \
 					SymbolNonTerminalXSuffix.cpp \
 					SymbolNonTerminalUnit.cpp \
-					SymbolNonTerminalAndOr.cpp \
+					SymbolNonTerminalIntegerList.cpp \
+					SymbolNonTerminalIoPort.cpp \
+					SymbolNonTerminalCommandName.cpp \
+					SymbolNonTerminalUnwatchCommand.cpp \
 					SymbolNonTerminalComparison.cpp \
-					SymbolNonTerminalExpr.cpp \
-					SymbolNonTerminalTerm.cpp \
 					SymbolNonTerminalFactor.cpp \
+					SymbolNonTerminalWatchModeList.cpp \
+					SymbolNonTerminalStepCommand.cpp \
+					SymbolNonTerminalFormat.cpp \
+					SymbolNonTerminalInfoCommand.cpp \
+					SymbolNonTerminalNextCommand.cpp \
+					SymbolNonTerminalXCommand.cpp \
+					SymbolNonTerminalVariable.cpp \
+					SymbolNonTerminalSetCommand.cpp \
+					SymbolNonTerminalHelpCommand.cpp \
+					SymbolNonTerminalAssignable.cpp \
+					SymbolNonTerminalTerm.cpp \
+					SymbolNonTerminalWatchCommand.cpp \
+					SymbolNonTerminalAndOr.cpp \
+					SymbolNonTerminalExpr.cpp \
+					SymbolNonTerminalValue.cpp \
+					SymbolNonTerminalAssignableList.cpp \
+					SymbolNonTerminalVector.cpp \
+					SymbolNonTerminalCommand.cpp \
+					SymbolNonTerminalDeleteCommand.cpp \
+					SymbolNonTerminalBreakpointCommand.cpp \
 					main.cpp \
 					DebuggerContext.cpp \
 
@@ -145,17 +229,17 @@ VPATH				=	$(INCLUDESDIR) \
 					=	$(SRCDIR)
 
 OBJECTS			=	$(addprefix $(OBJDIR), $(SRCS:.cpp=.o))
-CFLAGS			=	-I $(INCLUDESDIR) -Wall -Wextra -Werror -I includes -I libyacc/includes
+CFLAGS			=	-I $(INCLUDESDIR) -Wall -Wextra -Werror -I libyacc/includes
 
 OK_COLOR			=	\x1b[32;01m
 EOC					=	\033[0m
 
 ifeq ($(DEBUG), 1)
 	CFLAGS += -fsanitize=address
-	\CC += -g3
+	CC += -g3
 endif
 
-all: $(NAME)
+all: $(BINDIR)$(NAME)
 
 debug:
 	@$(MAKE) all DEBUG=1
@@ -167,7 +251,7 @@ $(BINDIR)$(NAME): $(OBJDIR) $(OBJECTS)
 $(OBJDIR):
 	@$(MKDIR) $@
 
-$(OBJDIR)%.o: $(SRC_DIR)%.cpp $(INCLUDES)
+$(OBJDIR)%.o: %.cpp $(INCLUDES)
 	$(CC) -c $< -o $@ $(CFLAGS)
 
 clean:

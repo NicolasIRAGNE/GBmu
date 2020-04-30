@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/24 15:36:19 by ldedier            #+#    #+#            */
-/*   Updated: 2020/04/24 15:36:19 by ldedier           ###   ########.fr      */
+/*   Created: 2020/04/30 14:52:38 by ldedier            #+#    #+#            */
+/*   Updated: 2020/04/30 14:52:38 by ldedier           ###   ########.fr      */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,17 @@ int	SymbolNonTerminalCommandName::traverse(ASTNode<int, DebuggerContext &> & ast
 
 void	SymbolNonTerminalCommandName::computeProductions(AbstractGrammar<int, DebuggerContext &> & cfg)
 {
-	addProduction(cfg, {"variable"});
+	addProduction(cfg, {"print"});
+	addProduction(cfg, {"step"});
+	addProduction(cfg, {"next"});
+	addProduction(cfg, {"help"});
+	addProduction(cfg, {"breakpoint"});
+	addProduction(cfg, {"watch"});
+	addProduction(cfg, {"unwatch"});
+	addProduction(cfg, {"delete"});
+	addProduction(cfg, {"info"});
+	addProduction(cfg, {"registers"});
+	addProduction(cfg, {"quit"});
+	addProduction(cfg, {"verbose"});
+	addProduction(cfg, {"set"});
 }

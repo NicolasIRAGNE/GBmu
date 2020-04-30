@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/24 15:36:19 by ldedier           #+#    #+#             */
-/*   Updated: 2020/04/24 17:03:36 by ldedier          ###   ########.fr       */
+/*   Created: 2020/04/30 14:52:38 by ldedier            #+#    #+#            */
+/*   Updated: 2020/04/30 14:52:38 by ldedier           ###   ########.fr      */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,60 +16,102 @@
 DebuggerGrammar::DebuggerGrammar(void) : AbstractGrammar(new SymbolNonTerminalCommand(), true)
 {
 	addNonTerminal(new SymbolNonTerminalPrintCommand());
-	addNonTerminal(new SymbolNonTerminalXCommand());
-	addNonTerminal(new SymbolNonTerminalStepCommand());
-	addNonTerminal(new SymbolNonTerminalNextCommand());
-	addNonTerminal(new SymbolNonTerminalBreakpointCommand());
-	addNonTerminal(new SymbolNonTerminalDeleteCommand());
-	addNonTerminal(new SymbolNonTerminalInfoCommand());
-	addNonTerminal(new SymbolNonTerminalRegistersCommand());
+	addNonTerminal(new SymbolNonTerminalWatchMode());
 	addNonTerminal(new SymbolNonTerminalQuitCommand());
 	addNonTerminal(new SymbolNonTerminalVerboseCommand());
-	addNonTerminal(new SymbolNonTerminalValue());
-	addNonTerminal(new SymbolNonTerminalFormat());
+	addNonTerminal(new SymbolNonTerminalRegistersCommand());
+	addNonTerminal(new SymbolNonTerminalRegisterName());
 	addNonTerminal(new SymbolNonTerminalXSuffix());
 	addNonTerminal(new SymbolNonTerminalUnit());
-	addNonTerminal(new SymbolNonTerminalAndOr());
+	addNonTerminal(new SymbolNonTerminalIntegerList());
+	addNonTerminal(new SymbolNonTerminalIoPort());
+	addNonTerminal(new SymbolNonTerminalCommandName());
+	addNonTerminal(new SymbolNonTerminalUnwatchCommand());
 	addNonTerminal(new SymbolNonTerminalComparison());
-	addNonTerminal(new SymbolNonTerminalExpr());
-	addNonTerminal(new SymbolNonTerminalTerm());
 	addNonTerminal(new SymbolNonTerminalFactor());
+	addNonTerminal(new SymbolNonTerminalWatchModeList());
+	addNonTerminal(new SymbolNonTerminalStepCommand());
+	addNonTerminal(new SymbolNonTerminalFormat());
+	addNonTerminal(new SymbolNonTerminalInfoCommand());
+	addNonTerminal(new SymbolNonTerminalNextCommand());
+	addNonTerminal(new SymbolNonTerminalXCommand());
+	addNonTerminal(new SymbolNonTerminalVariable());
+	addNonTerminal(new SymbolNonTerminalSetCommand());
+	addNonTerminal(new SymbolNonTerminalHelpCommand());
+	addNonTerminal(new SymbolNonTerminalAssignable());
+	addNonTerminal(new SymbolNonTerminalTerm());
+	addNonTerminal(new SymbolNonTerminalWatchCommand());
+	addNonTerminal(new SymbolNonTerminalAndOr());
+	addNonTerminal(new SymbolNonTerminalExpr());
+	addNonTerminal(new SymbolNonTerminalValue());
+	addNonTerminal(new SymbolNonTerminalAssignableList());
+	addNonTerminal(new SymbolNonTerminalVector());
+	addNonTerminal(new SymbolNonTerminalDeleteCommand());
+	addNonTerminal(new SymbolNonTerminalBreakpointCommand());
 
-	addTerminal(new SymbolTerminalGreater());
+	addTerminal(new SymbolTerminalInterruptStat());
+	addTerminal(new SymbolTerminalSet());
 	addTerminal(new SymbolTerminalGreaterOrEqual());
-	addTerminal(new SymbolTerminalLesser());
-	addTerminal(new SymbolTerminalLesserOrEqual());
-	addTerminal(new SymbolTerminalAnd());
-	addTerminal(new SymbolTerminalOr());
-	addTerminal(new SymbolTerminalBinaryAnd());
-	addTerminal(new SymbolTerminalBinaryOr());
-	addTerminal(new SymbolTerminalLeftShift());
 	addTerminal(new SymbolTerminalRightShift());
-	addTerminal(new SymbolTerminalNotEqual());
-	addTerminal(new SymbolTerminalEqual());
-	addTerminal(new SymbolTerminalMultiply());
-	addTerminal(new SymbolTerminalDivide());
-	addTerminal(new SymbolTerminalModulo());
-	addTerminal(new SymbolTerminalMinus());
-	addTerminal(new SymbolTerminalPlus());
-	addTerminal(new SymbolTerminalDecimal());
-	addTerminal(new SymbolTerminalHexadecimal());
-	addTerminal(new SymbolTerminalOctal());
-	addTerminal(new SymbolTerminalBinary());
-	addTerminal(new SymbolTerminalOpenParenthesis());
-	addTerminal(new SymbolTerminalClosedParenthesis());
-	addTerminal(new SymbolTerminalHalfWordFormat());
-	addTerminal(new SymbolTerminalWordFormat());
-	addTerminal(new SymbolTerminalPrint());
-	addTerminal(new SymbolTerminalStep());
-	addTerminal(new SymbolTerminalNext());
-	addTerminal(new SymbolTerminalBreakpoint());
-	addTerminal(new SymbolTerminalDelete());
-	addTerminal(new SymbolTerminalInfo());
+	addTerminal(new SymbolTerminalRegisterAF());
+	addTerminal(new SymbolTerminalOr());
+	addTerminal(new SymbolTerminalLesserOrEqual());
+	addTerminal(new SymbolTerminalInterruptVBlank());
 	addTerminal(new SymbolTerminalRegisters());
+	addTerminal(new SymbolTerminalRegisterHL());
+	addTerminal(new SymbolTerminalExpansion());
+	addTerminal(new SymbolTerminalNotEqual());
+	addTerminal(new SymbolTerminalHelp());
 	addTerminal(new SymbolTerminalQuit());
-	addTerminal(new SymbolTerminalVerbose());
+	addTerminal(new SymbolTerminalModulo());
+	addTerminal(new SymbolTerminalBinaryAnd());
+	addTerminal(new SymbolTerminalClosedParenthesis());
+	addTerminal(new SymbolTerminalOpenParenthesis());
+	addTerminal(new SymbolTerminalPlus());
+	addTerminal(new SymbolTerminalMultiply());
+	addTerminal(new SymbolTerminalMinus());
+	addTerminal(new SymbolTerminalDivide());
+	addTerminal(new SymbolTerminalNext());
+	addTerminal(new SymbolTerminalProgramCounter());
+	addTerminal(new SymbolTerminalPrint());
 	addTerminal(new SymbolTerminalInteger());
+	addTerminal(new SymbolTerminalDivOffset());
+	addTerminal(new SymbolTerminalAssign());
+	addTerminal(new SymbolTerminalLesser());
+	addTerminal(new SymbolTerminalGreater());
+	addTerminal(new SymbolTerminalInfo());
+	addTerminal(new SymbolTerminalRegisterBC());
+	addTerminal(new SymbolTerminalEqual());
+	addTerminal(new SymbolTerminalInterruptJoypad());
+	addTerminal(new SymbolTerminalRegisterDE());
+	addTerminal(new SymbolTerminalWatch());
+	addTerminal(new SymbolTerminalInterruptTimer());
+	addTerminal(new SymbolTerminalHalfWordFormat());
+	addTerminal(new SymbolTerminalTodoOffset());
+	addTerminal(new SymbolTerminalTimaOffset());
+	addTerminal(new SymbolTerminalAnd());
+	addTerminal(new SymbolTerminalBreakpoint());
+	addTerminal(new SymbolTerminalStep());
+	addTerminal(new SymbolTerminalVerbose());
+	addTerminal(new SymbolTerminalInterruptSerial());
+	addTerminal(new SymbolTerminalLeftShift());
+	addTerminal(new SymbolTerminalRegisterA());
+	addTerminal(new SymbolTerminalUnwatch());
+	addTerminal(new SymbolTerminalRegisterC());
+	addTerminal(new SymbolTerminalRegisterB());
+	addTerminal(new SymbolTerminalRegisterE());
+	addTerminal(new SymbolTerminalRegisterD());
+	addTerminal(new SymbolTerminalRegisterF());
+	addTerminal(new SymbolTerminalInstruction());
+	addTerminal(new SymbolTerminalRegisterH());
+	addTerminal(new SymbolTerminalStackPointer());
+	addTerminal(new SymbolTerminalRegisterL());
+	addTerminal(new SymbolTerminalOctal());
+	addTerminal(new SymbolTerminalReadMode());
+	addTerminal(new SymbolTerminalWriteMode());
+	addTerminal(new SymbolTerminalHexadecimal());
+	addTerminal(new SymbolTerminalBinaryOr());
+	addTerminal(new SymbolTerminalDelete());
 
 	computeGrammar();
 }

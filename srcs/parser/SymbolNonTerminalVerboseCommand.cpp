@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/24 19:16:33 by ldedier            #+#    #+#            */
-/*   Updated: 2020/04/24 19:16:33 by ldedier           ###   ########.fr      */
+/*   Created: 2020/04/30 14:52:38 by ldedier            #+#    #+#            */
+/*   Updated: 2020/04/30 14:52:38 by ldedier           ###   ########.fr      */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,5 @@ int	SymbolNonTerminalVerboseCommand::traverse(ASTNode<int, DebuggerContext &> & 
 
 void	SymbolNonTerminalVerboseCommand::computeProductions(AbstractGrammar<int, DebuggerContext &> & cfg)
 {
-	addProduction(cfg, {"verbose"});
+	addProduction(cfg, {"verbose", "integer"});
 }

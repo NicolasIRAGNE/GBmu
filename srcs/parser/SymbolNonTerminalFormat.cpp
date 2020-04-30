@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/24 15:36:19 by ldedier           #+#    #+#             */
-/*   Updated: 2020/04/24 16:35:19 by ldedier          ###   ########.fr       */
+/*   Created: 2020/04/30 14:52:38 by ldedier            #+#    #+#            */
+/*   Updated: 2020/04/30 14:52:38 by ldedier           ###   ########.fr      */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,8 @@ SymbolNonTerminalFormat::~SymbolNonTerminalFormat(void)
 
 int	SymbolNonTerminalFormat::traverse(ASTNode<int, DebuggerContext &> & ast, DebuggerContext & context) const
 {
-	if (ast.getChild(0)->getSymbol().getIdentifier() == "d")
-		context.format = DebuggerContext::E_DEBUGGER_FORMAT_DECIMAL;
-	else if (ast.getChild(0)->getSymbol().getIdentifier() == "x")
-		context.format = DebuggerContext::E_DEBUGGER_FORMAT_HEXADECIMAL;
-	else if (ast.getChild(0)->getSymbol().getIdentifier() == "o")
-		context.format = DebuggerContext::E_DEBUGGER_FORMAT_OCTAL;
-	else if (ast.getChild(0)->getSymbol().getIdentifier() == "b")
-		context.format = DebuggerContext::E_DEBUGGER_FORMAT_BINARY;
+	static_cast<void>(ast);
+	static_cast<void>(context);
 	return (0);
 }
 
@@ -41,4 +35,5 @@ void	SymbolNonTerminalFormat::computeProductions(AbstractGrammar<int, DebuggerCo
 	addProduction(cfg, {"x"});
 	addProduction(cfg, {"o"});
 	addProduction(cfg, {"b"});
+	addProduction(cfg, {"i"});
 }
