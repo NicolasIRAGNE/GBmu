@@ -6,13 +6,14 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/23 16:49:30 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/28 23:19:38 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/30 11:07:03 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #define _GNU_SOURCE
 #include "gb.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 #define TMP_SAVE_FILE "tmp.sav"
 
@@ -31,6 +32,7 @@ int		save_game(struct gb_cpu_s* gb)
 	}
 	write(fd, gb->extra_ram, gb->mbc.ram_size);
 	close(fd);
+	free(save_file);
 	return(0);
 }
 
@@ -58,5 +60,6 @@ int		load_game(struct gb_cpu_s* gb)
 		fprintf(stderr, "warning: read %d bytes from save data (expected %d). file may be corrupted.\n", rd, gb->mbc.ram_size);
 	}
 	close(fd);
+	free(save_file);
 	return(0);
 }

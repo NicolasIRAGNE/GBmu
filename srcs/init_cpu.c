@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:30:05 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/29 15:51:18 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/30 11:05:24 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int		init_boot_rom(struct gb_cpu_s* gb)
 		perror("fatal: could read from "BOOT_ROM);
 		return (1);
 	}
-
 	if (rd != BOOT_ROM_SIZE)
 		fprintf(stderr, "WARNING : read %d bytes from boot rom (expected %d). boot behavior is unexpected.\n", rd, BOOT_ROM_SIZE);
 	close(fd);

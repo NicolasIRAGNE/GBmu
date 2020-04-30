@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 11:37:03 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/29 14:45:34 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/30 11:05:57 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,19 @@ int		open_rom(char* name, struct rom_s* rom)
 		return (fd);
 	}
 	
-	void* ptr = mmap(NULL, rom->st.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
-	if (!ptr)
+	uint8_t* buf = malloc(rom->st.st_size);
+	if (!buf)
 	{
-		perror("mmap");
+		perror("malloc");
 		return (1);
 	}
-	rom->ptr = ptr;
-
+	int rd = read(fd, buf, rom->st.st_size);
+	if (rd < 0 || rd != rom->st.st_size)
+	{
+		perror(name);
+		return (1);
+	}
+	rom->ptr = buf;
 	return (0);
 }
 
@@ -97,11 +102,14 @@ int		main(int ac, char** av)
 	load_game(&gb);
 	signal(SIGINT, sigint_handler);
 
-
 	void*	renderer = new_renderer(&gb);
 	renderer_init(renderer);
 	execute_loop(&(struct gbmu_wrapper_s){&gb, &vram_viewer_context, &main_window_context}, renderer);
 	delete_renderer(renderer);
 	destroy_context(&main_window_context);
+	if (gb.mbc.ram_size > 0)
+		save_game(&gb);
+	free(rom.ptr);
+	free(gb.extra_ram);
 	return (0);
 }
