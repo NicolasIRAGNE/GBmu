@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 11:37:03 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/30 11:05:57 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/30 12:03:28 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,11 @@ int		main(int ac, char** av)
 	
 	if (init_sdl())
 		return (1);
-	if (init_vram_viewer(&vram_viewer_context))
-		return (1);
+ #ifndef __SANITIZE_ADDRESS__
+	atexit(SDL_Quit);
+ #endif
+	// if (init_vram_viewer(&vram_viewer_context))
+		// return (1);
 	if (init_main_window(&main_window_context))
 		return (1);
 	load_game(&gb);
@@ -106,10 +109,12 @@ int		main(int ac, char** av)
 	renderer_init(renderer);
 	execute_loop(&(struct gbmu_wrapper_s){&gb, &vram_viewer_context, &main_window_context}, renderer);
 	delete_renderer(renderer);
-	destroy_context(&main_window_context);
 	if (gb.mbc.ram_size > 0)
 		save_game(&gb);
 	free(rom.ptr);
 	free(gb.extra_ram);
+
+	destroy_context(&main_window_context);
+	// SDL_Quit();
 	return (0);
 }

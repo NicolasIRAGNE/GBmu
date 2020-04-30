@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 11:56:05 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/27 21:00:15 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/30 12:01:03 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,10 @@ int     init_vram_viewer(struct sdl_context_s* context)
 
 int     init_main_window(struct sdl_context_s* context)
 {
-	if (SDL_CreateWindowAndRenderer(MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE, &(context->win), &(context->renderer)))
+	context->win = SDL_CreateWindow("GBmu", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT, SDL_WINDOW_OPENGL);
+	if (!context->win)
 	{
-		fprintf(stderr, "failed to initialize create window or renderer (%s)\n", SDL_GetError());
+		fprintf(stderr, "failed to initialize create window (%s)\n", SDL_GetError());
 		return (1);
 	}
 	context->glcontext = SDL_GL_CreateContext(context->win);
@@ -80,5 +81,7 @@ int     init_main_window(struct sdl_context_s* context)
 
 void	destroy_context(struct sdl_context_s* context)
 {
+	if (context->controller)
+		SDL_GameControllerClose(context->controller);
 	SDL_GL_DeleteContext(context->glcontext);
 }
