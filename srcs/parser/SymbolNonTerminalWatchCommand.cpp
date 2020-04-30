@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/30 14:52:38 by ldedier            #+#    #+#            */
-/*   Updated: 2020/04/30 14:52:38 by ldedier           ###   ########.fr      */
+/*   Created: 2020/04/30 16:25:25 by ldedier            #+#    #+#            */
+/*   Updated: 2020/04/30 16:25:25 by ldedier           ###   ########.fr      */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int	SymbolNonTerminalWatchCommand::traverse(ASTNode<int, DebuggerContext &> & as
 
 void	SymbolNonTerminalWatchCommand::computeProductions(AbstractGrammar<int, DebuggerContext &> & cfg)
 {
-	addProduction(cfg, {"watch", "assignablelist", "watchmode"});
-	addProduction(cfg, {"watch", "assignablelist"});
+	addProduction(cfg, {"watch", "assignable", "watchmodelist"});
 	addProduction(cfg, {"watch"});
 }

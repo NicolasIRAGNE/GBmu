@@ -5,24 +5,24 @@
 #                                                     +:+ +:+         +:+      #
 #    By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2020/04/30 14:52:38 by ldedier            #+#    #+#             #
-#    Updated: 2020/04/30 14:52:38 by ldedier           ###   ########.fr       #
+#    Created: 2020/04/30 16:25:25 by ldedier            #+#    #+#             #
+#    Updated: 2020/04/30 16:25:25 by ldedier           ###   ########.fr       #
 #                                                                              #
 # **************************************************************************** #
 
 NAME			=	debuggerTest
 
-CC				=	g++ -std=c++11
+CC				=	g++ -std=c++11 -O3
 
 ECHO			=	echo
 MKDIR			=	mkdir
 
 DEBUG ?= 0
 
-SRCDIR			=	srcs/parser
+SRCDIR			=	srcs/parser/
 OBJDIR			=	objs/
 BINDIR			=	./
-INCLUDESDIR		=	includes/parser
+INCLUDESDIR		=	includes/parser/
 
 INCLUDES		=	DebuggerGrammar.hpp \
 					SymbolTerminalInterruptStat.hpp \
@@ -117,7 +117,6 @@ INCLUDES		=	DebuggerGrammar.hpp \
 					SymbolNonTerminalAndOr.hpp \
 					SymbolNonTerminalExpr.hpp \
 					SymbolNonTerminalValue.hpp \
-					SymbolNonTerminalAssignableList.hpp \
 					SymbolNonTerminalVector.hpp \
 					SymbolNonTerminalCommand.hpp \
 					SymbolNonTerminalDeleteCommand.hpp \
@@ -217,7 +216,6 @@ SRCS			=	DebuggerGrammar.cpp \
 					SymbolNonTerminalAndOr.cpp \
 					SymbolNonTerminalExpr.cpp \
 					SymbolNonTerminalValue.cpp \
-					SymbolNonTerminalAssignableList.cpp \
 					SymbolNonTerminalVector.cpp \
 					SymbolNonTerminalCommand.cpp \
 					SymbolNonTerminalDeleteCommand.cpp \
@@ -239,7 +237,7 @@ ifeq ($(DEBUG), 1)
 	CC += -g3
 endif
 
-all: $(BINDIR)$(NAME)
+all: $(NAME)
 
 debug:
 	@$(MAKE) all DEBUG=1
@@ -251,7 +249,7 @@ $(BINDIR)$(NAME): $(OBJDIR) $(OBJECTS)
 $(OBJDIR):
 	@$(MKDIR) $@
 
-$(OBJDIR)%.o: %.cpp $(INCLUDES)
+$(OBJDIR)%.o: $(SRCDIR)%.cpp $(INCLUDES)
 	$(CC) -c $< -o $@ $(CFLAGS)
 
 clean:

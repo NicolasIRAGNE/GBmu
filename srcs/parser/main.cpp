@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/30 14:52:38 by ldedier            #+#    #+#            */
-/*   Updated: 2020/04/30 14:52:38 by ldedier           ###   ########.fr      */
+/*   Created: 2020/04/30 16:25:25 by ldedier            #+#    #+#            */
+/*   Updated: 2020/04/30 16:25:25 by ldedier           ###   ########.fr      */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,26 +21,30 @@ int main(void)
 	DebuggerContext context;
 
 	grammar.debug(false);
-	try
+	while (1)
 	{
-		tokens = grammar.lex(true, std::cin);
-		printTokenQueue(tokens);
-		ASTBuilder<int, DebuggerContext &>*b = parser.parse(tokens);
-		int res = b->getASTRoot()->getTraversed(context);
-		std::cout << *b << std::endl;
-		std::cout << "result: " << res << std::endl;
-		delete b;
-		deleteTokens(tokens);
-	}
-	catch (const LRActionError<int, DebuggerContext &>::SyntaxErrorException &e)
-	{
-		deleteTokens(tokens);
-		std::cerr << std::endl << e.what() << std::endl;
-	}
-	catch (const AbstractGrammar<int, DebuggerContext &>::LexicalErrorException &e)
-	{
-		deleteTokens(tokens);
-		std::cerr << e.what() << std::endl;
+		try
+		{
+			getchar();
+			tokens = grammar.lex(true, std::cin);
+			printTokenQueue(tokens);
+			ASTBuilder<int, DebuggerContext &>*b = parser.parse(tokens);
+			int res = b->getASTRoot()->getTraversed(context);
+			std::cout << *b << std::endl;
+			std::cout << "result: " << res << std::endl;
+			delete b;
+			deleteTokens(tokens);
+		}
+		catch (const LRActionError<int, DebuggerContext &>::SyntaxErrorException &e)
+		{
+			deleteTokens(tokens);
+			std::cerr << std::endl << e.what() << std::endl;
+		}
+		catch (const AbstractGrammar<int, DebuggerContext &>::LexicalErrorException &e)
+		{
+			deleteTokens(tokens);
+			std::cerr << e.what() << std::endl;
+		}
 	}
 	return (0);
 }

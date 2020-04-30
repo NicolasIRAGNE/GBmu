@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/30 14:52:38 by ldedier            #+#    #+#            */
-/*   Updated: 2020/04/30 14:52:38 by ldedier           ###   ########.fr      */
+/*   Created: 2020/04/30 16:25:25 by ldedier            #+#    #+#            */
+/*   Updated: 2020/04/30 16:25:25 by ldedier           ###   ########.fr      */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,4 @@ int	SymbolNonTerminalSetCommand::traverse(ASTNode<int, DebuggerContext &> & ast,
 void	SymbolNonTerminalSetCommand::computeProductions(AbstractGrammar<int, DebuggerContext &> & cfg)
 {
 	addProduction(cfg, {"set", "assignable", "=", "andor"});
-	addProduction(cfg, {"set", "assignable", "andor"});
 }
