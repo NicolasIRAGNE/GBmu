@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:26 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/29 20:12:40 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/30 11:00:41 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,9 +99,7 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 			SDL_GL_SwapWindow(wrapper->main_context->win);
 		}
 	}
-	if (gb->mbc.ram_size > 0)
-		save_game(gb);
-	free(gb->extra_ram);
+
 }
 
 // void*	execute_thread_entry(void* user_data)

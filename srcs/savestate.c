@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/28 13:23:51 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/28 23:21:43 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/30 11:07:09 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "gb.h"
 #include <stdio.h>
 #include <SDL.h>
+#include <stdlib.h>
 
 void	check_savestate(struct gb_cpu_s* gb, const Uint8* state, SDL_Event event)
 {
@@ -58,6 +59,7 @@ int		savestate(struct gb_cpu_s* gb, int number)
 	write(fd, gb, sizeof(*gb));
 	write(fd, gb->extra_ram, gb->mbc.ram_size);
 	close(fd);
+	free(save_file);
 	return(0);
 }
 
@@ -110,5 +112,6 @@ int		loadstate(struct gb_cpu_s* gb, int number)
 	gb->vram_updated = 1;
 	update_current_instruction(gb);
 	close(fd);
+	free(save_file);
 	return(0);
 }
