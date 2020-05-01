@@ -72,7 +72,6 @@ INCLUDES		=	DebuggerGrammar.hpp \
 					SymbolTerminalInterruptSerial.hpp \
 					SymbolTerminalLeftShift.hpp \
 					SymbolTerminalRegisterA.hpp \
-					SymbolTerminalDecimal.hpp \
 					SymbolTerminalUnwatch.hpp \
 					SymbolTerminalRegisterC.hpp \
 					SymbolTerminalRegisterB.hpp \
@@ -182,7 +181,6 @@ SRCS			=	DebuggerGrammar.cpp \
 					SymbolTerminalRegisterF.cpp \
 					SymbolTerminalInstruction.cpp \
 					SymbolTerminalRegisterH.cpp \
-					SymbolTerminalDecimal.cpp \
 					SymbolTerminalStackPointer.cpp \
 					SymbolTerminalRegisterL.cpp \
 					SymbolTerminalOctal.cpp \
