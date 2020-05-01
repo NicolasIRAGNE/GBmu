@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:26 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/01 15:27:06 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/01 15:05:46 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 	uint64_t last_sleep = 0;
 	struct gb_cpu_s* gb = wrapper->gb;
 	uint8_t last_line = 0;
+	uint8_t	last_line_drawn = 0;
 
 	while(gb->running)
 	{
@@ -84,20 +85,19 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 			err = handle_instruction(gb);
 		if (err)
 			gb->paused = 1;
-		if (gb->cycle - last_sleep >= 204)
+		if (gb->vram_updated && last_line_drawn != gb->gpu.y_coord)
 		{
-			last_sleep = gb->cycle;
-			// usleep(1);
-			if (gb->gpu.y_coord != last_line)
-				renderer_render(renderer, gb->gpu.y_coord, gb->gpu.y_coord);
-			last_line = gb->gpu.y_coord;
+			renderer_render(renderer, last_line_drawn, gb->gpu.y_coord);
+			last_line_drawn = gb->gpu.y_coord;
 		}
+		last_line = gb->gpu.y_coord;
 		gpu_tick(gb);
 		if (wrapper->gb->gpu.y_coord == 144 && last_line != 144)
 		{
+			renderer_render(renderer, last_line_drawn, gb->gpu.y_coord);
 			main_window_loop(wrapper);
 			SDL_GL_SwapWindow(wrapper->main_context->win);
-			last_line = 0;
+			last_line_drawn = 0;
 		}
 	}
 

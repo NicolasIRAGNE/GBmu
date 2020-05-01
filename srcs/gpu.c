@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 13:08:59 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/01 15:43:08 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/01 15:08:23 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 # define HBLANK_TIME	(204 * 5) //204
 # define VBLANK_TIME	(456 * 5) //456
-# define OAM_TIME		(80)
-# define VRAM_TIME		(172)
+# define OAM_TIME		(80 * 4)
+# define VRAM_TIME		(172 * 4)
 
 void	gpu_tick(struct gb_cpu_s* gb)
 {

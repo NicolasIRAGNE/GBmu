@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 18:10:17 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/29 18:25:46 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/01 14:57:55 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,4 +176,5 @@ void	process_dma_transfer(struct gb_cpu_s* gb, uint8_t a8)
 		write_8(gb, 0xFE00 | i, x);
 		i++;
 	}
+	gb->vram_updated = 1;
 }
