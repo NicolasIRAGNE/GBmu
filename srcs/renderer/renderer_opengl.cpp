@@ -61,9 +61,7 @@ int Renderer::Destroy()
     return 0;
 }
 
-int Renderer::Render() {
-    // glClear(GL_COLOR_BUFFER_BIT);
-
+int Renderer::Render(int firstLine, int lastLine) {
 	if (m_Gb->vram_updated) {
 		m_Gb->vram_updated = 0;
 		UpdateVram();
@@ -71,14 +69,14 @@ int Renderer::Render() {
 
     glBindTexture(GL_TEXTURE_2D, m_Texture);
 
-    m_Background.Draw();
+    m_Background.Draw(firstLine, lastLine);
 
     uint8_t lcdc = (read_8(m_Gb, LCDC_OFFSET));
     if (lcdc & LCDC_WINDOW_ON) {
-        m_Menu.Draw();
+        m_Menu.Draw(firstLine, lastLine);
     }
 
-    m_Sprites.Draw();
+    m_Sprites.Draw(firstLine, lastLine);
 
     glBindTexture(GL_TEXTURE_2D, m_Texture);
 

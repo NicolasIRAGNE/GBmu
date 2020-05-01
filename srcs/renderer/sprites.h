@@ -1,8 +1,6 @@
 #pragma once
 
-#include <stdint.h>
 #define GL_GLEXT_PROTOTYPES
-
 #include <GL/gl.h>
 #include <GL/glu.h>
 
@@ -18,12 +16,12 @@ public:
     int Init();
     int Destroy();
 
-    int Draw();
+    int Draw(int firstLine, int lastLine);
 
 private:
-    int UpdateVertex();
+    int UpdateVertex(int firstLine, int lastLine);
     void FillData(float* data, int x1, int y1, int x2, int y2, int tile, int attr);
-	void FillPosInTile(float* data, int y, uint8_t attr);
+	void FillPosInTile(float* data, int posInTileY1, int posInTileY2, uint8_t attr);
     void UpdateColors();
 
 private:

@@ -1,17 +1,11 @@
 #include "background.h"
 
+#include <cstring>
+
 #include "gl_utils/compile_program.h"
 
 extern "C" {
 #include "gb.h"
-}
-#include <cstring>
-
-static void checkGlError() {
-    GLenum aaa = glGetError();
-    if (aaa != GL_NO_ERROR) {
-        printf("%#x\n", aaa);
-    }
 }
 
 namespace GBMU {
@@ -36,18 +30,18 @@ int Background::Init()
 
     glBindAttribLocation(m_Program, 0, "inVertex");
 
-    float quad[] = {
+    constexpr float quad[] = {
         -1.f, -1.f,
-        -1.f, -1.f + 2.f / 144.f,
+        -1.f,  1.f,
          1.f, -1.f,
-         1.f, -1.f + 2.f / 144.f,
+         1.f,  1.f,
     };
 
     glGenVertexArrays(1, &m_Vao);
     glBindVertexArray(m_Vao);
     glGenBuffers(1, &m_Vbo);
     glBindBuffer(GL_ARRAY_BUFFER, m_Vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(quad), quad, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(quad), quad, GL_STREAM_DRAW);
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
     glEnableVertexAttribArray(0);
@@ -59,7 +53,6 @@ int Background::Init()
     m_ScyLoc    = glGetUniformLocation(m_Program, "scy");
     m_LcdcLoc   = glGetUniformLocation(m_Program, "lcdc");
     m_ColorsLoc = glGetUniformLocation(m_Program, "colors");
-    m_LineLoc	= glGetUniformLocation(m_Program, "line");
 
     return 0;
 }
@@ -73,8 +66,9 @@ int Background::Destroy()
     return 0;
 }
 
-int Background::Draw()
+int Background::Draw(int firstLine, int lastLine)
 {
+    UpdateVertex(firstLine, lastLine);
     UpdateColors();
 
     glUseProgram(m_Program);
@@ -85,7 +79,6 @@ int Background::Draw()
     glUniform1ui(m_ScxLoc, scx);
     glUniform1ui(m_ScyLoc, scy);
     glUniform1ui(m_LcdcLoc, lcdc);
-    glUniform1ui(m_LineLoc, m_Gb->gpu.y_coord);
 
     glUseProgram(0);
 
@@ -100,6 +93,25 @@ int Background::Draw()
     glUseProgram(0);
 
     return 0;
+}
+
+void Background::UpdateVertex(int firstLine, int lastLine)
+{
+    float y1 = static_cast<float>(firstLine) / 144.f * 2.f - 1.f;
+    float y2 = static_cast<float>(lastLine + 1) / 144.f * 2.f - 1.f;
+    y1 *= -1.f;
+    y2 *= -1.f;
+
+    float quad[] = {
+        -1.f, y1,
+        -1.f, y2,
+         1.f, y1,
+         1.f, y2,
+    };
+
+    glBindBuffer(GL_ARRAY_BUFFER, m_Vbo);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(quad), quad);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 void Background::UpdateColors()

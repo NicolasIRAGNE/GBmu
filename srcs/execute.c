@@ -89,7 +89,7 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 			last_sleep = gb->cycle;
 			// usleep(1);
 			if (gb->gpu.y_coord != last_line)
-				renderer_render(renderer);
+				renderer_render(renderer, gb->gpu.y_coord, gb->gpu.y_coord);
 			last_line = gb->gpu.y_coord;
 		}
 		gpu_tick(gb);
