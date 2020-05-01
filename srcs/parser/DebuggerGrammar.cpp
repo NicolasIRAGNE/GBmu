@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/01 17:03:31 by ldedier            #+#    #+#            */
-/*   Updated: 2020/05/01 17:03:31 by ldedier           ###   ########.fr      */
+/*   Created: 2020/05/01 17:03:31 by ldedier           #+#    #+#             */
+/*   Updated: 2020/05/01 18:42:47 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,4 +130,85 @@ DebuggerGrammar & DebuggerGrammar::operator=(DebuggerGrammar const &rhs)
 {
 	static_cast<void>(rhs);
 	return *this;
+}
+
+bool DebuggerGrammar::treatTerminalEligibility(std::string current, AbstractTerminal<int, DebuggerContext &> **terminal)
+{
+	typename std::vector<AbstractTerminal<int, DebuggerContext &> *>::iterator it = _tokens.begin();
+	bool res = false;
+	while (it != _tokens.end())
+	{
+		// std::cout << *(*it) << std::endl;
+		if ((*it)->staysEligibleForCurrent(current))
+			res = true;
+		if ((*it)->isEligibleForCurrent(current))
+			*terminal = *it;
+		it++;
+	}
+	return res;
+}
+
+std::deque<Token<int, DebuggerContext &> *> DebuggerGrammar::innerLex(bool stopAtNewline, std::istream & istream)
+{
+	std::deque<Token<int, DebuggerContext &> *>	res;
+	int							pos;
+	int							endPos;
+	std::string					current;
+	AbstractTerminal<int, DebuggerContext &>	*terminal;
+	Token <int, DebuggerContext &>				*token;
+	char						c;
+
+	while (!istream.eof())
+	{
+		current.clear();
+		terminal = nullptr;
+		pos = 0;
+		endPos = 0;		
+		while (!istream.eof())
+		{
+			if ((c = istream.peek()) != EOF && ( c != '\n' || !stopAtNewline))
+			{
+				current += c;
+				if (!treatTerminalEligibility(current, &terminal))
+				{
+					if (terminal)
+					{
+						token = terminal->createToken(current.substr(0, endPos - pos));
+						res.push_back(token);
+						break;
+					}
+					else if (isblank(c) && _blankAsDelimiters)
+					{
+						istream.get();
+						break;
+					}
+					else
+					{
+						deleteTokens(res);
+						throw AbstractGrammar<int, DebuggerContext &>::LexicalErrorException(current);
+					}
+				}
+				else
+				{
+					endPos++;
+					istream.get();
+				}
+			}
+			else
+			{
+				if (terminal)
+				{
+					token = terminal->createToken(current.substr(0, endPos - pos));
+					res.push_back(token);
+				}
+				else if (current != "")
+				{
+					deleteTokens(res);
+					throw AbstractGrammar<int, DebuggerContext &>::LexicalErrorException(current);
+				}
+				return res;
+			}
+		}
+	}
+	return (res);
 }
