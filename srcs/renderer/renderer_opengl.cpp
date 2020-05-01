@@ -76,7 +76,7 @@ int Renderer::Render(int firstLine, int lastLine) {
         m_Menu.Draw(firstLine, lastLine);
     }
 
-    m_Sprites.Draw();
+    m_Sprites.Draw(firstLine, lastLine);
 
     glBindTexture(GL_TEXTURE_2D, m_Texture);
 

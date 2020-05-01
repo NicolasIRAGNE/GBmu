@@ -1,8 +1,9 @@
 #include "sprites.h"
 
-#include "gl_utils/compile_program.h"
-
 #include <cstring>
+#include <algorithm>
+
+#include "gl_utils/compile_program.h"
 
 extern "C" {
 #include "gb.h"
@@ -60,11 +61,14 @@ int Sprites::Destroy()
     return 0;
 }
 
-int Sprites::Draw()
+int Sprites::Draw(int firstLine, int lastLine)
 {
     UpdateColors();
 
-    int nbQuad = UpdateVertex();
+    int nbQuad = UpdateVertex(firstLine, lastLine);
+    if (nbQuad == 0) {
+        return 0;
+    }
 
     glUseProgram(m_Program);
     glBindVertexArray(m_Vao);
@@ -79,13 +83,12 @@ int Sprites::Draw()
     return 0;
 }
 
-int Sprites::UpdateVertex()
+int Sprites::UpdateVertex(int firstLine, int lastLine)
 {
     float data[OAM_SIZE * 2 * 6 * 4];
     float posInTile[OAM_SIZE * 2 * 6 * 2];
 
     uint8_t lcdc = (read_8(m_Gb, LCDC_OFFSET));
-    int line = m_Gb->gpu.y_coord;
 
     int dataIndex = 0;
     int posInTileIndex = 0;
@@ -96,39 +99,52 @@ int Sprites::UpdateVertex()
         uint8_t tile = m_Gb->oam[i + 2];
         uint8_t attr = m_Gb->oam[i + 3];
 
-        if (!((line >= y - 16 && line < y - 8) || ((lcdc & LCDC_SPRITE_SIZE) && line >= y - 8 && line < y))) {
-            continue;
+        if (lastLine >= y - 16 && firstLine < y - 8) {
+            int x1 = x - 8;
+            int y1 = std::max(firstLine, y - 16);
+
+            int x2 = x;
+            int y2 = std::min(lastLine + 1, y - 8);
+
+            int posInTileY1 = (y1 - (y - 16));
+            int posInTileY2 = (y2 - (y - 16));
+
+            uint8_t usedTile = tile;
+            if ((lcdc & LCDC_SPRITE_SIZE) && (attr & ATTR_Y_FLIP)) {
+                usedTile += 1;
+            }
+
+            FillData(data + dataIndex, x1, y1, x2, y2, usedTile, attr);
+            dataIndex += 24;
+            FillPosInTile(posInTile + posInTileIndex, posInTileY1, posInTileY2, attr);
+            posInTileIndex += 12;
         }
 
-        int x1 = x - 8;
-        int y1 = line;
+        if ((lcdc & LCDC_SPRITE_SIZE) && lastLine >= y - 8 && firstLine < y) {
+            int x1 = x - 8;
+            int y1 = std::max(firstLine, y - 8);
 
-        int x2 = x;
-        int y2 = line + 1;
+            int x2 = x;
+            int y2 = std::min(lastLine, y) + 1;
 
-        int posInTileY = (line - y + 16) % 8;
+            int posInTileY1 = (y1 - (y - 8));
+            int posInTileY2 = (y2 - (y - 8));
 
-        if (attr & ATTR_X_FLIP) {
-            std::swap(x1, x2);
+            uint8_t usedTile = tile;
+            if ((lcdc & LCDC_SPRITE_SIZE) && !(attr & ATTR_Y_FLIP)) {
+                usedTile += 1;
+            }
+
+            FillData(data + dataIndex, x1, y1, x2, y2, usedTile, attr);
+            dataIndex += 24;
+            FillPosInTile(posInTile + posInTileIndex, posInTileY1, posInTileY2, attr);
+            posInTileIndex += 12;
         }
-
-        if (attr & ATTR_Y_FLIP) {
-            posInTileY = 7 - posInTileY;
-        }
-
-        if ((lcdc & LCDC_SPRITE_SIZE) && ((line < y - 8 && (attr & ATTR_Y_FLIP)) || (line >= y - 8 && !(attr & ATTR_Y_FLIP)))) {
-            tile += 1;
-        }
-
-        FillData(data + dataIndex, x1, y1, x2, y2, tile, attr);
-        dataIndex += 24;
-        FillPosInTile(posInTile + posInTileIndex, posInTileY, attr);
-        posInTileIndex += 12;
     }
 
     glBindBuffer(GL_ARRAY_BUFFER, m_Vbo);
-    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(data), data);
-    glBufferSubData(GL_ARRAY_BUFFER, sizeof(data), sizeof(posInTile), posInTile);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, dataIndex * sizeof(float), data);
+    glBufferSubData(GL_ARRAY_BUFFER, sizeof(data), posInTileIndex * sizeof(float), posInTile);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     return dataIndex / 24;
@@ -152,16 +168,29 @@ void Sprites::FillData(float* data, int x1, int y1, int x2, int y2, int tile, in
     data[20] = x2f; data[21] = y1f; data[22] = (float)tile; data[23] = (float)attr;
 }
 
-void Sprites::FillPosInTile(float* data, int posInTileY, uint8_t attr)
+void Sprites::FillPosInTile(float* data, int posInTileY1, int posInTileY2, uint8_t attr)
 {
-	float pos_y = static_cast<float>(posInTileY);
+    float x1 = 0.f;
+    float x2 = 8.f;
+    float y1 = static_cast<float>(posInTileY1);
+    float y2 = static_cast<float>(posInTileY2);
 
-    data[0]  = 0.f; data[1]  = pos_y;
-	data[2]  = 0.f; data[3]  = pos_y;
-    data[4]  = 8.f; data[5]  = pos_y;
-	data[6]  = 0.f; data[7]  = pos_y;
-    data[8]  = 8.f; data[9]  = pos_y;
-	data[10] = 8.f; data[11] = pos_y;
+    if (attr & ATTR_X_FLIP) {
+        x1 = 8.f - x1;
+        x2 = 8.f - x2;
+    }
+
+    if (!(attr & ATTR_Y_FLIP)) {
+        y1 = 8.f - y1;
+        y2 = 8.f - y2;
+    }
+
+    data[0]  = x1; data[1]  = y1;
+	data[2]  = x1; data[3]  = y2;
+    data[4]  = x2; data[5]  = y1;
+	data[6]  = x1; data[7]  = y2;
+    data[8]  = x2; data[9]  = y1;
+	data[10] = x2; data[11] = y2;
 }
 
 void Sprites::UpdateColors()
