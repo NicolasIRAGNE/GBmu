@@ -20,7 +20,7 @@ public:
     int Init();
     int Destroy();
 
-    int Render();
+    int Render(int firstLine, int lastLine);
 
 private:
     void UpdateVram();
