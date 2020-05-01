@@ -73,7 +73,7 @@ int Renderer::Render(int firstLine, int lastLine) {
 
     uint8_t lcdc = (read_8(m_Gb, LCDC_OFFSET));
     if (lcdc & LCDC_WINDOW_ON) {
-        m_Menu.Draw();
+        m_Menu.Draw(firstLine, lastLine);
     }
 
     m_Sprites.Draw();

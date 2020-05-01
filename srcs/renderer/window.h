@@ -1,6 +1,6 @@
 #pragma once
-#define GL_GLEXT_PROTOTYPES
 
+#define GL_GLEXT_PROTOTYPES
 #include <GL/gl.h>
 #include <GL/glu.h>
 
@@ -16,10 +16,10 @@ public:
     int Init();
     int Destroy();
 
-    int Draw();
+    int Draw(int firstLine, int lastLine);
 
 private:
-    void UpdateVertex(int wx, int wy);
+    void UpdateVertex(int wx, int firstLine, int lastLine);
     void UpdateColors();
 
 private:
@@ -33,7 +33,6 @@ private:
     GLint m_WyLoc {-1};
     GLint m_LcdcLoc {-1};
     GLint m_ColorsLoc {-1};
-	GLint m_LineLoc {-1};
 };
 
 };
