@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:26 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/30 11:00:41 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/01 15:27:06 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 		{
 			main_window_loop(wrapper);
 			SDL_GL_SwapWindow(wrapper->main_context->win);
+			last_line = 0;
 		}
 	}
 
