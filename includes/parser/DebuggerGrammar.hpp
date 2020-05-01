@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/30 16:25:25 by ldedier           #+#    #+#             */
-/*   Updated: 2020/04/30 18:51:04 by ldedier          ###   ########.fr       */
+/*   Created: 2020/05/01 17:03:31 by ldedier            #+#    #+#            */
+/*   Updated: 2020/05/01 17:03:31 by ldedier           ###   ########.fr      */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@
 #include "SymbolTerminalRegisterF.hpp"
 #include "SymbolTerminalInstruction.hpp"
 #include "SymbolTerminalRegisterH.hpp"
+#include "SymbolTerminalDecimal.hpp"
 #include "SymbolTerminalStackPointer.hpp"
 #include "SymbolTerminalRegisterL.hpp"
 #include "SymbolTerminalOctal.hpp"

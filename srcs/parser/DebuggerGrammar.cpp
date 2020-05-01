@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/30 16:25:25 by ldedier           #+#    #+#             */
-/*   Updated: 2020/04/30 23:29:41 by ldedier          ###   ########.fr       */
+/*   Created: 2020/05/01 17:03:31 by ldedier            #+#    #+#            */
+/*   Updated: 2020/05/01 17:03:31 by ldedier           ###   ########.fr      */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ DebuggerGrammar::DebuggerGrammar(void) : AbstractGrammar(new SymbolNonTerminalCo
 	addTerminal(new SymbolTerminalRegisterF());
 	addTerminal(new SymbolTerminalInstruction());
 	addTerminal(new SymbolTerminalRegisterH());
+	addTerminal(new SymbolTerminalDecimal());
 	addTerminal(new SymbolTerminalStackPointer());
 	addTerminal(new SymbolTerminalRegisterL());
 	addTerminal(new SymbolTerminalOctal());

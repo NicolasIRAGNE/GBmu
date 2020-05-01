@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/18 16:30:57 by ldedier           #+#    #+#             */
-/*   Updated: 2020/04/30 19:57:39 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/04/30 19:53:25 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,7 @@ bool SymbolTerminalInteger::staysEligibleForCurrent(std::string & current)
 
 bool SymbolTerminalInteger::isEligibleForCurrent(std::string & current)
 {
-	return SymbolTerminalInteger::staysEligibleForCurrent(current)
-		&& current.compare("0x");
+	return SymbolTerminalInteger::staysEligibleForCurrent(current) && current.compare("0x");
 }
 
 Token<int, DebuggerContext &> *SymbolTerminalInteger::createToken(std::string tokenContent)
