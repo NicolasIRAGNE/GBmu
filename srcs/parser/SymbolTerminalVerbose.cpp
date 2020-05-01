@@ -5,14 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/30 16:25:25 by ldedier           #+#    #+#             */
-/*   Updated: 2020/04/30 21:41:58 by ldedier          ###   ########.fr       */
+/*   Created: 2020/05/01 16:38:32 by ldedier            #+#    #+#            */
+/*   Updated: 2020/05/01 16:38:32 by ldedier           ###   ########.fr      */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "SymbolTerminalVerbose.hpp"
 
-SymbolTerminalVerbose::SymbolTerminalVerbose(void) : SymbolTerminalCommand("verbose")
+SymbolTerminalVerbose::SymbolTerminalVerbose(void) : AbstractTerminal("verbose")
 {
 	
 }

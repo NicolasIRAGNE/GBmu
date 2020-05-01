@@ -5,18 +5,18 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/30 16:25:25 by ldedier           #+#    #+#             */
-/*   Updated: 2020/04/30 21:31:11 by ldedier          ###   ########.fr       */
+/*   Created: 2020/05/01 16:38:32 by ldedier            #+#    #+#            */
+/*   Updated: 2020/05/01 16:38:32 by ldedier           ###   ########.fr      */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SYMBOLTERMINALINFO_HPP
 # define SYMBOLTERMINALINFO_HPP
 
-# include "SymbolTerminalCommand.hpp"
+# include "AbstractTerminal.hpp"
 # include "DebuggerContext.hpp"
 
-class SymbolTerminalInfo : public SymbolTerminalCommand
+class SymbolTerminalInfo : public AbstractTerminal<int, DebuggerContext &>
 {
 	public:
 		SymbolTerminalInfo(void);

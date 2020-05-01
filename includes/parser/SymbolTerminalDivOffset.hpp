@@ -5,18 +5,18 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/30 16:25:25 by ldedier           #+#    #+#             */
-/*   Updated: 2020/04/30 21:38:55 by ldedier          ###   ########.fr       */
+/*   Created: 2020/05/01 16:38:32 by ldedier            #+#    #+#            */
+/*   Updated: 2020/05/01 16:38:32 by ldedier           ###   ########.fr      */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SYMBOLTERMINALDIVOFFSET_HPP
 # define SYMBOLTERMINALDIVOFFSET_HPP
 
-# include "SymbolTerminalVariable.hpp"
+# include "AbstractTerminal.hpp"
 # include "DebuggerContext.hpp"
 
-class SymbolTerminalDivOffset : public SymbolTerminalVariable
+class SymbolTerminalDivOffset : public AbstractTerminal<int, DebuggerContext &>
 {
 	public:
 		SymbolTerminalDivOffset(void);

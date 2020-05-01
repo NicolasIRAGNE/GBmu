@@ -5,18 +5,18 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/30 16:25:25 by ldedier           #+#    #+#             */
-/*   Updated: 2020/04/30 20:56:17 by ldedier          ###   ########.fr       */
+/*   Created: 2020/05/01 16:38:32 by ldedier            #+#    #+#            */
+/*   Updated: 2020/05/01 16:38:32 by ldedier           ###   ########.fr      */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SYMBOLTERMINALREGISTERB_HPP
 # define SYMBOLTERMINALREGISTERB_HPP
 
-# include "SymbolTerminalVariable.hpp"
+# include "AbstractTerminal.hpp"
 # include "DebuggerContext.hpp"
 
-class SymbolTerminalRegisterB : public SymbolTerminalVariable
+class SymbolTerminalRegisterB : public AbstractTerminal<int, DebuggerContext &>
 {
 	public:
 		SymbolTerminalRegisterB(void);

@@ -5,18 +5,18 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/30 16:25:25 by ldedier           #+#    #+#             */
-/*   Updated: 2020/04/30 20:56:17 by ldedier          ###   ########.fr       */
+/*   Created: 2020/05/01 16:38:32 by ldedier            #+#    #+#            */
+/*   Updated: 2020/05/01 16:38:32 by ldedier           ###   ########.fr      */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SYMBOLTERMINALTODOOFFSET_HPP
 # define SYMBOLTERMINALTODOOFFSET_HPP
 
-# include "SymbolTerminalVariable.hpp"
+# include "AbstractTerminal.hpp"
 # include "DebuggerContext.hpp"
 
-class SymbolTerminalTodoOffset : public SymbolTerminalVariable
+class SymbolTerminalTodoOffset : public AbstractTerminal<int, DebuggerContext &>
 {
 	public:
 		SymbolTerminalTodoOffset(void);

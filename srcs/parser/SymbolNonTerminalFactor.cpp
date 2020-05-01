@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/30 16:25:25 by ldedier           #+#    #+#             */
-/*   Updated: 2020/04/30 18:53:06 by ldedier          ###   ########.fr       */
+/*   Created: 2020/05/01 16:38:32 by ldedier            #+#    #+#            */
+/*   Updated: 2020/05/01 16:38:32 by ldedier           ###   ########.fr      */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,8 @@ SymbolNonTerminalFactor::~SymbolNonTerminalFactor(void)
 
 int	SymbolNonTerminalFactor::traverse(ASTNode<int, DebuggerContext &> & ast, DebuggerContext & context) const
 {
-	if (ast.getChildren().size() == 1)
-		return ast.getChild(0)->getTraversed(context);
-	else if (ast.getChild(1)->getSymbol().getIdentifier() == "andor")
-		return ast.getChild(1)->getTraversed(context);
-	else if (ast.getChild(0)->getSymbol().getIdentifier() == "-")
-		return - ast.getChild(1)->getTraversed(context);
-	else if (ast.getChild(0)->getSymbol().getIdentifier() == "+")
-		return - ast.getChild(1)->getTraversed(context);
+	static_cast<void>(ast);
+	static_cast<void>(context);
 	return (0);
 }
 
