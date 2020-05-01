@@ -16,9 +16,10 @@ public:
     int Init();
     int Destroy();
 
-    int Draw();
+    int Draw(int firstLine, int lastLine);
 
 private:
+    void UpdateVertex(int firstLine, int lastLine);
     void UpdateColors();
 
 private:
@@ -32,7 +33,6 @@ private:
     GLint m_ScyLoc {-1};
     GLint m_LcdcLoc {-1};
     GLint m_ColorsLoc {-1};
-	GLint m_LineLoc {-1};
 };
 
 };

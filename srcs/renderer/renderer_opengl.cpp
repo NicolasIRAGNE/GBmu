@@ -69,7 +69,7 @@ int Renderer::Render(int firstLine, int lastLine) {
 
     glBindTexture(GL_TEXTURE_2D, m_Texture);
 
-    m_Background.Draw();
+    m_Background.Draw(firstLine, lastLine);
 
     uint8_t lcdc = (read_8(m_Gb, LCDC_OFFSET));
     if (lcdc & LCDC_WINDOW_ON) {
