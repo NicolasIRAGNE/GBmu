@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 18:10:17 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/02 20:29:38 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/02 20:48:21 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,8 @@ void	write_8(struct gb_cpu_s* gb, uint16_t a16, uint8_t x)
 	else if (a16 >= 0xFE00 && a16 < 0xFEA0)
 	{
 		// if (gb->gpu.mode == GPU_MODE_HBLANK || gb->gpu.mode == GPU_MODE_VBLANK)
-			((uint8_t*)(gb->oam))[a16 - 0xFE00] = x;
+		gb->oam_updated = 1;
+		((uint8_t*)(gb->oam))[a16 - 0xFE00] = x;
 		return ;
 	}
 	else if (a16 >= 0xFF00 && a16 < 0xFF80)
@@ -154,7 +155,7 @@ void	write_8(struct gb_cpu_s* gb, uint16_t a16, uint8_t x)
 		if (a16 == 0xff50 && x == 1)
 			gb->booted = 1;
 		if (a16 == LCDC_OFFSET || a16 == STAT_OFFSET || (a16 >= SCY_OFFSET && a16 <= LYC_OFFSET) || a16 == WY_OFFSET || a16 == WX_OFFSET)
-			gb->vram_updated = 1;
+			gb->lcd_updated = 1;
 		((uint8_t*)(gb->io_ports))[a16 - 0xFF00] = x;
 		return ;
 	}
@@ -191,5 +192,4 @@ void	process_dma_transfer(struct gb_cpu_s* gb, uint8_t a8)
 		write_8(gb, 0xFE00 | i, x);
 		i++;
 	}
-	gb->vram_updated = 1;
 }

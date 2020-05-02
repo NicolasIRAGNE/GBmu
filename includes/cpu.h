@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:34:47 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/02 16:45:46 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/02 20:47:04 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,6 +200,8 @@ struct	gb_cpu_s
 	int					running : 1;
 	int					paused : 1;
 	int					vram_updated : 1;
+	int					oam_updated : 1;
+	int					lcd_updated : 1;
 	uint16_t			interrupt;
 	uint64_t			cycle;
 	uint64_t			last_sleep;
