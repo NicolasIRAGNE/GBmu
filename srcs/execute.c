@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:26 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/01 15:05:46 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/01 18:43:36 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int		handle_instruction(struct gb_cpu_s* gb)
 	uint8_t op = update_current_instruction(gb);
 	if (gb->halted)
 	{
-		gb->cycle += 8;
+		gb->cycle += 2;
 		return (0);
 	}
 	if (gb->debugger->verbose_level > 0)
@@ -137,7 +137,7 @@ int		handle_instruction(struct gb_cpu_s* gb)
 	{
 		debug_print_gb(gb);
 		printf("OPCODE %0x NOT IMPLEMENTED\n", op);
-		return(1);
+		return (1);
 	}
 	if (!gb->jmp)
 		gb->reg.pc += gb->current_instruction->size + 1;
