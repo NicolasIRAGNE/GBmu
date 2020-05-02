@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 17:03:31 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/02 19:13:12 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/05/02 19:51:26 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@
 #include "SymbolTerminalWatch.hpp"
 #include "SymbolTerminalInterruptTimer.hpp"
 #include "SymbolTerminalHalfWordFormat.hpp"
+#include "SymbolTerminalWordFormat.hpp"
 #include "SymbolTerminalTodoOffset.hpp"
 #include "SymbolTerminalTimaOffset.hpp"
 #include "SymbolTerminalAnd.hpp"
@@ -114,6 +115,7 @@
 #include "SymbolTerminalHexadecimal.hpp"
 #include "SymbolTerminalBinaryOr.hpp"
 #include "SymbolTerminalDelete.hpp"
+#include "SymbolTerminalX.hpp"
 
 class DebuggerGrammar : public AbstractGrammar<int, DebuggerContext &>
 {

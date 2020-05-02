@@ -1,36 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   SymbolNonTerminalUnit.cpp                          :+:      :+:    :+:   */
+/*   SymbolTerminalX.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/02 19:48:34 by ldedier          ###   ########.fr       */
+/*   Created: 2020/05/02 19:29:45 by ldedier           #+#    #+#             */
+/*   Updated: 2020/05/02 19:42:48 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "SymbolNonTerminalUnit.hpp"
+# include "SymbolTerminalX.hpp"
 
-SymbolNonTerminalUnit::SymbolNonTerminalUnit(void) : AbstractNonTerminal("unit")
+SymbolTerminalX::SymbolTerminalX(void) : SymbolTerminalCommand("x")
 {
 	
 }
 
-SymbolNonTerminalUnit::~SymbolNonTerminalUnit(void)
+SymbolTerminalX::~SymbolTerminalX(void)
 {
 	
 }
 
-int	SymbolNonTerminalUnit::traverse(ASTNode<int, DebuggerContext &> & ast, DebuggerContext & context) const
+int	SymbolTerminalX::traverse(ASTNode<int, DebuggerContext &> & ast, DebuggerContext & context) const
 {
 	static_cast<void>(ast);
 	static_cast<void>(context);
 	return (0);
 }
 
-void	SymbolNonTerminalUnit::computeProductions(AbstractGrammar<int, DebuggerContext &> & cfg)
-{
-	addProduction(cfg, {"hh"});
-	addProduction(cfg, {"hformat"});
-}

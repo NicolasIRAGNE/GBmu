@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 17:03:31 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/02 19:13:39 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/05/02 19:51:05 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ DebuggerGrammar::DebuggerGrammar(void) : AbstractGrammar(new SymbolNonTerminalCo
 	addTerminal(new SymbolTerminalWatch());
 	addTerminal(new SymbolTerminalInterruptTimer());
 	addTerminal(new SymbolTerminalHalfWordFormat());
+	addTerminal(new SymbolTerminalWordFormat());
 	addTerminal(new SymbolTerminalTodoOffset());
 	addTerminal(new SymbolTerminalTimaOffset());
 	addTerminal(new SymbolTerminalAnd());
@@ -112,6 +113,7 @@ DebuggerGrammar::DebuggerGrammar(void) : AbstractGrammar(new SymbolNonTerminalCo
 	addTerminal(new SymbolTerminalHexadecimal());
 	addTerminal(new SymbolTerminalBinaryOr());
 	addTerminal(new SymbolTerminalDelete());
+	addTerminal(new SymbolTerminalX());
 
 	computeGrammar();
 }

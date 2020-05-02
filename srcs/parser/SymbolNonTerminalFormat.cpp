@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 18:54:33 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/02 19:12:39 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/05/02 19:53:01 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	SymbolNonTerminalFormat::traverse(ASTNode<int, DebuggerContext &> & ast, Deb
 void	SymbolNonTerminalFormat::computeProductions(AbstractGrammar<int, DebuggerContext &> & cfg)
 {
 	addProduction(cfg, {"decimal"});
-	addProduction(cfg, {"x"});
+	addProduction(cfg, {"hexadecimal"});
 	addProduction(cfg, {"o"});
 	addProduction(cfg, {"b"});
 	addProduction(cfg, {"i"});

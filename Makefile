@@ -63,6 +63,7 @@ INCLUDES		=	DebuggerGrammar.hpp \
 					SymbolTerminalWatch.hpp \
 					SymbolTerminalInterruptTimer.hpp \
 					SymbolTerminalHalfWordFormat.hpp \
+					SymbolTerminalWordFormat.hpp \
 					SymbolTerminalTodoOffset.hpp \
 					SymbolTerminalTimaOffset.hpp \
 					SymbolTerminalAnd.hpp \
@@ -89,6 +90,7 @@ INCLUDES		=	DebuggerGrammar.hpp \
 					SymbolTerminalHexadecimal.hpp \
 					SymbolTerminalBinaryOr.hpp \
 					SymbolTerminalDelete.hpp \
+					SymbolTerminalX.hpp \
 					SymbolNonTerminalPrintCommand.hpp \
 					SymbolNonTerminalWatchMode.hpp \
 					SymbolNonTerminalQuitCommand.hpp \
@@ -164,6 +166,7 @@ SRCS			=	DebuggerGrammar.cpp \
 					SymbolTerminalWatch.cpp \
 					SymbolTerminalInterruptTimer.cpp \
 					SymbolTerminalHalfWordFormat.cpp \
+					SymbolTerminalWordFormat.cpp \
 					SymbolTerminalTodoOffset.cpp \
 					SymbolTerminalTimaOffset.cpp \
 					SymbolTerminalAnd.cpp \
@@ -191,6 +194,7 @@ SRCS			=	DebuggerGrammar.cpp \
 					SymbolTerminalDelete.cpp \
 					SymbolTerminalVariable.cpp \
 					SymbolTerminalCommand.cpp \
+					SymbolTerminalX.cpp \
 					SymbolNonTerminalPrintCommand.cpp \
 					SymbolNonTerminalWatchMode.cpp \
 					SymbolNonTerminalQuitCommand.cpp \

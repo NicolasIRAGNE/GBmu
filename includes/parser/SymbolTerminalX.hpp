@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   SymbolTerminalHexadecimal.hpp                      :+:      :+:    :+:   */
+/*   SymbolTerminalX.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/02 19:29:00 by ldedier          ###   ########.fr       */
+/*   Created: 2020/05/02 19:29:44 by ldedier           #+#    #+#             */
+/*   Updated: 2020/05/02 19:42:58 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SYMBOLTERMINALHEXADECIMAL_HPP
-# define SYMBOLTERMINALHEXADECIMAL_HPP
+#ifndef SYMBOLTERMINALX_HPP
+# define SYMBOLTERMINALX_HPP
 
-# include "AbstractTerminal.hpp"
+# include "SymbolTerminalCommand.hpp"
 # include "DebuggerContext.hpp"
 
-class SymbolTerminalHexadecimal : public AbstractTerminal<int, DebuggerContext &>
+class SymbolTerminalX : public SymbolTerminalCommand
 {
 	public:
-		SymbolTerminalHexadecimal(void);
-		~SymbolTerminalHexadecimal(void);
+		SymbolTerminalX(void);
+		~SymbolTerminalX(void);
 		virtual int traverse(ASTNode<int, DebuggerContext &> & ast, DebuggerContext & context) const;
-		virtual std::string getLexerString(void);
 
 	private:
 

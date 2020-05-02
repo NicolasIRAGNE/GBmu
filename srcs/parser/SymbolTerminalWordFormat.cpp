@@ -1,36 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   SymbolNonTerminalXCommand.cpp                      :+:      :+:    :+:   */
+/*   SymbolTerminalWordFormat.cpp                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/02 19:21:07 by ldedier          ###   ########.fr       */
+/*   Created: 2020/05/02 19:29:45 by ldedier           #+#    #+#             */
+/*   Updated: 2020/05/02 19:54:40 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "SymbolNonTerminalXCommand.hpp"
+# include "SymbolTerminalWordFormat.hpp"
 
-SymbolNonTerminalXCommand::SymbolNonTerminalXCommand(void) : AbstractNonTerminal("xcommand")
+SymbolTerminalWordFormat::SymbolTerminalWordFormat(void) : AbstractTerminal("hformat")
 {
 	
 }
 
-SymbolNonTerminalXCommand::~SymbolNonTerminalXCommand(void)
+SymbolTerminalWordFormat::~SymbolTerminalWordFormat(void)
 {
 	
 }
 
-int	SymbolNonTerminalXCommand::traverse(ASTNode<int, DebuggerContext &> & ast, DebuggerContext & context) const
+int	SymbolTerminalWordFormat::traverse(ASTNode<int, DebuggerContext &> & ast, DebuggerContext & context) const
 {
 	static_cast<void>(ast);
 	static_cast<void>(context);
 	return (0);
 }
 
-void	SymbolNonTerminalXCommand::computeProductions(AbstractGrammar<int, DebuggerContext &> & cfg)
+std::string SymbolTerminalWordFormat::getLexerString(void)
 {
-	addProduction(cfg, {"x", "xsuffix", "value"});
-	addProduction(cfg, {"x", "value"});
+	return "h";
 }

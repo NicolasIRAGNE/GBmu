@@ -5,14 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/01 16:38:32 by ldedier            #+#    #+#            */
-/*   Updated: 2020/05/01 16:38:32 by ldedier           ###   ########.fr      */
+/*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
+/*   Updated: 2020/05/02 19:28:01 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "SymbolTerminalHexadecimal.hpp"
 
-SymbolTerminalHexadecimal::SymbolTerminalHexadecimal(void) : AbstractTerminal("x")
+SymbolTerminalHexadecimal::SymbolTerminalHexadecimal(void) : AbstractTerminal("hexadecimal")
 {
 	
 }
@@ -29,3 +29,7 @@ int	SymbolTerminalHexadecimal::traverse(ASTNode<int, DebuggerContext &> & ast, D
 	return (0);
 }
 
+std::string SymbolTerminalHexadecimal::getLexerString(void)
+{
+	return "x";
+}
