@@ -36,7 +36,7 @@ int Sprites::Init()
     glBindVertexArray(m_Vao);
     glGenBuffers(1, &m_Vbo);
     glBindBuffer(GL_ARRAY_BUFFER, m_Vbo);
-    glBufferData(GL_ARRAY_BUFFER, OAM_SIZE * 2 * 6 * 6 * sizeof(float), nullptr, GL_STREAM_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, OAM_SIZE * 2 * 6 * 6 * sizeof(float), nullptr, GL_DYNAMIC_DRAW);
     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, (void*)0);
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(OAM_SIZE * 2 * 6 * 4 * sizeof(float)));
 
