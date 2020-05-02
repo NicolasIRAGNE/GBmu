@@ -125,7 +125,7 @@ int Sprites::UpdateVertex(int firstLine, int lastLine)
             int y1 = std::max(firstLine, y - 8);
 
             int x2 = x;
-            int y2 = std::min(lastLine, y) + 1;
+            int y2 = std::min(lastLine + 1, y);
 
             int posInTileY1 = (y1 - (y - 8));
             int posInTileY2 = (y2 - (y - 8));
@@ -180,10 +180,12 @@ void Sprites::FillPosInTile(float* data, int posInTileY1, int posInTileY2, uint8
         x2 = 8.f - x2;
     }
 
-    if (!(attr & ATTR_Y_FLIP)) {
+    if (attr & ATTR_Y_FLIP) {
         y1 = 8.f - y1;
         y2 = 8.f - y2;
     }
+
+    std::swap(y1, y2);
 
     data[0]  = x1; data[1]  = y1;
 	data[2]  = x1; data[3]  = y2;
