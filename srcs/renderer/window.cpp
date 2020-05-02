@@ -20,8 +20,8 @@ Window::~Window()
 int Window::Init()
 {
     m_Program = compileProgram(
-        "../srcs/renderer/shaders/window.vert",
-        "../srcs/renderer/shaders/window.frag");
+        "shaders/window.vert",
+        "shaders/window.frag");
 
     if (!m_Program) {
         printf("failed to create program\n");
