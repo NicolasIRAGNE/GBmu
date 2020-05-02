@@ -107,6 +107,14 @@ list(APPEND HEADERS
 	srcs/renderer/gl_utils/compile_program.h
 	srcs/renderer/wrapper_c/wrapper.h)
 
+set(SHADERS
+	srcs/renderer/shaders/background.vert
+	srcs/renderer/shaders/background.frag
+	srcs/renderer/shaders/window.vert
+	srcs/renderer/shaders/window.frag
+	srcs/renderer/shaders/sprites.vert
+	srcs/renderer/shaders/sprites.frag)
+
 include_directories(srcs)
 include_directories(includes)
 
@@ -132,3 +140,9 @@ add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT})
 target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES})
+
+################################################
+#                   INSTALL                    #
+################################################
+
+install(FILES ${SHADERS} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/shaders)

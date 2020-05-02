@@ -20,8 +20,8 @@ Background::~Background()
 int Background::Init()
 {
     m_Program = compileProgram(
-        "../srcs/renderer/shaders/background.vert",
-        "../srcs/renderer/shaders/background.frag");
+        "shaders/background.vert",
+        "shaders/background.frag");
 
     if (!m_Program) {
         printf("failed to create program\n");

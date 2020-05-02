@@ -22,8 +22,8 @@ Sprites::~Sprites()
 int Sprites::Init()
 {
     m_Program = compileProgram(
-        "../srcs/renderer/shaders/sprites.vert",
-        "../srcs/renderer/shaders/sprites.frag");
+        "shaders/sprites.vert",
+        "shaders/sprites.frag");
 
     if (!m_Program) {
         printf("failed to create program\n");
