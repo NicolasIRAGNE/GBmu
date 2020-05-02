@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/02 19:48:34 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/05/02 20:12:12 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,5 @@ int	SymbolNonTerminalUnit::traverse(ASTNode<int, DebuggerContext &> & ast, Debug
 void	SymbolNonTerminalUnit::computeProductions(AbstractGrammar<int, DebuggerContext &> & cfg)
 {
 	addProduction(cfg, {"hh"});
-	addProduction(cfg, {"hformat"});
+	addProduction(cfg, {"hunit"});
 }

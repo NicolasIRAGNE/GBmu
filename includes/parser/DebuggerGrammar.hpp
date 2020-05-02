@@ -114,6 +114,7 @@
 #include "SymbolTerminalWriteMode.hpp"
 #include "SymbolTerminalHexadecimal.hpp"
 #include "SymbolTerminalBinaryOr.hpp"
+#include "SymbolTerminalBinary.hpp"
 #include "SymbolTerminalDelete.hpp"
 #include "SymbolTerminalX.hpp"
 

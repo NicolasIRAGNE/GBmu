@@ -112,6 +112,7 @@ DebuggerGrammar::DebuggerGrammar(void) : AbstractGrammar(new SymbolNonTerminalCo
 	addTerminal(new SymbolTerminalWriteMode());
 	addTerminal(new SymbolTerminalHexadecimal());
 	addTerminal(new SymbolTerminalBinaryOr());
+	addTerminal(new SymbolTerminalBinary());
 	addTerminal(new SymbolTerminalDelete());
 	addTerminal(new SymbolTerminalX());
 

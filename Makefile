@@ -89,6 +89,7 @@ INCLUDES		=	DebuggerGrammar.hpp \
 					SymbolTerminalWriteMode.hpp \
 					SymbolTerminalHexadecimal.hpp \
 					SymbolTerminalBinaryOr.hpp \
+					SymbolTerminalBinary.hpp \
 					SymbolTerminalDelete.hpp \
 					SymbolTerminalX.hpp \
 					SymbolNonTerminalPrintCommand.hpp \
@@ -191,6 +192,7 @@ SRCS			=	DebuggerGrammar.cpp \
 					SymbolTerminalWriteMode.cpp \
 					SymbolTerminalHexadecimal.cpp \
 					SymbolTerminalBinaryOr.cpp \
+					SymbolTerminalBinary.cpp \
 					SymbolTerminalDelete.cpp \
 					SymbolTerminalVariable.cpp \
 					SymbolTerminalCommand.cpp \

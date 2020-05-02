@@ -1,35 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   SymbolTerminalWordFormat.cpp                       :+:      :+:    :+:   */
+/*   SymbolTerminalBinary.cpp                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/02 19:29:45 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/02 20:12:24 by ldedier          ###   ########.fr       */
+/*   Created: 2020/05/02 20:06:16 by ldedier           #+#    #+#             */
+/*   Updated: 2020/05/02 20:09:18 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "SymbolTerminalWordFormat.hpp"
+# include "SymbolTerminalBinary.hpp"
 
-SymbolTerminalWordFormat::SymbolTerminalWordFormat(void) : AbstractTerminal("hunit")
+SymbolTerminalBinary::SymbolTerminalBinary(void) : AbstractTerminal("binary")
 {
 	
 }
 
-SymbolTerminalWordFormat::~SymbolTerminalWordFormat(void)
+SymbolTerminalBinary::~SymbolTerminalBinary(void)
 {
 	
 }
 
-int	SymbolTerminalWordFormat::traverse(ASTNode<int, DebuggerContext &> & ast, DebuggerContext & context) const
+int	SymbolTerminalBinary::traverse(ASTNode<int, DebuggerContext &> & ast, DebuggerContext & context) const
 {
 	static_cast<void>(ast);
 	static_cast<void>(context);
 	return (0);
 }
 
-std::string SymbolTerminalWordFormat::getLexerString(void)
+std::string SymbolTerminalBinary::getLexerString(void)
 {
-	return "h";
+	return "b";
 }
