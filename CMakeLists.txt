@@ -2,9 +2,27 @@ cmake_minimum_required(VERSION 3.13)
 
 project(gbmu)
 
-set(CMAKE_CXX_STANDARD 17)
+################################################
+#                  LIBRARIES                   #
+################################################
 
-SET (SOURCES
+# pthread
+find_package(Threads)
+
+# SDL2
+find_package(SDL2 REQUIRED)
+include_directories(${SDL2_INCLUDE_DIRS})
+
+# OpenGL
+find_package(OpenGL REQUIRED)
+include_directories(${OPENGL_INCLUDE_DIRS})
+
+################################################
+#                   SOURCES                    #
+################################################
+
+# Core
+set(SOURCES
 	srcs/main.c
 	srcs/debug.c
 	srcs/execute.c
@@ -60,40 +78,57 @@ SET (SOURCES
 	srcs/instructions/bit.c
 	srcs/instructions/res.c
 	srcs/instructions/set.c
-	srcs/instructions/swap.c
+	srcs/instructions/swap.c)
 
-	srcs/renderer/renderer_opengl.h
+set(HEADERS
+	includes/cpu.h
+	includes/display.h
+	includes/ext_op.h
+	includes/gb.h
+	includes/mbc.h
+	includes/op.h
+	includes/registers.h
+	includes/renderer.h)
+
+# Renderer
+list(APPEND SOURCES
 	srcs/renderer/renderer_opengl.cpp
-	srcs/renderer/background.h
 	srcs/renderer/background.cpp
-	srcs/renderer/window.h
 	srcs/renderer/window.cpp
-	srcs/renderer/sprites.h
 	srcs/renderer/sprites.cpp
-	srcs/renderer/gl_utils/compile_program.h
 	srcs/renderer/gl_utils/compile_program.cpp
+	srcs/renderer/wrapper_c/wrapper.cpp)
 
-	srcs/renderer/wrapper_c/wrapper.cpp
-	)
+list(APPEND HEADERS
+	srcs/renderer/renderer_opengl.h
+	srcs/renderer/background.h
+	srcs/renderer/window.h
+	srcs/renderer/sprites.h
+	srcs/renderer/gl_utils/compile_program.h
+	srcs/renderer/wrapper_c/wrapper.h)
 
-SET (INCLUDES
-    )
+include_directories(srcs)
+include_directories(includes)
 
-find_package(SDL2 REQUIRED)
-find_package(Threads)
-INCLUDE_DIRECTORIES(${SDL2_INCLUDE_DIRS})
-INCLUDE_DIRECTORIES(srcs)
-message (${SDL2_INCLUDE_DIRS})
+################################################
+#                COMPILE FLAGS                 #
+################################################
 
-INCLUDE_DIRECTORIES(includes)
+set(CMAKE_CXX_STANDARD 17)
 
-set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -g3 -fsanitize=address  ")
-set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g3 -fsanitize=address ")
+set(CMAKE_CXX_FLAGS         "${CMAKE_CXX_FLAGS}         -Wall -Wextra")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -g -Werror")
+set(CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS_DEBUG}   -O0 -g")
+set(CMAKE_C_FLAGS           "${CMAKE_C_FLAGS}           -Wall -Wextra")
+set(CMAKE_C_FLAGS_RELEASE   "${CMAKE_C_FLAGS_RELEASE}   -O3 -g -Werror")
+set(CMAKE_C_FLAGS_DEBUG     "${CMAKE_C_FLAGS_DEBUG}     -O0 -g")
 
-find_package(OpenGL REQUIRED)
-include_directories(${OPENGL_INCLUDE_DIRS})
+################################################
+#                  EXECUTABLE                  #
+################################################
 
-add_executable(${PROJECT_NAME} ${SOURCES})
-target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT} ${OPENGL_LIBRARIES})
+add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
 
-# SET_TARGET_PROPERTIES(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE TRUE)
+target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES})
