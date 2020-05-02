@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 13:08:59 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/02 14:53:59 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/02 15:32:53 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	gpu_tick(struct gb_cpu_s* gb)
 			if (gb->gpu.tick >= HBLANK_TIME)
 			{
 				gb->gpu.y_coord++;
-				if (gb->gpu.y_coord == 143)
+				if (gb->gpu.y_coord == 144)
 				{
 					gb->gpu.mode = GPU_MODE_VBLANK;
 					request_interrupt(gb, INT_VBLANK_REQUEST);
@@ -79,12 +79,14 @@ void	gpu_tick(struct gb_cpu_s* gb)
 				gb->gpu.y_coord++;
 				if (gb->gpu.y_coord > 153)
 				{
+					gb->gpu.y_coord = 0;
 					gb->gpu.mode = GPU_MODE_OAM;
 					if (stat & STAT_MODE_2_INT)
 						request_interrupt(gb, INT_STAT_REQUEST);
 				}
 				gb->gpu.tick -= VBLANK_TIME;
 			}
+			break;
 		}
 
 		default:
@@ -95,6 +97,7 @@ void	gpu_tick(struct gb_cpu_s* gb)
 	{
 		if (stat & STAT_LYC_INT && !lyc_requested)
 		{
+			gb->vram_updated = 1;
 			lyc_requested = 1;
 			uint8_t interrupt_requests = read_8(gb, IF_OFFSET);
 			write_8(gb, IF_OFFSET, interrupt_requests | INT_STAT_REQUEST);
