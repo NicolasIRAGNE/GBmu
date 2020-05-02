@@ -35,4 +35,4 @@ private:
     GLint m_Colors2Loc {-1};
 };
 
-};
+} // namespace GBMU

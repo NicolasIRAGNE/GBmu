@@ -36,4 +36,4 @@ private:
     Sprites m_Sprites;
 };
 
-}
+} // namespace GBMU
