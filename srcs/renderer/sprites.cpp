@@ -228,4 +228,4 @@ void Sprites::UpdateColors()
     glUseProgram(0);
 }
 
-};
+} // namespace GBMU

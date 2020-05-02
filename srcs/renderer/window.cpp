@@ -149,4 +149,4 @@ void Window::UpdateColors()
     glUseProgram(0);
 }
 
-};
+} // namespace GBMU

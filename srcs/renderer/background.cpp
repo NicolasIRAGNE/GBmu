@@ -136,4 +136,4 @@ void Background::UpdateColors()
     glUseProgram(0);
 }
 
-};
+} // namespace GBMU
