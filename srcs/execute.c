@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:26 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/01 18:43:36 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/02 14:49:56 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,12 @@ uint8_t	update_current_instruction(struct gb_cpu_s* gb)
 	else if (gb->current_instruction->size == 2)
 		gb->current_instruction->args = read_16(gb, pc + 1);
 	return (op);
+}
+
+void	request_interrupt(struct gb_cpu_s* gb, uint8_t request)
+{
+	uint8_t interrupt_requests = read_8(gb, IF_OFFSET);
+	write_8(gb, IF_OFFSET, interrupt_requests | request);
 }
 
 int		set_interrupt(struct gb_cpu_s* gb)
@@ -116,7 +122,7 @@ int		handle_instruction(struct gb_cpu_s* gb)
 	uint8_t op = update_current_instruction(gb);
 	if (gb->halted)
 	{
-		gb->cycle += 2;
+		gb->cycle += 1;
 		return (0);
 	}
 	if (gb->debugger->verbose_level > 0)
