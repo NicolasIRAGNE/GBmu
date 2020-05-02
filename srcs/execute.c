@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:26 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/02 15:35:28 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/02 16:46:04 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ int		set_interrupt(struct gb_cpu_s* gb)
 void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 {
 	int err = 0;
-	uint64_t last_sleep = 0;
 	struct gb_cpu_s* gb = wrapper->gb;
 	uint8_t last_line = 0;
 	uint8_t	last_line_drawn = 0;
@@ -105,10 +104,10 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 			SDL_GL_SwapWindow(wrapper->main_context->win);
 			last_line_drawn = 0;
 		}
-		if (gb->cycle - last_sleep > 2000)
+		if (gb->cycle - gb->last_sleep > 2000)
 		{
 			usleep(1);
-			last_sleep = gb->cycle;
+			gb->last_sleep = gb->cycle;
 		}
 	}
 

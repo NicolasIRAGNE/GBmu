@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:34:47 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/02 14:49:03 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/02 16:45:46 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,6 +202,7 @@ struct	gb_cpu_s
 	int					vram_updated : 1;
 	uint16_t			interrupt;
 	uint64_t			cycle;
+	uint64_t			last_sleep;
 	struct gbmu_debugger_s*	debugger;
 
 	int					ime : 1; // Interrupt Master Enable Flag
