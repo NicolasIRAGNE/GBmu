@@ -5,14 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/01 16:38:32 by ldedier            #+#    #+#            */
-/*   Updated: 2020/05/01 16:38:32 by ldedier           ###   ########.fr      */
+/*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
+/*   Updated: 2020/05/02 17:01:56 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "SymbolTerminalTimaOffset.hpp"
 
-SymbolTerminalTimaOffset::SymbolTerminalTimaOffset(void) : AbstractTerminal("timaoffset")
+SymbolTerminalTimaOffset::SymbolTerminalTimaOffset(void) : SymbolTerminalVariable("timaoffset")
 {
 	
 }

@@ -5,18 +5,18 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/01 16:38:32 by ldedier            #+#    #+#            */
-/*   Updated: 2020/05/01 16:38:32 by ldedier           ###   ########.fr      */
+/*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
+/*   Updated: 2020/05/02 16:56:39 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SYMBOLTERMINALINTERRUPTJOYPAD_HPP
 # define SYMBOLTERMINALINTERRUPTJOYPAD_HPP
 
-# include "AbstractTerminal.hpp"
+# include "SymbolTerminalVariable.hpp"
 # include "DebuggerContext.hpp"
 
-class SymbolTerminalInterruptJoypad : public AbstractTerminal<int, DebuggerContext &>
+class SymbolTerminalInterruptJoypad : public SymbolTerminalVariable
 {
 	public:
 		SymbolTerminalInterruptJoypad(void);

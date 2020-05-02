@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 17:03:31 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/01 19:14:24 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/05/02 17:48:48 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,12 @@ class DebuggerGrammar : public AbstractGrammar<int, DebuggerContext &>
 		DebuggerGrammar(DebuggerGrammar const &instance);
 		DebuggerGrammar &operator=(DebuggerGrammar const &rhs);
 		virtual ~DebuggerGrammar(void);
-		virtual bool treatTerminalEligibility(std::string current, AbstractTerminal<int, DebuggerContext &> **terminal);
+		
+		virtual bool treatTerminalEligibility(std::string current
+		, AbstractTerminal<int, DebuggerContext &> **terminal
+		, std::deque<Token<int, DebuggerContext &> *>tokens
+		, bool & ambiguous);
+
 		virtual std::deque<Token<int, DebuggerContext &> *> innerLex(bool stopAtNewline, std::istream & istream);
 	private:
 

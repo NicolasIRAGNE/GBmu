@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 17:03:31 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/01 18:54:56 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/05/02 18:27:36 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,18 +132,46 @@ DebuggerGrammar & DebuggerGrammar::operator=(DebuggerGrammar const &rhs)
 	return *this;
 }
 
-bool DebuggerGrammar::treatTerminalEligibility(std::string current, AbstractTerminal<int, DebuggerContext &> **terminal)
+bool DebuggerGrammar::treatTerminalEligibility(std::string current
+	, AbstractTerminal<int, DebuggerContext &> **terminal
+	, std::deque<Token<int, DebuggerContext &> *>tokens
+	, bool & ambiguous
+)
 {
 	typename std::vector<AbstractTerminal<int, DebuggerContext &> *>::iterator it = _tokens.begin();
 	bool res = false;
-	while (it != _tokens.end())
+	SymbolTerminalCommand * commandTerminal;
+
+	if (tokens.size() == 0)
 	{
-		// std::cout << *(*it) << std::endl;
-		if ((*it)->staysEligibleForCurrent(current))
-			res = true;
-		if ((*it)->isEligibleForCurrent(current))
-			*terminal = *it;
-		it++;
+		while (it != _tokens.end())
+		{
+			if ((commandTerminal = dynamic_cast<SymbolTerminalCommand *>(*it)))
+			{
+				if (commandTerminal->isEligibleForCurrent(current))
+				{
+					if (terminal)
+						ambiguous = true;
+					*terminal = *it;
+					res = true;
+				}
+			}
+			it++;
+		}
+	}
+	else
+	{
+		while (it != _tokens.end())
+		{
+			if (!(commandTerminal = dynamic_cast<SymbolTerminalCommand *>(*it)))
+			{
+				if ((*it)->staysEligibleForCurrent(current))
+					res = true;
+				if ((*it)->isEligibleForCurrent(current))
+					*terminal = *it;
+			}
+			it++;
+		}
 	}
 	return res;
 }
@@ -157,19 +185,21 @@ std::deque<Token<int, DebuggerContext &> *> DebuggerGrammar::innerLex(bool stopA
 	AbstractTerminal<int, DebuggerContext &>	*terminal;
 	Token <int, DebuggerContext &>				*token;
 	char						c;
+	bool 						ambiguous;
 
 	while (!istream.eof())
 	{
 		current.clear();
 		terminal = nullptr;
 		pos = 0;
-		endPos = 0;		
+		endPos = 0;
+		ambiguous = false;
 		while (!istream.eof())
 		{
 			if ((c = istream.peek()) != EOF && ( c != '\n' || !stopAtNewline))
 			{
 				current += c;
-				if (!treatTerminalEligibility(current, &terminal))
+				if (!treatTerminalEligibility(current, &terminal, res, ambiguous))
 				{
 					if (terminal)
 					{

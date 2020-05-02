@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/01 16:38:32 by ldedier            #+#    #+#            */
-/*   Updated: 2020/05/01 16:38:32 by ldedier           ###   ########.fr      */
+/*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
+/*   Updated: 2020/05/02 18:30:48 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	SymbolNonTerminalTerm::computeProductions(AbstractGrammar<int, DebuggerCont
 {
 	addProduction(cfg, {"factor"});
 	addProduction(cfg, {"term", "*", "factor"});
+	addProduction(cfg, {"term", "%", "factor"});
 	addProduction(cfg, {"term", "/", "factor"});
 	addProduction(cfg, {"term", ">>", "factor"});
 	addProduction(cfg, {"term", "<<", "factor"});

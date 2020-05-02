@@ -5,14 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/01 16:38:32 by ldedier            #+#    #+#            */
-/*   Updated: 2020/05/01 16:38:32 by ldedier           ###   ########.fr      */
+/*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
+/*   Updated: 2020/05/02 17:05:46 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "SymbolTerminalInterruptStat.hpp"
 
-SymbolTerminalInterruptStat::SymbolTerminalInterruptStat(void) : AbstractTerminal("stat")
+SymbolTerminalInterruptStat::SymbolTerminalInterruptStat(void) : SymbolTerminalVariable("stat")
 {
 	
 }

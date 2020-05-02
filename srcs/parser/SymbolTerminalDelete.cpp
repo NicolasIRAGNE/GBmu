@@ -6,13 +6,13 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/01 19:14:03 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/05/02 17:52:12 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "SymbolTerminalDelete.hpp"
 
-SymbolTerminalDelete::SymbolTerminalDelete(void) : AbstractTerminal("delete")
+SymbolTerminalDelete::SymbolTerminalDelete(void) : SymbolTerminalCommand("delete")
 {
 	
 }

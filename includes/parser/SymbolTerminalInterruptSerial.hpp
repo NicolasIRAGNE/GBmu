@@ -5,18 +5,18 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/01 16:38:32 by ldedier            #+#    #+#            */
-/*   Updated: 2020/05/01 16:38:32 by ldedier           ###   ########.fr      */
+/*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
+/*   Updated: 2020/05/02 16:56:49 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SYMBOLTERMINALINTERRUPTSERIAL_HPP
 # define SYMBOLTERMINALINTERRUPTSERIAL_HPP
 
-# include "AbstractTerminal.hpp"
+# include "SymbolTerminalVariable.hpp"
 # include "DebuggerContext.hpp"
 
-class SymbolTerminalInterruptSerial : public AbstractTerminal<int, DebuggerContext &>
+class SymbolTerminalInterruptSerial : public SymbolTerminalVariable
 {
 	public:
 		SymbolTerminalInterruptSerial(void);

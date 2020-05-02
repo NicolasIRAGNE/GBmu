@@ -6,13 +6,13 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/30 16:25:25 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/01 19:11:16 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/05/02 17:01:08 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "SymbolTerminalRegisterD.hpp"
 
-SymbolTerminalRegisterD::SymbolTerminalRegisterD(void) : AbstractTerminal("d")
+SymbolTerminalRegisterD::SymbolTerminalRegisterD(void) : SymbolTerminalVariable("d")
 {
 	
 }

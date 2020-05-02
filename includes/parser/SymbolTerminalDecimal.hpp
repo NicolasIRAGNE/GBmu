@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 17:03:31 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/01 19:12:40 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/05/02 18:04:38 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ class SymbolTerminalDecimal : public AbstractTerminal<int, DebuggerContext &>
 		SymbolTerminalDecimal(void);
 		~SymbolTerminalDecimal(void);
 		virtual int traverse(ASTNode<int, DebuggerContext &> & ast, DebuggerContext & context) const;
+		virtual std::string getLexerString();
 
 	private:
 

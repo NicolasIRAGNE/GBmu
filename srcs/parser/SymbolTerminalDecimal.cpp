@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 17:03:31 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/01 19:14:14 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/05/02 18:08:32 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,3 +29,7 @@ int	SymbolTerminalDecimal::traverse(ASTNode<int, DebuggerContext &> & ast, Debug
 	return (0);
 }
 
+std::string SymbolTerminalDecimal::getLexerString(void)
+{
+	return "d";
+}

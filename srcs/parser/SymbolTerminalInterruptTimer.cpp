@@ -5,14 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/01 16:38:32 by ldedier            #+#    #+#            */
-/*   Updated: 2020/05/01 16:38:32 by ldedier           ###   ########.fr      */
+/*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
+/*   Updated: 2020/05/02 17:05:48 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "SymbolTerminalInterruptTimer.hpp"
 
-SymbolTerminalInterruptTimer::SymbolTerminalInterruptTimer(void) : AbstractTerminal("timer")
+SymbolTerminalInterruptTimer::SymbolTerminalInterruptTimer(void) : SymbolTerminalVariable("timer")
 {
 	
 }

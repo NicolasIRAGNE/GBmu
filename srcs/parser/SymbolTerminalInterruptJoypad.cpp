@@ -5,14 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/01 16:38:32 by ldedier            #+#    #+#            */
-/*   Updated: 2020/05/01 16:38:32 by ldedier           ###   ########.fr      */
+/*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
+/*   Updated: 2020/05/02 17:05:40 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "SymbolTerminalInterruptJoypad.hpp"
 
-SymbolTerminalInterruptJoypad::SymbolTerminalInterruptJoypad(void) : AbstractTerminal("joypad")
+SymbolTerminalInterruptJoypad::SymbolTerminalInterruptJoypad(void) : SymbolTerminalVariable("joypad")
 {
 	
 }

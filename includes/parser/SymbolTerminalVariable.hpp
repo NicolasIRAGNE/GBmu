@@ -19,39 +19,13 @@
 class SymbolTerminalVariable : public AbstractTerminal<int , DebuggerContext &>
 {
 	public:
-		SymbolTerminalVariable(void) : AbstractTerminal()
-		{
+		SymbolTerminalVariable(void);
+		SymbolTerminalVariable(std::string identifier);
+		~SymbolTerminalVariable(void);
 
-		}
-
-		SymbolTerminalVariable(std::string identifier) : AbstractTerminal(identifier)
-		{
-
-		}
-
-		~SymbolTerminalVariable(void)
-		{
-
-		}
-
-		bool isEligibleForCurrent(std::string & current)
-		{
-			return ("$" + this->_identifier).compare(current) == 0;
-		}
-
-		bool staysEligibleForCurrent(std::string & current)
-		{
-			return ("$" + this->_identifier).compare(0, current.size(), current) == 0;
-		}
-
-		Token<int, DebuggerContext &> *createToken(std::string tokenContent)
-		{
-			static_cast<void>(tokenContent);
-			return new Token<int, DebuggerContext &>(*this, tokenContent.substr(1));
-		}
-
-		virtual int traverse(ASTNode<int, DebuggerContext &> & ast, DebuggerContext & context) const = 0;
-
+		virtual	bool isEligibleForCurrent(std::string & current);
+		virtual bool staysEligibleForCurrent(std::string & current);
+		virtual Token<int, DebuggerContext &> *createToken(std::string tokenContent);
 };
 
 #endif

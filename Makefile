@@ -5,8 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2020/05/01 16:38:32 by ldedier            #+#    #+#             #
-#    Updated: 2020/05/01 16:38:32 by ldedier           ###   ########.fr       #
+#    Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#              #
+#    Updated: 2020/05/02 18:28:40 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -189,6 +189,8 @@ SRCS			=	DebuggerGrammar.cpp \
 					SymbolTerminalHexadecimal.cpp \
 					SymbolTerminalBinaryOr.cpp \
 					SymbolTerminalDelete.cpp \
+					SymbolTerminalVariable.cpp \
+					SymbolTerminalCommand.cpp \
 					SymbolNonTerminalPrintCommand.cpp \
 					SymbolNonTerminalWatchMode.cpp \
 					SymbolNonTerminalQuitCommand.cpp \
