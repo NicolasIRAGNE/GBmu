@@ -6,15 +6,15 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 13:08:59 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/02 15:32:53 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/02 20:35:19 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gb.h"
 
-# define HBLANK_TIME	(204 * 2) //204
-# define OAM_TIME		(80 * 2)
-# define VRAM_TIME		(172 * 2)
+# define HBLANK_TIME	(204 * 3) //204
+# define OAM_TIME		(80 * 3)
+# define VRAM_TIME		(172 * 3)
 # define VBLANK_TIME	(HBLANK_TIME + OAM_TIME + VRAM_TIME) //456
 
 void	gpu_tick(struct gb_cpu_s* gb)
@@ -97,7 +97,6 @@ void	gpu_tick(struct gb_cpu_s* gb)
 	{
 		if (stat & STAT_LYC_INT && !lyc_requested)
 		{
-			gb->vram_updated = 1;
 			lyc_requested = 1;
 			uint8_t interrupt_requests = read_8(gb, IF_OFFSET);
 			write_8(gb, IF_OFFSET, interrupt_requests | INT_STAT_REQUEST);

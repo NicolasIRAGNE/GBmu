@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:26 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/02 16:46:04 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/02 20:35:24 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,9 +104,9 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 			SDL_GL_SwapWindow(wrapper->main_context->win);
 			last_line_drawn = 0;
 		}
-		if (gb->cycle - gb->last_sleep > 2000)
+		if (gb->cycle - gb->last_sleep > 3000)
 		{
-			usleep(1);
+			// usleep(1);
 			gb->last_sleep = gb->cycle;
 		}
 	}

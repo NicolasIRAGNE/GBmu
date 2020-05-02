@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 18:10:17 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/01 18:52:41 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/02 20:29:38 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ uint8_t	read_8(struct gb_cpu_s* gb, uint16_t a16)
 	}
 	else if (a16 < 0xa000)
 	{
-		if (gb->gpu.mode != GPU_MODE_VRAM)
+		// if (gb->gpu.mode != GPU_MODE_VRAM)
 			return (((uint8_t*)(gb->vram))[a16 - 0x8000]);
-		else
-			return (0xff);
+		// else
+			// return (0xff);
 	}
 	else if (a16 < 0xc000)
 	{
@@ -70,10 +70,10 @@ uint8_t	read_8(struct gb_cpu_s* gb, uint16_t a16)
 	}
 	else if (a16 >= 0xFE00 && a16 < 0xFEA0)
 	{
-		if (gb->gpu.mode == GPU_MODE_HBLANK || gb->gpu.mode == GPU_MODE_VBLANK)
+		// if (gb->gpu.mode == GPU_MODE_HBLANK || gb->gpu.mode == GPU_MODE_VBLANK)
 			return (((uint8_t*)(gb->oam))[a16 - 0xFE00]);
-		else
-			return (0xff);
+		// else
+			// return (0xff);
 	}
 	else if (a16 >= 0xFF00 && a16 < 0xFF80)
 	{
@@ -153,6 +153,8 @@ void	write_8(struct gb_cpu_s* gb, uint16_t a16, uint8_t x)
 	{
 		if (a16 == 0xff50 && x == 1)
 			gb->booted = 1;
+		if (a16 == LCDC_OFFSET || a16 == STAT_OFFSET || (a16 >= SCY_OFFSET && a16 <= LYC_OFFSET) || a16 == WY_OFFSET || a16 == WX_OFFSET)
+			gb->vram_updated = 1;
 		((uint8_t*)(gb->io_ports))[a16 - 0xFF00] = x;
 		return ;
 	}
