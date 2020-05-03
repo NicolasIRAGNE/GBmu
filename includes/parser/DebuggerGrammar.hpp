@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 17:03:31 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/03 16:05:54 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/05/03 17:46:52 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@
 #include "SymbolNonTerminalCommand.hpp"
 #include "SymbolNonTerminalDeleteCommand.hpp"
 #include "SymbolNonTerminalBreakpointCommand.hpp"
+#include "SymbolNonTerminalPrintCommandSuffix.hpp"
 
 #include "SymbolTerminalInterruptStat.hpp"
 #include "SymbolTerminalSet.hpp"
@@ -118,6 +119,7 @@
 #include "SymbolTerminalDelete.hpp"
 #include "SymbolTerminalX.hpp"
 #include "SymbolTerminalExpansion.hpp"
+#include "SymbolTerminalPrintCommandParams.hpp"
 
 class DebuggerGrammar : public AbstractGrammar<int, DebuggerContext &>
 {

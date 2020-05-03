@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/03 13:25:07 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/05/03 19:09:21 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,7 @@ int	SymbolTerminalDivide::traverse(ASTNode<int, DebuggerContext &> & ast, Debugg
 	return (0);
 }
 
-bool SymbolTerminalDivide::shouldCreateToken(std::string tokenContent
-	, char delimiter
-	, std::deque<Token<int, DebuggerContext &> *>	& res)
+bool SymbolTerminalDivide::canBeAdded(std::deque<Token<int, DebuggerContext &> *>	& res)
 {
-	static_cast<void>(tokenContent);
-
-	if (res.size() == 1)
-		return (!isblank(delimiter));
-	return true;
+	return res.size() > 1;
 }

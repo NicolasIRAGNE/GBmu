@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/30 21:15:29 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/02 21:56:20 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/05/03 19:17:11 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,9 @@ bool SymbolTerminalCommand::isEligibleForCurrent(std::string & current)
 bool SymbolTerminalCommand::staysEligibleForCurrent(std::string & current)
 {
 	return AbstractTerminal::staysEligibleForCurrent(current);
+}
+
+bool SymbolTerminalCommand::canBeAdded(std::deque<Token<int, DebuggerContext &> *>	& res)
+{
+	return res.size() == 0;
 }

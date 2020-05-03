@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   SymbolTerminalDivide.hpp                           :+:      :+:    :+:   */
+/*   SymbolNonTerminalPrintCommandSuffix.hpp            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/03 19:09:53 by ldedier          ###   ########.fr       */
+/*   Created: 2020/05/03 17:37:35 by ldedier            #+#    #+#            */
+/*   Updated: 2020/05/03 17:37:35 by ldedier           ###   ########.fr      */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SYMBOLTERMINALDIVIDE_HPP
-# define SYMBOLTERMINALDIVIDE_HPP
+#ifndef SYMBOLNONTERMINALPRINTCOMMANDSUFFIX_HPP
+# define SYMBOLNONTERMINALPRINTCOMMANDSUFFIX_HPP
 
-# include "AbstractTerminal.hpp"
-# include "DebuggerContext.hpp"
+# include "DebuggerGrammar.hpp"
 
-class SymbolTerminalDivide : public AbstractTerminal<int, DebuggerContext &>
+class SymbolNonTerminalPrintCommandSuffix : public AbstractNonTerminal<int, DebuggerContext &>
 {
 	public:
-		SymbolTerminalDivide(void);
-		~SymbolTerminalDivide(void);
+		SymbolNonTerminalPrintCommandSuffix(void);
+		~SymbolNonTerminalPrintCommandSuffix(void);
 		virtual int traverse(ASTNode<int, DebuggerContext &> & ast, DebuggerContext & context) const;
-		virtual bool canBeAdded(std::deque<Token<int, DebuggerContext &> *>	& res);
+		virtual void computeProductions(AbstractGrammar<int, DebuggerContext &> & cfg);
+
 	private:
 
 };

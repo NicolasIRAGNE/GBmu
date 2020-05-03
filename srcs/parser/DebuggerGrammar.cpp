@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 17:03:31 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/03 16:26:57 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/05/03 19:07:21 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ DebuggerGrammar::DebuggerGrammar(void) : AbstractGrammar(new SymbolNonTerminalCo
 	addNonTerminal(new SymbolNonTerminalVector());
 	addNonTerminal(new SymbolNonTerminalDeleteCommand());
 	addNonTerminal(new SymbolNonTerminalBreakpointCommand());
+	addNonTerminal(new SymbolNonTerminalPrintCommandSuffix());
 
 	addTerminal(new SymbolTerminalInterruptStat());
 	addTerminal(new SymbolTerminalSet());
@@ -115,6 +116,7 @@ DebuggerGrammar::DebuggerGrammar(void) : AbstractGrammar(new SymbolNonTerminalCo
 	addTerminal(new SymbolTerminalBinary());
 	addTerminal(new SymbolTerminalDelete());
 	addTerminal(new SymbolTerminalX());
+	addTerminal(new SymbolTerminalPrintCommandParams());
 
 	computeGrammar();
 }
@@ -153,13 +155,16 @@ bool DebuggerGrammar::treatTerminalEligibility(std::string current
 		{
 			if ((commandTerminal = dynamic_cast<SymbolTerminalCommand *>(*it)))
 			{
-				if (commandTerminal->isEligibleForCurrent(current))
+				if (commandTerminal->canBeAdded(tokens))
 				{
-					isEligiblePos = staysEligiblePos + 1;
-					if (terminal)
-						ambiguous = true;
-					*terminal = *it;
-					res = true;
+					if (commandTerminal->isEligibleForCurrent(current))
+					{
+						isEligiblePos = staysEligiblePos + 1;
+						if (terminal)
+							ambiguous = true;
+						*terminal = *it;
+						res = true;
+					}
 				}
 			}
 			it++;
@@ -171,13 +176,16 @@ bool DebuggerGrammar::treatTerminalEligibility(std::string current
 		{
 			if (!(commandTerminal = dynamic_cast<SymbolTerminalCommand *>(*it)))
 			{
-				if ((*it)->staysEligibleForCurrent(current))
-					res = true;
-				if ((*it)->isEligibleForCurrent(current))
+				if ((*it)->canBeAdded(tokens))
 				{
-					isEligiblePos = staysEligiblePos + 1;
-					if (!(*terminal) || !(*terminal)->isEligibleForCurrent(current) || (*terminal)->getPriority() < (*it)->getPriority())
-						*terminal = *it;
+					if ((*it)->staysEligibleForCurrent(current))
+						res = true;
+					if ((*it)->isEligibleForCurrent(current))
+					{
+						isEligiblePos = staysEligiblePos + 1;
+						if (!(*terminal) || !(*terminal)->isEligibleForCurrent(current) || (*terminal)->getPriority() < (*it)->getPriority())
+							*terminal = *it;
+					}
 				}
 			}
 			it++;

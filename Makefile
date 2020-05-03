@@ -91,6 +91,7 @@ INCLUDES		=	DebuggerGrammar.hpp \
 					SymbolTerminalBinaryOr.hpp \
 					SymbolTerminalBinary.hpp \
 					SymbolTerminalDelete.hpp \
+					SymbolTerminalPrintCommandParams.hpp \
 					SymbolTerminalX.hpp \
 					SymbolNonTerminalPrintCommand.hpp \
 					SymbolNonTerminalWatchMode.hpp \
@@ -125,10 +126,12 @@ INCLUDES		=	DebuggerGrammar.hpp \
 					SymbolNonTerminalCommand.hpp \
 					SymbolNonTerminalDeleteCommand.hpp \
 					SymbolNonTerminalBreakpointCommand.hpp \
+					SymbolNonTerminalPrintCommandSuffix.hpp \
 					SymbolTerminalCommand.hpp \
 					SymbolTerminalVariable.hpp\
 					SymbolTerminalPrintingCommand.hpp \
 					DebuggerContext.hpp \
+					TokenPrintCommandSuffix.hpp \
 
 SRCS			=	DebuggerGrammar.cpp \
 					SymbolTerminalInterruptStat.cpp \
@@ -201,6 +204,7 @@ SRCS			=	DebuggerGrammar.cpp \
 					SymbolTerminalCommand.cpp \
 					SymbolTerminalPrintingCommand.cpp \
 					SymbolTerminalX.cpp \
+					SymbolTerminalPrintCommandParams.cpp \
 					SymbolNonTerminalPrintCommand.cpp \
 					SymbolNonTerminalWatchMode.cpp \
 					SymbolNonTerminalQuitCommand.cpp \
@@ -234,6 +238,8 @@ SRCS			=	DebuggerGrammar.cpp \
 					SymbolNonTerminalCommand.cpp \
 					SymbolNonTerminalDeleteCommand.cpp \
 					SymbolNonTerminalBreakpointCommand.cpp \
+					SymbolNonTerminalPrintCommandSuffix.cpp \
+					TokenPrintCommandSuffix.cpp \
 					main.cpp \
 					DebuggerContext.cpp \
 
