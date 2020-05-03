@@ -5,14 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/01 16:38:32 by ldedier            #+#    #+#            */
-/*   Updated: 2020/05/01 16:38:32 by ldedier           ###   ########.fr      */
+/*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
+/*   Updated: 2020/05/02 21:52:34 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "SymbolTerminalExpansion.hpp"
 
-SymbolTerminalExpansion::SymbolTerminalExpansion(void) : AbstractTerminal("expansion")
+SymbolTerminalExpansion::SymbolTerminalExpansion(void) : AbstractTerminal("expansion", E_PRIORITY_INF, E_ADJACENT_DETACHED)
 {
 	
 }

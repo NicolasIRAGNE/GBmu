@@ -1,41 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   SymbolTerminalDivide.cpp                           :+:      :+:    :+:   */
+/*   SymbolTerminalPrintingCommand.cpp                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/03 13:25:07 by ldedier          ###   ########.fr       */
+/*   Created: 2020/05/03 12:58:03 by ldedier           #+#    #+#             */
+/*   Updated: 2020/05/03 13:23:20 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "SymbolTerminalDivide.hpp"
 
-SymbolTerminalDivide::SymbolTerminalDivide(void) : AbstractTerminal("/")
+# include "SymbolTerminalPrintingCommand.hpp"
+
+SymbolTerminalPrintingCommand::SymbolTerminalPrintingCommand(void) : SymbolTerminalCommand()
 {
-	
+
 }
 
-SymbolTerminalDivide::~SymbolTerminalDivide(void)
+SymbolTerminalPrintingCommand::SymbolTerminalPrintingCommand(std::string identifier) : SymbolTerminalCommand(identifier)
 {
-	
+
 }
 
-int	SymbolTerminalDivide::traverse(ASTNode<int, DebuggerContext &> & ast, DebuggerContext & context) const
+SymbolTerminalPrintingCommand::~SymbolTerminalPrintingCommand(void)
 {
-	static_cast<void>(ast);
-	static_cast<void>(context);
-	return (0);
+
 }
 
-bool SymbolTerminalDivide::shouldCreateToken(std::string tokenContent
+bool SymbolTerminalPrintingCommand::shouldCreateToken(std::string tokenContent
 	, char delimiter
 	, std::deque<Token<int, DebuggerContext &> *>	& res)
 {
 	static_cast<void>(tokenContent);
+	static_cast<void>(res);
 
-	if (res.size() == 1)
-		return (!isblank(delimiter));
-	return true;
+	return (delimiter == '/' || isblank(delimiter));
 }

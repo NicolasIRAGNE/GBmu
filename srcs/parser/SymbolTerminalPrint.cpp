@@ -6,13 +6,13 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/02 17:03:05 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/05/03 13:11:19 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "SymbolTerminalPrint.hpp"
 
-SymbolTerminalPrint::SymbolTerminalPrint(void) : SymbolTerminalCommand("print")
+SymbolTerminalPrint::SymbolTerminalPrint(void) : SymbolTerminalPrintingCommand("print")
 {
 	
 }

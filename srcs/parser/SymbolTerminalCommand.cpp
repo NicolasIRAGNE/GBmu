@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/30 21:15:29 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/02 18:51:20 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/05/02 21:56:20 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ SymbolTerminalCommand::SymbolTerminalCommand(void) : AbstractTerminal()
 
 }
 
-SymbolTerminalCommand::SymbolTerminalCommand(std::string identifier) : AbstractTerminal(identifier)
+SymbolTerminalCommand::SymbolTerminalCommand(std::string identifier) : AbstractTerminal(identifier, E_PRIORITY_STANDARD, E_ADJACENT_DETACHED)
 {
 
 }

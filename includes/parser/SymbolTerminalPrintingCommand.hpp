@@ -1,31 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   SymbolTerminalDivide.hpp                           :+:      :+:    :+:   */
+/*   SymbolTerminalPrintingCommand.hpp                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/03 13:25:35 by ldedier          ###   ########.fr       */
+/*   Created: 2020/05/03 12:59:25 by ldedier           #+#    #+#             */
+/*   Updated: 2020/05/03 13:22:56 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SYMBOLTERMINALDIVIDE_HPP
-# define SYMBOLTERMINALDIVIDE_HPP
 
-# include "AbstractTerminal.hpp"
+#ifndef SYMBOLTERMINALPRINTINGCOMMAND_HPP
+# define SYMBOLTERMINALPRINTINGCOMMAND_HPP
+
+# include "SymbolTerminalCommand.hpp"
 # include "DebuggerContext.hpp"
 
-class SymbolTerminalDivide : public AbstractTerminal<int, DebuggerContext &>
+class SymbolTerminalPrintingCommand : public SymbolTerminalCommand
 {
 	public:
-		SymbolTerminalDivide(void);
-		~SymbolTerminalDivide(void);
-		virtual int traverse(ASTNode<int, DebuggerContext &> & ast, DebuggerContext & context) const;
+		SymbolTerminalPrintingCommand(void);
+		SymbolTerminalPrintingCommand(std::string identifier);
+		virtual ~SymbolTerminalPrintingCommand(void);
 		virtual bool shouldCreateToken(std::string tokenContent
 		, char delimiter
 		, std::deque<Token<int, DebuggerContext &> *>	& res);
-	private:
+		// virtual int traverse(ASTNode<int, DebuggerContext &> & ast, DebuggerContext & context) const = 0;
 
 };
 

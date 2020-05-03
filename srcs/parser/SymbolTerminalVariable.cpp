@@ -18,7 +18,7 @@ SymbolTerminalVariable::SymbolTerminalVariable(void) : AbstractTerminal()
 
 }
 
-SymbolTerminalVariable::SymbolTerminalVariable(std::string identifier) : AbstractTerminal(identifier)
+SymbolTerminalVariable::SymbolTerminalVariable(std::string identifier) : AbstractTerminal(identifier, E_PRIORITY_STANDARD, E_ADJACENT_DETACHED)
 {
 
 }

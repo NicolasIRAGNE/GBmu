@@ -6,13 +6,13 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/02 19:29:45 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/02 20:12:24 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/05/02 22:04:30 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "SymbolTerminalWordFormat.hpp"
 
-SymbolTerminalWordFormat::SymbolTerminalWordFormat(void) : AbstractTerminal("hunit")
+SymbolTerminalWordFormat::SymbolTerminalWordFormat(void) : AbstractTerminal("hunit", E_PRIORITY_STANDARD, E_ADJACENT_ADJACENT)
 {
 	
 }

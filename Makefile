@@ -125,6 +125,9 @@ INCLUDES		=	DebuggerGrammar.hpp \
 					SymbolNonTerminalCommand.hpp \
 					SymbolNonTerminalDeleteCommand.hpp \
 					SymbolNonTerminalBreakpointCommand.hpp \
+					SymbolTerminalCommand.hpp \
+					SymbolTerminalVariable.hpp\
+					SymbolTerminalPrintingCommand.hpp \
 					DebuggerContext.hpp \
 
 SRCS			=	DebuggerGrammar.cpp \
@@ -196,6 +199,7 @@ SRCS			=	DebuggerGrammar.cpp \
 					SymbolTerminalDelete.cpp \
 					SymbolTerminalVariable.cpp \
 					SymbolTerminalCommand.cpp \
+					SymbolTerminalPrintingCommand.cpp \
 					SymbolTerminalX.cpp \
 					SymbolNonTerminalPrintCommand.cpp \
 					SymbolNonTerminalWatchMode.cpp \

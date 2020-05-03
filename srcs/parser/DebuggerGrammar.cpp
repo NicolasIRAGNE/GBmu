@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 17:03:31 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/02 19:51:05 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/05/03 13:20:08 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,16 +199,24 @@ std::deque<Token<int, DebuggerContext &> *> DebuggerGrammar::innerLex(bool stopA
 		ambiguous = false;
 		while (!istream.eof())
 		{
-			if ((c = istream.peek()) != EOF && ( c != '\n' || !stopAtNewline))
+			if ((c = istream.peek()) != EOF && (c != '\n' || !stopAtNewline))
 			{
 				current += c;
 				if (!treatTerminalEligibility(current, &terminal, res, ambiguous))
 				{
 					if (terminal)
 					{
-						token = terminal->createToken(current.substr(0, endPos - pos));
-						res.push_back(token);
-						break;
+						if (terminal->shouldCreateToken(current.substr(0, endPos - pos), c, res))
+						{
+							token = terminal->createToken(current.substr(0, endPos - pos));
+							res.push_back(token);
+							break;
+						}
+						else
+						{
+							deleteTokens(res);
+							throw AbstractGrammar<int, DebuggerContext &>::LexicalErrorException(current);
+						}
 					}
 					else if (isblank(c) && _blankAsDelimiters)
 					{

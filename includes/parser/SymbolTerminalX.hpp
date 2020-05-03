@@ -6,17 +6,17 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/02 19:29:44 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/02 19:42:58 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/05/03 13:11:39 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SYMBOLTERMINALX_HPP
 # define SYMBOLTERMINALX_HPP
 
-# include "SymbolTerminalCommand.hpp"
+# include "SymbolTerminalPrintingCommand.hpp"
 # include "DebuggerContext.hpp"
 
-class SymbolTerminalX : public SymbolTerminalCommand
+class SymbolTerminalX : public SymbolTerminalPrintingCommand
 {
 	public:
 		SymbolTerminalX(void);

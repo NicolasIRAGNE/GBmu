@@ -5,14 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/01 16:38:32 by ldedier            #+#    #+#            */
-/*   Updated: 2020/05/01 16:38:32 by ldedier           ###   ########.fr      */
+/*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
+/*   Updated: 2020/05/02 22:01:04 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "SymbolTerminalOctal.hpp"
 
-SymbolTerminalOctal::SymbolTerminalOctal(void) : AbstractTerminal("o")
+SymbolTerminalOctal::SymbolTerminalOctal(void) : AbstractTerminal("o", E_PRIORITY_STANDARD, E_ADJACENT_DETACHED)
 {
 	
 }
