@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/02 21:52:34 by ldedier          ###   ########.fr       */
+/*   Created: 2020/05/03 14:58:56 by ldedier           #+#    #+#             */
+/*   Updated: 2020/05/03 15:37:54 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,3 +29,28 @@ int	SymbolTerminalExpansion::traverse(ASTNode<int, DebuggerContext &> & ast, Deb
 	return (0);
 }
 
+bool SymbolTerminalExpansion::isEligibleForCurrent(std::string & current)
+{
+	return SymbolTerminalExpansion::staysEligibleForCurrent(current) && current.compare("$");
+}
+
+bool SymbolTerminalExpansion::staysEligibleForCurrent(std::string & current)
+{
+	for (int i = 0; static_cast<size_t>(i) < current.length() ; i++)
+	{
+		if (i == 0)
+		{
+			if (current[i] != '$')
+				return false;
+		}
+		else if (isblank(current[i]))
+			return false;
+	}
+	return true;
+}
+
+Token<int, DebuggerContext &> *SymbolTerminalExpansion::createToken(std::string tokenContent)
+{
+	static_cast<void>(tokenContent);
+	return new Token<int, DebuggerContext &>(*this, tokenContent.substr(1));
+}

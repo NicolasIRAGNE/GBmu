@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 17:03:31 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/03 13:20:08 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/05/03 16:26:57 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,8 @@ bool DebuggerGrammar::treatTerminalEligibility(std::string current
 	, AbstractTerminal<int, DebuggerContext &> **terminal
 	, std::deque<Token<int, DebuggerContext &> *>tokens
 	, bool & ambiguous
+	, int & staysEligiblePos
+	, int & isEligiblePos
 )
 {
 	typename std::vector<AbstractTerminal<int, DebuggerContext &> *>::iterator it = _tokens.begin();
@@ -153,6 +155,7 @@ bool DebuggerGrammar::treatTerminalEligibility(std::string current
 			{
 				if (commandTerminal->isEligibleForCurrent(current))
 				{
+					isEligiblePos = staysEligiblePos + 1;
 					if (terminal)
 						ambiguous = true;
 					*terminal = *it;
@@ -171,7 +174,11 @@ bool DebuggerGrammar::treatTerminalEligibility(std::string current
 				if ((*it)->staysEligibleForCurrent(current))
 					res = true;
 				if ((*it)->isEligibleForCurrent(current))
-					*terminal = *it;
+				{
+					isEligiblePos = staysEligiblePos + 1;
+					if (!(*terminal) || !(*terminal)->isEligibleForCurrent(current) || (*terminal)->getPriority() < (*it)->getPriority())
+						*terminal = *it;
+				}
 			}
 			it++;
 		}
@@ -182,8 +189,8 @@ bool DebuggerGrammar::treatTerminalEligibility(std::string current
 std::deque<Token<int, DebuggerContext &> *> DebuggerGrammar::innerLex(bool stopAtNewline, std::istream & istream)
 {
 	std::deque<Token<int, DebuggerContext &> *>	res;
-	int							pos;
-	int							endPos;
+	int							staysEligiblePos;
+	int							isEligiblePos;
 	std::string					current;
 	AbstractTerminal<int, DebuggerContext &>	*terminal;
 	Token <int, DebuggerContext &>				*token;
@@ -194,21 +201,21 @@ std::deque<Token<int, DebuggerContext &> *> DebuggerGrammar::innerLex(bool stopA
 	{
 		current.clear();
 		terminal = nullptr;
-		pos = 0;
-		endPos = 0;
+		staysEligiblePos = 0;
+		isEligiblePos = 0;
 		ambiguous = false;
 		while (!istream.eof())
 		{
 			if ((c = istream.peek()) != EOF && (c != '\n' || !stopAtNewline))
 			{
 				current += c;
-				if (!treatTerminalEligibility(current, &terminal, res, ambiguous))
+				if (!treatTerminalEligibility(current, &terminal, res, ambiguous, staysEligiblePos, isEligiblePos))
 				{
 					if (terminal)
 					{
-						if (terminal->shouldCreateToken(current.substr(0, endPos - pos), c, res))
+						if (terminal->shouldCreateToken(current.substr(0, isEligiblePos), c, res))
 						{
-							token = terminal->createToken(current.substr(0, endPos - pos));
+							token = terminal->createToken(current.substr(0, isEligiblePos));
 							res.push_back(token);
 							break;
 						}
@@ -231,7 +238,7 @@ std::deque<Token<int, DebuggerContext &> *> DebuggerGrammar::innerLex(bool stopA
 				}
 				else
 				{
-					endPos++;
+					staysEligiblePos++;
 					istream.get();
 				}
 			}
@@ -239,8 +246,13 @@ std::deque<Token<int, DebuggerContext &> *> DebuggerGrammar::innerLex(bool stopA
 			{
 				if (terminal)
 				{
-					token = terminal->createToken(current.substr(0, endPos - pos));
+ 					token = terminal->createToken(current.substr(0, isEligiblePos));
 					res.push_back(token);
+					if (current.substr(isEligiblePos) != "")
+					{
+						deleteTokens(res);
+					 	throw AbstractGrammar<int, DebuggerContext &>::LexicalErrorException(current);
+					}
 				}
 				else if (current != "")
 				{

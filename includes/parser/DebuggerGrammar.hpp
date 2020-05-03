@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 17:03:31 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/02 19:51:26 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/05/03 16:05:54 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@
 #include "SymbolTerminalBinary.hpp"
 #include "SymbolTerminalDelete.hpp"
 #include "SymbolTerminalX.hpp"
+#include "SymbolTerminalExpansion.hpp"
 
 class DebuggerGrammar : public AbstractGrammar<int, DebuggerContext &>
 {
@@ -129,7 +130,9 @@ class DebuggerGrammar : public AbstractGrammar<int, DebuggerContext &>
 		virtual bool treatTerminalEligibility(std::string current
 		, AbstractTerminal<int, DebuggerContext &> **terminal
 		, std::deque<Token<int, DebuggerContext &> *>tokens
-		, bool & ambiguous);
+		, bool & ambiguous
+		, int & staysEligiblePos
+		, int & isEligiblePos);
 
 		virtual std::deque<Token<int, DebuggerContext &> *> innerLex(bool stopAtNewline, std::istream & istream);
 	private:
