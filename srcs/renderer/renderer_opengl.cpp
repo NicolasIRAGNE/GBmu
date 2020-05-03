@@ -23,16 +23,12 @@ int Renderer::Init()
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glClearColor(1.f, 0.f, 0.f, 1.0f);
 
-    glGenTextures(1, &m_Texture);
-    glBindTexture(GL_TEXTURE_2D, m_Texture);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glBindTexture(GL_TEXTURE_2D, 0);
-
-    glGenBuffers(1, &m_Pbo);
-    glBindBuffer(GL_PIXEL_UNPACK_BUFFER, m_Pbo);
-    glBufferData(GL_PIXEL_UNPACK_BUFFER, VRAM_SIZE, nullptr, GL_DYNAMIC_DRAW);
-    glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
+    glGenBuffers(1, &m_VramUbo);
+    glBindBuffer(GL_UNIFORM_BUFFER, m_VramUbo);
+    glBufferData(GL_UNIFORM_BUFFER, VRAM_SIZE, nullptr, GL_DYNAMIC_COPY);
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
+    
+    glBindBufferBase(GL_UNIFORM_BUFFER, 2, m_VramUbo);
 
     int ret = m_Background.Init();
     if (ret < 0) {
@@ -58,8 +54,7 @@ int Renderer::Destroy()
     m_Menu.Destroy();
     m_Background.Destroy();
 
-    glDeleteBuffers(1, &m_Pbo);
-    glDeleteTextures(1, &m_Texture);
+    glDeleteBuffers(1, &m_VramUbo);
 
     return 0;
 }
@@ -78,7 +73,7 @@ int Renderer::Render(int firstLine, int lastLine) {
 		UpdateVram();
 	}
 
-    glBindTexture(GL_TEXTURE_2D, m_Texture);
+    glBindBuffer(GL_UNIFORM_BUFFER, m_VramUbo);
 
     m_Background.Draw(firstLine, lastLine);
 
@@ -88,19 +83,18 @@ int Renderer::Render(int firstLine, int lastLine) {
 
     m_Sprites.Draw(firstLine, lastLine);
 
-    glBindTexture(GL_TEXTURE_2D, m_Texture);
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
     return 0;
 }
 
 void Renderer::UpdateVram()
 {
-    glBindBuffer(GL_PIXEL_UNPACK_BUFFER, m_Pbo);
-    void* mappedBuffer = glMapBuffer(GL_PIXEL_UNPACK_BUFFER, GL_WRITE_ONLY);
-    std::memcpy(mappedBuffer, m_Gb->vram, VRAM_SIZE);
-    glUnmapBuffer(GL_PIXEL_UNPACK_BUFFER);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_R8, 128, 64, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
-    glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
+    glBindBuffer(GL_UNIFORM_BUFFER, m_VramUbo);
+    GLvoid* ptr = glMapBuffer(GL_UNIFORM_BUFFER, GL_WRITE_ONLY);
+    std::memcpy(ptr, m_Gb->vram, VRAM_SIZE);
+    glUnmapBuffer(GL_UNIFORM_BUFFER);
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }
 
 } // namespace GBMU

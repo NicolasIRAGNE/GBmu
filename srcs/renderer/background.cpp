@@ -54,6 +54,9 @@ int Background::Init()
     m_LcdcLoc   = glGetUniformLocation(m_Program, "lcdc");
     m_ColorsLoc = glGetUniformLocation(m_Program, "colors");
 
+    GLuint vramLoc = glGetUniformBlockIndex(m_Program, "vram");
+    glUniformBlockBinding(m_Program, vramLoc, 2);
+
     return 0;
 }
 

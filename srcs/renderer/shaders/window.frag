@@ -1,6 +1,9 @@
 #version 330
 
-uniform sampler2D tex;
+layout(std140) uniform vram
+{
+    uvec4 data[8192 / 16];
+};  
 
 uniform int wx;
 uniform int wy;
@@ -12,13 +15,11 @@ out vec4 fragColor;
 
 uint GetValueAt(uint addr)
 {
-    float x = float(addr % 128u) / 128.f;
-    float y = float(addr / 128u) / 64.f;
-
-    float octet = texture2D(tex, vec2(x, y)).r;
-    uint ret = uint(octet * 255.f);
-
-    return ret;
+    uvec4 data16B = data[addr / 16u];
+    uint data4B = data16B[(addr % 16u) / 4u];
+    uint offset = (addr % 4u) * 8u;
+    uint data1B = (data4B & (0xffu << offset)) >> offset;
+    return data1B;
 }
 
 vec4 GetColorFromTileIndex(uint index, uvec2 posInTile)

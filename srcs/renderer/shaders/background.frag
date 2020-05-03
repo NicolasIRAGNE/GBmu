@@ -1,6 +1,9 @@
 #version 330
 
-uniform sampler2D tex;
+layout(std140) uniform vram
+{
+    uvec4 data[8192 / 16];
+};  
 
 uniform uint scx;
 uniform uint scy;
@@ -12,13 +15,11 @@ out vec4 fragColor;
 
 uint GetValueAt(uint addr)
 {
-    float x = float(addr % 128u) / 128.f;
-    float y = float(addr / 128u) / 64.f;
-
-    float octet = texture2D(tex, vec2(x, y)).r;
-    uint ret = uint(octet * 255.f);
-
-    return ret;
+    uvec4 data16B = data[addr / 16u];
+    uint data4B = data16B[(addr % 16u) / 4u];
+    uint offset = (addr % 4u) * 8u;
+    uint data1B = (data4B & (0xffu << offset)) >> offset;
+    return data1B;
 }
 
 vec4 GetColorFromTileIndex(uint index, uvec2 posInTile)
@@ -47,6 +48,7 @@ void main()
 	uint offset = 0x1800u;
 	if ((lcdc & 8u) != 0u)
 		offset = 0x1C00u;
+
 	uint tileIndex = GetValueAt(offset + tilePos.y * 32u + tilePos.x);
 	if (((lcdc & 16u) == 0u) && (tileIndex + 0x100u < 256u + 128u)) {
 		tileIndex = tileIndex + 0x100u;

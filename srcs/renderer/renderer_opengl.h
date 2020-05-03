@@ -28,8 +28,7 @@ private:
 private:
     gb_cpu_s* m_Gb;
 
-    GLuint m_Texture {0};
-    GLuint m_Pbo {0};
+    GLuint m_VramUbo {0};
 
     Background m_Background;
     Window m_Menu;
