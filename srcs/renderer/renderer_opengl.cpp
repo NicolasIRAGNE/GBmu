@@ -30,6 +30,9 @@ int Renderer::Init()
     glBindTexture(GL_TEXTURE_2D, 0);
 
     glGenBuffers(1, &m_Pbo);
+    glBindBuffer(GL_PIXEL_UNPACK_BUFFER, m_Pbo);
+    glBufferData(GL_PIXEL_UNPACK_BUFFER, VRAM_SIZE, nullptr, GL_DYNAMIC_DRAW);
+    glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
 
     int ret = m_Background.Init();
     if (ret < 0) {
@@ -86,12 +89,8 @@ int Renderer::Render(int firstLine, int lastLine) {
 void Renderer::UpdateVram()
 {
     glBindBuffer(GL_PIXEL_UNPACK_BUFFER, m_Pbo);
-    glBufferData(GL_PIXEL_UNPACK_BUFFER, VRAM_SIZE, NULL, GL_STREAM_DRAW);
     void* mappedBuffer = glMapBuffer(GL_PIXEL_UNPACK_BUFFER, GL_WRITE_ONLY);
-
     std::memcpy(mappedBuffer, m_Gb->vram, VRAM_SIZE);
-
-    glBindBuffer(GL_PIXEL_UNPACK_BUFFER, m_Pbo);
     glUnmapBuffer(GL_PIXEL_UNPACK_BUFFER);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_R8, 128, 64, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
     glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
