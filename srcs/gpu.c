@@ -6,25 +6,33 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 13:08:59 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/02 20:35:19 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/03 14:57:50 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gb.h"
 
-# define HBLANK_TIME	(204 * 3) //204
-# define OAM_TIME		(80 * 3)
-# define VRAM_TIME		(172 * 3)
+# define HBLANK_TIME	(204 * 1) //204
+# define OAM_TIME		(80 * 1)
+# define VRAM_TIME		(172 * 1)
 # define VBLANK_TIME	(HBLANK_TIME + OAM_TIME + VRAM_TIME) //456
 
 void	gpu_tick(struct gb_cpu_s* gb)
 {
 	uint8_t stat = read_8(gb, STAT_OFFSET);
 	uint8_t lyc = read_8(gb, LYC_OFFSET);
+	uint8_t lcdc = read_8(gb, LCDC_OFFSET);
 	static int lyc_requested = 0;
-	gb->gpu.tick += gb->cycle - gb->gpu.last_cycle;
+	gb->gpu.tick += (gb->cycle - gb->gpu.last_cycle) / 4;
 	gb->gpu.last_cycle = gb->cycle;
-	
+	// printf("gpu tick = %d\n", gb->gpu.tick);
+	if (!(lcdc & LCDC_ON))
+	{
+		gb->gpu.tick = 0;
+		gb->gpu.y_coord = 0;
+		gb->gpu.mode = GPU_MODE_HBLANK;
+		return ;
+	}
 	switch (gb->gpu.mode)
 	{
 		case GPU_MODE_HBLANK:

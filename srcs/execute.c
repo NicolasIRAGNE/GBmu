@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:26 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/02 20:35:24 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/03 14:39:47 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,13 @@ int		set_interrupt(struct gb_cpu_s* gb)
 	return (ret);
 }
 
+int		should_rerender(struct gb_cpu_s* gb)
+{
+	if (gb->vram_updated || gb->oam_updated || gb->lcd_updated)
+		return (1);
+	return (0);
+}
+
 void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 {
 	int err = 0;
@@ -90,7 +97,7 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 			err = handle_instruction(gb);
 		if (err)
 			gb->paused = 1;
-		if (gb->vram_updated && last_line_drawn != gb->gpu.y_coord && gb->gpu.y_coord < 144)
+		if (should_rerender(gb) && last_line_drawn != gb->gpu.y_coord && gb->gpu.y_coord < 144)
 		{
 			renderer_render(renderer, last_line_drawn, gb->gpu.y_coord);
 			last_line_drawn = gb->gpu.y_coord;
@@ -126,7 +133,7 @@ int		handle_instruction(struct gb_cpu_s* gb)
 	uint8_t op = update_current_instruction(gb);
 	if (gb->halted)
 	{
-		gb->cycle += 1;
+		gb->cycle += 4;
 		return (0);
 	}
 	if (gb->debugger->verbose_level > 0)
@@ -153,9 +160,9 @@ int		handle_instruction(struct gb_cpu_s* gb)
 		gb->reg.pc += gb->current_instruction->size + 1;
 	else
 		gb->jmp = 0;
-	gb->cycle += gb->current_instruction->cycles;
+	gb->cycle += gb->current_instruction->cycles ;
 
-	// timer thing
+	// timer thing (TODO)
 	tima = read_8(gb, TIMA_OFFSET);
 	tima += 1;
 
