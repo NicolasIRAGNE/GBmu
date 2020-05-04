@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:08:21 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/02 14:31:17 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/04 18:59:23 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,8 @@ void	init_ext_op_tab(void);
 void	gpu_tick(struct gb_cpu_s* gb);
 void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer);
 void	request_interrupt(struct gb_cpu_s* gb, uint8_t request);
+void	update_timer_register(struct gb_cpu_s* gb);
+void	update_div_register(struct gb_cpu_s* gb);
 
 /*
 ** Memory
