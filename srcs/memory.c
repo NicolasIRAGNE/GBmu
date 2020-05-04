@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 18:10:17 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/03 14:58:31 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/04 14:11:07 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,6 @@ uint8_t	read_8(struct gb_cpu_s* gb, uint16_t a16)
 		}
 		ret = ~ret;
 		return (ret);
-	}
-	else if (a16 == 0xff04)
-	{
-		return (rand());	
 	}
 	else if (a16 >= 0xFE00 && a16 < 0xFEA0)
 	{
@@ -154,9 +150,11 @@ void	write_8(struct gb_cpu_s* gb, uint16_t a16, uint8_t x)
 	}
 	else if (a16 >= 0xFF00 && a16 < 0xFF80)
 	{
-		if (a16 == 0xff50 && x == 1)
+		if (a16 == DIV_OFFSET)
+			x = 0;
+		else if (a16 == 0xff50 && x == 1)
 			gb->booted = 1;
-		if (a16 == LCDC_OFFSET || a16 == STAT_OFFSET || (a16 >= SCY_OFFSET && a16 <= LYC_OFFSET) || a16 == WY_OFFSET || a16 == WX_OFFSET)
+		else if (a16 == LCDC_OFFSET || a16 == STAT_OFFSET || (a16 >= SCY_OFFSET && a16 <= LYC_OFFSET) || a16 == WY_OFFSET || a16 == WX_OFFSET)
 			gb->lcd_updated = 1;
 		((uint8_t*)(gb->io_ports))[a16 - 0xFF00] = x;
 		return ;

@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:30:05 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/02 20:21:17 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/04 14:08:56 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int		init_cpu(struct gb_cpu_s* gb, struct rom_s* rom)
 	gb->paused = 0;
 	gb->current_instruction = NULL;
 	gb->ime = 1;
+	gb->div_freq = DEFAULT_DIV_FREQ;
 	// gb->interrupt_enable_register |= INT_VBLANK_REQUEST;
 	// gb->interrupt_enable_register |= INT_TIMER_REQUEST;
 	// gb->interrupt_enable_register |= INT_STAT_REQUEST;

@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:34:47 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/03 13:44:00 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/04 14:15:58 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,16 @@
 # define STAT_MODE_1_INT		(1 << 4)
 # define STAT_MODE_0_INT		(1 << 3)
 # define STAT_LYC_FLAG			(1 << 2)
+
+# define DEFAULT_DIV_FREQ		16384
+# define SGB_DIV_FREQ			16779
+# define DOUBLE_DIV_FREQ		(DEFAULT_DIV_FREQ * 2)
+
+# define TIMER_FREQ_0			4096
+# define TIMER_FREQ_1			262144
+# define TIMER_FREQ_2			65536
+# define TIMER_FREQ_3			16384
+
 struct	gb_cpu_s;
 
 struct registers_s {
@@ -229,6 +239,9 @@ struct	gb_cpu_s
 	enum joypad_mode_e	joypad_mode;
 	uint32_t			bg_palettes[8][4];
 	uint32_t			obj_palettes[8][4];
+	uint32_t			div_freq;
+	uint64_t			last_div_increment;
+	uint64_t			last_tima_increment;
 };
 
 /*

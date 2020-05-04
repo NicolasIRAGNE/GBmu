@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:26 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/03 14:39:47 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/04 18:59:55 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,8 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 			// usleep(1);
 			gb->last_sleep = gb->cycle;
 		}
+		update_div_register(gb);
+		update_timer_register(gb);
 	}
 
 }
@@ -128,12 +130,11 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 
 int		handle_instruction(struct gb_cpu_s* gb)
 {
-	uint16_t tima;
-
 	uint8_t op = update_current_instruction(gb);
 	if (gb->halted)
 	{
 		gb->cycle += 4;
+
 		return (0);
 	}
 	if (gb->debugger->verbose_level > 0)
@@ -145,7 +146,6 @@ int		handle_instruction(struct gb_cpu_s* gb)
 		debug_print_gb(gb);
 		// return (0);
 	}
-
 	if (gb->current_instruction->exec)
 	{
 		gb->current_instruction->exec(gb);
@@ -161,17 +161,5 @@ int		handle_instruction(struct gb_cpu_s* gb)
 	else
 		gb->jmp = 0;
 	gb->cycle += gb->current_instruction->cycles ;
-
-	// timer thing (TODO)
-	tima = read_8(gb, TIMA_OFFSET);
-	tima += 1;
-
-	if (tima > 0xff)
-	{
-		uint8_t interrupt_requests = read_8(gb, IF_OFFSET);
-		(void)interrupt_requests;
-		write_8(gb, IF_OFFSET, interrupt_requests | INT_TIMER_REQUEST);
-	}
-	write_8(gb, TIMA_OFFSET, tima);
 	return (0);
 }
