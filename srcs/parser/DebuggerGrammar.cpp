@@ -21,7 +21,6 @@ DebuggerGrammar::DebuggerGrammar(void) : AbstractGrammar(new SymbolNonTerminalCo
 	addNonTerminal(new SymbolNonTerminalVerboseCommand());
 	addNonTerminal(new SymbolNonTerminalRegistersCommand());
 	addNonTerminal(new SymbolNonTerminalRegisterName());
-	addNonTerminal(new SymbolNonTerminalXSuffix());
 	addNonTerminal(new SymbolNonTerminalUnit());
 	addNonTerminal(new SymbolNonTerminalIntegerList());
 	addNonTerminal(new SymbolNonTerminalIoPort());

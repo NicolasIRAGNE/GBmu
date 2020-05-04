@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 17:03:31 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/03 17:46:52 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/05/04 20:40:02 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 #include "SymbolNonTerminalVerboseCommand.hpp"
 #include "SymbolNonTerminalRegistersCommand.hpp"
 #include "SymbolNonTerminalRegisterName.hpp"
-#include "SymbolNonTerminalXSuffix.hpp"
 #include "SymbolNonTerminalUnit.hpp"
 #include "SymbolNonTerminalIntegerList.hpp"
 #include "SymbolNonTerminalIoPort.hpp"

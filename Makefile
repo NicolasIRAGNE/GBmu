@@ -6,7 +6,7 @@
 #    By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#              #
-#    Updated: 2020/05/02 19:14:15 by ldedier          ###   ########.fr        #
+#    Updated: 2020/05/04 20:39:18 by ldedier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -99,7 +99,6 @@ INCLUDES		=	DebuggerGrammar.hpp \
 					SymbolNonTerminalVerboseCommand.hpp \
 					SymbolNonTerminalRegistersCommand.hpp \
 					SymbolNonTerminalRegisterName.hpp \
-					SymbolNonTerminalXSuffix.hpp \
 					SymbolNonTerminalUnit.hpp \
 					SymbolNonTerminalIntegerList.hpp \
 					SymbolNonTerminalIoPort.hpp \
@@ -211,7 +210,6 @@ SRCS			=	DebuggerGrammar.cpp \
 					SymbolNonTerminalVerboseCommand.cpp \
 					SymbolNonTerminalRegistersCommand.cpp \
 					SymbolNonTerminalRegisterName.cpp \
-					SymbolNonTerminalXSuffix.cpp \
 					SymbolNonTerminalUnit.cpp \
 					SymbolNonTerminalIntegerList.cpp \
 					SymbolNonTerminalIoPort.cpp \
