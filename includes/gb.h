@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:08:21 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/04 18:59:23 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/04 19:20:19 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,6 +165,7 @@ void*	thread_entry(void* user_data);
 */
 int		save_game(struct gb_cpu_s* gb);
 int		load_game(struct gb_cpu_s* gb);
+int		save_game_crash(struct gb_cpu_s* gb);
 int		savestate(struct gb_cpu_s* gb, int number);
 int		loadstate(struct gb_cpu_s* gb, int number);
 
