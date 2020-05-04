@@ -6,13 +6,13 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/03 14:58:56 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/03 15:37:54 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/05/04 21:11:34 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "SymbolTerminalExpansion.hpp"
 
-SymbolTerminalExpansion::SymbolTerminalExpansion(void) : AbstractTerminal("expansion", E_PRIORITY_INF, E_ADJACENT_DETACHED)
+SymbolTerminalExpansion::SymbolTerminalExpansion(void) : AbstractTerminal("expansion", E_PRIORITY_INF, E_ADJACENT_BOTH)
 {
 	
 }
@@ -43,7 +43,7 @@ bool SymbolTerminalExpansion::staysEligibleForCurrent(std::string & current)
 			if (current[i] != '$')
 				return false;
 		}
-		else if (isblank(current[i]))
+		else if (isblank(current[i]) || current[i] == '=')
 			return false;
 	}
 	return true;
