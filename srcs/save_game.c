@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/23 16:49:30 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/30 11:07:03 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/04 19:19:30 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,25 @@
 #include <stdlib.h>
 
 #define TMP_SAVE_FILE "tmp.sav"
+
+int		save_game_crash(struct gb_cpu_s* gb)
+{
+	char* save_file;
+	asprintf(&save_file, SAVE_DIR"%.11s_CRASH.sav", gb->rom_ptr->header->title);
+	printf("saving current data to %s\n", save_file);	
+
+	int fd = open(save_file, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
+
+	if (fd < 0)
+	{
+		perror(save_file);
+		return (1);
+	}
+	write(fd, gb->extra_ram, gb->mbc.ram_size);
+	close(fd);
+	free(save_file);
+	return(0);
+}
 
 int		save_game(struct gb_cpu_s* gb)
 {

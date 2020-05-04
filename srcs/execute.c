@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:26 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/04 18:59:55 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/04 19:16:58 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,8 @@ int		handle_instruction(struct gb_cpu_s* gb)
 	else
 	{
 		debug_print_gb(gb);
-		printf("OPCODE %0x NOT IMPLEMENTED\n", op);
+		printf("fatal: illegal hardware instruction %x. aborting...\n", op);
+		fatal(gb);
 		return (1);
 	}
 	if (!gb->jmp)

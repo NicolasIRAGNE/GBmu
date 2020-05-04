@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/04 18:57:56 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/04 19:00:46 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/04 19:24:50 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,11 @@ void	update_timer_register(struct gb_cpu_s* gb)
 	{
 		gb->last_tima_increment = gb->cycle;
 		tima++;
-
 	}
 	else if ((tac & 0b11) == 2 && gb->cycle - gb->last_tima_increment >= TIMER_FREQ_2)
 	{
 		gb->last_tima_increment = gb->cycle;
 		tima++;
-
 	}
 	else if ((tac & 0b11) == 3 && gb->cycle - gb->last_tima_increment >= TIMER_FREQ_3)
 	{
