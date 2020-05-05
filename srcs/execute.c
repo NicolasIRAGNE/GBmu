@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:26 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/04 19:16:58 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/05 16:05:19 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,9 @@ int		set_interrupt(struct gb_cpu_s* gb)
 
 int		should_rerender(struct gb_cpu_s* gb)
 {
+	uint8_t lcdc = read_8(gb, LCDC_OFFSET);
 	if (gb->vram_updated || gb->oam_updated || gb->lcd_updated)
-		return (1);
+		return (lcdc & LCDC_ON);
 	return (0);
 }
 
@@ -111,9 +112,9 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 			SDL_GL_SwapWindow(wrapper->main_context->win);
 			last_line_drawn = 0;
 		}
-		if (gb->cycle - gb->last_sleep > 3000)
+		if (gb->cycle - gb->last_sleep > (70224 / 4))
 		{
-			// usleep(1);
+			usleep(128);
 			gb->last_sleep = gb->cycle;
 		}
 		update_div_register(gb);

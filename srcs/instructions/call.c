@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 19:30:21 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/03 15:13:35 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/05 13:49:27 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	call(struct gb_cpu_s* gb, uint16_t a16)
 
 void	interrupt_a16(struct gb_cpu_s* gb, uint16_t addr)
 {
-	// gb->paused = 1;
 	if (gb->ime)
 	{
 		di(gb);
@@ -32,7 +31,6 @@ void	interrupt_a16(struct gb_cpu_s* gb, uint16_t addr)
 		update_current_instruction(gb);
 		gb->cycle += 12;
 	}
-	gb->halted = 0;
 }
 
 void	call_a16(struct gb_cpu_s* gb)

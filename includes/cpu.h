@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:34:47 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/04 14:15:58 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/05 15:05:46 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,7 +180,11 @@ struct	gb_gpu_s
 	uint64_t		tick;
 	uint64_t		last_cycle;
 	uint8_t			y_coord;
-	enum gpu_mode_e	mode;	
+	uint64_t		tick_save;
+	uint32_t		y_coord_save;
+	enum gpu_mode_e	mode;
+	enum gpu_mode_e	mode_save;
+	int lyc_requested : 1;
 };
 
 enum	joypad_mode_e
