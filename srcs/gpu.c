@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/18 13:08:59 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/05 16:13:20 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/05 18:38:35 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ void	gpu_tick(struct gb_cpu_s* gb)
 		{
 			if (gb->gpu.tick >= HBLANK_TIME)
 			{
+				// write_8(gb, LY_OFFSET, gb->gpu.y_coord);
+				// compare_ly(gb, lyc, &stat, lcdc);
 				gb->gpu.y_coord++;
-				write_8(gb, LY_OFFSET, gb->gpu.y_coord);
-				compare_ly(gb, lyc, &stat, lcdc);
 				if (gb->gpu.y_coord == 144)
 				{
 					gb->gpu.mode = GPU_MODE_VBLANK;
@@ -88,7 +88,7 @@ void	gpu_tick(struct gb_cpu_s* gb)
 			{
 				gb->gpu.mode = GPU_MODE_HBLANK;
 				if (stat & STAT_MODE_0_INT && (lcdc & LCDC_ON))
-						request_interrupt(gb, INT_STAT_REQUEST);
+					request_interrupt(gb, INT_STAT_REQUEST);
 				gb->gpu.tick -= VRAM_TIME;
 			}
 			break;
@@ -99,13 +99,12 @@ void	gpu_tick(struct gb_cpu_s* gb)
 			if (gb->gpu.tick >= VBLANK_TIME)
 			{
 				gb->gpu.y_coord++;
-				write_8(gb, LY_OFFSET, gb->gpu.y_coord);
-				compare_ly(gb, lyc, &stat, lcdc);
+				// compare_ly(gb, lyc, &stat, lcdc);
 				if (gb->gpu.y_coord > 153)
 				{
 					gb->gpu.y_coord = 0;
-					compare_ly(gb, lyc, &stat, lcdc);
 					write_8(gb, LY_OFFSET, gb->gpu.y_coord);
+					compare_ly(gb, lyc, &stat, lcdc);
 					gb->gpu.mode = GPU_MODE_OAM;
 					if (stat & STAT_MODE_2_INT && (lcdc & LCDC_ON))
 						request_interrupt(gb, INT_STAT_REQUEST);
@@ -121,4 +120,5 @@ void	gpu_tick(struct gb_cpu_s* gb)
 	compare_ly(gb, lyc, &stat, lcdc);
 	stat = (stat & 0b11111100) | gb->gpu.mode;
 	write_8(gb, STAT_OFFSET, stat);
+	write_8(gb, LY_OFFSET, gb->gpu.y_coord);
 }
