@@ -65,6 +65,14 @@ int Renderer::Destroy()
 }
 
 int Renderer::Render(int firstLine, int lastLine) {
+
+    uint8_t lcdc = (read_8(m_Gb, LCDC_OFFSET));
+	if (!(lcdc & LCDC_ON) && m_Gb->booted)
+	{
+		glClear(0);
+		return 0;
+	}
+
 	if (m_Gb->vram_updated) {
 		m_Gb->vram_updated = 0;
 		UpdateVram();
@@ -74,7 +82,6 @@ int Renderer::Render(int firstLine, int lastLine) {
 
     m_Background.Draw(firstLine, lastLine);
 
-    uint8_t lcdc = (read_8(m_Gb, LCDC_OFFSET));
     if (lcdc & LCDC_WINDOW_ON) {
         m_Menu.Draw(firstLine, lastLine);
     }

@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:26 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/05 16:05:19 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/05 21:42:15 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int		should_rerender(struct gb_cpu_s* gb)
 {
 	uint8_t lcdc = read_8(gb, LCDC_OFFSET);
 	if (gb->vram_updated || gb->oam_updated || gb->lcd_updated)
-		return (lcdc & LCDC_ON);
+		return (1);
 	return (0);
 }
 
