@@ -64,9 +64,8 @@ INCLUDES		=	DebuggerGrammar.hpp \
 					SymbolTerminalInterruptTimer.hpp \
 					SymbolTerminalHalfWordFormat.hpp \
 					SymbolTerminalWordFormat.hpp \
-					SymbolTerminalTodoOffset.hpp \
-					SymbolTerminalTimaOffset.hpp \
 					SymbolTerminalAnd.hpp \
+					SymbolTerminalTimaOffset.hpp \
 					SymbolTerminalBreakpoint.hpp \
 					SymbolTerminalStep.hpp \
 					SymbolTerminalVerbose.hpp \
@@ -173,7 +172,6 @@ SRCS			=	DebuggerGrammar.cpp \
 					SymbolTerminalInterruptTimer.cpp \
 					SymbolTerminalHalfWordFormat.cpp \
 					SymbolTerminalWordFormat.cpp \
-					SymbolTerminalTodoOffset.cpp \
 					SymbolTerminalTimaOffset.cpp \
 					SymbolTerminalAnd.cpp \
 					SymbolTerminalBreakpoint.cpp \

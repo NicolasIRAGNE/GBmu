@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 17:03:31 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/04 20:40:02 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/05/07 15:21:19 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@
 #include "SymbolTerminalInterruptTimer.hpp"
 #include "SymbolTerminalHalfWordFormat.hpp"
 #include "SymbolTerminalWordFormat.hpp"
-#include "SymbolTerminalTodoOffset.hpp"
 #include "SymbolTerminalTimaOffset.hpp"
 #include "SymbolTerminalAnd.hpp"
 #include "SymbolTerminalBreakpoint.hpp"
