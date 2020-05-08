@@ -70,7 +70,7 @@ int Renderer::Render(int firstLine, int lastLine) {
     uint8_t lcdc = (read_8(m_Gb, LCDC_OFFSET));
 	if (!(lcdc & LCDC_ON) && m_Gb->booted)
 	{
-		glClear(0);
+		glClear(GL_COLOR_BUFFER_BIT);
 		return 0;
 	}
 
