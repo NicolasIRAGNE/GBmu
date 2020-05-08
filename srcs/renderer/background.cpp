@@ -6,6 +6,7 @@
 
 extern "C" {
 #include "gb.h"
+#include "renderer.h"
 }
 
 namespace GBMU {
@@ -100,8 +101,10 @@ int Background::Draw(int firstLine, int lastLine)
 
 void Background::UpdateVertex(int firstLine, int lastLine)
 {
-    float y1 = static_cast<float>(firstLine) / 144.f * 2.f - 1.f;
-    float y2 = static_cast<float>(lastLine + 1) / 144.f * 2.f - 1.f;
+    constexpr float GBHeight = static_cast<float>(MAIN_SURFACE_HEIGHT);
+
+    float y1 = static_cast<float>(firstLine) / GBHeight * 2.f - 1.f;
+    float y2 = static_cast<float>(lastLine + 1) / GBHeight * 2.f - 1.f;
     y1 *= -1.f;
     y2 *= -1.f;
 

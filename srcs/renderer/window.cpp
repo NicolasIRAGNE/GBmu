@@ -6,6 +6,7 @@
 
 extern "C" {
 #include "gb.h"
+#include "renderer.h"
 }
 
 namespace GBMU {
@@ -111,11 +112,14 @@ int Window::Draw(int firstLine, int lastLine)
 
 void Window::UpdateVertex(int wx, int firstLine, int lastLine)
 {
-    float x1 = static_cast<float>(wx) / 160.f * 2.f - 1.f;
+    constexpr float GBWidth = static_cast<float>(MAIN_SURFACE_WIDTH);
+    constexpr float GBHeight = static_cast<float>(MAIN_SURFACE_HEIGHT);
+
+    float x1 = static_cast<float>(wx) / GBWidth * 2.f - 1.f;
     float x2 = 1.f;
 
-    float y1 = static_cast<float>(firstLine) / 144.f * 2.f - 1.f;
-    float y2 = static_cast<float>(lastLine + 1) / 144.f * 2.f - 1.f;
+    float y1 = static_cast<float>(firstLine) / GBHeight * 2.f - 1.f;
+    float y2 = static_cast<float>(lastLine + 1) / GBHeight * 2.f - 1.f;
     y1 *= -1.f;
     y2 *= -1.f;
 

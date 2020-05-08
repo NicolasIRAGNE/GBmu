@@ -27,7 +27,7 @@ int Renderer::Init()
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glClearColor(1.f, 0.f, 0.f, 1.0f);
+    glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 
     glGenBuffers(1, &m_VramUbo);
     glBindBuffer(GL_UNIFORM_BUFFER, m_VramUbo);
