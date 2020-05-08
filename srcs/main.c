@@ -107,6 +107,10 @@ int		main(int ac, char** av)
 
 	void*	renderer = new_renderer(&gb);
 	renderer_init(renderer);
+	int window_width;
+	int window_height;
+	SDL_GetWindowSize(main_window_context.win, &window_width, &window_height);
+	renderer_set_window_size(renderer, window_width, window_height);
 	execute_loop(&(struct gbmu_wrapper_s){&gb, &vram_viewer_context, &main_window_context}, renderer);
 	delete_renderer(renderer);
 	if (gb.mbc.ram_size > 0)

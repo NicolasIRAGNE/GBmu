@@ -6,6 +6,7 @@
 
 extern "C" {
 #include "gb.h"
+#include "renderer.h"
 }
 
 namespace GBMU {
@@ -55,8 +56,11 @@ int Window::Init()
     m_LcdcLoc   = glGetUniformLocation(m_Program, "lcdc");
     m_ColorsLoc = glGetUniformLocation(m_Program, "colors");
 
+    GLuint globalInfosLoc = glGetUniformBlockIndex(m_Program, "globalInfos");
+    glUniformBlockBinding(m_Program, globalInfosLoc, 0);
+
     GLuint vramLoc = glGetUniformBlockIndex(m_Program, "vram");
-    glUniformBlockBinding(m_Program, vramLoc, 2);
+    glUniformBlockBinding(m_Program, vramLoc, 1);
 
     return 0;
 }
@@ -111,11 +115,14 @@ int Window::Draw(int firstLine, int lastLine)
 
 void Window::UpdateVertex(int wx, int firstLine, int lastLine)
 {
-    float x1 = static_cast<float>(wx) / 160.f * 2.f - 1.f;
+    constexpr float GBWidth = static_cast<float>(MAIN_SURFACE_WIDTH);
+    constexpr float GBHeight = static_cast<float>(MAIN_SURFACE_HEIGHT);
+
+    float x1 = static_cast<float>(wx) / GBWidth * 2.f - 1.f;
     float x2 = 1.f;
 
-    float y1 = static_cast<float>(firstLine) / 144.f * 2.f - 1.f;
-    float y2 = static_cast<float>(lastLine + 1) / 144.f * 2.f - 1.f;
+    float y1 = static_cast<float>(firstLine) / GBHeight * 2.f - 1.f;
+    float y2 = static_cast<float>(lastLine + 1) / GBHeight * 2.f - 1.f;
     y1 *= -1.f;
     y2 *= -1.f;
 

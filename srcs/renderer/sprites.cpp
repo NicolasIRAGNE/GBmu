@@ -50,8 +50,11 @@ int Sprites::Init()
     m_Colors1Loc = glGetUniformLocation(m_Program, "colors1");
     m_Colors2Loc = glGetUniformLocation(m_Program, "colors2");
 
+    GLuint globalInfosLoc = glGetUniformBlockIndex(m_Program, "globalInfos");
+    glUniformBlockBinding(m_Program, globalInfosLoc, 0);
+
     GLuint vramLoc = glGetUniformBlockIndex(m_Program, "vram");
-    glUniformBlockBinding(m_Program, vramLoc, 2);
+    glUniformBlockBinding(m_Program, vramLoc, 1);
 
     return 0;
 }
@@ -156,12 +159,15 @@ int Sprites::UpdateVertex(int firstLine, int lastLine)
 
 void Sprites::FillData(float* data, int x1, int y1, int x2, int y2, int tile, int attr)
 {
-    float x1f = (float)(x1) / 160.f * 2.f - 1.f;
-    float y1f = (float)(y1) / 144.f * 2.f - 1.f;
+    constexpr float GBWidth = static_cast<float>(MAIN_SURFACE_WIDTH);
+    constexpr float GBHeight = static_cast<float>(MAIN_SURFACE_HEIGHT);
+
+    float x1f = (float)(x1) / GBWidth * 2.f - 1.f;
+    float y1f = (float)(y1) / GBHeight * 2.f - 1.f;
     y1f *= -1.f;
 
-    float x2f = (float)(x2) / 160.f * 2.f - 1.f;
-    float y2f = (float)(y2) / 144.f * 2.f - 1.f;
+    float x2f = (float)(x2) / GBWidth * 2.f - 1.f;
+    float y2f = (float)(y2) / GBHeight * 2.f - 1.f;
     y2f *= -1.f;
 
     data[0]  = x1f; data[1]  = y2f; data[2]  = (float)tile; data[3]  = (float)attr;
