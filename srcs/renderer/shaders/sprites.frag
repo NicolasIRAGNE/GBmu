@@ -50,6 +50,11 @@ vec4 GetColorFromTileIndex(uint index, uvec2 posInTile)
 
 void main()
 {
+    gl_FragDepth = 0.1f;
+    if ((uint(fAttr) & 128u) != 0u) {
+        gl_FragDepth = 0.6f;
+    }
+
     uvec2 pixelPosInTile = uvec2(vPosInTile);
     uint tileIndex = uint(fTileIndex);
 
