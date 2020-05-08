@@ -34,6 +34,7 @@ int Sprites::Init()
     }
 
     glBindAttribLocation(m_Program, 0, "inVertex");
+    glBindAttribLocation(m_Program, 1, "posInTile");
 
     glGenBuffers(1, &m_Vbo);
     glBindBuffer(GL_ARRAY_BUFFER, m_Vbo);
