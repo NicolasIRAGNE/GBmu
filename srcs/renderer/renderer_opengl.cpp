@@ -106,8 +106,6 @@ int Renderer::Render(int firstLine, int lastLine)
 		UpdateVram();
 	}
 
-    glBindBuffer(GL_UNIFORM_BUFFER, m_VramUbo);
-
     m_Background.Draw(firstLine, lastLine);
 
     if (lcdc & LCDC_WINDOW_ON) {
@@ -117,8 +115,6 @@ int Renderer::Render(int firstLine, int lastLine)
     glDepthFunc(GL_LEQUAL);
     m_Sprites.Draw(firstLine, lastLine);
     glDepthFunc(GL_ALWAYS);
-
-    glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
     return 0;
 }
