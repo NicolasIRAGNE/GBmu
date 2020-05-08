@@ -50,8 +50,11 @@ int Sprites::Init()
     m_Colors1Loc = glGetUniformLocation(m_Program, "colors1");
     m_Colors2Loc = glGetUniformLocation(m_Program, "colors2");
 
+    GLuint globalInfosLoc = glGetUniformBlockIndex(m_Program, "globalInfos");
+    glUniformBlockBinding(m_Program, globalInfosLoc, 0);
+
     GLuint vramLoc = glGetUniformBlockIndex(m_Program, "vram");
-    glUniformBlockBinding(m_Program, vramLoc, 2);
+    glUniformBlockBinding(m_Program, vramLoc, 1);
 
     return 0;
 }

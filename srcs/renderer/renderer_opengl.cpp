@@ -10,6 +10,11 @@ extern "C" {
 
 namespace GBMU {
 
+struct GlobalInfos {
+    float windowWidth;
+    float windowHeight;
+};
+
 Renderer::Renderer(gb_cpu_s* gb) :
     m_Gb(gb), m_Background(gb), m_Menu(gb), m_Sprites(gb) {}
 
@@ -29,12 +34,19 @@ int Renderer::Init()
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 
-    glGenBuffers(1, &m_VramUbo);
-    glBindBuffer(GL_UNIFORM_BUFFER, m_VramUbo);
-    glBufferData(GL_UNIFORM_BUFFER, VRAM_SIZE, nullptr, GL_DYNAMIC_COPY);
+    glGenBuffers(1, &m_GlobalInfosUbo);
+    glBindBuffer(GL_UNIFORM_BUFFER, m_GlobalInfosUbo);
+    glBufferData(GL_UNIFORM_BUFFER, sizeof(GlobalInfos), nullptr, GL_STATIC_DRAW);
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
     
-    glBindBufferBase(GL_UNIFORM_BUFFER, 2, m_VramUbo);
+    glBindBufferBase(GL_UNIFORM_BUFFER, 0, m_GlobalInfosUbo);
+
+    glGenBuffers(1, &m_VramUbo);
+    glBindBuffer(GL_UNIFORM_BUFFER, m_VramUbo);
+    glBufferData(GL_UNIFORM_BUFFER, VRAM_SIZE, nullptr, GL_DYNAMIC_DRAW);
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
+    
+    glBindBufferBase(GL_UNIFORM_BUFFER, 1, m_VramUbo);
 
     int ret = m_Background.Init();
     if (ret < 0) {
@@ -104,6 +116,16 @@ void Renderer::SetWindowSize(int width, int height)
 
     m_WindowWidth = width;
     m_WindowHeight = height;
+
+    GlobalInfos infos;
+    infos.windowWidth = static_cast<float>(width);
+    infos.windowHeight = static_cast<float>(height);
+
+    glBindBuffer(GL_UNIFORM_BUFFER, m_GlobalInfosUbo);
+    GLvoid* ptr = glMapBuffer(GL_UNIFORM_BUFFER, GL_WRITE_ONLY);
+    std::memcpy(ptr, &infos, sizeof(GlobalInfos));
+    glUnmapBuffer(GL_UNIFORM_BUFFER);
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }
 
 void Renderer::UpdateVram()

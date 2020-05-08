@@ -1,9 +1,15 @@
 #version 330
 
+layout(std140) uniform globalInfos
+{
+    float windowWidth;
+    float windowHeight;
+};
+
 layout(std140) uniform vram
 {
     uvec4 data[8192 / 16];
-};  
+};
 
 uniform uint scx;
 uniform uint scy;
@@ -39,7 +45,7 @@ vec4 GetColorFromTileIndex(uint index, uvec2 posInTile)
 
 void main()
 {
-    uvec2 pixelPos = uvec2(gl_FragCoord.x / 2.f, 144.f - gl_FragCoord.y / 2.f);
+    uvec2 pixelPos = uvec2(gl_FragCoord.x / windowWidth * 160.f, 144.f - (gl_FragCoord.y / windowHeight * 144.f));
     pixelPos = (pixelPos + uvec2(scx, scy)) % 256u;
 
     uvec2 tilePos = pixelPos / 8u;
