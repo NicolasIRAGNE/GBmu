@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/27 10:37:00 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/09 12:32:59 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/10 13:21:43 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,14 @@ enum	mbc_mode_e
 	MBC_MODE_RTC
 };
 
+# define MBC_ATTR_RAM		(1 << 0)
+# define MBC_ATTR_BATTERY	(1 << 1)
+# define MBC_ATTR_TIMER		(1 << 2)
+# define MBC_ATTR_RUMBLE	(1 << 3)
+# define MBC_ATTR_SENSOR	(1 << 4)
+
+typedef uint8_t mbc_attr_t;
+
 struct	mbc_s
 {
 	char*			name;
@@ -36,6 +44,7 @@ struct	mbc_s
 	uint8_t			rtc;
 	uint32_t		rom_size;
 	uint32_t		ram_size;
+	mbc_attr_t		attr;
 };
 
 struct mbc_s get_mbc(int index);
@@ -49,6 +58,7 @@ uint8_t	read_mbc1(struct gb_cpu_s* gb, uint16_t addr);
 void	write_mbc2(struct gb_cpu_s* gb, uint16_t addr, uint8_t x);
 uint8_t	read_mbc2(struct gb_cpu_s* gb, uint16_t addr);
 
+void	update_rtc(struct gb_cpu_s* gb);
 void	write_mbc3(struct gb_cpu_s* gb, uint16_t addr, uint8_t x);
 uint8_t	read_mbc3(struct gb_cpu_s* gb, uint16_t addr);
 
