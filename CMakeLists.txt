@@ -17,6 +17,9 @@ include_directories(${SDL2_INCLUDE_DIRS})
 find_package(OpenGL REQUIRED)
 include_directories(${OPENGL_INCLUDE_DIRS})
 
+# Glew
+find_package(GLEW REQUIRED)
+
 ################################################
 #                   SOURCES                    #
 ################################################
@@ -142,6 +145,7 @@ add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT})
 target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} GLEW::GLEW)
 
 ################################################
 #                   INSTALL                    #

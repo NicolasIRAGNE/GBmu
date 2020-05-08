@@ -19,6 +19,12 @@ Renderer::~Renderer() {
 
 int Renderer::Init()
 {
+    GLenum err = glewInit();
+    if (err != GLEW_OK) {
+        printf("Glew error: %s\n", glewGetErrorString(err));
+        return -1;
+    }
+
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glClearColor(1.f, 0.f, 0.f, 1.0f);
