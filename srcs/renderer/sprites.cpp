@@ -99,7 +99,7 @@ int Sprites::UpdateVertex(int firstLine, int lastLine)
 
     int dataIndex = 0;
     int posInTileIndex = 0;
-    for (int i = 0; i < OAM_SIZE; i += 4)
+    for (int i = OAM_SIZE - 4; i >= 0; i -= 4)
     {
         int y = m_Gb->oam[i + 0];
         int x = m_Gb->oam[i + 1];
