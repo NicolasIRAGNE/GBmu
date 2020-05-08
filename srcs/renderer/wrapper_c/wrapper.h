@@ -18,5 +18,6 @@ void*   new_renderer(struct gb_cpu_s* gb);
 void    delete_renderer(void* renderer);
 void    renderer_init(void* renderer);
 void    renderer_destroy(void* renderer);
-void    renderer_render(void* renderer, int firstLine, int lastLine);
+void    renderer_draw(void* renderer, int firstLine, int lastLine);
+void    renderer_render(void* renderer);
 void    renderer_set_window_size(void* renderer, int width, int height);

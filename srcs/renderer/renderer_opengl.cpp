@@ -6,6 +6,7 @@
 
 extern "C" {
 #include "gb.h"
+#include "renderer.h"
 }
 
 namespace GBMU {
@@ -52,6 +53,25 @@ int Renderer::Init()
     
     glBindBufferBase(GL_UNIFORM_BUFFER, 1, m_VramUbo);
 
+    glGenFramebuffers(1, &m_FrameBuffer);
+    glBindFramebuffer(GL_FRAMEBUFFER, m_FrameBuffer);
+
+    glGenTextures(1, &m_TargetTexture);
+    glBindTexture(GL_TEXTURE_2D, m_TargetTexture);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, MAIN_SURFACE_WIDTH, MAIN_SURFACE_HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, m_FrameBuffer, 0);
+    GLenum DrawBuffers = GL_COLOR_ATTACHMENT0;
+    glDrawBuffers(1, &DrawBuffers);
+
+    if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+        printf("Failed to create framebuffer\n");
+        return -1;
+    }
+
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
     int ret = m_Background.Init();
     if (ret < 0) {
         printf("Failed to init background\n");
@@ -70,6 +90,12 @@ int Renderer::Init()
         return ret;
     }
 
+    ret = m_Rescale.Init(m_TargetTexture);
+    if (ret < 0) {
+        printf("Failed to init rescaling\n");
+        return ret;
+    }
+
     return 0;
 }
 
@@ -79,15 +105,18 @@ int Renderer::Destroy()
     m_Menu.Destroy();
     m_Background.Destroy();
 
+    glDeleteTextures(1, &m_TargetTexture);
+    glDeleteFramebuffers(1, &m_FrameBuffer);
     glDeleteBuffers(1, &m_VramUbo);
+    glDeleteBuffers(1, &m_GlobalInfosUbo);
 
     return 0;
 }
 
-int Renderer::Render(int firstLine, int lastLine)
+int Renderer::Draw(int firstLine, int lastLine)
 {
     if (firstLine == 0) {
-        glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+        glClear(GL_DEPTH_BUFFER_BIT);
     }
 
     uint8_t lcdc = (read_8(m_Gb, LCDC_OFFSET));
@@ -105,6 +134,9 @@ int Renderer::Render(int firstLine, int lastLine)
 		m_Gb->vram_updated = 0;
 		UpdateVram();
 	}
+    
+    glBindFramebuffer(GL_FRAMEBUFFER, m_FrameBuffer);
+    glViewport(0, 0, MAIN_SURFACE_WIDTH, MAIN_SURFACE_HEIGHT);
 
     m_Background.Draw(firstLine, lastLine);
 
@@ -116,13 +148,21 @@ int Renderer::Render(int firstLine, int lastLine)
     m_Sprites.Draw(firstLine, lastLine);
     glDepthFunc(GL_ALWAYS);
 
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+    return 0;
+}
+
+int Renderer::Render()
+{
+    glViewport(0, 0, m_WindowWidth, m_WindowHeight);
+    m_Rescale.Draw();
+
     return 0;
 }
 
 void Renderer::SetWindowSize(int width, int height)
 {
-    glViewport(0, 0, width, height);
-
     m_WindowWidth = width;
     m_WindowHeight = height;
 

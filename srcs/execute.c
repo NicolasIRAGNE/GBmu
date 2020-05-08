@@ -100,15 +100,16 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 			gb->paused = 1;
 		if (should_rerender(gb) && last_line_drawn != gb->gpu.y_coord && gb->gpu.y_coord < 144)
 		{
-			renderer_render(renderer, last_line_drawn, gb->gpu.y_coord);
+			renderer_draw(renderer, last_line_drawn, gb->gpu.y_coord);
 			last_line_drawn = gb->gpu.y_coord;
 		}
 		last_line = gb->gpu.y_coord;
 		gpu_tick(gb);
 		if (wrapper->gb->gpu.y_coord == 144 && last_line != 144)
 		{
-			renderer_render(renderer, last_line_drawn, gb->gpu.y_coord);
+			renderer_draw(renderer, last_line_drawn, gb->gpu.y_coord);
 			main_window_loop(wrapper, renderer);
+			renderer_render(renderer);
 			SDL_GL_SwapWindow(wrapper->main_context->win);
 			last_line_drawn = 0;
 		}

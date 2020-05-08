@@ -6,6 +6,8 @@
 #include "window.h"
 #include "sprites.h"
 
+#include "rescale.h"
+
 struct gb_cpu_s;
 
 namespace GBMU {
@@ -18,7 +20,8 @@ public:
     int Init();
     int Destroy();
 
-    int Render(int firstLine, int lastLine);
+    int Draw(int firstLine, int lastLine);
+    int Render();
 
     void SetWindowSize(int width, int height);
 
@@ -30,10 +33,14 @@ private:
 
     GLuint m_VramUbo {0};
     GLuint m_GlobalInfosUbo {0};
+    GLuint m_FrameBuffer {0};
+    GLuint m_TargetTexture {0};
 
     Background m_Background;
     Window m_Menu;
     Sprites m_Sprites;
+
+    Rescale m_Rescale;
 
     int m_WindowWidth {0};
     int m_WindowHeight {0};
