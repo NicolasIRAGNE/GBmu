@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:26 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/05 21:42:15 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/07 17:45:08 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,21 +100,21 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 			gb->paused = 1;
 		if (should_rerender(gb) && last_line_drawn != gb->gpu.y_coord && gb->gpu.y_coord < 144)
 		{
-			renderer_render(renderer, last_line_drawn, gb->gpu.y_coord);
+			// renderer_render(renderer, 0, 144);// gb->gpu.y_coord);
 			last_line_drawn = gb->gpu.y_coord;
 		}
 		last_line = gb->gpu.y_coord;
 		gpu_tick(gb);
 		if (wrapper->gb->gpu.y_coord == 144 && last_line != 144)
 		{
-			renderer_render(renderer, last_line_drawn, gb->gpu.y_coord);
+			renderer_render(renderer, 0, 144);
 			main_window_loop(wrapper);
 			SDL_GL_SwapWindow(wrapper->main_context->win);
 			last_line_drawn = 0;
 		}
 		if (gb->cycle - gb->last_sleep > (70224 / 4))
 		{
-			usleep(128);
+			// usleep(128);
 			gb->last_sleep = gb->cycle;
 		}
 		update_div_register(gb);

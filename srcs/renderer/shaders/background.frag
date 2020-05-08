@@ -15,7 +15,7 @@ uint GetValueAt(uint addr)
     float x = float(addr % 128u) / 128.f;
     float y = float(addr / 128u) / 64.f;
 
-    float octet = texture2D(tex, vec2(x, y)).r;
+    float octet = texture(tex, vec2(x, y)).r;
     uint ret = uint(octet * 255.f);
 
     return ret;

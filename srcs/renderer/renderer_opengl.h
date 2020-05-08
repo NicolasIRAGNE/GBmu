@@ -1,8 +1,10 @@
 #pragma once
 
-#define GL_GLEXT_PROTOTYPES
-#include <GL/gl.h>
-#include <GL/glu.h>
+#include <GL/glew.h>
+
+// #include <OpenGL/gl.h>
+// #include <OpenGL/glu.h>
+// #include <OpenGL/glext.h>
 
 #include "background.h"
 #include "window.h"

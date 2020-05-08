@@ -19,9 +19,10 @@ Renderer::~Renderer() {
 
 int Renderer::Init()
 {
+	glewInit();
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glClearColor(1.f, 0.f, 0.f, 1.0f);
+    glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 
     glGenTextures(1, &m_Texture);
     glBindTexture(GL_TEXTURE_2D, m_Texture);

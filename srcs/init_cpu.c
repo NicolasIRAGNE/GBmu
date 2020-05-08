@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_cpu.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:30:05 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/05 14:35:09 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/07 17:40:46 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int		init_cpu(struct gb_cpu_s* gb, struct rom_s* rom)
 	gb->reg.af = 0;
 	gb->reg.de = 0;
 	gb->reg.hl = 0;
-	gb->reg.pc = 0;
+	gb->reg.pc = 0x100;
 	gb->booted = (gb->reg.pc) >= 0x100;
 	gb->running = 1;
 	gb->vram_viewer_running = 1;

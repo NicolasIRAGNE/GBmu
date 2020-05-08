@@ -10,6 +10,8 @@ extern "C" {
 #include "renderer.h"
 }
 
+#define checkGl if (glGetError()){ printf("LINE: %d\n", __LINE__); }
+
 namespace GBMU {
 
 Sprites::Sprites(gb_cpu_s* gb) : m_Gb(gb) {}
@@ -21,6 +23,10 @@ Sprites::~Sprites()
 
 int Sprites::Init()
 {
+	glGenVertexArrays(1, &m_Vao);
+    checkGl
+	glBindVertexArray(m_Vao);
+	checkGl
     m_Program = compileProgram(
         "shaders/sprites.vert",
         "shaders/sprites.frag");
@@ -31,54 +37,63 @@ int Sprites::Init()
     }
 
     glBindAttribLocation(m_Program, 0, "inVertex");
+	checkGl
+    // glBindAttribLocation(m_Program, 1, "posInTile");
+checkGl
 
-    glGenVertexArrays(1, &m_Vao);
-    glBindVertexArray(m_Vao);
-    glGenBuffers(1, &m_Vbo);
-    glBindBuffer(GL_ARRAY_BUFFER, m_Vbo);
-    glBufferData(GL_ARRAY_BUFFER, OAM_SIZE * 2 * 6 * 6 * sizeof(float), nullptr, GL_DYNAMIC_DRAW);
-    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, (void*)0);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(OAM_SIZE * 2 * 6 * 4 * sizeof(float)));
+	constexpr float quad[] = {
+        -1.f, -1.f, 0.f, 0.f,
+        -1.f,  1.f, 0.f, 0.f,
+         1.f, -1.f, 0.f, 0.f,
+         1.f,  1.f, 0.f, 0.f,
+    };
 
-    glEnableVertexAttribArray(0);
-    glEnableVertexAttribArray(1);
+    glGenBuffers(1, &m_Vbo);checkGl
+    glBindBuffer(GL_ARRAY_BUFFER, m_Vbo);checkGl
+    glBufferData(GL_ARRAY_BUFFER, OAM_SIZE * 2 * 6 * 6 * sizeof(float), quad, GL_DYNAMIC_DRAW); checkGl
+    
+	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, (void*)0);checkGl
+    // glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void *)(OAM_SIZE * 2 * 6 * 4 * sizeof(float)));checkGl
 
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindVertexArray(0);
+    glEnableVertexAttribArray(0);checkGl
+    // glEnableVertexAttribArray(1);checkGl
+	
+    glBindBuffer(GL_ARRAY_BUFFER, 0);checkGl
+    glBindVertexArray(0);checkGl
 
-    m_Colors1Loc = glGetUniformLocation(m_Program, "colors1");
-    m_Colors2Loc = glGetUniformLocation(m_Program, "colors2");
+    m_Colors1Loc = glGetUniformLocation(m_Program, "colors1");checkGl
+    m_Colors2Loc = glGetUniformLocation(m_Program, "colors2");checkGl
 
     return 0;
 }
 
 int Sprites::Destroy()
 {
-    glDeleteBuffers(1, &m_Vbo);
-    glDeleteVertexArrays(1, &m_Vao);
-    glDeleteProgram(m_Program);
-
+    glDeleteBuffers(1, &m_Vbo);checkGl
+    glDeleteVertexArrays(1, &m_Vao);checkGl
+    glDeleteProgram(m_Program);checkGl
     return 0;
 }
 
 int Sprites::Draw(int firstLine, int lastLine)
 {
-    UpdateColors();
+    UpdateColors();checkGl
 
-    int nbQuad = UpdateVertex(firstLine, lastLine);
+    int nbQuad = UpdateVertex(firstLine, lastLine);checkGl
+
     if (nbQuad == 0) {
         return 0;
     }
 
-    glUseProgram(m_Program);
-    glBindVertexArray(m_Vao);
-    glBindBuffer(GL_ARRAY_BUFFER, m_Vbo);
+    glUseProgram(m_Program);checkGl
+    glBindVertexArray(m_Vao);checkGl
+    glBindBuffer(GL_ARRAY_BUFFER, m_Vbo);checkGl
 
     glDrawArrays(GL_TRIANGLES, 0, nbQuad * 6);
 
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindVertexArray(0);
-    glUseProgram(0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);checkGl
+    glBindVertexArray(0);checkGl
+    glUseProgram(0);checkGl
 
     return 0;
 }
@@ -142,10 +157,10 @@ int Sprites::UpdateVertex(int firstLine, int lastLine)
         }
     }
 
-    glBindBuffer(GL_ARRAY_BUFFER, m_Vbo);
-    glBufferSubData(GL_ARRAY_BUFFER, 0, dataIndex * sizeof(float), data);
-    glBufferSubData(GL_ARRAY_BUFFER, sizeof(data), posInTileIndex * sizeof(float), posInTile);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ARRAY_BUFFER, m_Vbo);checkGl
+    glBufferSubData(GL_ARRAY_BUFFER, 0, dataIndex * sizeof(float), data);checkGl
+    glBufferSubData(GL_ARRAY_BUFFER, sizeof(data), posInTileIndex * sizeof(float), posInTile);checkGl
+    glBindBuffer(GL_ARRAY_BUFFER, 0);checkGl
 
     return dataIndex / 24;
 }
@@ -213,9 +228,9 @@ void Sprites::UpdateColors()
     std::memcpy(&colors[1], &monochromePalette[(obp0 & 0b00110000) >> 4], 4 * sizeof(float));
     std::memcpy(&colors[3], &monochromePalette[(obp0 & 0b11000000) >> 6], 4 * sizeof(float));
 
-    glUseProgram(m_Program);
-    glUniform4fv(m_Colors1Loc, 4, (const GLfloat*)colors);
-    glUseProgram(0);
+    glUseProgram(m_Program);checkGl
+    glUniform4fv(m_Colors1Loc, 4, (const GLfloat*)colors);checkGl
+    glUseProgram(0);checkGl
 
     uint8_t obp1 = read_8(m_Gb, OBP1_OFFSET);
     std::memcpy(&colors[0], &monochromePalette[4], 4 * sizeof(float));
@@ -223,9 +238,9 @@ void Sprites::UpdateColors()
     std::memcpy(&colors[1], &monochromePalette[(obp1 & 0b00110000) >> 4], 4 * sizeof(float));
     std::memcpy(&colors[3], &monochromePalette[(obp1 & 0b11000000) >> 6], 4 * sizeof(float));
 
-    glUseProgram(m_Program);
-    glUniform4fv(m_Colors2Loc, 4, (const GLfloat*)colors);
-    glUseProgram(0);
+    glUseProgram(m_Program);checkGl
+    glUniform4fv(m_Colors2Loc, 4, (const GLfloat*)colors);checkGl
+    glUseProgram(0);checkGl
 }
 
 } // namespace GBMU
