@@ -1,5 +1,11 @@
 #version 330
 
+layout(std140) uniform globalInfos
+{
+    float windowWidth;
+    float windowHeight;
+};
+
 layout(std140) uniform vram
 {
     uvec4 data[8192 / 16];
