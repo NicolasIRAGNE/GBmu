@@ -73,7 +73,7 @@ uint32_t	get_color_from_palette(uint8_t index, uint32_t* palette);
 int		print_tile(struct gb_cpu_s* gb, SDL_Surface* surface, struct tile_s* tile, int index, SDL_Rect pos, enum tile_type_e type);
 void	resize_tile(uint32_t* pixels, struct tile_s* tile, int x, int y);
 void	fill_tile_array(struct gb_cpu_s* gb, struct tile_s* array);
-void	main_window_loop(struct gbmu_wrapper_s* wrapper);
+void	main_window_loop(struct gbmu_wrapper_s* wrapper, void* renderer);
 void	handle_joypad(struct gb_cpu_s* gb, SDL_GameController* controller, const Uint8* state);
 void	check_savestate(struct gb_cpu_s* gb, const Uint8* state, SDL_Event event);
 void	update_palettes(struct gb_cpu_s* gb);

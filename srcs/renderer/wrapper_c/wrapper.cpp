@@ -15,33 +15,39 @@
 extern "C"
 {
 
-void*	new_renderer(struct gb_cpu_s* gb)
+void*    new_renderer(struct gb_cpu_s* gb)
 {
-	return(new GBMU::Renderer(gb));
+    return(new GBMU::Renderer(gb));
 }
 
-void	delete_renderer(void* renderer)
+void    delete_renderer(void* renderer)
 {
-	auto ptr = reinterpret_cast<GBMU::Renderer*>(renderer);
-	delete ptr;
+    auto ptr = reinterpret_cast<GBMU::Renderer*>(renderer);
+    delete ptr;
 }
 
-void	renderer_init(void*	renderer)
+void    renderer_init(void* renderer)
 {
-	auto ptr = reinterpret_cast<GBMU::Renderer*>(renderer);
-	ptr->Init();
+    auto ptr = reinterpret_cast<GBMU::Renderer*>(renderer);
+    ptr->Init();
 }
 
-void	renderer_destroy(void*	renderer)
+void    renderer_destroy(void* renderer)
 {
-	auto ptr = reinterpret_cast<GBMU::Renderer*>(renderer);
-	ptr->Destroy();
+    auto ptr = reinterpret_cast<GBMU::Renderer*>(renderer);
+    ptr->Destroy();
 }
 
-void	renderer_render(void* renderer, int firstLine, int lastLine)
+void    renderer_render(void* renderer, int firstLine, int lastLine)
 {
-	auto ptr = reinterpret_cast<GBMU::Renderer*>(renderer);
-	ptr->Render(firstLine, lastLine);
+    auto ptr = reinterpret_cast<GBMU::Renderer*>(renderer);
+    ptr->Render(firstLine, lastLine);
 }
 
+void    renderer_set_window_size(void* renderer, int width, int height)
+{
+    auto ptr = reinterpret_cast<GBMU::Renderer*>(renderer);
+	ptr->SetWindowSize(width, height);
 }
+
+} // extern "C"

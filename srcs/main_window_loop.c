@@ -23,7 +23,7 @@ int		display_test(struct gbmu_wrapper_s* wrapper, struct tile_s* array, SDL_Surf
 	return (0);
 }
 
-void	main_window_loop(struct gbmu_wrapper_s* wrapper)
+void	main_window_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 {
 	SDL_Event event;
 	const Uint8 *state = SDL_GetKeyboardState(NULL);
@@ -37,6 +37,11 @@ void	main_window_loop(struct gbmu_wrapper_s* wrapper)
 			if (event.key.keysym.scancode == SDL_SCANCODE_SPACE)
 				wrapper->gb->paused = 1;
 			check_savestate(wrapper->gb, state, event);
+		}
+		else if (event.type == SDL_WINDOWEVENT) {
+			if (event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED) {
+				renderer_set_window_size(renderer, event.window.data1, event.window.data2);
+			}
 		}
    	}
 	if (!wrapper->gb->paused)

@@ -46,7 +46,7 @@ int     init_vram_viewer(struct sdl_context_s* context)
 
 int     init_main_window(struct sdl_context_s* context)
 {
-	context->win = SDL_CreateWindow("GBmu", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT, SDL_WINDOW_OPENGL);
+	context->win = SDL_CreateWindow("GBmu", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT,  SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
 	if (!context->win)
 	{
 		fprintf(stderr, "failed to initialize create window (%s)\n", SDL_GetError());

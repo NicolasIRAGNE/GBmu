@@ -74,6 +74,10 @@ int Renderer::Render(int firstLine, int lastLine) {
 		return 0;
 	}
 
+    if (m_WindowWidth == 0 || m_WindowHeight == 0) {
+        return 0;
+    }
+
 	if (m_Gb->vram_updated) {
 		m_Gb->vram_updated = 0;
 		UpdateVram();
@@ -92,6 +96,14 @@ int Renderer::Render(int firstLine, int lastLine) {
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
     return 0;
+}
+
+void Renderer::SetWindowSize(int width, int height)
+{
+    glViewport(0, 0, width, height);
+
+    m_WindowWidth = width;
+    m_WindowHeight = height;
 }
 
 void Renderer::UpdateVram()

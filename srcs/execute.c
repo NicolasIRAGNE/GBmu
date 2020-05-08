@@ -108,7 +108,7 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 		if (wrapper->gb->gpu.y_coord == 144 && last_line != 144)
 		{
 			renderer_render(renderer, last_line_drawn, gb->gpu.y_coord);
-			main_window_loop(wrapper);
+			main_window_loop(wrapper, renderer);
 			SDL_GL_SwapWindow(wrapper->main_context->win);
 			last_line_drawn = 0;
 		}
