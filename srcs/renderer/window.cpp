@@ -19,6 +19,9 @@ Window::~Window()
 
 int Window::Init()
 {
+    glGenVertexArrays(1, &m_Vao);
+    glBindVertexArray(m_Vao);
+    
     m_Program = compileProgram(
         "shaders/window.vert",
         "shaders/window.frag");
@@ -37,8 +40,6 @@ int Window::Init()
          1.f,  1.f,
     };
 
-    glGenVertexArrays(1, &m_Vao);
-    glBindVertexArray(m_Vao);
     glGenBuffers(1, &m_Vbo);
     glBindBuffer(GL_ARRAY_BUFFER, m_Vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(quad), quad, GL_DYNAMIC_DRAW);

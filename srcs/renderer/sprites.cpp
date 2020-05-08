@@ -21,6 +21,9 @@ Sprites::~Sprites()
 
 int Sprites::Init()
 {
+    glGenVertexArrays(1, &m_Vao);
+    glBindVertexArray(m_Vao);
+    
     m_Program = compileProgram(
         "shaders/sprites.vert",
         "shaders/sprites.frag");
@@ -32,8 +35,6 @@ int Sprites::Init()
 
     glBindAttribLocation(m_Program, 0, "inVertex");
 
-    glGenVertexArrays(1, &m_Vao);
-    glBindVertexArray(m_Vao);
     glGenBuffers(1, &m_Vbo);
     glBindBuffer(GL_ARRAY_BUFFER, m_Vbo);
     glBufferData(GL_ARRAY_BUFFER, OAM_SIZE * 2 * 6 * 6 * sizeof(float), nullptr, GL_DYNAMIC_DRAW);
