@@ -32,6 +32,10 @@ int Renderer::Init()
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_ALWAYS);
+
     glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 
     glGenBuffers(1, &m_GlobalInfosUbo);
@@ -50,16 +54,19 @@ int Renderer::Init()
 
     int ret = m_Background.Init();
     if (ret < 0) {
+        printf("Failed to init background\n");
         return ret;
     }
 
     ret = m_Menu.Init();
     if (ret < 0) {
+        printf("Failed to init window\n");
         return ret;
     }
 
     ret = m_Sprites.Init();
     if (ret < 0) {
+        printf("Failed to init sprites\n");
         return ret;
     }
 
@@ -77,7 +84,11 @@ int Renderer::Destroy()
     return 0;
 }
 
-int Renderer::Render(int firstLine, int lastLine) {
+int Renderer::Render(int firstLine, int lastLine)
+{
+    if (firstLine == 0) {
+        glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+    }
 
     uint8_t lcdc = (read_8(m_Gb, LCDC_OFFSET));
 	if (!(lcdc & LCDC_ON) && m_Gb->booted)
@@ -103,7 +114,9 @@ int Renderer::Render(int firstLine, int lastLine) {
         m_Menu.Draw(firstLine, lastLine);
     }
 
+    glDepthFunc(GL_LEQUAL);
     m_Sprites.Draw(firstLine, lastLine);
+    glDepthFunc(GL_ALWAYS);
 
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
 

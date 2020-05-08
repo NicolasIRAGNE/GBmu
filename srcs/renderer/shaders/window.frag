@@ -40,6 +40,11 @@ vec4 GetColorFromTileIndex(uint index, uvec2 posInTile)
 
     colorIndex = colorIndex >> (posInByte * 2u);
 
+    gl_FragDepth = 0.4f;
+    if (colorIndex == 0u) {
+        gl_FragDepth = 0.8f;
+    }
+
     return colors[colorIndex];
 }
 
