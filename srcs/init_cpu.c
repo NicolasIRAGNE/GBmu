@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:30:05 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/05 14:35:09 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/09 13:28:11 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,9 @@ int		init_mbc(struct gb_cpu_s* gb)
 	{
 		gb->mbc.rom_size = 0x8000 << gb->rom_ptr->header->rom_size;
 	}
+
+	if (gb->mbc.ram_size != 0)
+		return (0);
 
 	if (gb->rom_ptr->header->ram_size == 0x01)
 	{

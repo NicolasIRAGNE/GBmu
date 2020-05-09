@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:34:47 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/05 15:05:46 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/09 14:06:01 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,9 @@
 # define TIMER_FREQ_2			65536
 # define TIMER_FREQ_3			16384
 
+# define TAC_ENABLE				(1 << 2)
+# define TAC_FREQ				(0b11)
+
 struct	gb_cpu_s;
 
 struct registers_s {
@@ -206,6 +209,13 @@ struct	joypad_s
 	uint8_t		right : 1;
 };
 
+struct tima_s
+{
+	uint64_t	freq;
+	uint64_t	clocks;
+	uint64_t	last_cycle;
+};
+
 struct	gb_cpu_s
 {
 	int					jmp : 1; // Flag used by the emulator. Ugly but hopefully temporary ?
@@ -230,6 +240,7 @@ struct	gb_cpu_s
 	struct rom_s*		rom_ptr;
 	struct gb_gpu_s		gpu;
 	struct mbc_s		mbc;
+	struct tima_s		tima;
 	struct joypad_s		joypad;
 	uint8_t				boot_rom[BOOT_ROM_SIZE];
 	uint8_t				vram[VRAM_SIZE];
@@ -245,7 +256,6 @@ struct	gb_cpu_s
 	uint32_t			obj_palettes[8][4];
 	uint32_t			div_freq;
 	uint64_t			last_div_increment;
-	uint64_t			last_tima_increment;
 };
 
 /*
