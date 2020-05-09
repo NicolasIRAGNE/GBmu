@@ -1,6 +1,6 @@
 #version 330
 
-layout(std140) uniform globalInfos
+layout(std140) uniform staticInfos
 {
     float windowWidth;
     float windowHeight;

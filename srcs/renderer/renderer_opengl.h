@@ -26,13 +26,17 @@ public:
     void SetWindowSize(int width, int height);
 
 private:
+    int InitUbos();
+    int InitFramebuffer();
+
     void UpdateVram();
 
 private:
     gb_cpu_s* m_Gb;
 
+    GLuint m_StaticInfosUbo {0};
+    GLuint m_DynamicInfosUbo {0};
     GLuint m_VramUbo {0};
-    GLuint m_GlobalInfosUbo {0};
     GLuint m_FrameBuffer {0};
     GLuint m_TargetTexture {0};
 

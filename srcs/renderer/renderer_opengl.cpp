@@ -11,9 +11,13 @@ extern "C" {
 
 namespace GBMU {
 
-struct GlobalInfos {
+struct StaticInfos {
     float windowWidth;
     float windowHeight;
+};
+
+struct DynamicInfos {
+    uint32_t lcdc;
 };
 
 Renderer::Renderer(gb_cpu_s* gb) :
@@ -39,40 +43,19 @@ int Renderer::Init()
 
     glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 
-    glGenBuffers(1, &m_GlobalInfosUbo);
-    glBindBuffer(GL_UNIFORM_BUFFER, m_GlobalInfosUbo);
-    glBufferData(GL_UNIFORM_BUFFER, sizeof(GlobalInfos), nullptr, GL_STATIC_DRAW);
-    glBindBuffer(GL_UNIFORM_BUFFER, 0);
-    
-    glBindBufferBase(GL_UNIFORM_BUFFER, 0, m_GlobalInfosUbo);
-
-    glGenBuffers(1, &m_VramUbo);
-    glBindBuffer(GL_UNIFORM_BUFFER, m_VramUbo);
-    glBufferData(GL_UNIFORM_BUFFER, VRAM_SIZE, nullptr, GL_DYNAMIC_DRAW);
-    glBindBuffer(GL_UNIFORM_BUFFER, 0);
-    
-    glBindBufferBase(GL_UNIFORM_BUFFER, 1, m_VramUbo);
-
-    glGenFramebuffers(1, &m_FrameBuffer);
-    glBindFramebuffer(GL_FRAMEBUFFER, m_FrameBuffer);
-
-    glGenTextures(1, &m_TargetTexture);
-    glBindTexture(GL_TEXTURE_2D, m_TargetTexture);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, MAIN_SURFACE_WIDTH, MAIN_SURFACE_HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
-    glBindTexture(GL_TEXTURE_2D, 0);
-
-    glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, m_FrameBuffer, 0);
-    GLenum DrawBuffers = GL_COLOR_ATTACHMENT0;
-    glDrawBuffers(1, &DrawBuffers);
-
-    if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
-        printf("Failed to create framebuffer\n");
-        return -1;
+    int ret = InitUbos();
+    if (ret < 0) {
+        printf("Failed to init Ubos\n");
+        return ret;
     }
 
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    ret = InitFramebuffer();
+    if (ret < 0) {
+        printf("Failed to init Framebuffer\n");
+        return ret;
+    }
 
-    int ret = m_Background.Init();
+    ret = m_Background.Init();
     if (ret < 0) {
         printf("Failed to init background\n");
         return ret;
@@ -108,7 +91,8 @@ int Renderer::Destroy()
     glDeleteTextures(1, &m_TargetTexture);
     glDeleteFramebuffers(1, &m_FrameBuffer);
     glDeleteBuffers(1, &m_VramUbo);
-    glDeleteBuffers(1, &m_GlobalInfosUbo);
+    glDeleteBuffers(1, &m_DynamicInfosUbo);
+    glDeleteBuffers(1, &m_StaticInfosUbo);
 
     return 0;
 }
@@ -166,15 +150,64 @@ void Renderer::SetWindowSize(int width, int height)
     m_WindowWidth = width;
     m_WindowHeight = height;
 
-    GlobalInfos infos;
+    StaticInfos infos;
     infos.windowWidth = static_cast<float>(width);
     infos.windowHeight = static_cast<float>(height);
 
-    glBindBuffer(GL_UNIFORM_BUFFER, m_GlobalInfosUbo);
+    glBindBuffer(GL_UNIFORM_BUFFER, m_StaticInfosUbo);
     GLvoid* ptr = glMapBuffer(GL_UNIFORM_BUFFER, GL_WRITE_ONLY);
-    std::memcpy(ptr, &infos, sizeof(GlobalInfos));
+    std::memcpy(ptr, &infos, sizeof(infos));
     glUnmapBuffer(GL_UNIFORM_BUFFER);
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
+}
+
+int Renderer::InitUbos()
+{
+    glGenBuffers(1, &m_StaticInfosUbo);
+    glBindBuffer(GL_UNIFORM_BUFFER, m_StaticInfosUbo);
+    glBufferData(GL_UNIFORM_BUFFER, sizeof(StaticInfos), nullptr, GL_STATIC_DRAW);
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
+    
+    glBindBufferBase(GL_UNIFORM_BUFFER, 0, m_StaticInfosUbo);
+
+    glGenBuffers(1, &m_DynamicInfosUbo);
+    glBindBuffer(GL_UNIFORM_BUFFER, m_DynamicInfosUbo);
+    glBufferData(GL_UNIFORM_BUFFER, sizeof(DynamicInfos), nullptr, GL_DYNAMIC_DRAW);
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
+    
+    glBindBufferBase(GL_UNIFORM_BUFFER, 1, m_DynamicInfosUbo);
+
+    glGenBuffers(1, &m_VramUbo);
+    glBindBuffer(GL_UNIFORM_BUFFER, m_VramUbo);
+    glBufferData(GL_UNIFORM_BUFFER, VRAM_SIZE, nullptr, GL_DYNAMIC_DRAW);
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
+    
+    glBindBufferBase(GL_UNIFORM_BUFFER, 2, m_VramUbo);
+
+    return 0;
+}
+
+int Renderer::InitFramebuffer()
+{
+    glGenFramebuffers(1, &m_FrameBuffer);
+    glBindFramebuffer(GL_FRAMEBUFFER, m_FrameBuffer);
+
+    glGenTextures(1, &m_TargetTexture);
+    glBindTexture(GL_TEXTURE_2D, m_TargetTexture);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, MAIN_SURFACE_WIDTH, MAIN_SURFACE_HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, m_FrameBuffer, 0);
+    GLenum DrawBuffers = GL_COLOR_ATTACHMENT0;
+    glDrawBuffers(1, &DrawBuffers);
+
+    if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+        return -1;
+    }
+
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+    return 0;
 }
 
 void Renderer::UpdateVram()
