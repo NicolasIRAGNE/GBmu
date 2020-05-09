@@ -107,7 +107,7 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 			}
 			else
 			{
-				renderer_draw(renderer, last_line_drawn, gb->gpu.y_coord);
+				renderer_draw(renderer, last_line_drawn + 1, gb->gpu.y_coord);
 			}
 			last_line_drawn = gb->gpu.y_coord;
 		}
@@ -122,7 +122,7 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 			}
 			else
 			{
-				renderer_draw(renderer, last_line_drawn, gb->gpu.y_coord);
+				renderer_draw(renderer, last_line_drawn + 1, gb->gpu.y_coord);
 			}
 			main_window_loop(wrapper, renderer);
 			renderer_render(renderer);
