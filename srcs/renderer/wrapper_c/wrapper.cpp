@@ -38,10 +38,16 @@ void    renderer_destroy(void* renderer)
     ptr->Destroy();
 }
 
-void    renderer_render(void* renderer, int firstLine, int lastLine)
+void    renderer_draw(void* renderer, int firstLine, int lastLine)
 {
     auto ptr = reinterpret_cast<GBMU::Renderer*>(renderer);
-    ptr->Render(firstLine, lastLine);
+    ptr->Draw(firstLine, lastLine);
+}
+
+void    renderer_render(void* renderer)
+{
+    auto ptr = reinterpret_cast<GBMU::Renderer*>(renderer);
+    ptr->Render();
 }
 
 void    renderer_set_window_size(void* renderer, int width, int height)
