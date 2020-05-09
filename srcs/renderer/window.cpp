@@ -53,11 +53,13 @@ int Window::Init()
 
     m_WxLoc     = glGetUniformLocation(m_Program, "wx");
     m_WyLoc     = glGetUniformLocation(m_Program, "wy");
-    m_LcdcLoc   = glGetUniformLocation(m_Program, "lcdc");
     m_ColorsLoc = glGetUniformLocation(m_Program, "colors");
 
     GLuint globalInfosLoc = glGetUniformBlockIndex(m_Program, "staticInfos");
     glUniformBlockBinding(m_Program, globalInfosLoc, 0);
+
+    GLuint dynamicInfosLoc = glGetUniformBlockIndex(m_Program, "dynamicInfos");
+    glUniformBlockBinding(m_Program, dynamicInfosLoc, 1);
 
     GLuint vramLoc = glGetUniformBlockIndex(m_Program, "vram");
     glUniformBlockBinding(m_Program, vramLoc, 2);
@@ -93,10 +95,8 @@ int Window::Draw(int firstLine, int lastLine)
 
     UpdateVertex(wx, firstLine, lastLine);
 
-    uint8_t lcdc = (read_8(m_Gb, LCDC_OFFSET));
     glUniform1i(m_WxLoc, wx);
     glUniform1i(m_WyLoc, wy);
-    glUniform1ui(m_LcdcLoc, lcdc);
 
     glUseProgram(0);
 

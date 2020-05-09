@@ -29,7 +29,6 @@ private:
 
     GLint m_ScxLoc {-1};
     GLint m_ScyLoc {-1};
-    GLint m_LcdcLoc {-1};
     GLint m_ColorsLoc {-1};
 };
 

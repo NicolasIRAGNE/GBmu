@@ -54,6 +54,9 @@ int Sprites::Init()
     GLuint globalInfosLoc = glGetUniformBlockIndex(m_Program, "staticInfos");
     glUniformBlockBinding(m_Program, globalInfosLoc, 0);
 
+    GLuint dynamicInfosLoc = glGetUniformBlockIndex(m_Program, "dynamicInfos");
+    glUniformBlockBinding(m_Program, dynamicInfosLoc, 1);
+
     GLuint vramLoc = glGetUniformBlockIndex(m_Program, "vram");
     glUniformBlockBinding(m_Program, vramLoc, 2);
 

@@ -108,6 +108,15 @@ int Renderer::Draw(int firstLine, int lastLine)
 {
 	uint8_t lcdc = (read_8(m_Gb, LCDC_OFFSET));
 
+    DynamicInfos infos;
+    infos.lcdc = lcdc;
+
+    glBindBuffer(GL_UNIFORM_BUFFER, m_DynamicInfosUbo);
+    GLvoid* ptr = glMapBuffer(GL_UNIFORM_BUFFER, GL_WRITE_ONLY);
+    std::memcpy(ptr, &infos, sizeof(infos));
+    glUnmapBuffer(GL_UNIFORM_BUFFER);
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
     if (m_WindowWidth == 0 || m_WindowHeight == 0) {
         return 0;
     }

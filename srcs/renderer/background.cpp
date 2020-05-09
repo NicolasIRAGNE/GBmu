@@ -52,11 +52,13 @@ int Background::Init()
 
     m_ScxLoc    = glGetUniformLocation(m_Program, "scx");
     m_ScyLoc    = glGetUniformLocation(m_Program, "scy");
-    m_LcdcLoc   = glGetUniformLocation(m_Program, "lcdc");
     m_ColorsLoc = glGetUniformLocation(m_Program, "colors");
 
     GLuint globalInfosLoc = glGetUniformBlockIndex(m_Program, "staticInfos");
     glUniformBlockBinding(m_Program, globalInfosLoc, 0);
+
+    GLuint dynamicInfosLoc = glGetUniformBlockIndex(m_Program, "dynamicInfos");
+    glUniformBlockBinding(m_Program, dynamicInfosLoc, 1);
 
     GLuint vramLoc = glGetUniformBlockIndex(m_Program, "vram");
     glUniformBlockBinding(m_Program, vramLoc, 2);
@@ -82,10 +84,8 @@ int Background::Draw(int firstLine, int lastLine)
 
     uint8_t scy = read_8(m_Gb, SCY_OFFSET);
     uint8_t scx = read_8(m_Gb, SCX_OFFSET);
-    uint8_t lcdc = (read_8(m_Gb, LCDC_OFFSET));
     glUniform1ui(m_ScxLoc, scx);
     glUniform1ui(m_ScyLoc, scy);
-    glUniform1ui(m_LcdcLoc, lcdc);
 
     glUseProgram(0);
 

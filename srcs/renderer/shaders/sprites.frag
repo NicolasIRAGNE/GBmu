@@ -6,6 +6,11 @@ layout(std140) uniform staticInfos
     float windowHeight;
 };
 
+layout(std140) uniform dynamicInfos
+{
+    uint lcdc;
+};
+
 layout(std140) uniform vram
 {
     uvec4 data[8192 / 16];
