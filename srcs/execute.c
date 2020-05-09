@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:26 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/05 21:42:15 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/09 14:28:57 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,16 @@ int		set_interrupt(struct gb_cpu_s* gb)
 {
 	int ret = 0;
 	uint8_t interrupt_requests = read_8(gb, IF_OFFSET);
-	if (interrupt_requests & INT_VBLANK_REQUEST)
+	if (interrupt_requests & INT_TIMER_REQUEST)
+	{
+		if (gb->interrupt_enable_register & INT_TIMER_REQUEST)
+		{
+			gb->interrupt = INT_TIMER_ADDR;
+			interrupt_requests &= ~INT_TIMER_REQUEST;
+			ret = INT_TIMER_ADDR;
+		}
+	}
+	else if (interrupt_requests & INT_VBLANK_REQUEST)
 	{
 		if (gb->interrupt_enable_register & INT_VBLANK_REQUEST)
 		{
@@ -56,15 +65,6 @@ int		set_interrupt(struct gb_cpu_s* gb)
 			ret = INT_STAT_ADDR;
 		}
 	}
-	else if (interrupt_requests & INT_TIMER_REQUEST)
-	{
-		if (gb->interrupt_enable_register & INT_TIMER_REQUEST)
-		{
-			gb->interrupt = INT_TIMER_ADDR;
-			interrupt_requests &= ~INT_TIMER_REQUEST;
-			ret = INT_TIMER_ADDR;
-		}
-	}
 	if (ret)
 		write_8(gb, IF_OFFSET, interrupt_requests);
 	return (ret);
@@ -72,7 +72,6 @@ int		set_interrupt(struct gb_cpu_s* gb)
 
 int		should_rerender(struct gb_cpu_s* gb)
 {
-	uint8_t lcdc = read_8(gb, LCDC_OFFSET);
 	if (gb->vram_updated || gb->oam_updated || gb->lcd_updated)
 		return (1);
 	return (0);
@@ -107,9 +106,11 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 			}
 			else
 			{
-				renderer_draw(renderer, last_line_drawn + 1, gb->gpu.y_coord);
+				renderer_draw(renderer, last_line_drawn + (1 * last_line_drawn != 0), gb->gpu.y_coord);
 			}
 			last_line_drawn = gb->gpu.y_coord;
+			gb->oam_updated = 0;
+			gb->lcd_updated = 0;
 		}
 		last_line = gb->gpu.y_coord;
 		gpu_tick(gb);
@@ -122,7 +123,7 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 			}
 			else
 			{
-				renderer_draw(renderer, last_line_drawn + 1, gb->gpu.y_coord);
+				renderer_draw(renderer, last_line_drawn + (1 * last_line_drawn != 0), gb->gpu.y_coord);
 			}
 			main_window_loop(wrapper, renderer);
 			renderer_render(renderer);
@@ -132,13 +133,12 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 		}
 		if (gb->cycle - gb->last_sleep > (70224 / 4))
 		{
-			usleep(128);
+			// usleep(128);
 			gb->last_sleep = gb->cycle;
 		}
 		update_div_register(gb);
 		update_timer_register(gb);
 	}
-
 }
 
 // void*	execute_thread_entry(void* user_data)
