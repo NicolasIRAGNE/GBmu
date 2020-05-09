@@ -6,13 +6,14 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 18:10:17 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/30 19:13:00 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/12 11:35:24 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gb.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 uint16_t	read_16(struct gb_cpu_s* gb, uint16_t a16)
 {
@@ -24,46 +25,37 @@ uint16_t	read_16(struct gb_cpu_s* gb, uint16_t a16)
 
 uint8_t	read_8(struct gb_cpu_s* gb, uint16_t a16)
 {
-	if (a16 < 0x100 && !gb->booted)
+	if (a16 < 0x8000)
 	{
-		return (((uint8_t*)(gb->boot_rom))[a16]);
-	}
-	else if (a16 < 0x4000)
-	{
-		return (((uint8_t*)(gb->rom_ptr->ptr))[a16]);
-	}
-	else if (a16 < 0x8000)
-	{
-		if (gb->mbc.mode == MBC_MODE_ROM && gb->mbc.bank != 0 && gb->rom_ptr->header->type != 0)
-		{
-			if (gb->mbc.bank * 0x4000 + a16 - 0x4000 > gb->rom_ptr->st.st_size)
-			{
-				debug_print_gb(gb);
-				dprintf(2, "fatal: attempting to read outside the cartridge at %x in bank %x. aborting...\n", a16, gb->mbc.bank);
-				abort();
-				return (0);
-			}
-			return (((uint8_t*)(gb->rom_ptr->ptr))[gb->mbc.bank * 0x4000 + a16 - 0x4000]);
-		}
-		else
-			return (((uint8_t*)(gb->rom_ptr->ptr))[a16]);
+		return (gb->mbc.read(gb, a16));
 	}
 	else if (a16 < 0xa000)
 	{
-		return (((uint8_t*)(gb->vram))[a16 - 0x8000]);
+		uint8_t lcdc = read_8(gb, LCDC_OFFSET);
+		if (gb->gpu.mode != GPU_MODE_VRAM || !(lcdc & LCDC_ON))
+			return (((uint8_t*)(gb->vram))[a16 - 0x8000]);
+		else
+			return (0xff);
 	}
 	else if (a16 < 0xc000)
 	{
-		printf("WARNING: READING FROM EXTRA RAM\n");
-		return (((uint8_t*)(gb->extra_ram))[a16 - 0xa000]);
+		return(gb->mbc.read(gb, a16));
 	}
 	else if (a16 < 0xe000)
 	{
 		return (((uint8_t*)(gb->ram))[a16 - 0xc000]);		
 	}
+	else if (a16 >= 0xFE00 && a16 < 0xFEA0)
+	{
+		uint8_t lcdc = read_8(gb, LCDC_OFFSET);
+		if (gb->gpu.mode == GPU_MODE_HBLANK || gb->gpu.mode == GPU_MODE_VBLANK || !(lcdc & LCDC_ON))
+			return (((uint8_t*)(gb->oam))[a16 - 0xFE00]);
+		else
+			return (0xff);
+	}
 	else if (a16 >= 0xFF00 && a16 < 0xFF80)
 	{
-		return (((uint8_t*)(gb->io_ports))[a16 - 0xFF00]);		
+		return (read_io(gb, a16));
 	}
 	else if (a16 >= 0xFF80 && a16 < 0xFFFF)
 	{
@@ -73,68 +65,29 @@ uint8_t	read_8(struct gb_cpu_s* gb, uint16_t a16)
 	{
 		return (gb->interrupt_enable_register);
 	}
-	else
-	{
-		printf("WARNING: READING FROM UNIMPLEMENTED ZONE %4x\n", a16);
-		return (0);
-	}
+	// printf("WARNING: READING FROM UNIMPLEMENTED ZONE %4x\n", a16);
+	return (0xff);
 }
 
 void	write_8(struct gb_cpu_s* gb, uint16_t a16, uint8_t x)
 {
-	if (a16 < 0x2000)
+	uint8_t lcdc = read_8(gb, LCDC_OFFSET);
+	if (a16 < 0x8000)
 	{
-		if (x == 0x0a)
-		{
-			if (gb->debugger->verbose_level >= 1)
-				printf("RAM ENABLED (%4x)\n", a16);
-			gb->ram_enabled = 1;
-		}
-		else
-		{
-			if (gb->debugger->verbose_level >= 1)
-				printf("RAM DISABLED (%4x)\n", a16);
-			gb->ram_enabled = 0;
-		}
-		return ;
-	}
-	else if (a16 < 0x4000)
-	{
-		uint8_t tmp = x & 0b1100000;
-		gb->mbc.bank = tmp | (x & 0b11111);
-		if (gb->debugger->verbose_level >= 1)
-			printf("SWITCHING BANK LOWER BITS %x \n", gb->mbc.bank);
-		return ;
-	}
-	else if (a16 < 0x6000)
-	{
-		if (gb->mbc.mode == MBC_MODE_ROM)
-		{
-			uint8_t tmp = x & 0b0011111;
-			gb->mbc.bank = tmp | (x & 0b1100000);
-			if (gb->debugger->verbose_level >= 1)
-				printf("SWITCHING BANK UPPER BITS %x \n", gb->mbc.bank);
-		}
-		return ;
-	}
-	else if (a16 < 0x8000)
-	{
-		if (x == 0)
-			gb->mbc.mode = MBC_MODE_ROM;
-		else if (x == 1)
-			gb->mbc.mode = MBC_MODE_RAM;
-		printf("SWITCHING MBC MODE %x \n", gb->mbc.mode);
+		gb->mbc.write(gb, a16, x);
 		return ;
 	}
 	else if (a16 < 0xa000)
 	{
+		if (gb->gpu.mode == GPU_MODE_VRAM && (lcdc & LCDC_ON))
+			return;
+		gb->vram_updated = 1;
 		((uint8_t*)(gb->vram))[a16 - 0x8000] = x;
 		return ;
 	}
 	else if (a16 < 0xc000)
 	{
-		// printf("WARNING: WRITING TO EXTRA RAM\n");
-		((uint8_t*)(gb->extra_ram))[a16 - 0xa000] = x;
+		gb->mbc.write(gb, a16, x);
 		return ;
 	}
 	else if (a16 < 0xe000)
@@ -142,11 +95,18 @@ void	write_8(struct gb_cpu_s* gb, uint16_t a16, uint8_t x)
 		((uint8_t*)(gb->ram))[a16 - 0xc000] = x;
 		return ;
 	}
+	else if (a16 >= 0xFE00 && a16 < 0xFEA0)
+	{
+		if (gb->gpu.mode == GPU_MODE_HBLANK || gb->gpu.mode == GPU_MODE_VBLANK || !(lcdc && LCDC_ON))
+		{
+			gb->oam_updated = 1;
+			((uint8_t*)(gb->oam))[a16 - 0xFE00] = x;
+		}
+		return ;
+	}
 	else if (a16 >= 0xFF00 && a16 < 0xFF80)
 	{
-		if (a16 == 0xff50 && x == 1)
-			gb->booted = 1;
-		((uint8_t*)(gb->io_ports))[a16 - 0xFF00] = x;
+		write_io(gb, a16, x, lcdc);
 		return ;
 	}
 	else if (a16 >= 0xFF80 && a16 < 0xFFFF)
@@ -170,4 +130,16 @@ void	write_16(struct gb_cpu_s* gb, uint16_t a16, uint16_t x)
 {
 	write_8(gb, a16, (x & 0xff));
 	write_8(gb, a16 + 1, (x & 0xff00) >> 8);
+}
+
+void	process_dma_transfer(struct gb_cpu_s* gb, uint8_t a8)
+{
+	int i = 0;
+
+	while (i < OAM_SIZE)
+	{
+		uint8_t x = read_8(gb, ((a8 << 8) | i));
+		write_8(gb, 0xFE00 | i, x);
+		i++;
+	}
 }

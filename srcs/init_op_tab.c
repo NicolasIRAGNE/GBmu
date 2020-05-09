@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:16:07 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/09 17:07:00 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/03 13:12:09 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ struct inst_s	op_tab[256] =
 void	init_op_tab()
 {
 	op_tab[0x00] = (struct inst_s) {"NOP",			4, 0, nop, 0};
-	op_tab[0x01] = (struct inst_s) {"LD BC A16",	1, 2, ld_bc_a16, 0};
-	op_tab[0x02] = (struct inst_s) {"LD (BC) A",	1, 0, ld_ptr_bc_a, 0};
+	op_tab[0x01] = (struct inst_s) {"LD BC A16",	12, 2, ld_bc_a16, 0};
+	op_tab[0x02] = (struct inst_s) {"LD (BC) A",	8, 0, ld_ptr_bc_a, 0};
 	op_tab[0x03] = (struct inst_s) {"INC BC",		8, 0, inc_bc, 0};
 	op_tab[0x04] = (struct inst_s) {"INC B",		4, 0, inc_b, 0};
 	op_tab[0x05] = (struct inst_s) {"DEC B",		4, 0, dec_b, 0};
