@@ -126,7 +126,7 @@ set(SHADERS
 
 # Debugger
 
-list(APPEND SOURCES
+set(DEBUGGER_SOURCES
 	srcs/debugger/DebuggerContext.cpp
 	srcs/debugger/DebuggerGrammar.cpp
 	srcs/debugger/SymbolNonTerminalAndOr.cpp
