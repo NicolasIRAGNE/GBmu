@@ -208,31 +208,32 @@ void Sprites::FillPosInTile(float* data, int posInTileY1, int posInTileY2, uint8
 
 void Sprites::UpdateColors()
 {
-    constexpr float monochromePalette[5][4] = {
-        {0.8f, 0.8f, 0.8f, 1.f},
-        {0.5f, 0.5f, 0.5f, 1.f},
-        {0.3f, 0.3f, 0.3f, 1.f},
-        {0.1f, 0.1f, 0.1f, 1.f},
-        {0.0f, 0.0f, 0.0f, 0.f}
+    constexpr float palette[4][4] = {
+        {0.86f, 0.79f, 0.62f, 1.f},
+        {0.67f, 0.55f, 0.06f, 1.f},
+        {0.38f, 0.19f, 0.19f, 1.f},
+        {0.22f, 0.06f, 0.06f, 1.f},
     };
+
+    constexpr float transparency[4] = {0.0f, 0.0f, 0.0f, 0.f};
 
     float colors[4][4];
 
     uint8_t obp0 = read_8(m_Gb, OBP0_OFFSET);
-    std::memcpy(&colors[0], &monochromePalette[4], 4 * sizeof(float));
-    std::memcpy(&colors[2], &monochromePalette[(obp0 & 0b00001100) >> 2], 4 * sizeof(float));
-    std::memcpy(&colors[1], &monochromePalette[(obp0 & 0b00110000) >> 4], 4 * sizeof(float));
-    std::memcpy(&colors[3], &monochromePalette[(obp0 & 0b11000000) >> 6], 4 * sizeof(float));
+    std::memcpy(&colors[0], transparency, 4 * sizeof(float));
+    std::memcpy(&colors[2], &palette[(obp0 & 0b00001100) >> 2], 4 * sizeof(float));
+    std::memcpy(&colors[1], &palette[(obp0 & 0b00110000) >> 4], 4 * sizeof(float));
+    std::memcpy(&colors[3], &palette[(obp0 & 0b11000000) >> 6], 4 * sizeof(float));
 
     glUseProgram(m_Program);
     glUniform4fv(m_Colors1Loc, 4, (const GLfloat*)colors);
     glUseProgram(0);
 
     uint8_t obp1 = read_8(m_Gb, OBP1_OFFSET);
-    std::memcpy(&colors[0], &monochromePalette[4], 4 * sizeof(float));
-    std::memcpy(&colors[2], &monochromePalette[(obp1 & 0b00001100) >> 2], 4 * sizeof(float));
-    std::memcpy(&colors[1], &monochromePalette[(obp1 & 0b00110000) >> 4], 4 * sizeof(float));
-    std::memcpy(&colors[3], &monochromePalette[(obp1 & 0b11000000) >> 6], 4 * sizeof(float));
+    std::memcpy(&colors[0], transparency, 4 * sizeof(float));
+    std::memcpy(&colors[2], &palette[(obp1 & 0b00001100) >> 2], 4 * sizeof(float));
+    std::memcpy(&colors[1], &palette[(obp1 & 0b00110000) >> 4], 4 * sizeof(float));
+    std::memcpy(&colors[3], &palette[(obp1 & 0b11000000) >> 6], 4 * sizeof(float));
 
     glUseProgram(m_Program);
     glUniform4fv(m_Colors2Loc, 4, (const GLfloat*)colors);
