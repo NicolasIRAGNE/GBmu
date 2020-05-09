@@ -20,6 +20,7 @@ public:
     int Init();
     int Destroy();
 
+    int Clear();
     int Draw(int firstLine, int lastLine);
     int Render();
 

@@ -97,18 +97,15 @@ int Renderer::Destroy()
     return 0;
 }
 
+int Renderer::Clear() {
+    glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+
+    return 0;
+}
+
 int Renderer::Draw(int firstLine, int lastLine)
 {
-    if (firstLine == 0) {
-        glClear(GL_DEPTH_BUFFER_BIT);
-    }
-
-    uint8_t lcdc = (read_8(m_Gb, LCDC_OFFSET));
-	if (!(lcdc & LCDC_ON) && m_Gb->booted)
-	{
-		glClear(GL_COLOR_BUFFER_BIT);
-		return 0;
-	}
+	uint8_t lcdc = (read_8(m_Gb, LCDC_OFFSET));
 
     if (m_WindowWidth == 0 || m_WindowHeight == 0) {
         return 0;
