@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 13:48:02 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/09 17:14:16 by niragne          ###   ########.fr       */
+/*   Updated: 2020/04/27 12:00:03 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ struct tile_s	create_tile(struct gb_cpu_s* gb, uint16_t index)
 	
 	int i = 0;
 	int k = 0;
+	uint16_t offset = 0;
 	uint8_t msb;
 	uint16_t msb_tmp;
 	uint8_t lsb;
@@ -39,8 +40,8 @@ struct tile_s	create_tile(struct gb_cpu_s* gb, uint16_t index)
 
 	while (i < 8)
 	{
-		msb = gb->vram[index + k];
-		lsb = gb->vram[index + k + 1];
+		msb = gb->vram[index + offset + k];
+		lsb = gb->vram[index + offset + k + 1];
 
 		msb_tmp = ((msb & 0b00000001) << 1)
 				| ((msb & 0b00000010) << 2)
@@ -66,54 +67,79 @@ struct tile_s	create_tile(struct gb_cpu_s* gb, uint16_t index)
 
 		k += 2;
 		ret.pixels_raw[i] = test;
-		int j = 0;
-		while (j < 8)
-		{
-			ret.index[i][7] = (test & (0b11 << 0)) >> 0;
-			ret.index[i][6] = (test & (0b11 << 2)) >> 2;
-			ret.index[i][5] = (test & (0b11 << 4)) >> 4;
-			ret.index[i][4] = (test & (0b11 << 6)) >> 6;
-			
-			ret.index[i][3] = (((test & 0xff00) >> 8) & (0b11 << 0)) >> 0;
-			ret.index[i][2] = (((test & 0xff00) >> 8) & (0b11 << 2)) >> 2;
-			ret.index[i][1] = (((test & 0xff00) >> 8) & (0b11 << 4)) >> 4;
-			ret.index[i][0] = (((test & 0xff00) >> 8) & (0b11 << 6)) >> 6;
+		ret.index[i][7] = (test & (0b11 << 0)) >> 0;
+		ret.index[i][6] = (test & (0b11 << 2)) >> 2;
+		ret.index[i][5] = (test & (0b11 << 4)) >> 4;
+		ret.index[i][4] = (test & (0b11 << 6)) >> 6;
+		
+		ret.index[i][3] = (((test & 0xff00) >> 8) & (0b11 << 0)) >> 0;
+		ret.index[i][2] = (((test & 0xff00) >> 8) & (0b11 << 2)) >> 2;
+		ret.index[i][1] = (((test & 0xff00) >> 8) & (0b11 << 4)) >> 4;
+		ret.index[i][0] = (((test & 0xff00) >> 8) & (0b11 << 6)) >> 6;
 
-			// ret.index[i][0] = 3;
-			// ret.index[i][1] = 2;
-			// ret.index[i][2] = 1;
-			// ret.index[i][3] = 0;
-			
-			// ret.index[i][4] = 0;
-			// ret.index[i][5] = 1;
-			// ret.index[i][6] = 2;
-			// ret.index[i][7] = 3;
-			j++;
-		}
+		// ret.index[i][0] = 3;
+		// ret.index[i][1] = 2;
+		// ret.index[i][2] = 1;
+		// ret.index[i][3] = 0;
+		
+		// ret.index[i][4] = 0;
+		// ret.index[i][5] = 1;
+		// ret.index[i][6] = 2;
+		// ret.index[i][7] = 3;
 		i++;
 	}
 	return (ret);
 }
 
-void	resize_tile(uint32_t* pixels, struct tile_s* tile, int x, int y)
+// void	resize_tile(uint32_t* pixels, struct tile_s* tile, int x, int y)
+// {
+// 	/*
+// 	** This function takes an 8*8 tile and makes it x times wider and y times taller.
+// 	** This function is also useless because I am a moron and SDL does it by default.
+// 	** But I am leaving it in since I spent way too much time on it.
+// 	*/
+// 	int i = 0;
+// 	int j = 0;
+// 	int k = 0;
+
+// 	while (i < 8)
+// 	{
+// 		while (j < 8)
+// 		{
+// 			uint32_t color = get_color_from_palette(tile->index[i][j], TILE_TYPE_BACKGROUND);
+// 			// printf("%d ", tile->index[i][j]);
+// 			while (k < y)
+// 			{
+// 				memset_4(pixels + i * TILE_SURFACE_WIDTH * x + j * y + k * TILE_SURFACE_HEIGHT, color, x);
+// 				k++;
+
+// 			}
+// 			k = 0;
+// 			j++;
+// 		}
+// 		// printf("\n");
+// 		j = 0;
+// 		i++;
+// 	}
+// 		// printf("\n");
+// }
+
+void	flip_tile(uint32_t* pixels, struct tile_s* tile, int x, int y, uint32_t* palette)
 {
 	int i = 0;
 	int j = 0;
-	int k = 0;
-
 	while (i < 8)
 	{
 		while (j < 8)
 		{
-			uint32_t color = get_color_from_palette(tile->index[i][j]);
-			// printf("%d ", tile->index[i][j]);
-			while (k < y)
-			{
-				memset_4(pixels + i * TILE_SURFACE_WIDTH * x + j * y + k * TILE_SURFACE_HEIGHT, color, x);
-				k++;
-
-			}
-			k = 0;
+			uint32_t color = get_color_from_palette(tile->index[i][j], palette);
+			int line = i;
+			int column = j;
+			if (y)
+				line = (TILE_SURFACE_WIDTH - i - 1);
+			if (x)
+				column = (TILE_SURFACE_HEIGHT - j - 1);
+			pixels[line * TILE_SURFACE_WIDTH + column] = color;
 			j++;
 		}
 		// printf("\n");
@@ -123,22 +149,34 @@ void	resize_tile(uint32_t* pixels, struct tile_s* tile, int x, int y)
 		// printf("\n");
 }
 
-int		print_tile(struct sdl_context_s* context, struct tile_s* tile, int index, SDL_Rect pos)
+int		print_tile(struct gb_cpu_s* gb, SDL_Surface* surface, struct tile_s* tile, int attr, SDL_Rect pos, enum tile_type_e type)
 {
 	SDL_Surface* tile_surface;
-	(void)index;
 
-	tile_surface = SDL_CreateRGBSurface(0, TILE_SURFACE_WIDTH, TILE_SURFACE_HEIGHT, 32, 0, 0, 0, 0);
+	tile_surface = SDL_CreateRGBSurfaceWithFormat(0, TILE_SURFACE_WIDTH, TILE_SURFACE_HEIGHT, 32, SDL_PIXELFORMAT_RGBA8888);
+
 	if (!tile_surface)
 	{
 		fprintf(stderr, "failed to create tile surface (%s)\n", SDL_GetError());
 		return (1);
 	}
+	SDL_SetSurfaceBlendMode(tile_surface, SDL_BLENDMODE_BLEND);
 	uint32_t* pixels = tile_surface->pixels;
 
-	resize_tile(pixels, tile, 8, 8);
 
-	if (SDL_BlitSurface(tile_surface, NULL, context->surface, &pos))
+	if (type == TILE_TYPE_SPRITE)
+	{
+		if (attr & 0b10000)
+			flip_tile(pixels, tile, attr & ATTR_X_FLIP, attr & ATTR_Y_FLIP, gb->obj_palettes[1]);
+		else
+			flip_tile(pixels, tile, attr & ATTR_X_FLIP, attr & ATTR_Y_FLIP, gb->obj_palettes[0]);
+	}
+	else
+	{
+		flip_tile(pixels, tile, attr & ATTR_X_FLIP, attr & ATTR_Y_FLIP, gb->bg_palettes[0]);		
+	}
+
+	if (SDL_BlitSurface(tile_surface, NULL, surface, &pos))
 	{
 		fprintf(stderr, "failed to blit surface (%s)\n", SDL_GetError());
 		return (1);

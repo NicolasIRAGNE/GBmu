@@ -11,6 +11,7 @@
 		"stdlib.h": "c",
 		"signal.h": "c",
 		"type_traits": "c",
+<<<<<<< HEAD
 		"iostream": "cpp",
 		"vector": "cpp",
 		"__bit_reference": "cpp",
@@ -30,16 +31,30 @@
 		"bitset": "cpp",
 		"cctype": "cpp",
 		"chrono": "cpp",
+=======
+		"*.tcc": "c",
+		"cstring": "cpp",
+		"array": "cpp",
+		"atomic": "cpp",
+		"cctype": "cpp",
+		"chrono": "cpp",
+		"clocale": "cpp",
+		"cmath": "cpp",
+>>>>>>> master
 		"cstdarg": "cpp",
 		"cstddef": "cpp",
 		"cstdint": "cpp",
 		"cstdio": "cpp",
 		"cstdlib": "cpp",
+<<<<<<< HEAD
 		"cstring": "cpp",
+=======
+>>>>>>> master
 		"ctime": "cpp",
 		"cwchar": "cpp",
 		"cwctype": "cpp",
 		"deque": "cpp",
+<<<<<<< HEAD
 		"exception": "cpp",
 		"functional": "cpp",
 		"initializer_list": "cpp",
@@ -59,11 +74,47 @@
 		"ratio": "cpp",
 		"stdexcept": "cpp",
 		"streambuf": "cpp",
+=======
+		"list": "cpp",
+		"unordered_map": "cpp",
+		"vector": "cpp",
+		"exception": "cpp",
+		"algorithm": "cpp",
+		"functional": "cpp",
+		"iterator": "cpp",
+		"map": "cpp",
+		"memory": "cpp",
+		"memory_resource": "cpp",
+		"numeric": "cpp",
+		"optional": "cpp",
+		"random": "cpp",
+		"ratio": "cpp",
+>>>>>>> master
 		"string": "cpp",
 		"string_view": "cpp",
 		"system_error": "cpp",
 		"tuple": "cpp",
+<<<<<<< HEAD
 		"typeinfo": "cpp",
 		"utility": "cpp"
+=======
+		"utility": "cpp",
+		"fstream": "cpp",
+		"initializer_list": "cpp",
+		"iosfwd": "cpp",
+		"iostream": "cpp",
+		"istream": "cpp",
+		"limits": "cpp",
+		"new": "cpp",
+		"ostream": "cpp",
+		"sstream": "cpp",
+		"stdexcept": "cpp",
+		"streambuf": "cpp",
+		"thread": "cpp",
+		"cinttypes": "cpp",
+		"typeinfo": "cpp",
+		"bit": "cpp",
+		"mbc.h": "c"
+>>>>>>> master
 	}
 }

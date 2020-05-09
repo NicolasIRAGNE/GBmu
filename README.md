@@ -8,12 +8,14 @@ Cmake version 3.13 minimum.
 
 SDL2
 
+Glu
+
 That should be it i don't know
 
 It should run on osx and linux as long as these dependencies are met. Not tested on windows.
 
 ### How to use
-cd build && cmake .. && make
+cd build && cmake .. && make install
 
 usage: ./gbmu <rom_file>
 

@@ -6,13 +6,14 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 18:10:17 by niragne           #+#    #+#             */
-/*   Updated: 2020/03/30 19:13:00 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/05 16:11:17 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gb.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 uint16_t	read_16(struct gb_cpu_s* gb, uint16_t a16)
 {
@@ -24,42 +25,53 @@ uint16_t	read_16(struct gb_cpu_s* gb, uint16_t a16)
 
 uint8_t	read_8(struct gb_cpu_s* gb, uint16_t a16)
 {
-	if (a16 < 0x100 && !gb->booted)
+	if (a16 < 0x8000)
 	{
-		return (((uint8_t*)(gb->boot_rom))[a16]);
-	}
-	else if (a16 < 0x4000)
-	{
-		return (((uint8_t*)(gb->rom_ptr->ptr))[a16]);
-	}
-	else if (a16 < 0x8000)
-	{
-		if (gb->mbc.mode == MBC_MODE_ROM && gb->mbc.bank != 0 && gb->rom_ptr->header->type != 0)
-		{
-			if (gb->mbc.bank * 0x4000 + a16 - 0x4000 > gb->rom_ptr->st.st_size)
-			{
-				debug_print_gb(gb);
-				dprintf(2, "fatal: attempting to read outside the cartridge at %x in bank %x. aborting...\n", a16, gb->mbc.bank);
-				abort();
-				return (0);
-			}
-			return (((uint8_t*)(gb->rom_ptr->ptr))[gb->mbc.bank * 0x4000 + a16 - 0x4000]);
-		}
-		else
-			return (((uint8_t*)(gb->rom_ptr->ptr))[a16]);
+		return (gb->mbc.read(gb, a16));
 	}
 	else if (a16 < 0xa000)
 	{
-		return (((uint8_t*)(gb->vram))[a16 - 0x8000]);
+		uint8_t lcdc = read_8(gb, LCDC_OFFSET);
+		if (gb->gpu.mode != GPU_MODE_VRAM || !(lcdc & LCDC_ON))
+			return (((uint8_t*)(gb->vram))[a16 - 0x8000]);
+		else
+			return (0xff);
 	}
 	else if (a16 < 0xc000)
 	{
-		printf("WARNING: READING FROM EXTRA RAM\n");
-		return (((uint8_t*)(gb->extra_ram))[a16 - 0xa000]);
+		return(gb->mbc.read(gb, a16));
 	}
 	else if (a16 < 0xe000)
 	{
 		return (((uint8_t*)(gb->ram))[a16 - 0xc000]);		
+	}
+	else if (a16 == JOYP_OFFSET)
+	{
+		uint8_t ret = 0;
+		if (gb->joypad_mode == JOYPAD_MODE_BUTTONS)
+		{
+			ret |= ((gb->joypad.a) != 0) << 0;
+			ret |= ((gb->joypad.b) != 0) << 1;
+			ret |= ((gb->joypad.select) != 0) << 2;
+			ret |= ((gb->joypad.start) != 0) << 3;
+		}
+		else if (gb->joypad_mode == JOYPAD_MODE_DIRECTIONS)
+		{
+			ret |= ((gb->joypad.right) != 0) << 0;
+			ret |= ((gb->joypad.left) != 0) << 1;
+			ret |= ((gb->joypad.up) != 0) << 2;
+			ret |= ((gb->joypad.down) != 0) << 3;
+		}
+		ret = ~ret;
+		return (ret);
+	}
+	else if (a16 >= 0xFE00 && a16 < 0xFEA0)
+	{
+		uint8_t lcdc = read_8(gb, LCDC_OFFSET);
+		if (gb->gpu.mode == GPU_MODE_HBLANK || gb->gpu.mode == GPU_MODE_VBLANK || !(lcdc & LCDC_ON))
+			return (((uint8_t*)(gb->oam))[a16 - 0xFE00]);
+		else
+			return (0xff);
 	}
 	else if (a16 >= 0xFF00 && a16 < 0xFF80)
 	{
@@ -75,66 +87,31 @@ uint8_t	read_8(struct gb_cpu_s* gb, uint16_t a16)
 	}
 	else
 	{
-		printf("WARNING: READING FROM UNIMPLEMENTED ZONE %4x\n", a16);
-		return (0);
+		// printf("WARNING: READING FROM UNIMPLEMENTED ZONE %4x\n", a16);
+		return (0xff);
 	}
 }
 
 void	write_8(struct gb_cpu_s* gb, uint16_t a16, uint8_t x)
 {
-	if (a16 < 0x2000)
+	static uint64_t last_dma = 0;
+	uint8_t lcdc = read_8(gb, LCDC_OFFSET);
+	if (a16 < 0x8000)
 	{
-		if (x == 0x0a)
-		{
-			if (gb->debugger->verbose_level >= 1)
-				printf("RAM ENABLED (%4x)\n", a16);
-			gb->ram_enabled = 1;
-		}
-		else
-		{
-			if (gb->debugger->verbose_level >= 1)
-				printf("RAM DISABLED (%4x)\n", a16);
-			gb->ram_enabled = 0;
-		}
-		return ;
-	}
-	else if (a16 < 0x4000)
-	{
-		uint8_t tmp = x & 0b1100000;
-		gb->mbc.bank = tmp | (x & 0b11111);
-		if (gb->debugger->verbose_level >= 1)
-			printf("SWITCHING BANK LOWER BITS %x \n", gb->mbc.bank);
-		return ;
-	}
-	else if (a16 < 0x6000)
-	{
-		if (gb->mbc.mode == MBC_MODE_ROM)
-		{
-			uint8_t tmp = x & 0b0011111;
-			gb->mbc.bank = tmp | (x & 0b1100000);
-			if (gb->debugger->verbose_level >= 1)
-				printf("SWITCHING BANK UPPER BITS %x \n", gb->mbc.bank);
-		}
-		return ;
-	}
-	else if (a16 < 0x8000)
-	{
-		if (x == 0)
-			gb->mbc.mode = MBC_MODE_ROM;
-		else if (x == 1)
-			gb->mbc.mode = MBC_MODE_RAM;
-		printf("SWITCHING MBC MODE %x \n", gb->mbc.mode);
+		gb->mbc.write(gb, a16, x);
 		return ;
 	}
 	else if (a16 < 0xa000)
 	{
+		if (gb->gpu.mode == GPU_MODE_VRAM && (lcdc & LCDC_ON))
+			return;
+		gb->vram_updated = 1;
 		((uint8_t*)(gb->vram))[a16 - 0x8000] = x;
 		return ;
 	}
 	else if (a16 < 0xc000)
 	{
-		// printf("WARNING: WRITING TO EXTRA RAM\n");
-		((uint8_t*)(gb->extra_ram))[a16 - 0xa000] = x;
+		gb->mbc.write(gb, a16, x);
 		return ;
 	}
 	else if (a16 < 0xe000)
@@ -142,10 +119,58 @@ void	write_8(struct gb_cpu_s* gb, uint16_t a16, uint8_t x)
 		((uint8_t*)(gb->ram))[a16 - 0xc000] = x;
 		return ;
 	}
+	else if (a16 == JOYP_OFFSET)
+	{
+		if (x == SELECT_BUTTON_KEYS)
+			gb->joypad_mode = JOYPAD_MODE_BUTTONS;
+		else if (x == SELECT_DIRECTION_KEYS)
+			gb->joypad_mode = JOYPAD_MODE_DIRECTIONS;
+		else if (x == SELECT_NONE)
+		{
+			gb->joypad_mode = JOYPAD_MODE_NONE;
+		// gb->paused = 1;
+		}
+		((uint8_t*)(gb->io_ports))[a16 - 0xFF00] = (((uint8_t*)(gb->io_ports))[a16 - 0xFF00] & 0x0f) | (x & 0xf0);
+		return ;
+	}
+	else if (a16 == DMA_OFFSET)
+	{
+		if (gb->cycle - last_dma > 160)
+		{
+			last_dma = gb->cycle;
+			process_dma_transfer(gb, x);
+		}
+		return ;
+	}
+	else if (a16 >= 0xFE00 && a16 < 0xFEA0)
+	{
+		if (gb->gpu.mode == GPU_MODE_HBLANK || gb->gpu.mode == GPU_MODE_VBLANK || !(lcdc && LCDC_ON))
+		{
+			gb->oam_updated = 1;
+			((uint8_t*)(gb->oam))[a16 - 0xFE00] = x;
+		}
+		return ;
+	}
 	else if (a16 >= 0xFF00 && a16 < 0xFF80)
 	{
-		if (a16 == 0xff50 && x == 1)
+		if (a16 == DIV_OFFSET)
+			x = 0;
+		else if (a16 == IF_OFFSET)
+			gb->halted = 0;
+		else if (a16 == 0xff50 && x == 1)
 			gb->booted = 1;
+
+		if (a16 == LCDC_OFFSET && (x & LCDC_ON) && !(lcdc & LCDC_ON))
+		{
+			gb->gpu.mode = 1;
+			gb->gpu.y_coord = 0;
+			gb->gpu.tick = 0;
+			gb->gpu.lyc_requested = 0;
+		}
+		if (a16 == LCDC_OFFSET && !(x & LCDC_ON) && gb->gpu.mode != GPU_MODE_VBLANK)
+			return ;
+		else if (a16 == LCDC_OFFSET || a16 == STAT_OFFSET || (a16 >= SCY_OFFSET && a16 <= LYC_OFFSET) || a16 == WY_OFFSET || a16 == WX_OFFSET)
+			gb->lcd_updated = 1;
 		((uint8_t*)(gb->io_ports))[a16 - 0xFF00] = x;
 		return ;
 	}
@@ -170,4 +195,16 @@ void	write_16(struct gb_cpu_s* gb, uint16_t a16, uint16_t x)
 {
 	write_8(gb, a16, (x & 0xff));
 	write_8(gb, a16 + 1, (x & 0xff00) >> 8);
+}
+
+void	process_dma_transfer(struct gb_cpu_s* gb, uint8_t a8)
+{
+	int i = 0;
+
+	while (i < OAM_SIZE)
+	{
+		uint8_t x = read_8(gb, ((a8 << 8) | i));
+		write_8(gb, 0xFE00 | i, x);
+		i++;
+	}
 }

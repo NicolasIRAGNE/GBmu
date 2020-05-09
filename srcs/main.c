@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 11:37:03 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/09 17:09:40 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/04 19:22:26 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,19 @@ int		open_rom(char* name, struct rom_s* rom)
 		return (fd);
 	}
 	
-	void* ptr = mmap(NULL, rom->st.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
-	if (!ptr)
+	uint8_t* buf = malloc(rom->st.st_size);
+	if (!buf)
 	{
-		perror("mmap");
+		perror("malloc");
 		return (1);
 	}
-	rom->ptr = ptr;
-
+	int rd = read(fd, buf, rom->st.st_size);
+	if (rd < 0 || rd != rom->st.st_size)
+	{
+		perror(name);
+		return (1);
+	}
+	rom->ptr = buf;
 	return (0);
 }
 
@@ -81,31 +86,39 @@ int		main(int ac, char** av)
 	rom.header = rom.ptr + 0x100;
 	debug_print_rom(&rom);
 
-	if (init_cpu(&gb))
+	if (init_cpu(&gb, &rom))
 		return (1);
-	gb.rom_ptr = &rom;
 	gb.debugger = &debugger;
 	update_current_instruction(&gb);
 	init_op_tab();
 	init_ext_op_tab();
 	
-
-	pthread_t thread;
-
 	if (init_sdl())
 		return (1);
-	if (init_vram_viewer(&vram_viewer_context))
-		return (1);
+ #ifndef __SANITIZE_ADDRESS__
+	atexit(SDL_Quit);
+ #endif
+	// if (init_vram_viewer(&vram_viewer_context))
+		// return (1);
 	if (init_main_window(&main_window_context))
 		return (1);
-	// atexit(SDL_Quit);
+	load_game(&gb);
 	signal(SIGINT, sigint_handler);
-	pthread_create (&thread, NULL, execute_thread_entry , &gb);
-	renderer_loop(&(struct gbmu_wrapper_s){&gb, &vram_viewer_context, &main_window_context});
-	pthread_join(thread, NULL);
-	// SDL_DestroyWindow(context.win);
-	// SDL_DestroyRenderer(context.renderer);
-	// SDL_DestroyTexture(context.texture);
 
+	void*	renderer = new_renderer(&gb);
+	renderer_init(renderer);
+	int window_width;
+	int window_height;
+	SDL_GetWindowSize(main_window_context.win, &window_width, &window_height);
+	renderer_set_window_size(renderer, window_width, window_height);
+	execute_loop(&(struct gbmu_wrapper_s){&gb, &vram_viewer_context, &main_window_context}, renderer);
+	delete_renderer(renderer);
+	if (gb.mbc.ram_size > 0)
+		save_game(&gb);
+	free(rom.ptr);
+	free(gb.extra_ram);
+
+	destroy_context(&main_window_context);
+	// SDL_Quit();
 	return (0);
 }

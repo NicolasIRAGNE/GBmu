@@ -1,0 +1,201 @@
+%grammarName DebuggerGrammar
+
+%terminalPrefix Terminal
+%nonTerminalPrefix NonTerminal
+%prefix Symbol
+
+%returnType int
+%contextType DebuggerContext
+%passContextBy reference
+
+%contextFileBaseName DebuggerContext
+%contextInstance context
+%generateMain true
+
+%generatedIncludesFolder output/includes/
+%generatedSourcesFolder output/srcs/
+%makefileFolder output/
+
+%blankAsDelimiter true
+
+%programName debuggerTest
+
+%tokens
+
+>   Greater
+>=  GreaterOrEqual
+<   Lesser
+<=  LesserOrEqual
+&&  And
+||  Or
+&   BinaryAnd
+|   BinaryOr
+<<	LeftShift
+>>	RightShift
+%	Modulo
+!=  NotEqual
+==  Equal
+*   Multiply
+/   Divide
+%   Modulo
+-   Minus
++   Plus
+decimal Decimal
+hexadecimal	Hexadecimal
+o	Octal
+i	Instruction
+binary Binary
+(   OpenParenthesis
+)   ClosedParenthesis
+hh  halfWordFormat
+hFormat  wordFormat
+=   Assign
+
+r	ReadMode
+w	WriteMode
+
+help Help
+print Print
+step Step
+next Next
+breakpoint Breakpoint
+watch Watch
+unwatch Unwatch
+delete Delete
+info Info
+registers Registers
+quit Quit
+verbose Verbose
+set Set
+x X
+
+INTEGER    Integer
+EXPANSION  Expansion
+printCommandParams PrintCommandParams
+
+%nonterminals
+
+%start command
+
+commandName        : print
+|                    x
+|                    step
+|                    next
+|                    help
+|                    breakpoint
+|                    watch
+|                    unwatch 
+|                    delete 
+|                    info 
+|                    registers 
+|                    quit 
+|                    verbose 
+|                    set 
+;
+command            : printCommand
+|                    xCommand
+|                    stepCommand
+|                    helpCommand
+|                    nextCommand
+|                    breakpointCommand
+|                    watchCommand
+|                    unwatchCommand
+|                    deleteCommand
+|                    infoCommand
+|                    setCommand
+|                    registersCommand
+|                    quitCommand
+|                    verboseCommand
+|                    _EPS_
+;
+helpCommand        : help commandName
+;
+stepCommand        : step 
+;
+nextCommand        : next
+;
+breakpointCommand  : breakpoint assignable
+|                    breakpoint
+;
+deleteCommand      : delete integerList
+;
+infoCommand        : info
+;
+registersCommand   : registers
+;
+quitCommand        : quit
+;
+verboseCommand     : verbose INTEGER
+;
+watchMode          : r
+|                    w
+;
+watchCommand       : watch assignable watchModeList
+|                    watch
+;
+watchModeList     : watchMode 
+|                   watchModeList watchMode
+;
+unwatchCommand     : unwatch integerList
+;
+printCommand       : print printCommandSuffix
+;
+xCommand           : x printCommandSuffix
+;
+printCommandSuffix : printCommandParams value
+|                    value
+;
+format             : decimal
+|				     hexadecimal
+|				     o
+|				     binary
+|                    i
+|					 _EPS_
+;
+unit			   : hh
+| 					 hFormat
+|                    _EPS_
+;
+setCommand         : set assignable = andOr
+;
+assignable         : EXPANSION
+|                    * andOr
+;
+value			   : andOr
+|                    _EPS_
+;
+andOr :  comparison
+|        andOr && comparison
+|        andOr || comparison
+;
+comparison : expr
+|        comparison  >  expr
+|        comparison  >=  expr
+|        comparison  <  expr
+|        comparison  <=  expr
+|        comparison  !=  expr
+|        comparison  ==  expr
+;
+expr               : term
+|                    expr  +  term
+|                    expr  -  term
+;
+term               : factor
+|                    term  *  factor
+|                    term  /  factor
+|                    term  %  factor
+|                    term  >>  factor
+|                    term  <<  factor
+|                    term  |  factor
+|                    term  &  factor
+;
+factor             : INTEGER
+|                    EXPANSION
+|                    ( andOr )
+|                    * factor
+|                    - factor
+|                    + factor
+;
+integerList        : INTEGER
+|                    integerList INTEGER
+;
