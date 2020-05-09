@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:26 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/09 14:28:57 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/09 15:44:28 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +109,6 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 				renderer_draw(renderer, last_line_drawn + (1 * last_line_drawn != 0), gb->gpu.y_coord);
 			}
 			last_line_drawn = gb->gpu.y_coord;
-			gb->oam_updated = 0;
-			gb->lcd_updated = 0;
 		}
 		last_line = gb->gpu.y_coord;
 		gpu_tick(gb);

@@ -117,6 +117,9 @@ int Renderer::Draw(int firstLine, int lastLine)
 		UpdateVram();
 	}
     
+	m_Gb->oam_updated = 0;
+	m_Gb->lcd_updated = 0;
+
     glBindFramebuffer(GL_FRAMEBUFFER, m_FrameBuffer);
     glViewport(0, 0, MAIN_SURFACE_WIDTH, MAIN_SURFACE_HEIGHT);
 
