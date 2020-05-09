@@ -88,6 +88,7 @@ int Renderer::Destroy()
     m_Menu.Destroy();
     m_Background.Destroy();
 
+    glDeleteRenderbuffers(1, &m_DepthBuffer);
     glDeleteTextures(1, &m_TargetTexture);
     glDeleteFramebuffers(1, &m_FrameBuffer);
     glDeleteBuffers(1, &m_VramUbo);
@@ -193,6 +194,11 @@ int Renderer::InitFramebuffer()
     glBindTexture(GL_TEXTURE_2D, m_TargetTexture);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, MAIN_SURFACE_WIDTH, MAIN_SURFACE_HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
     glBindTexture(GL_TEXTURE_2D, 0);
+    
+    glGenRenderbuffers(1, &m_DepthBuffer);
+    glBindRenderbuffer(GL_RENDERBUFFER, m_DepthBuffer);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, MAIN_SURFACE_WIDTH, MAIN_SURFACE_HEIGHT);
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_DepthBuffer);
 
     glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, m_FrameBuffer, 0);
     GLenum DrawBuffers = GL_COLOR_ATTACHMENT0;

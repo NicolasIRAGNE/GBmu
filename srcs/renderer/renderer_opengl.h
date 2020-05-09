@@ -40,6 +40,7 @@ private:
     GLuint m_VramUbo {0};
     GLuint m_FrameBuffer {0};
     GLuint m_TargetTexture {0};
+    GLuint m_DepthBuffer {0};
 
     Background m_Background;
     Window m_Menu;
