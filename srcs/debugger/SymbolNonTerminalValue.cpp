@@ -27,7 +27,7 @@ int	SymbolNonTerminalValue::traverse(ASTNode<int, DebuggerContext &> & ast, Debu
 	if (ast.getChildren().size() == 1)
 		return ast.getChild(0)->getTraversed(context);
 	else
-		return context.cpu.cycle; //TODO use true value
+		return context.cpu->cycle; //TODO use true value
 	return (0);
 }
 

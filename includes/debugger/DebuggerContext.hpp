@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/03 21:14:10 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/05/10 19:05:16 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ class DebuggerContext
 		}				t_debugger_format;
 
 		DebuggerContext(void);
+		DebuggerContext(struct gb_cpu_s *cpu);
 		DebuggerContext(DebuggerContext const &instance);
 		DebuggerContext & operator=(DebuggerContext const &rhs);
 		~DebuggerContext(void);
@@ -43,7 +44,7 @@ class DebuggerContext
 		static std::string getUnitString(t_debugger_unit unit);
 		static char getFormatChar(t_debugger_format format);
 
-		struct gb_cpu_s cpu;
+		struct gb_cpu_s *cpu;
 		t_debugger_format format;
 };
 #endif

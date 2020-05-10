@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:26 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/09 14:28:57 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/10 19:21:44 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 	uint8_t last_line = 0;
 	uint8_t	last_line_drawn = 0;
 
-	while(gb->running)
+	while (gb->running)
 	{
 		if (gb->ime && set_interrupt(gb))
 		{
@@ -92,7 +92,7 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 			gb->interrupt = 0;
 		}
 		if (gb->paused)
-			parse_command(gb);
+			execute_debugger(gb);
 		else
 			err = handle_instruction(gb);
 		if (err)

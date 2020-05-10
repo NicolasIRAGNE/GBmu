@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/03 21:14:47 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/05/10 19:06:43 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 DebuggerContext::DebuggerContext(void) 
 {
 	
+}
+
+DebuggerContext::DebuggerContext(struct gb_cpu_s *cpu) : cpu(cpu)
+{
+
 }
 
 DebuggerContext::DebuggerContext(DebuggerContext const &instance)

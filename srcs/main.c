@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 11:37:03 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/04 19:22:26 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/10 19:18:50 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include "gb.h"
 #include "renderer.h"
+#include "libyacc_wrapper.h"
 #include <pthread.h>
 #include <signal.h>
 
@@ -73,7 +74,8 @@ int		main(int ac, char** av)
 	gb_global = &gb;
 	debugger.breakpoints = NULL;
 	debugger.verbose_level = DEFAULT_VERBOSE;
-	
+	if ((libyacc_init_debugger(&debugger)) == EXIT_FAILURE)
+		return 1;
 	if (ac < 2)
 	{
 		fprintf(stderr, "usage: %s <rom>\n", av[0]);
