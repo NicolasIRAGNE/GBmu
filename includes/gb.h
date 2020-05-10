@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   gb.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:08:21 by niragne           #+#    #+#             */
 /*   Updated: 2020/05/12 11:32:42 by niragne          ###   ########.fr       */
@@ -81,6 +81,8 @@ struct gbmu_debugger_s
 {
 	int						verbose_level;
 	struct breakpoint_s*	breakpoints;
+	void					*grammar; //c++ libyacc DebuggerGrammar instance
+	void					*parser; //c++ libyacc LRParser instance
 };
 
 struct command_s
@@ -115,23 +117,7 @@ void		write_io(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, uint8_t lcdc);
 /*
 ** Debugger
 */
-void		parse_command(struct gb_cpu_s* gb);
-struct breakpoint_s*	new_breakpoint(uint16_t addr);
-int		add_breakpoint(struct breakpoint_s** lst, uint16_t addr);
-int		print_breakpoints(struct breakpoint_s* lst);
-int		find_breakpoint(struct breakpoint_s* lst, uint16_t addr);
-int		clear_breakpoints(struct breakpoint_s** lst);
-
-int		command_next(struct gb_cpu_s* gb, char* s, uint16_t arg);
-int		command_add_breakpoint(struct gb_cpu_s* gb, char* s, uint16_t arg);
-int		command_info(struct gb_cpu_s* gb, char* s, uint16_t arg);
-int		command_not_found(struct gb_cpu_s* gb, char* s, uint16_t arg);
-int		command_set_verbose(struct gb_cpu_s* gb, char* s, uint16_t arg);
-int		command_quit(struct gb_cpu_s* gb, char* s, uint16_t arg);
-int		command_print(struct gb_cpu_s* gb, char* s, uint16_t arg);
-int		command_run(struct gb_cpu_s* gb, char* s, uint16_t arg);
-int		command_del(struct gb_cpu_s* gb, char* s, uint16_t arg);
-int		command_help(struct gb_cpu_s* gb, char* s, uint16_t arg);
+void		execute_debugger(struct gb_cpu_s* gb);
 
 /*
 ** Debug
@@ -170,5 +156,8 @@ int		load_game(struct gb_cpu_s* gb);
 int		save_game_crash(struct gb_cpu_s* gb);
 int		savestate(struct gb_cpu_s* gb, int number);
 int		loadstate(struct gb_cpu_s* gb, int number);
+
+
+
 
 #endif

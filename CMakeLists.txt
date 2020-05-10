@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.13)
 SET(CMAKE_CXX_STANDARD 17)
 
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
+  ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+
 project(gbmu)
 
 ################################################
@@ -20,6 +23,9 @@ include_directories(${OPENGL_INCLUDE_DIRS})
 
 # Glew
 find_package(GLEW REQUIRED)
+
+#Readline
+find_package(Readline REQUIRED)
 
 ################################################
 #                   SOURCES                    #
@@ -130,6 +136,7 @@ set(SHADERS
 # Debugger
 
 set(DEBUGGER_SOURCES
+	srcs/debugger/libyacc_wrapper.cpp
 	srcs/debugger/DebuggerContext.cpp
 	srcs/debugger/DebuggerGrammar.cpp
 	srcs/debugger/SymbolNonTerminalAndOr.cpp
@@ -240,6 +247,7 @@ set(DEBUGGER_SOURCES
 	)
 
 	list(APPEND HEADERS
+	includes/debugger/libyacc_wrapper.h
 	includes/debugger/DebuggerContext.hpp
 	includes/debugger/DebuggerGrammar.hpp
 	includes/debugger/SymbolNonTerminalAndOr.hpp
@@ -353,6 +361,9 @@ include_directories(srcs)
 include_directories(includes)
 include_directories(includes/debugger)
 include_directories(libyacc/includes)
+include_directories(${Readline_INCLUDE_DIR})
+
+
 
 ################################################
 #                COMPILE FLAGS                 #
@@ -378,6 +389,7 @@ target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT})
 target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} GLEW::GLEW)
+target_link_libraries(${PROJECT_NAME} ${Readline_LIBRARY})
 
 ################################################
 #                   INSTALL                    #
