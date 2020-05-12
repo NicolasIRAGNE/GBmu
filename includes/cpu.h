@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:34:47 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/12 11:26:55 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/12 13:03:36 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@
 # define OBP1_OFFSET	(IO_OFFSET | 0x49)
 # define WY_OFFSET		(IO_OFFSET | 0x4a)
 # define WX_OFFSET		(IO_OFFSET | 0x4b)
+
+# define VBK_OFFSET		(IO_OFFSET | 0x4f)
 
 # define IF_OFFSET		(IO_OFFSET | 0x0F)
 
@@ -216,6 +218,13 @@ struct tima_s
 	uint64_t	last_cycle;
 };
 
+enum	gb_mode_e
+{
+	GB_MODE_DMG = 0,
+	GB_MODE_CGB,
+	GB_MODE_GBA,
+};
+
 struct	gb_cpu_s
 {
 	int					jmp : 1; // Flag used by the emulator. Ugly but hopefully temporary ?
@@ -231,6 +240,7 @@ struct	gb_cpu_s
 	uint64_t			last_sleep;
 	uint64_t			last_dma;
 	struct gbmu_debugger_s*	debugger;
+	enum gb_mode_e		mode;
 
 	int					ime : 1; // Interrupt Master Enable Flag
 	int					ram_enabled : 1;
@@ -244,7 +254,8 @@ struct	gb_cpu_s
 	struct tima_s		tima;
 	struct joypad_s		joypad;
 	uint8_t				boot_rom[BOOT_ROM_SIZE];
-	uint8_t				vram[VRAM_SIZE];
+	uint8_t				vram[VRAM_SIZE * 2];
+	uint8_t				vram_bank;
 	uint8_t				ram[RAM_SIZE];
 	uint8_t*			extra_ram;
 	uint8_t				wram[WRAM_SIZE];
