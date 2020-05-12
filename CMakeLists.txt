@@ -57,6 +57,7 @@ set(SOURCES
 	srcs/savestate.c
 	srcs/timer.c
 	srcs/div.c
+	srcs/io_map.c
 	srcs/instructions/jp.c
 	srcs/instructions/ld.c
 	srcs/instructions/misc.c
