@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 11:37:03 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/04 19:22:26 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/12 13:35:14 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,6 @@
 #include "renderer.h"
 #include <pthread.h>
 #include <signal.h>
-
-#define SCREEN_WIDTH 640
-#define SCREEN_HEIGHT 480
 
 struct gb_cpu_s*	gb_global;
 

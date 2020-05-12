@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:08:21 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/12 11:32:42 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/12 13:36:59 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 # define WHT	"\x1B[37m"
 # define EOC	"\x1B[0m"
 
-# define BOOT_ROM "../DMG_ROM.bin"
+# define DMG_BOOT_ROM "../DMG_ROM.bin"
 # define SAVE_DIR "../saves/"
 # define SAVESTATE_DIR "../savestates/"
 

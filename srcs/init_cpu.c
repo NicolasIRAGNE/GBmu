@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:30:05 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/09 13:28:11 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/12 13:39:32 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,29 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#define CURRENT_GB_MODE	GB_MODE_CGB
+
+
 int		init_boot_rom(struct gb_cpu_s* gb)
 {
 	int fd;
 	int rd;
 
-	fd = open(BOOT_ROM, O_RDONLY);
+	fd = open(DMG_BOOT_ROM, O_RDONLY);
 	if (fd < 0)
 	{
-		perror("fatal: could not open "BOOT_ROM);
+		perror("fatal: could not open "DMG_BOOT_ROM);
 		return (1);
 	}
-
-	rd = read(fd, gb->boot_rom, BOOT_ROM_SIZE);
+	gb->boot_rom = malloc(DMG_BOOT_ROM_SIZE);
+	rd = read(fd, gb->boot_rom, DMG_BOOT_ROM_SIZE);
 	if (rd < 0)
 	{
-		perror("fatal: could read from "BOOT_ROM);
+		perror("fatal: could read from "DMG_BOOT_ROM);
 		return (1);
 	}
-	if (rd != BOOT_ROM_SIZE)
-		fprintf(stderr, "WARNING : read %d bytes from boot rom (expected %d). boot behavior is unexpected.\n", rd, BOOT_ROM_SIZE);
+	if (rd != DMG_BOOT_ROM_SIZE)
+		fprintf(stderr, "WARNING : read %d bytes from boot rom (expected %d). boot behavior is unexpected.\n", rd, DMG_BOOT_ROM_SIZE);
 	close(fd);
 	return (0);
 }
@@ -42,14 +45,15 @@ int		init_boot_rom(struct gb_cpu_s* gb)
 int		init_cpu(struct gb_cpu_s* gb, struct rom_s* rom)
 {
 	bzero(gb, sizeof(*gb));
+	gb->mode = CURRENT_GB_MODE;
 	if (init_boot_rom(gb))
 		return (1);
 	gb->rom_ptr = rom;
 	gb->reg.sp = 0xFFFE;
-	gb->reg.af = 0;
+	gb->reg.af = 0x1100;
 	gb->reg.de = 0;
 	gb->reg.hl = 0;
-	gb->reg.pc = 0;
+	gb->reg.pc = 0x100;
 	gb->booted = (gb->reg.pc) >= 0x100;
 	gb->running = 1;
 	gb->vram_viewer_running = 1;
