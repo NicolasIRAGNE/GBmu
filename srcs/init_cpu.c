@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:30:05 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/09 13:28:11 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/12 13:39:32 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,9 @@ int		open_rom(char* name, struct rom_s* rom)
 	return (0);
 }
 
+#define CURRENT_GB_MODE	GB_MODE_CGB
+
+
 int		init_boot_rom(struct gb_cpu_s* gb)
 {
 
@@ -66,7 +69,7 @@ int		init_boot_rom(struct gb_cpu_s* gb)
 
 	if (f == NULL)
 	{
-		perror("fatal: could not open "BOOT_ROM);
+		perror("fatal: could not open "DMG_BOOT_ROM);
 		return (1);
 	}
 	size_t rd = fread(gb->boot_rom, BOOT_ROM_SIZE, 1, f) * BOOT_ROM_SIZE;
@@ -107,6 +110,7 @@ void		init_registers(struct registers_s* reg, int booted)
 int		init_cpu(struct gb_cpu_s* gb, struct rom_s* rom)
 {
 	memset(gb, 0, sizeof(*gb));
+	gb->mode = CURRENT_GB_MODE;
 	if (init_boot_rom(gb))
 		return (1);
 	gb->rom_ptr = rom;

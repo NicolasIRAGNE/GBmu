@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 11:37:03 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/23 19:31:29 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/05/12 13:35:14 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdio.h>
@@ -25,9 +25,6 @@
 #endif
 // #include <pthread.h>
 #include <signal.h>
-
-#define SCREEN_WIDTH 640
-#define SCREEN_HEIGHT 480
 
 struct gb_cpu_s*	gb_global;
 
