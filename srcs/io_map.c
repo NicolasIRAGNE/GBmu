@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/12 11:22:31 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/12 11:40:49 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/12 12:16:40 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	write_io(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, uint8_t lcdc)
 	if (addr == LCDC_OFFSET && !(x & LCDC_ON) && gb->gpu.mode != GPU_MODE_VBLANK)
 	{
 		request_lcd_off(gb);
-		return ;
+		// return ;
 	}
 	else if (addr == LCDC_OFFSET || addr == STAT_OFFSET || (addr >= SCY_OFFSET && addr <= LYC_OFFSET) || addr == WY_OFFSET || addr == WX_OFFSET)
 		gb->lcd_updated = 1;

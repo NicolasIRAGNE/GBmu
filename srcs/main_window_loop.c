@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 14:11:30 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/28 23:31:32 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/12 12:27:49 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,10 @@ void	main_window_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 			if (event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED) {
 				renderer_set_window_size(renderer, event.window.data1, event.window.data2);
 			}
+		}
+		else if (event.type == SDL_QUIT)
+		{
+			wrapper->gb->running = 0;
 		}
    	}
 	if (!wrapper->gb->paused)
