@@ -38,20 +38,22 @@
 # define TAC_OFFSET				(IO_OFFSET | 0x07)
 
 // LCD SCREEN
-# define LCDC_OFFSET 			(IO_OFFSET | 0x40)
-# define STAT_OFFSET 			(IO_OFFSET | 0x41)
-# define SCY_OFFSET				(IO_OFFSET | 0x42)
-# define SCX_OFFSET				(IO_OFFSET | 0x43)
-# define LY_OFFSET				(IO_OFFSET | 0x44)
-# define LYC_OFFSET				(IO_OFFSET | 0x45)
-# define DMA_OFFSET				(IO_OFFSET | 0x46)
-# define BGP_OFFSET				(IO_OFFSET | 0x47)
-# define OBP0_OFFSET			(IO_OFFSET | 0x48)
-# define OBP1_OFFSET			(IO_OFFSET | 0x49)
-# define WY_OFFSET				(IO_OFFSET | 0x4a)
-# define WX_OFFSET				(IO_OFFSET | 0x4b)
+# define LCDC_OFFSET 	(IO_OFFSET | 0x40)
+# define STAT_OFFSET 	(IO_OFFSET | 0x41)
+# define SCY_OFFSET		(IO_OFFSET | 0x42)
+# define SCX_OFFSET		(IO_OFFSET | 0x43)
+# define LY_OFFSET		(IO_OFFSET | 0x44)
+# define LYC_OFFSET		(IO_OFFSET | 0x45)
+# define DMA_OFFSET		(IO_OFFSET | 0x46)
+# define BGP_OFFSET		(IO_OFFSET | 0x47)
+# define OBP0_OFFSET	(IO_OFFSET | 0x48)
+# define OBP1_OFFSET	(IO_OFFSET | 0x49)
+# define WY_OFFSET		(IO_OFFSET | 0x4a)
+# define WX_OFFSET		(IO_OFFSET | 0x4b)
 
-# define IF_OFFSET				(IO_OFFSET | 0x0F)
+# define VBK_OFFSET		(IO_OFFSET | 0x4f)
+
+# define IF_OFFSET		(IO_OFFSET | 0x0F)
 
 // LCDC
 # define LCDC_ON					(1 << 7)
@@ -226,6 +228,13 @@ struct Lcd {
     int32_t wx;
     int32_t wy;
 };
+    
+enum	gb_mode_e
+{
+	GB_MODE_DMG = 0,
+	GB_MODE_CGB,
+	GB_MODE_GBA,
+};
 
 struct	gb_cpu_s
 {
@@ -242,6 +251,7 @@ struct	gb_cpu_s
 	uint64_t			last_sleep;
 	uint64_t			last_dma;
 	struct gbmu_debugger_s*	debugger;
+	enum gb_mode_e		mode;
 
 	int					ime : 1; // Interrupt Master Enable Flag
 	int					ram_enabled : 1;
@@ -256,7 +266,8 @@ struct	gb_cpu_s
 	struct tima_s		tima;
 	struct joypad_s		joypad;
 	uint8_t				boot_rom[BOOT_ROM_SIZE];
-	uint8_t				vram[VRAM_SIZE];
+	uint8_t				vram[VRAM_SIZE * 2];
+	uint8_t				vram_bank;
 	uint8_t				ram[RAM_SIZE];
 	uint8_t*			extra_ram;
 	uint8_t				wram[WRAM_SIZE];

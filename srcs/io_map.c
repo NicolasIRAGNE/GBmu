@@ -80,11 +80,17 @@ void	write_io(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, uint8_t lcdc)
 		}
 		return ;
 	}
-	if (addr == DIV_OFFSET)
+	else if (addr == DIV_OFFSET)
 		x = 0;
 	else if (addr == IF_OFFSET)
 		gb->halted = 0;
-	else if (addr == 0xff50 && x == 1)
+	
+	else if (addr == VBK_OFFSET && gb->mode == GB_MODE_CGB)
+	{
+		gb->vram_bank = x & 0x01;
+	}
+	
+	if (addr == 0xff50 && x == 1)
 		gb->booted = 1;
 	if (addr == LCDC_OFFSET && (x & LCDC_ON) && !(lcdc & LCDC_ON))
 	{
