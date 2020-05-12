@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 18:10:17 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/05 16:11:17 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/12 11:35:24 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,26 +45,6 @@ uint8_t	read_8(struct gb_cpu_s* gb, uint16_t a16)
 	{
 		return (((uint8_t*)(gb->ram))[a16 - 0xc000]);		
 	}
-	else if (a16 == JOYP_OFFSET)
-	{
-		uint8_t ret = 0;
-		if (gb->joypad_mode == JOYPAD_MODE_BUTTONS)
-		{
-			ret |= ((gb->joypad.a) != 0) << 0;
-			ret |= ((gb->joypad.b) != 0) << 1;
-			ret |= ((gb->joypad.select) != 0) << 2;
-			ret |= ((gb->joypad.start) != 0) << 3;
-		}
-		else if (gb->joypad_mode == JOYPAD_MODE_DIRECTIONS)
-		{
-			ret |= ((gb->joypad.right) != 0) << 0;
-			ret |= ((gb->joypad.left) != 0) << 1;
-			ret |= ((gb->joypad.up) != 0) << 2;
-			ret |= ((gb->joypad.down) != 0) << 3;
-		}
-		ret = ~ret;
-		return (ret);
-	}
 	else if (a16 >= 0xFE00 && a16 < 0xFEA0)
 	{
 		uint8_t lcdc = read_8(gb, LCDC_OFFSET);
@@ -75,7 +55,7 @@ uint8_t	read_8(struct gb_cpu_s* gb, uint16_t a16)
 	}
 	else if (a16 >= 0xFF00 && a16 < 0xFF80)
 	{
-		return (((uint8_t*)(gb->io_ports))[a16 - 0xFF00]);		
+		return (read_io(gb, a16));
 	}
 	else if (a16 >= 0xFF80 && a16 < 0xFFFF)
 	{
@@ -85,16 +65,12 @@ uint8_t	read_8(struct gb_cpu_s* gb, uint16_t a16)
 	{
 		return (gb->interrupt_enable_register);
 	}
-	else
-	{
-		// printf("WARNING: READING FROM UNIMPLEMENTED ZONE %4x\n", a16);
-		return (0xff);
-	}
+	// printf("WARNING: READING FROM UNIMPLEMENTED ZONE %4x\n", a16);
+	return (0xff);
 }
 
 void	write_8(struct gb_cpu_s* gb, uint16_t a16, uint8_t x)
 {
-	static uint64_t last_dma = 0;
 	uint8_t lcdc = read_8(gb, LCDC_OFFSET);
 	if (a16 < 0x8000)
 	{
@@ -119,29 +95,6 @@ void	write_8(struct gb_cpu_s* gb, uint16_t a16, uint8_t x)
 		((uint8_t*)(gb->ram))[a16 - 0xc000] = x;
 		return ;
 	}
-	else if (a16 == JOYP_OFFSET)
-	{
-		if (x == SELECT_BUTTON_KEYS)
-			gb->joypad_mode = JOYPAD_MODE_BUTTONS;
-		else if (x == SELECT_DIRECTION_KEYS)
-			gb->joypad_mode = JOYPAD_MODE_DIRECTIONS;
-		else if (x == SELECT_NONE)
-		{
-			gb->joypad_mode = JOYPAD_MODE_NONE;
-		// gb->paused = 1;
-		}
-		((uint8_t*)(gb->io_ports))[a16 - 0xFF00] = (((uint8_t*)(gb->io_ports))[a16 - 0xFF00] & 0x0f) | (x & 0xf0);
-		return ;
-	}
-	else if (a16 == DMA_OFFSET)
-	{
-		if (gb->cycle - last_dma > 160)
-		{
-			last_dma = gb->cycle;
-			process_dma_transfer(gb, x);
-		}
-		return ;
-	}
 	else if (a16 >= 0xFE00 && a16 < 0xFEA0)
 	{
 		if (gb->gpu.mode == GPU_MODE_HBLANK || gb->gpu.mode == GPU_MODE_VBLANK || !(lcdc && LCDC_ON))
@@ -153,25 +106,7 @@ void	write_8(struct gb_cpu_s* gb, uint16_t a16, uint8_t x)
 	}
 	else if (a16 >= 0xFF00 && a16 < 0xFF80)
 	{
-		if (a16 == DIV_OFFSET)
-			x = 0;
-		else if (a16 == IF_OFFSET)
-			gb->halted = 0;
-		else if (a16 == 0xff50 && x == 1)
-			gb->booted = 1;
-
-		if (a16 == LCDC_OFFSET && (x & LCDC_ON) && !(lcdc & LCDC_ON))
-		{
-			gb->gpu.mode = 1;
-			gb->gpu.y_coord = 0;
-			gb->gpu.tick = 0;
-			gb->gpu.lyc_requested = 0;
-		}
-		if (a16 == LCDC_OFFSET && !(x & LCDC_ON) && gb->gpu.mode != GPU_MODE_VBLANK)
-			return ;
-		else if (a16 == LCDC_OFFSET || a16 == STAT_OFFSET || (a16 >= SCY_OFFSET && a16 <= LYC_OFFSET) || a16 == WY_OFFSET || a16 == WX_OFFSET)
-			gb->lcd_updated = 1;
-		((uint8_t*)(gb->io_ports))[a16 - 0xFF00] = x;
+		write_io(gb, a16, x, lcdc);
 		return ;
 	}
 	else if (a16 >= 0xFF80 && a16 < 0xFFFF)

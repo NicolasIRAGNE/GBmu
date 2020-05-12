@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:08:21 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/04 19:20:19 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/12 11:32:42 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,10 @@ void	update_div_register(struct gb_cpu_s* gb);
 */
 uint8_t		read_8(struct gb_cpu_s* gb, uint16_t a16);
 uint16_t	read_16(struct gb_cpu_s* gb, uint16_t a16);
+uint8_t		read_io(struct gb_cpu_s* gb, uint16_t addr);
 void		write_8(struct gb_cpu_s* gb, uint16_t a16, uint8_t x);
 void		write_16(struct gb_cpu_s* gb, uint16_t a16, uint16_t x);
+void		write_io(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, uint8_t lcdc);
 
 /*
 ** Debugger
