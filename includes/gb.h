@@ -36,7 +36,7 @@
 # define WHT	"\x1B[37m"
 # define EOC	"\x1B[0m"
 
-# define BOOT_ROM "../DMG_ROM.bin"
+# define DMG_BOOT_ROM "../DMG_ROM.bin"
 # define SAVE_DIR "../saves/"
 # define SAVESTATE_DIR "../savestates/"
 

@@ -15,14 +15,14 @@
 # include <stdint.h>
 # include "mbc.h"
 
-# define VRAM_SIZE 0x2000		// 8kiB
-# define WRAM_SIZE 0x2000		// 8kiB
-# define HRAM_SIZE 0x100		// 256B
-# define RAM_SIZE 0x2000		// 8kiB
-# define EXTRA_RAM_SIZE 0x2000	// 8kiB
-# define IO_PORTS_SIZE 0x100	// 256B
-# define OAM_SIZE 0xa0			// 160B
-# define BOOT_ROM_SIZE 0x100	// 256B
+# define VRAM_SIZE 0x2000			// 8kiB
+# define WRAM_SIZE 0x2000			// 8kiB
+# define HRAM_SIZE 0x100			// 256B
+# define RAM_SIZE 0x2000			// 8kiB
+# define EXTRA_RAM_SIZE 0x2000		// 8kiB
+# define IO_PORTS_SIZE 0x100		// 256B
+# define OAM_SIZE 0xa0				// 160B
+# define DMG_BOOT_ROM_SIZE 0x100	// 256B
 
 # define VRAM_TILE_BANK_SIZE 0x1800
 
@@ -265,7 +265,7 @@ struct	gb_cpu_s
 	struct mbc_s		mbc;
 	struct tima_s		tima;
 	struct joypad_s		joypad;
-	uint8_t				boot_rom[BOOT_ROM_SIZE];
+	uint8_t*			boot_rom;
 	uint8_t				vram[VRAM_SIZE * 2];
 	uint8_t				vram_bank;
 	uint8_t				ram[RAM_SIZE];
