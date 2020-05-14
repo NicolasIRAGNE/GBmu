@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 18:54:33 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/02 20:16:14 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/05/14 17:33:37 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,10 @@ SymbolNonTerminalFormat::~SymbolNonTerminalFormat(void)
 
 int	SymbolNonTerminalFormat::traverse(ASTNode<int, DebuggerContext &> & ast, DebuggerContext & context) const
 {
+	static_cast<void>(ast);
+	static_cast<void>(context);
+	return (0);
+	/*
 	if (ast.getChild(0)->getSymbol().getIdentifier() == "decimal")
 		context.format = DebuggerContext::E_DEBUGGER_FORMAT_DECIMAL;
 	else if (ast.getChild(0)->getSymbol().getIdentifier() == "hexadecimal")
@@ -33,6 +37,7 @@ int	SymbolNonTerminalFormat::traverse(ASTNode<int, DebuggerContext &> & ast, Deb
 	else if (ast.getChild(0)->getSymbol().getIdentifier() == "binary")
 		context.format = DebuggerContext::E_DEBUGGER_FORMAT_BINARY;
 	return (0);
+	*/
 }
 
 void	SymbolNonTerminalFormat::computeProductions(AbstractGrammar<int, DebuggerContext &> & cfg)

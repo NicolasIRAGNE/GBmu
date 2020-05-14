@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 17:03:31 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/07 15:20:56 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/05/14 20:50:13 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ DebuggerGrammar::DebuggerGrammar(void) : AbstractGrammar(new SymbolNonTerminalCo
 	addNonTerminal(new SymbolNonTerminalQuitCommand());
 	addNonTerminal(new SymbolNonTerminalVerboseCommand());
 	addNonTerminal(new SymbolNonTerminalRegistersCommand());
-	addNonTerminal(new SymbolNonTerminalRegisterName());
-	addNonTerminal(new SymbolNonTerminalUnit());
 	addNonTerminal(new SymbolNonTerminalIntegerList());
 	addNonTerminal(new SymbolNonTerminalIoPort());
 	addNonTerminal(new SymbolNonTerminalCommandName());
@@ -30,7 +28,6 @@ DebuggerGrammar::DebuggerGrammar(void) : AbstractGrammar(new SymbolNonTerminalCo
 	addNonTerminal(new SymbolNonTerminalFactor());
 	addNonTerminal(new SymbolNonTerminalWatchModeList());
 	addNonTerminal(new SymbolNonTerminalStepCommand());
-	addNonTerminal(new SymbolNonTerminalFormat());
 	addNonTerminal(new SymbolNonTerminalInfoCommand());
 	addNonTerminal(new SymbolNonTerminalNextCommand());
 	addNonTerminal(new SymbolNonTerminalXCommand());
@@ -84,10 +81,6 @@ DebuggerGrammar::DebuggerGrammar(void) : AbstractGrammar(new SymbolNonTerminalCo
 	addTerminal(new SymbolTerminalInterruptJoypad());
 	addTerminal(new SymbolTerminalRegisterDE());
 	addTerminal(new SymbolTerminalWatch());
-	addTerminal(new SymbolTerminalInterruptTimer());
-	addTerminal(new SymbolTerminalHalfWordFormat());
-	addTerminal(new SymbolTerminalWordFormat());
-	addTerminal(new SymbolTerminalTimaOffset());
 	addTerminal(new SymbolTerminalAnd());
 	addTerminal(new SymbolTerminalBreakpoint());
 	addTerminal(new SymbolTerminalStep());
@@ -96,22 +89,9 @@ DebuggerGrammar::DebuggerGrammar(void) : AbstractGrammar(new SymbolNonTerminalCo
 	addTerminal(new SymbolTerminalLeftShift());
 	addTerminal(new SymbolTerminalRegisterA());
 	addTerminal(new SymbolTerminalUnwatch());
-	addTerminal(new SymbolTerminalRegisterC());
-	addTerminal(new SymbolTerminalRegisterB());
-	addTerminal(new SymbolTerminalRegisterE());
-	addTerminal(new SymbolTerminalRegisterD());
-	addTerminal(new SymbolTerminalRegisterF());
-	addTerminal(new SymbolTerminalInstruction());
-	addTerminal(new SymbolTerminalRegisterH());
-	addTerminal(new SymbolTerminalDecimal());
-	addTerminal(new SymbolTerminalStackPointer());
-	addTerminal(new SymbolTerminalRegisterL());
-	addTerminal(new SymbolTerminalOctal());
 	addTerminal(new SymbolTerminalReadMode());
 	addTerminal(new SymbolTerminalWriteMode());
-	addTerminal(new SymbolTerminalHexadecimal());
 	addTerminal(new SymbolTerminalBinaryOr());
-	addTerminal(new SymbolTerminalBinary());
 	addTerminal(new SymbolTerminalDelete());
 	addTerminal(new SymbolTerminalX());
 	addTerminal(new SymbolTerminalPrintCommandParams());

@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/02 19:12:46 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/05/14 19:30:03 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ int	SymbolNonTerminalTerm::traverse(ASTNode<int, DebuggerContext &> & ast, Debug
 		return ast.getChild(0)->getTraversed(context) / ast.getChild(2)->getTraversed(context);
 	else if (ast.getChild(1)->getSymbol().getIdentifier() == ">>")
 		return ast.getChild(0)->getTraversed(context) >> ast.getChild(2)->getTraversed(context);
+	else if (ast.getChild(1)->getSymbol().getIdentifier() == "%")
+		return ast.getChild(0)->getTraversed(context) % ast.getChild(2)->getTraversed(context);
 	else if (ast.getChild(1)->getSymbol().getIdentifier() == "<<")
 		return ast.getChild(0)->getTraversed(context) << ast.getChild(2)->getTraversed(context);
 	else if (ast.getChild(1)->getSymbol().getIdentifier() == "|")
