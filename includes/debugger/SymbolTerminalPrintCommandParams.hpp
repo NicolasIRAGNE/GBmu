@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/03 17:37:35 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/03 18:10:30 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/05/14 20:13:34 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ class SymbolTerminalPrintCommandParams : public AbstractTerminal<int, DebuggerCo
 		virtual int traverse(ASTNode<int, DebuggerContext &> & ast, DebuggerContext & context) const;
 		virtual	bool isEligibleForCurrent(std::string & current);
 		virtual bool staysEligibleForCurrent(std::string & current);
+		virtual bool canBeAdded(std::deque<Token<int, DebuggerContext &> *>	& res);
 		virtual Token<int, DebuggerContext &> *createToken(std::string tokenContent);
 	private:
 

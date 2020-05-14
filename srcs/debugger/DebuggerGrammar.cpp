@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 17:03:31 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/09 16:25:24 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/05/14 20:50:13 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ DebuggerGrammar::DebuggerGrammar(void) : AbstractGrammar(new SymbolNonTerminalCo
 	addNonTerminal(new SymbolNonTerminalQuitCommand());
 	addNonTerminal(new SymbolNonTerminalVerboseCommand());
 	addNonTerminal(new SymbolNonTerminalRegistersCommand());
-	addNonTerminal(new SymbolNonTerminalUnit());
 	addNonTerminal(new SymbolNonTerminalIntegerList());
 	addNonTerminal(new SymbolNonTerminalCommandName());
 	addNonTerminal(new SymbolNonTerminalUnwatchCommand());
@@ -28,7 +27,6 @@ DebuggerGrammar::DebuggerGrammar(void) : AbstractGrammar(new SymbolNonTerminalCo
 	addNonTerminal(new SymbolNonTerminalFactor());
 	addNonTerminal(new SymbolNonTerminalWatchModeList());
 	addNonTerminal(new SymbolNonTerminalStepCommand());
-	addNonTerminal(new SymbolNonTerminalFormat());
 	addNonTerminal(new SymbolNonTerminalInfoCommand());
 	addNonTerminal(new SymbolNonTerminalNextCommand());
 	addNonTerminal(new SymbolNonTerminalXCommand());
@@ -71,22 +69,15 @@ DebuggerGrammar::DebuggerGrammar(void) : AbstractGrammar(new SymbolNonTerminalCo
 	addTerminal(new SymbolTerminalInfo());
 	addTerminal(new SymbolTerminalEqual());
 	addTerminal(new SymbolTerminalWatch());
-	addTerminal(new SymbolTerminalHalfWordFormat());
-	addTerminal(new SymbolTerminalWordFormat());
 	addTerminal(new SymbolTerminalAnd());
 	addTerminal(new SymbolTerminalBreakpoint());
 	addTerminal(new SymbolTerminalStep());
 	addTerminal(new SymbolTerminalVerbose());
 	addTerminal(new SymbolTerminalLeftShift());
 	addTerminal(new SymbolTerminalUnwatch());
-	addTerminal(new SymbolTerminalInstruction());
-	addTerminal(new SymbolTerminalDecimal());
-	addTerminal(new SymbolTerminalOctal());
 	addTerminal(new SymbolTerminalReadMode());
 	addTerminal(new SymbolTerminalWriteMode());
-	addTerminal(new SymbolTerminalHexadecimal());
 	addTerminal(new SymbolTerminalBinaryOr());
-	addTerminal(new SymbolTerminalBinary());
 	addTerminal(new SymbolTerminalDelete());
 	addTerminal(new SymbolTerminalX());
 	addTerminal(new SymbolTerminalPrintCommandParams());

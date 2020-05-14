@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/03 18:02:13 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/03 21:31:53 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/05/14 17:11:45 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,7 @@
 # define TOKENPRINTCOMMANDSUFFIX_HPP
 
 # include "DebuggerGrammar.hpp"
-
-#define PRECISED_UNIT 1
-#define PRECISED_FORMAT 2
-#define PRECISED_COUNT 4
+# include "PrintCommandSuffixParams.hpp"
 
 class TokenPrintCommandSuffix : public Token<int, DebuggerContext &>
 {
@@ -28,23 +25,13 @@ class TokenPrintCommandSuffix : public Token<int, DebuggerContext &>
 
 		TokenPrintCommandSuffix(AbstractTerminal<int, DebuggerContext &> &term
 		, std::string content
-		, int precised
-		, int count
-		, DebuggerContext::t_debugger_unit unit
-		, DebuggerContext::t_debugger_format format);
-		
-		DebuggerContext::t_debugger_unit getUnit();
-		DebuggerContext::t_debugger_format getFormat();
-		int getPrecised();
-		int getCount();
+		, PrintCommandSuffixParams printCommandSuffixParams);
+
+		PrintCommandSuffixParams getPrintCommandSuffixParams();
 		virtual std::ostream &repr(std::ostream &o);
 
 	private:
-
-	int	_precised;
-	int _count;
-	DebuggerContext::t_debugger_unit _unit;
-	DebuggerContext::t_debugger_format _format;
+		PrintCommandSuffixParams _printCommandSuffixParams;
 };
 
 std::ostream &operator<<(std::ostream &o, TokenPrintCommandSuffix  &instance);

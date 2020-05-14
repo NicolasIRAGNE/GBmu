@@ -137,6 +137,7 @@ set(DEBUGGER_SOURCES
 	srcs/debugger/libyacc_wrapper.cpp
 	srcs/debugger/DebuggerContext.cpp
 	srcs/debugger/DebuggerGrammar.cpp
+	srcs/debugger/PrintCommandSuffixParams.cpp
 	srcs/debugger/SymbolNonTerminalAndOr.cpp
 	srcs/debugger/SymbolNonTerminalAssignable.cpp
 	srcs/debugger/SymbolNonTerminalAssignableList.cpp
@@ -147,7 +148,6 @@ set(DEBUGGER_SOURCES
 	srcs/debugger/SymbolNonTerminalDeleteCommand.cpp
 	srcs/debugger/SymbolNonTerminalExpr.cpp
 	srcs/debugger/SymbolNonTerminalFactor.cpp
-	srcs/debugger/SymbolNonTerminalFormat.cpp
 	srcs/debugger/SymbolNonTerminalHelpCommand.cpp
 	srcs/debugger/SymbolNonTerminalInfoCommand.cpp
 	srcs/debugger/SymbolNonTerminalIntegerList.cpp
@@ -170,23 +170,18 @@ set(DEBUGGER_SOURCES
 	srcs/debugger/SymbolTerminalAnd.cpp
 	srcs/debugger/SymbolTerminalAssign.cpp
 	srcs/debugger/SymbolTerminalBinaryAnd.cpp
-	srcs/debugger/SymbolTerminalBinary.cpp
 	srcs/debugger/SymbolTerminalBinaryOr.cpp
 	srcs/debugger/SymbolTerminalBreakpoint.cpp
 	srcs/debugger/SymbolTerminalClosedParenthesis.cpp
 	srcs/debugger/SymbolTerminalCommand.cpp
-	srcs/debugger/SymbolTerminalDecimal.cpp
 	srcs/debugger/SymbolTerminalDelete.cpp
 	srcs/debugger/SymbolTerminalDivide.cpp
 	srcs/debugger/SymbolTerminalEqual.cpp
 	srcs/debugger/SymbolTerminalExpansion.cpp
 	srcs/debugger/SymbolTerminalGreater.cpp
 	srcs/debugger/SymbolTerminalGreaterOrEqual.cpp
-	srcs/debugger/SymbolTerminalHalfWordFormat.cpp
 	srcs/debugger/SymbolTerminalHelp.cpp
-	srcs/debugger/SymbolTerminalHexadecimal.cpp
 	srcs/debugger/SymbolTerminalInfo.cpp
-	srcs/debugger/SymbolTerminalInstruction.cpp
 	srcs/debugger/SymbolTerminalInteger.cpp
 	srcs/debugger/SymbolTerminalLeftShift.cpp
 	srcs/debugger/SymbolTerminalLesser.cpp
@@ -196,7 +191,6 @@ set(DEBUGGER_SOURCES
 	srcs/debugger/SymbolTerminalMultiply.cpp
 	srcs/debugger/SymbolTerminalNext.cpp
 	srcs/debugger/SymbolTerminalNotEqual.cpp
-	srcs/debugger/SymbolTerminalOctal.cpp
 	srcs/debugger/SymbolTerminalOpenParenthesis.cpp
 	srcs/debugger/SymbolTerminalOr.cpp
 	srcs/debugger/SymbolTerminalPlus.cpp
@@ -212,7 +206,6 @@ set(DEBUGGER_SOURCES
 	srcs/debugger/SymbolTerminalUnwatch.cpp
 	srcs/debugger/SymbolTerminalVerbose.cpp
 	srcs/debugger/SymbolTerminalWatch.cpp
-	srcs/debugger/SymbolTerminalWordFormat.cpp
 	srcs/debugger/SymbolTerminalWriteMode.cpp
 	srcs/debugger/SymbolTerminalX.cpp
 	srcs/debugger/TokenPrintCommandSuffix.cpp
@@ -220,6 +213,7 @@ set(DEBUGGER_SOURCES
 
 	list(APPEND HEADERS
 	includes/debugger/libyacc_wrapper.h
+	includes/debugger/PrintCommandSuffixParams.hpp
 	includes/debugger/DebuggerContext.hpp
 	includes/debugger/DebuggerGrammar.hpp
 	includes/debugger/SymbolNonTerminalAndOr.hpp
@@ -232,7 +226,6 @@ set(DEBUGGER_SOURCES
 	includes/debugger/SymbolNonTerminalDeleteCommand.hpp
 	includes/debugger/SymbolNonTerminalExpr.hpp
 	includes/debugger/SymbolNonTerminalFactor.hpp
-	includes/debugger/SymbolNonTerminalFormat.hpp
 	includes/debugger/SymbolNonTerminalHelpCommand.hpp
 	includes/debugger/SymbolNonTerminalInfoCommand.hpp
 	includes/debugger/SymbolNonTerminalIntegerList.hpp
@@ -255,23 +248,18 @@ set(DEBUGGER_SOURCES
 	includes/debugger/SymbolTerminalAnd.hpp
 	includes/debugger/SymbolTerminalAssign.hpp
 	includes/debugger/SymbolTerminalBinaryAnd.hpp
-	includes/debugger/SymbolTerminalBinary.hpp
 	includes/debugger/SymbolTerminalBinaryOr.hpp
 	includes/debugger/SymbolTerminalBreakpoint.hpp
 	includes/debugger/SymbolTerminalClosedParenthesis.hpp
 	includes/debugger/SymbolTerminalCommand.hpp
-	includes/debugger/SymbolTerminalDecimal.hpp
 	includes/debugger/SymbolTerminalDelete.hpp
 	includes/debugger/SymbolTerminalDivide.hpp
 	includes/debugger/SymbolTerminalEqual.hpp
 	includes/debugger/SymbolTerminalExpansion.hpp
 	includes/debugger/SymbolTerminalGreater.hpp
 	includes/debugger/SymbolTerminalGreaterOrEqual.hpp
-	includes/debugger/SymbolTerminalHalfWordFormat.hpp
 	includes/debugger/SymbolTerminalHelp.hpp
-	includes/debugger/SymbolTerminalHexadecimal.hpp
 	includes/debugger/SymbolTerminalInfo.hpp
-	includes/debugger/SymbolTerminalInstruction.hpp
 	includes/debugger/SymbolTerminalInteger.hpp
 	includes/debugger/SymbolTerminalLeftShift.hpp
 	includes/debugger/SymbolTerminalLesser.hpp
@@ -281,7 +269,6 @@ set(DEBUGGER_SOURCES
 	includes/debugger/SymbolTerminalMultiply.hpp
 	includes/debugger/SymbolTerminalNext.hpp
 	includes/debugger/SymbolTerminalNotEqual.hpp
-	includes/debugger/SymbolTerminalOctal.hpp
 	includes/debugger/SymbolTerminalOpenParenthesis.hpp
 	includes/debugger/SymbolTerminalOr.hpp
 	includes/debugger/SymbolTerminalPlus.hpp
@@ -297,7 +284,6 @@ set(DEBUGGER_SOURCES
 	includes/debugger/SymbolTerminalUnwatch.hpp
 	includes/debugger/SymbolTerminalVerbose.hpp
 	includes/debugger/SymbolTerminalWatch.hpp
-	includes/debugger/SymbolTerminalWordFormat.hpp
 	includes/debugger/SymbolTerminalWriteMode.hpp
 	includes/debugger/SymbolTerminalX.hpp
 	includes/debugger/TokenPrintCommandSuffix.hpp

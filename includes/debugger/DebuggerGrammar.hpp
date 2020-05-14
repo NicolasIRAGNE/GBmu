@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 17:03:31 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/09 16:27:18 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/05/14 20:54:45 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 #include "SymbolNonTerminalQuitCommand.hpp"
 #include "SymbolNonTerminalVerboseCommand.hpp"
 #include "SymbolNonTerminalRegistersCommand.hpp"
-#include "SymbolNonTerminalUnit.hpp"
 #include "SymbolNonTerminalIntegerList.hpp"
 #include "SymbolNonTerminalCommandName.hpp"
 #include "SymbolNonTerminalUnwatchCommand.hpp"
@@ -29,7 +28,6 @@
 #include "SymbolNonTerminalFactor.hpp"
 #include "SymbolNonTerminalWatchModeList.hpp"
 #include "SymbolNonTerminalStepCommand.hpp"
-#include "SymbolNonTerminalFormat.hpp"
 #include "SymbolNonTerminalInfoCommand.hpp"
 #include "SymbolNonTerminalNextCommand.hpp"
 #include "SymbolNonTerminalXCommand.hpp"
@@ -73,22 +71,15 @@
 #include "SymbolTerminalInfo.hpp"
 #include "SymbolTerminalEqual.hpp"
 #include "SymbolTerminalWatch.hpp"
-#include "SymbolTerminalHalfWordFormat.hpp"
-#include "SymbolTerminalWordFormat.hpp"
 #include "SymbolTerminalAnd.hpp"
 #include "SymbolTerminalBreakpoint.hpp"
 #include "SymbolTerminalStep.hpp"
 #include "SymbolTerminalVerbose.hpp"
 #include "SymbolTerminalLeftShift.hpp"
 #include "SymbolTerminalUnwatch.hpp"
-#include "SymbolTerminalInstruction.hpp"
-#include "SymbolTerminalDecimal.hpp"
-#include "SymbolTerminalOctal.hpp"
 #include "SymbolTerminalReadMode.hpp"
 #include "SymbolTerminalWriteMode.hpp"
-#include "SymbolTerminalHexadecimal.hpp"
 #include "SymbolTerminalBinaryOr.hpp"
-#include "SymbolTerminalBinary.hpp"
 #include "SymbolTerminalDelete.hpp"
 #include "SymbolTerminalX.hpp"
 #include "SymbolTerminalExpansion.hpp"

@@ -40,15 +40,8 @@
 %   Modulo
 -   Minus
 +   Plus
-decimal Decimal
-hexadecimal	Hexadecimal
-o	Octal
-i	Instruction
-binary Binary
 (   OpenParenthesis
 )   ClosedParenthesis
-hh  halfWordFormat
-hFormat  wordFormat
 =   Assign
 
 r	ReadMode
@@ -144,17 +137,6 @@ xCommand           : x printCommandSuffix
 ;
 printCommandSuffix : printCommandParams value
 |                    value
-;
-format             : decimal
-|				     hexadecimal
-|				     o
-|				     binary
-|                    i
-|					 _EPS_
-;
-unit			   : hh
-| 					 hFormat
-|                    _EPS_
 ;
 setCommand         : set assignable = andOr
 ;
