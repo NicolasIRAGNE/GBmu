@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 11:37:03 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/10 19:18:50 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/05/15 15:13:23 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int		main(int ac, char** av)
 	gb_global = &gb;
 	debugger.breakpoints = NULL;
 	debugger.verbose_level = DEFAULT_VERBOSE;
-	if ((libyacc_init_debugger(&debugger)) == EXIT_FAILURE)
+	if ((libyacc_init_debugger(&gb, &debugger)) == EXIT_FAILURE)
 		return 1;
 	if (ac < 2)
 	{
