@@ -136,6 +136,11 @@ set(SHADERS
 set(DEBUGGER_SOURCES
 	srcs/debugger/libyacc_wrapper.cpp
 	srcs/debugger/DebuggerContext.cpp
+	srcs/debugger/Debugger.cpp
+	srcs/debugger/History.cpp
+	srcs/debugger/DebuggerVariable.cpp
+	srcs/debugger/DebuggerVariableValue.cpp
+	srcs/debugger/DebuggerVariableConstValue.cpp
 	srcs/debugger/DebuggerGrammar.cpp
 	srcs/debugger/PrintCommandSuffixParams.cpp
 	srcs/debugger/SymbolNonTerminalAndOr.cpp
@@ -159,7 +164,6 @@ set(DEBUGGER_SOURCES
 	srcs/debugger/SymbolNonTerminalSetCommand.cpp
 	srcs/debugger/SymbolNonTerminalStepCommand.cpp
 	srcs/debugger/SymbolNonTerminalTerm.cpp
-	srcs/debugger/SymbolNonTerminalUnit.cpp
 	srcs/debugger/SymbolNonTerminalUnwatchCommand.cpp
 	srcs/debugger/SymbolNonTerminalValue.cpp
 	srcs/debugger/SymbolNonTerminalVerboseCommand.cpp
@@ -214,6 +218,12 @@ set(DEBUGGER_SOURCES
 	list(APPEND HEADERS
 	includes/debugger/libyacc_wrapper.h
 	includes/debugger/PrintCommandSuffixParams.hpp
+	includes/debugger/Debugger.hpp
+	includes/debugger/History.hpp
+	includes/debugger/DebuggerVariable.hpp
+	includes/debugger/DebuggerVariableAddress.hpp
+	includes/debugger/DebuggerVariableValue.hpp
+	includes/debugger/DebuggerVariableConstValue.hpp
 	includes/debugger/DebuggerContext.hpp
 	includes/debugger/DebuggerGrammar.hpp
 	includes/debugger/SymbolNonTerminalAndOr.hpp
@@ -237,7 +247,6 @@ set(DEBUGGER_SOURCES
 	includes/debugger/SymbolNonTerminalSetCommand.hpp
 	includes/debugger/SymbolNonTerminalStepCommand.hpp
 	includes/debugger/SymbolNonTerminalTerm.hpp
-	includes/debugger/SymbolNonTerminalUnit.hpp
 	includes/debugger/SymbolNonTerminalUnwatchCommand.hpp
 	includes/debugger/SymbolNonTerminalValue.hpp
 	includes/debugger/SymbolNonTerminalVerboseCommand.hpp
@@ -295,8 +304,6 @@ include_directories(includes)
 include_directories(includes/debugger)
 include_directories(libyacc/includes)
 include_directories(${Readline_INCLUDE_DIR})
-
-
 
 ################################################
 #                COMPILE FLAGS                 #

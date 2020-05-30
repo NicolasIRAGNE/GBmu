@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/10 19:15:42 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/15 15:12:10 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/05/15 16:50:54 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@ extern "C" {
 
 int libyacc_init_debugger(struct gb_cpu_s *cpu, struct gbmu_debugger_s* debugger);
 int libyacc_execute(struct gb_cpu_s *cpu, char *string);
+void libyacc_free(struct gbmu_debugger_s *debugger);
+int	get_verbose(void *debugger);
+int	find_breakpoint(void *debugger, int pc);
 void libyacc_free(struct gbmu_debugger_s *debugger);
 
 #ifdef __cplusplus

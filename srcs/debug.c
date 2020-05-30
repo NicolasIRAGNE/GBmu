@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/31 11:40:08 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/16 11:24:48 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/15 17:07:22 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	debug_print_gb(struct gb_cpu_s* gb)
 	debug_print_registers(gb->reg);
 	printf("\n");
 	printf("CYCLE: %ld\n", gb->cycle);
-	if (gb->debugger->verbose_level >= 2)
+	if (get_verbose(gb->debugger->instance) >= 2)
 	{
 		debug_print_gb_flags(gb);
 		printf("\n");
@@ -27,8 +27,9 @@ void	debug_print_gb(struct gb_cpu_s* gb)
 	debug_print_stack(gb);
 	printf("\n");
 
-	if (gb->debugger->verbose_level >= 2)
+	if (get_verbose(gb->debugger->instance) >= 2)
 	{
+
 		debug_print_mbc(gb);
 		printf("\n");
 	}

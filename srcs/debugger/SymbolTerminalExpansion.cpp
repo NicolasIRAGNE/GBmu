@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/03 14:58:56 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/04 21:11:34 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/05/30 16:48:28 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,40 @@ SymbolTerminalExpansion::~SymbolTerminalExpansion(void)
 	
 }
 
+bool is_number(const std::string& s)
+{
+    std::string::const_iterator it = s.begin();
+    while (it != s.end() && std::isdigit(*it)) ++it;
+    return !s.empty() && it == s.end();
+}
+
 int	SymbolTerminalExpansion::traverse(ASTNode<int, DebuggerContext &> & ast, DebuggerContext & context) const
 {
-	static_cast<void>(ast);
-	static_cast<void>(context);
-	return (0);
+	std::map<std::string, DebuggerVariable *>::iterator	it;
+	int													nb;
+	
+	nb = -1;
+	if (ast.getToken()->getStringValue().empty())
+		nb = context.debugger->getHistoryCounter();
+	else
+	{
+		try
+		{
+			nb = std::stoi(ast.getToken()->getStringValue());
+		}
+		catch (std::exception &e)
+		{
+			context.address_descriptor.variable = context.debugger->getVariable(ast.getToken()->getStringValue());
+			return context.address_descriptor.variable->getValue();
+		}
+	}
+	context.address_descriptor.variable = &context.debugger->getHistoryVariable(nb);
+	return context.address_descriptor.variable->getValue();
 }
 
 bool SymbolTerminalExpansion::isEligibleForCurrent(std::string & current)
 {
-	return SymbolTerminalExpansion::staysEligibleForCurrent(current) && current.compare("$");
+	return SymbolTerminalExpansion::staysEligibleForCurrent(current);
 }
 
 bool SymbolTerminalExpansion::staysEligibleForCurrent(std::string & current)
@@ -43,7 +67,7 @@ bool SymbolTerminalExpansion::staysEligibleForCurrent(std::string & current)
 			if (current[i] != '$')
 				return false;
 		}
-		else if (isblank(current[i]) || current[i] == '=')
+		else if (isblank(current[i]) || strchr("=+-<>*/", current[i]))
 			return false;
 	}
 	return true;

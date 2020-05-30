@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:08:21 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/15 15:04:29 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/05/15 15:56:19 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,13 +77,14 @@ struct breakpoint_s
 	struct breakpoint_s* next;
 };
 
+//	int						verbose_level;
+//	struct breakpoint_s*	breakpoints;
+
 struct gbmu_debugger_s
 {
-	int						verbose_level;
-	struct breakpoint_s*	breakpoints;
 	void					*grammar;	//c++ libyacc DebuggerGrammar instance
 	void					*parser;	//c++ libyacc LRParser instance
-	void					*context;	//c++ DebuggerContext instance
+	void					*instance;	//c++ DebuggerContext instance
 };
 
 struct command_s

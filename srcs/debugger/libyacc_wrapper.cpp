@@ -17,7 +17,7 @@ extern "C"
 			debugger->grammar = NULL;
 			return EXIT_FAILURE;
 		}
-		if (!(debugger->context = (void *) (new DebuggerContext(cpu))))
+		if (!(debugger->instance = (void *) (new Debugger(cpu))))
 		{
 			delete static_cast<DebuggerGrammar *>(debugger->grammar);
 			delete static_cast<LRParser<int, DebuggerContext &> *>(debugger->parser);
@@ -33,17 +33,19 @@ extern "C"
 		int res;
 		DebuggerGrammar *grammar = static_cast<DebuggerGrammar *>(cpu->debugger->grammar);
 		LRParser<int, DebuggerContext &> *parser = static_cast<LRParser<int, DebuggerContext &> *>(cpu->debugger->parser);
-		DebuggerContext *context = static_cast<DebuggerContext *>(cpu->debugger->context);
+		Debugger *debugger = static_cast<Debugger *>(cpu->debugger->instance);
+
 		std::deque<Token<int, DebuggerContext &> *> tokens;
 		std::stringstream sstr(string);
-
+		DebuggerContext context(debugger);
+		
 		res = 0;
 		try
 		{
 			tokens = grammar->lex(false, sstr);
 			// printTokenQueue(tokens);
 			ASTBuilder<int, DebuggerContext &>*b = parser->parse(tokens);
-			res = b->getASTRoot()->getTraversed(*context);
+			res = b->getASTRoot()->getTraversed(context);
 			// std::cout << *b << std::endl;
 			delete b;
 			deleteTokens(tokens);
@@ -60,6 +62,24 @@ extern "C"
 			std::cerr << e.what() << std::endl;
 			res = 1;
 		}
+		catch (const std::out_of_range &e)
+		{
+			deleteTokens(tokens);
+			std::cerr << "Numeric constant too large." << std::endl;
+			res = 1;
+		}
+		catch (const SymbolNonTerminalTerm::DivByZeroException &e)
+		{
+			deleteTokens(tokens);
+			std::cerr << e.what() << std::endl;
+			res = 1;
+		}
+		catch (const History::IndexOutOfRangeException &e)
+		{
+			deleteTokens(tokens);
+			std::cerr << e.what() << std::endl;
+			res = 1;
+		}
 		return (res);
 	}
 
@@ -67,14 +87,27 @@ extern "C"
 	{
 		DebuggerGrammar *grammar = static_cast<DebuggerGrammar *>(debugger->grammar);
 		LRParser<int, DebuggerContext &> *parser = static_cast<LRParser<int, DebuggerContext &> *>(debugger->parser);
-		DebuggerContext *context = static_cast<DebuggerContext *>(debugger->context);
+		Debugger *instance = static_cast<Debugger *>(debugger->instance);
 
 		if (grammar != nullptr)
 			delete grammar;
 		if (parser != nullptr)
 			delete parser;
-		if (parser != nullptr)
-			delete context;
+		if (instance != nullptr)
+			delete instance;
+	}
+
+	int	get_verbose(void *debugger)
+	{
+		(void)debugger;
+		return 0;
+	}
+
+	int	find_breakpoint(void *debugger, int pc)
+	{
+		(void)debugger;
+		(void)pc;
+		return 0;
 	}
 
 }
