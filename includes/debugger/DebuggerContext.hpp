@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/30 16:59:09 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/05/30 17:45:55 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ class DebuggerContext
 		Debugger					*debugger;
 		PrintCommandSuffixParams	printCommandSuffixParams;
 		t_address_descriptor		address_descriptor;
+		bool						shouldSaveAsLastCommand;
 
 	private:
 		DebuggerContext(void);

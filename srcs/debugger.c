@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 14:05:57 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/10 19:59:43 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/05/30 17:36:51 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	execute_debugger(struct gb_cpu_s* gb)
       		add_history(buf);
     	}
     	// printf("[%s]\n", buf);
-   		ret = libyacc_execute(gb, buf);
+   		ret = libyacc_execute(gb, buf, 1);
 		free(buf);
 	}
 	gb->running = 0;
