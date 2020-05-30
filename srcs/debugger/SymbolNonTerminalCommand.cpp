@@ -6,11 +6,12 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/30 14:16:40 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/05/30 17:47:22 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "SymbolNonTerminalCommand.hpp"
+# include "libyacc_wrapper.h"
 
 SymbolNonTerminalCommand::SymbolNonTerminalCommand(void) : AbstractNonTerminal("command")
 {
@@ -26,9 +27,10 @@ int	SymbolNonTerminalCommand::traverse(ASTNode<int, DebuggerContext &> & ast, De
 {
 	if (ast.getChildren().size())
 		return (ast.getChild(0)->getTraversed(context));
-	else if (context.debugger->getHistoryCounter() > 1)
+	else if (!context.debugger->getLastCommand().empty())
 	{
-		// return libyacc_execute(context.debugger->cpu, context.debugger->getLastCommand().c_str());
+		context.shouldSaveAsLastCommand = false;
+		return libyacc_execute(context.debugger->getCPU(), context.debugger->getLastCommand().c_str(), 0);
 	}
 	return 0;
 }

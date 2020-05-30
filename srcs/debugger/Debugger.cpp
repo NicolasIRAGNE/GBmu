@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/15 15:58:49 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/30 16:27:49 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/05/30 17:37:57 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,4 +123,14 @@ void	Debugger::addValue(int value)
 {
 	DebuggerVariableConstValue val(value);
 	_history.addValue(val);
+}
+
+std::string	Debugger::getLastCommand(void)
+{
+	return (this->_lastCommand);
+}
+
+void	Debugger::setLastCommand(std::string string)
+{
+	this->_lastCommand = string;
 }

@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/15 15:56:33 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/30 15:40:35 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/05/30 17:37:45 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,9 @@ class Debugger
 		DebuggerVariableConstValue &getHistoryVariable(int nb);
 		uint32_t getHistoryCounter(void);
 		void	addValue(int value);
+
+		std::string getLastCommand(void);
+		void		setLastCommand(std::string string);
 
 	private:
 		Debugger(void);

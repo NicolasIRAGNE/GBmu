@@ -28,7 +28,7 @@ extern "C"
 		return EXIT_SUCCESS;
 	}
 
-	int libyacc_execute(struct gb_cpu_s *cpu, char *string)
+	int libyacc_execute(struct gb_cpu_s *cpu, const char *string, int store)
 	{
 		int res;
 		DebuggerGrammar *grammar = static_cast<DebuggerGrammar *>(cpu->debugger->grammar);
@@ -80,6 +80,8 @@ extern "C"
 			std::cerr << e.what() << std::endl;
 			res = 1;
 		}
+		if (store && context.shouldSaveAsLastCommand)
+			debugger->setLastCommand(string);
 		return (res);
 	}
 
