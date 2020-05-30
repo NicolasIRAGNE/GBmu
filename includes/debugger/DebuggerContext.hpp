@@ -6,29 +6,53 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/14 18:50:45 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/05/30 16:59:09 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef DEBUGGERCONTEXT_HPP
 # define DEBUGGERCONTEXT_HPP
 
-# include "cpu.h"
+# include "Debugger.hpp"
+# include "ASTNode.hpp"
 # include <iostream>
 # include "PrintCommandSuffixParams.hpp"
+
+enum e_address_descriptor_type
+{
+	ADDRESS_DESCRIPTOR_TYPE_VARIABLE,
+	ADDRESS_DESCRIPTOR_TYPE_INDEX
+};
+
+typedef struct						s_address_descriptor
+{
+	enum e_address_descriptor_type type;
+
+	union
+	{
+		DebuggerVariable			*variable;
+		int32_t						index;
+	};
+}									t_address_descriptor;
 
 class DebuggerContext
 {
 	public:
 
-		DebuggerContext(void);
-		DebuggerContext(struct gb_cpu_s *cpu);
+		DebuggerContext(Debugger *debugger);
 		DebuggerContext(DebuggerContext const &instance);
 		DebuggerContext & operator=(DebuggerContext const &rhs);
+		int 			printError(void);
 		~DebuggerContext(void);
 
-		struct gb_cpu_s *cpu;
-		PrintCommandSuffixParams printCommandSuffixParams;
+		Debugger					*debugger;
+		PrintCommandSuffixParams	printCommandSuffixParams;
+		t_address_descriptor		address_descriptor;
+
+	private:
+		DebuggerContext(void);
+		
 
 };
+
 #endif

@@ -1,38 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   DebuggerContext.cpp                                :+:      :+:    :+:   */
+/*   DebuggerVariable.cpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/30 15:32:49 by ldedier          ###   ########.fr       */
+/*   Created: 2020/05/23 20:01:16 by ldedier           #+#    #+#             */
+/*   Updated: 2020/05/30 16:26:30 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "DebuggerContext.hpp"
+#include "DebuggerVariable.hpp"
 
-DebuggerContext::DebuggerContext(void)
+DebuggerVariable::DebuggerVariable(void)
 {
 	
 }
 
-DebuggerContext::DebuggerContext(Debugger *debugger) : debugger(debugger)
-{
-
-}
-
-DebuggerContext::DebuggerContext(DebuggerContext const &instance)
+DebuggerVariable::DebuggerVariable(DebuggerVariable const &instance)
 {
 	*this = instance;
 }
 
-DebuggerContext::~DebuggerContext(void)
+DebuggerVariable::~DebuggerVariable(void)
 {
 	
 }
 
-DebuggerContext & DebuggerContext::operator=(DebuggerContext const &rhs)
+DebuggerVariable &	DebuggerVariable::operator=(DebuggerVariable const &rhs)
 {
 	static_cast<void>(rhs);
 	return *this;

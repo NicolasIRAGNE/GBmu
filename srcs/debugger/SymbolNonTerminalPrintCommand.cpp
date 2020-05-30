@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/14 20:25:03 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/05/30 16:25:04 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,10 @@ int	SymbolNonTerminalPrintCommand::traverse(ASTNode<int, DebuggerContext &> & as
 		std::cerr << "Item count other than 1 is meaningless in \"print\" command." << std::endl;
 		return (1);
 	}
+
+	context.debugger->addValue(res);
+	std::cout << "$" << context.debugger->getHistoryCounter() << " = ";
+
 	if (context.printCommandSuffixParams.format == PrintCommandSuffixParams::E_FORMAT_DECIMAL
 		|| context.printCommandSuffixParams.format == PrintCommandSuffixParams::E_FORMAT_OCTAL
 	 	|| context.printCommandSuffixParams.format == PrintCommandSuffixParams::E_FORMAT_HEXADECIMAL)
