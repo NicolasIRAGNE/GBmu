@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/03 14:58:56 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/30 16:48:28 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/05/31 18:32:35 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,22 +35,34 @@ int	SymbolTerminalExpansion::traverse(ASTNode<int, DebuggerContext &> & ast, Deb
 	int													nb;
 	
 	nb = -1;
-	if (ast.getToken()->getStringValue().empty())
-		nb = context.debugger->getHistoryCounter();
-	else
+	if (ast.getToken()->getStringValue().empty() || is_number(ast.getToken()->getStringValue()))
 	{
-		try
+		if (ast.getToken()->getStringValue().empty())
 		{
-			nb = std::stoi(ast.getToken()->getStringValue());
-		}
-		catch (std::exception &e)
-		{
-			context.address_descriptor.variable = context.debugger->getVariable(ast.getToken()->getStringValue());
+			nb = context.debugger->getHistoryCounter();
+			context.address_descriptor.variable = &context.debugger->getHistoryVariable(nb);
 			return context.address_descriptor.variable->getValue();
 		}
+		else
+		{
+			try
+			{
+				nb = std::stoi(ast.getToken()->getStringValue());
+				context.address_descriptor.variable = &context.debugger->getHistoryVariable(nb);
+				return context.address_descriptor.variable->getValue();
+			}
+			catch (std::out_of_range &e)
+			{
+				context.address_descriptor.variable = context.debugger->getVariable(ast.getToken()->getStringValue());
+				return context.address_descriptor.variable->getValue();
+			}
+		}
 	}
-	context.address_descriptor.variable = &context.debugger->getHistoryVariable(nb);
-	return context.address_descriptor.variable->getValue();
+	else
+	{
+		context.address_descriptor.variable = context.debugger->getVariable(ast.getToken()->getStringValue());
+		return context.address_descriptor.variable->getValue();
+	}
 }
 
 bool SymbolTerminalExpansion::isEligibleForCurrent(std::string & current)
