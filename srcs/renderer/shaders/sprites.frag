@@ -44,7 +44,7 @@ uint GetValueAt(uint addr)
 }
 
 vec4 GetColorFromTileIndex(uint index, uvec2 posInTile)
-{   
+{
     uint msb = GetValueAt(index * 16u + posInTile.y * 2u);
     uint lsb = GetValueAt(index * 16u + posInTile.y * 2u + 1u);
 
@@ -54,11 +54,11 @@ vec4 GetColorFromTileIndex(uint index, uvec2 posInTile)
                     | ((lsb & bit) << posInByte);
 
     colorIndex = colorIndex >> (posInByte * 2u);
-    
-	if ((uint(fAttr) & 16u) != 0u) {
+
+    if ((uint(fAttr) & 16u) != 0u) {
         return colors2[colorIndex];
     }
-    
+
     return colors1[colorIndex];
 }
 

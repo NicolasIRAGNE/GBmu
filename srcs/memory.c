@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 18:10:17 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/12 11:35:24 by niragne          ###   ########.fr       */
+/*   Updated: 2020/06/11 15:08:59 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ uint8_t	read_8(struct gb_cpu_s* gb, uint16_t a16)
 	{
 		uint8_t lcdc = read_8(gb, LCDC_OFFSET);
 		if (gb->gpu.mode != GPU_MODE_VRAM || !(lcdc & LCDC_ON))
-			return (((uint8_t*)(gb->vram))[a16 - 0x8000]);
+			return (((uint8_t*)(gb->vram))[a16 - 0x8000 + gb->vram_bank * VRAM_SIZE]);
 		else
 			return (0xff);
 	}
@@ -82,7 +82,7 @@ void	write_8(struct gb_cpu_s* gb, uint16_t a16, uint8_t x)
 		if (gb->gpu.mode == GPU_MODE_VRAM && (lcdc & LCDC_ON))
 			return;
 		gb->vram_updated = 1;
-		((uint8_t*)(gb->vram))[a16 - 0x8000] = x;
+		((uint8_t*)(gb->vram))[a16 - 0x8000 + gb->vram_bank * VRAM_SIZE] = x;
 		return ;
 	}
 	else if (a16 < 0xc000)

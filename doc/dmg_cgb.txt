@@ -1,0 +1,5 @@
+quick notes about differences between dmg & cgb:
+
+✓ DMG boot rom has been reversed and can be loaded and executed (DMG_ROM.bin), no such case for CGB
+✓ two VRAM banks in CGB => select by writing to FF4F
+x different ways to handle color palettes

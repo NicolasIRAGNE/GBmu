@@ -194,7 +194,7 @@ int Renderer::InitUbos()
 
     glGenBuffers(1, &m_VramUbo);
     glBindBuffer(GL_UNIFORM_BUFFER, m_VramUbo);
-    glBufferData(GL_UNIFORM_BUFFER, VRAM_SIZE, nullptr, GL_DYNAMIC_DRAW);
+    glBufferData(GL_UNIFORM_BUFFER, VRAM_SIZE * 2, nullptr, GL_DYNAMIC_DRAW);
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
     
     glBindBufferBase(GL_UNIFORM_BUFFER, 3, m_VramUbo);
@@ -280,7 +280,7 @@ void Renderer::UpdateVram()
 {
     glBindBuffer(GL_UNIFORM_BUFFER, m_VramUbo);
     GLvoid* ptr = glMapBuffer(GL_UNIFORM_BUFFER, GL_WRITE_ONLY);
-    std::memcpy(ptr, m_Gb->vram, VRAM_SIZE);
+    std::memcpy(ptr, m_Gb->vram, VRAM_SIZE * 2);
     glUnmapBuffer(GL_UNIFORM_BUFFER);
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }

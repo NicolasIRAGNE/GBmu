@@ -4,7 +4,7 @@ List of things to do, in no particular order.
 x Parse command line arguments
 ✓ Implement debugger with basic commands (breakpoints, run, continue, print) // Kinda done. Need some parsing       
 ✓ implement SRAM / VRAM / WRAM / HRAM whatever else all this shit means                 // SHOULD BE DONE
-x LCDC registers
+✓ LCDC registers
 ✓ graphix with sdl Poggers
 
 
