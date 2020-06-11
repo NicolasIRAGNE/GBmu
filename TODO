@@ -1,0 +1,24 @@
+List of things to do, in no particular order.
+
+✓ Implement bootstrap
+x Parse command line arguments
+✓ Implement debugger with basic commands (breakpoints, run, continue, print) // Kinda done. Need some parsing       
+✓ implement SRAM / VRAM / WRAM / HRAM whatever else all this shit means                 // SHOULD BE DONE
+✓ LCDC registers
+✓ graphix with sdl Poggers
+
+
+Test ROMs checklist:
+
+CPU instrs:
+01-special						PASS
+02-interrupts					FAIL 04
+03-sp, hl						PASS
+04-r, imm						PASS
+05-rp							PASS
+06-ld							PASS
+07-jr,jp,call,ret,rst			PASS
+08-misc							PASS
+09-r							PASS
+10-bit ops						PASS
+11-op a, (hl)					PASS

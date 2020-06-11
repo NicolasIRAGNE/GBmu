@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:34:47 by niragne           #+#    #+#             */
-/*   Updated: 2020/08/17 14:40:02 by niragne          ###   ########.fr       */
+/*   Updated: 2020/06/11 15:04:24 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,10 @@
 # define BGP_OFFSET		(IO_OFFSET | 0x47)
 # define OBP0_OFFSET	(IO_OFFSET | 0x48)
 # define OBP1_OFFSET	(IO_OFFSET | 0x49)
-# define WY_OFFSET		(IO_OFFSET | 0x4a)
-# define WX_OFFSET		(IO_OFFSET | 0x4b)
+# define WY_OFFSET		(IO_OFFSET | 0x4A)
+# define WX_OFFSET		(IO_OFFSET | 0x4B)
 
-# define VBK_OFFSET		(IO_OFFSET | 0x4f)
+# define VBK_OFFSET		(IO_OFFSET | 0x4F)
 
 # define IF_OFFSET		(IO_OFFSET | 0x0F)
 
@@ -234,6 +234,7 @@ enum	gb_mode_e
 	GB_MODE_DMG = 0,
 	GB_MODE_CGB,
 	GB_MODE_GBA,
+	GB_MODE_UNKNOWN,
 };
 
 struct	gb_cpu_s
