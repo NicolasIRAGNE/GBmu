@@ -66,22 +66,27 @@ GLuint compileProgram(const char* vtxFile, const char* fragFile)
     // Associate shader with program
     glAttachShader(programId, vtxShaderId);
     glAttachShader(programId, fragShaderId);
-    glLinkProgram(programId);
-    glValidateProgram(programId);
+
+    return programId;
+}
+
+int linkProgram(GLuint program) {
+    glLinkProgram(program);
+    glValidateProgram(program);
 
     // Check the status of the compile/link
     GLint status;
-    glGetProgramiv(programId, GL_VALIDATE_STATUS, &status);
+    glGetProgramiv(program, GL_VALIDATE_STATUS, &status);
     if (status != GL_TRUE) {
         GLint logLength;
-        glGetProgramiv(programId, GL_INFO_LOG_LENGTH, &logLength);
+        glGetProgramiv(program, GL_INFO_LOG_LENGTH, &logLength);
         if (logLength > 0) {
             std::string log(logLength, '\0');
-            glGetProgramInfoLog(programId, logLength, &logLength, log.data());
+            glGetProgramInfoLog(program, logLength, &logLength, log.data());
             printf("opengl program error : %s\n", log.c_str());
         }
-        programId = 0;
+        return -1;
     }
 
-    return programId;
+    return 0;
 }

@@ -380,4 +380,10 @@ target_link_libraries(${PROJECT_NAME} GLEW::GLEW)
 #                   INSTALL                    #
 ################################################
 
-install(FILES ${SHADERS} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/shaders)
+foreach(shader ${SHADERS})
+	get_filename_component(filename ${shader} NAME)
+
+	add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/${shader} ${CMAKE_CURRENT_BINARY_DIR}/shaders/${filename}
+	)
+endforeach()

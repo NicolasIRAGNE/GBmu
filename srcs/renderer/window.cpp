@@ -28,11 +28,17 @@ int Window::Init()
         "shaders/window.frag");
 
     if (!m_Program) {
-        printf("failed to create program\n");
+        printf("failed to compile program\n");
         return -1;
     }
 
     glBindAttribLocation(m_Program, 0, "inVertex");
+
+    int ret = linkProgram(m_Program);
+    if (ret < 0) {
+        printf("failed to link program\n");
+        return -1;
+    }
 
     constexpr float quad[] = {
         -1.f, -1.f,

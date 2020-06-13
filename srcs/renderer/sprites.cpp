@@ -29,12 +29,18 @@ int Sprites::Init()
         "shaders/sprites.frag");
 
     if (!m_Program) {
-        printf("failed to create program\n");
+        printf("failed to compile program\n");
         return -1;
     }
 
     glBindAttribLocation(m_Program, 0, "inVertex");
     glBindAttribLocation(m_Program, 1, "posInTile");
+
+    int ret = linkProgram(m_Program);
+    if (ret < 0) {
+        printf("failed to link program\n");
+        return -1;
+    }
 
     glGenBuffers(1, &m_Vbo);
     glBindBuffer(GL_ARRAY_BUFFER, m_Vbo);
