@@ -369,7 +369,7 @@ set(CMAKE_C_FLAGS_DEBUG     "${CMAKE_C_FLAGS_DEBUG}     -O0 -g")
 #                  EXECUTABLE                  #
 ################################################
 
-add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
+add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS} ${SHADERS})
 
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT})
@@ -383,7 +383,8 @@ target_link_libraries(${PROJECT_NAME} GLEW::GLEW)
 foreach(shader ${SHADERS})
 	get_filename_component(filename ${shader} NAME)
 
-	add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/${shader} ${CMAKE_CURRENT_BINARY_DIR}/shaders/${filename}
-	)
+	add_custom_command(
+	 	OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/shaders/${filename}
+		COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/${shader} ${CMAKE_CURRENT_BINARY_DIR}/shaders/${filename}
+		MAIN_DEPENDENCY ${CMAKE_CURRENT_SOURCE_DIR}/${shader})
 endforeach()
