@@ -17,7 +17,15 @@ struct StaticInfos {
 };
 
 struct DynamicInfos {
+    uint32_t timestamp;
+};
+
+struct Lcd {
     uint32_t lcdc;
+    int32_t scx;
+    int32_t scy;
+    int32_t wx;
+    int32_t wy;
 };
 
 Renderer::Renderer(gb_cpu_s* gb) :
@@ -101,6 +109,8 @@ int Renderer::Destroy()
 int Renderer::Clear() {
     glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
+    UpdateDynamicInfos();
+
     return 0;
 }
 
@@ -113,12 +123,16 @@ int Renderer::Draw(int firstLine, int lastLine)
     }
 
 	if (m_Gb->vram_updated) {
-		m_Gb->vram_updated = 0;
 		UpdateVram();
+		m_Gb->vram_updated = 0;
 	}
     
 	m_Gb->oam_updated = 0;
-	m_Gb->lcd_updated = 0;
+
+    if (m_Gb->lcd_updated) {
+        UpdateLcd();
+	    m_Gb->lcd_updated = 0;
+    }
 
     glBindFramebuffer(GL_FRAMEBUFFER, m_FrameBuffer);
     glViewport(0, 0, MAIN_SURFACE_WIDTH, MAIN_SURFACE_HEIGHT);
@@ -151,15 +165,7 @@ void Renderer::SetWindowSize(int width, int height)
     m_WindowWidth = width;
     m_WindowHeight = height;
 
-    StaticInfos infos;
-    infos.windowWidth = static_cast<float>(width);
-    infos.windowHeight = static_cast<float>(height);
-
-    glBindBuffer(GL_UNIFORM_BUFFER, m_StaticInfosUbo);
-    GLvoid* ptr = glMapBuffer(GL_UNIFORM_BUFFER, GL_WRITE_ONLY);
-    std::memcpy(ptr, &infos, sizeof(infos));
-    glUnmapBuffer(GL_UNIFORM_BUFFER);
-    glBindBuffer(GL_UNIFORM_BUFFER, 0);
+    UpdateStaticInfos();
 }
 
 int Renderer::InitUbos()
@@ -178,12 +184,19 @@ int Renderer::InitUbos()
     
     glBindBufferBase(GL_UNIFORM_BUFFER, 1, m_DynamicInfosUbo);
 
+    glGenBuffers(1, &m_LcdUbo);
+    glBindBuffer(GL_UNIFORM_BUFFER, m_LcdUbo);
+    glBufferData(GL_UNIFORM_BUFFER, sizeof(Lcd), nullptr, GL_DYNAMIC_DRAW);
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
+    
+    glBindBufferBase(GL_UNIFORM_BUFFER, 2, m_LcdUbo);
+
     glGenBuffers(1, &m_VramUbo);
     glBindBuffer(GL_UNIFORM_BUFFER, m_VramUbo);
     glBufferData(GL_UNIFORM_BUFFER, VRAM_SIZE, nullptr, GL_DYNAMIC_DRAW);
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
     
-    glBindBufferBase(GL_UNIFORM_BUFFER, 2, m_VramUbo);
+    glBindBufferBase(GL_UNIFORM_BUFFER, 3, m_VramUbo);
 
     return 0;
 }
@@ -214,6 +227,47 @@ int Renderer::InitFramebuffer()
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
     return 0;
+}
+
+void Renderer::UpdateStaticInfos()
+{
+    StaticInfos infos;
+    infos.windowWidth = static_cast<float>(m_WindowWidth);
+    infos.windowHeight = static_cast<float>(m_WindowHeight);
+
+    glBindBuffer(GL_UNIFORM_BUFFER, m_StaticInfosUbo);
+    GLvoid* ptr = glMapBuffer(GL_UNIFORM_BUFFER, GL_WRITE_ONLY);
+    std::memcpy(ptr, &infos, sizeof(infos));
+    glUnmapBuffer(GL_UNIFORM_BUFFER);
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
+}
+
+void Renderer::UpdateDynamicInfos()
+{
+    DynamicInfos infos;
+    infos.timestamp = time(nullptr);
+
+    glBindBuffer(GL_UNIFORM_BUFFER, m_DynamicInfosUbo);
+    GLvoid* ptr = glMapBuffer(GL_UNIFORM_BUFFER, GL_WRITE_ONLY);
+    std::memcpy(ptr, &infos, sizeof(infos));
+    glUnmapBuffer(GL_UNIFORM_BUFFER);
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
+}
+
+void Renderer::UpdateLcd()
+{
+    Lcd infos;
+    infos.lcdc = read_8(m_Gb, LCDC_OFFSET);
+    infos.scx = read_8(m_Gb, SCX_OFFSET);
+    infos.scy = read_8(m_Gb, SCY_OFFSET);
+    infos.wx = read_8(m_Gb, WX_OFFSET) - 7;
+    infos.wy = read_8(m_Gb, WY_OFFSET);
+
+    glBindBuffer(GL_UNIFORM_BUFFER, m_LcdUbo);
+    GLvoid* ptr = glMapBuffer(GL_UNIFORM_BUFFER, GL_WRITE_ONLY);
+    std::memcpy(ptr, &infos, sizeof(infos));
+    glUnmapBuffer(GL_UNIFORM_BUFFER);
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }
 
 void Renderer::UpdateVram()

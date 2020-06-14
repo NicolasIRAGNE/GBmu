@@ -30,6 +30,9 @@ private:
     int InitUbos();
     int InitFramebuffer();
 
+    void UpdateStaticInfos();
+    void UpdateDynamicInfos();
+    void UpdateLcd();
     void UpdateVram();
 
 private:
@@ -37,6 +40,7 @@ private:
 
     GLuint m_StaticInfosUbo {0};
     GLuint m_DynamicInfosUbo {0};
+    GLuint m_LcdUbo{0};
     GLuint m_VramUbo {0};
     GLuint m_FrameBuffer {0};
     GLuint m_TargetTexture {0};

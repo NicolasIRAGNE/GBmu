@@ -59,7 +59,7 @@ int Rescale::Init(GLuint texture)
 
     glGenBuffers(1, &m_Vbo);
     glBindBuffer(GL_ARRAY_BUFFER, m_Vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(quad) + sizeof(textCoord), nullptr, GL_DYNAMIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(quad) + sizeof(textCoord), nullptr, GL_STATIC_DRAW);
     glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(quad), quad);
     glBufferSubData(GL_ARRAY_BUFFER, sizeof(quad), sizeof(textCoord), textCoord);
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);

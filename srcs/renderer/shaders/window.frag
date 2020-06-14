@@ -6,14 +6,24 @@ layout(std140) uniform staticInfos
     float windowHeight;
 };
 
+layout(std140) uniform dynamicInfos
+{
+    uint timestamp;
+};
+
+layout(std140) uniform lcd
+{
+    uint lcdc;
+    int scx;
+    int scy;
+    int wx;
+    int wy;
+};
+
 layout(std140) uniform vram
 {
     uvec4 data[8192 / 16];
-};  
-
-uniform int wx;
-uniform int wy;
-uniform uint lcdc;
+};
 
 uniform vec4 colors[4];
 

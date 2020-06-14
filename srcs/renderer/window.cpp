@@ -57,16 +57,19 @@ int Window::Init()
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
-    m_WxLoc     = glGetUniformLocation(m_Program, "wx");
-    m_WyLoc     = glGetUniformLocation(m_Program, "wy");
-    m_LcdcLoc   = glGetUniformLocation(m_Program, "lcdc");
     m_ColorsLoc = glGetUniformLocation(m_Program, "colors");
 
-    GLuint globalInfosLoc = glGetUniformBlockIndex(m_Program, "staticInfos");
-    glUniformBlockBinding(m_Program, globalInfosLoc, 0);
+    GLuint staticInfosLoc = glGetUniformBlockIndex(m_Program, "staticInfos");
+    glUniformBlockBinding(m_Program, staticInfosLoc, 0);
+
+    GLuint dynamicInfosLoc = glGetUniformBlockIndex(m_Program, "dynamicInfos");
+    glUniformBlockBinding(m_Program, dynamicInfosLoc, 1);
+
+    GLuint lcdLoc = glGetUniformBlockIndex(m_Program, "lcd");
+    glUniformBlockBinding(m_Program, lcdLoc, 2);
 
     GLuint vramLoc = glGetUniformBlockIndex(m_Program, "vram");
-    glUniformBlockBinding(m_Program, vramLoc, 2);
+    glUniformBlockBinding(m_Program, vramLoc, 3);
 
     return 0;
 }
@@ -84,10 +87,8 @@ int Window::Draw(int firstLine, int lastLine)
 {
     UpdateColors();
 
-    glUseProgram(m_Program);
-
-    int wx = (read_8(m_Gb, WX_OFFSET)) - 7;
-    int wy = (read_8(m_Gb, WY_OFFSET));
+    int wx = read_8(m_Gb, WX_OFFSET) - 7;
+    int wy = read_8(m_Gb, WY_OFFSET);
     
     if (lastLine < wy) {
         return 0;
@@ -98,13 +99,6 @@ int Window::Draw(int firstLine, int lastLine)
     }
 
     UpdateVertex(wx, firstLine, lastLine);
-
-    uint8_t lcdc = (read_8(m_Gb, LCDC_OFFSET));
-    glUniform1i(m_WxLoc, wx);
-    glUniform1i(m_WyLoc, wy);
-    glUniform1ui(m_LcdcLoc, lcdc);
-
-    glUseProgram(0);
 
     glUseProgram(m_Program);
     glBindVertexArray(m_Vao);
