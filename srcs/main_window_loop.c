@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 14:11:30 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/12 12:27:49 by niragne          ###   ########.fr       */
+/*   Updated: 2020/06/14 13:48:56 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,16 @@
 #include "gb.h"
 #include "renderer/wrapper_c/wrapper.h"
 
-int		display_test(struct gbmu_wrapper_s* wrapper, struct tile_s* array, SDL_Surface* tmp_surface)
-{
-	uint8_t lcdc = (read_8(wrapper->gb, LCDC_OFFSET)) ;
+// int		display_test(struct gbmu_wrapper_s* wrapper, struct tile_s* array, SDL_Surface* tmp_surface)
+// {
+// 	uint8_t lcdc = (read_8(wrapper->gb, LCDC_OFFSET)) ;
 
-	update_palettes(wrapper->gb);
+// 	update_palettes(wrapper->gb);
 
-	display_background(wrapper, lcdc, array, tmp_surface);
-	display_sprites(wrapper, lcdc, array);
-	return (0);
-}
+// 	display_background(wrapper, lcdc, array, tmp_surface);
+// 	display_sprites(wrapper, lcdc, array);
+// 	return (0);
+// }
 
 void	main_window_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 {
