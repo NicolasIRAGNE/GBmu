@@ -123,7 +123,8 @@ set(SHADERS
 	srcs/renderer/shaders/sprites.vert
 	srcs/renderer/shaders/sprites.frag
 	srcs/renderer/shaders/basic.vert
-	srcs/renderer/shaders/basic.frag)
+	srcs/renderer/shaders/basic.frag
+	srcs/renderer/shaders/rain.frag)
 
 # Debugger
 

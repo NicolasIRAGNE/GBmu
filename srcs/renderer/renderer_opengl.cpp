@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <cstring>
+#include <chrono>
 
 extern "C" {
 #include "gb.h"
@@ -17,7 +18,7 @@ struct StaticInfos {
 };
 
 struct DynamicInfos {
-    uint32_t timestamp;
+    float timestamp;
 };
 
 struct Lcd {
@@ -244,8 +245,13 @@ void Renderer::UpdateStaticInfos()
 
 void Renderer::UpdateDynamicInfos()
 {
+    static auto begin = std::chrono::high_resolution_clock::now();
+    auto now = std::chrono::high_resolution_clock::now();
+
+    std::chrono::duration<float> timestamp = now - begin;
+
     DynamicInfos infos;
-    infos.timestamp = time(nullptr);
+    infos.timestamp = timestamp.count();
 
     glBindBuffer(GL_UNIFORM_BUFFER, m_DynamicInfosUbo);
     GLvoid* ptr = glMapBuffer(GL_UNIFORM_BUFFER, GL_WRITE_ONLY);

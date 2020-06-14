@@ -8,7 +8,7 @@ layout(std140) uniform staticInfos
 
 layout(std140) uniform dynamicInfos
 {
-    uint timestamp;
+    float timestamp;
 };
 
 layout(std140) uniform lcd

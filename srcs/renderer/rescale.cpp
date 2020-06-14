@@ -27,7 +27,7 @@ int Rescale::Init(GLuint texture)
 
     m_Program = compileProgram(
         "shaders/basic.vert",
-        "shaders/basic.frag");
+        "shaders/rain.frag");
 
     if (!m_Program) {
         printf("failed to compile program\n");
@@ -75,6 +75,12 @@ int Rescale::Init(GLuint texture)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glBindTexture(GL_TEXTURE_2D, 0);
+
+    GLuint staticInfosLoc = glGetUniformBlockIndex(m_Program, "staticInfos");
+    glUniformBlockBinding(m_Program, staticInfosLoc, 0);
+
+    GLuint dynamicInfosLoc = glGetUniformBlockIndex(m_Program, "dynamicInfos");
+    glUniformBlockBinding(m_Program, dynamicInfosLoc, 1);
 
     return 0;
 }
