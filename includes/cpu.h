@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:34:47 by niragne           #+#    #+#             */
-/*   Updated: 2020/06/14 13:51:07 by niragne          ###   ########.fr       */
+/*   Updated: 2020/06/14 17:03:49 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # define VRAM_SIZE 0x2000			// 8kiB
 # define WRAM_SIZE 0x2000			// 8kiB
 # define HRAM_SIZE 0x100			// 256B
-# define RAM_SIZE 0x2000			// 8kiB
+# define RAM_SIZE 0x1000			// 4kiB
 # define EXTRA_RAM_SIZE 0x2000		// 8kiB
 # define IO_PORTS_SIZE 0x100		// 256B
 # define OAM_SIZE 0xa0				// 160B
@@ -50,8 +50,10 @@
 # define OBP1_OFFSET	(IO_OFFSET | 0x49)
 # define WY_OFFSET		(IO_OFFSET | 0x4A)
 # define WX_OFFSET		(IO_OFFSET | 0x4B)
+# define KEY1_OFFSET	(IO_OFFSET | 0x4D)
 
 # define VBK_OFFSET		(IO_OFFSET | 0x4F)
+# define SVBK_OFFSET	(IO_OFFSET | 0x70)
 
 # define IF_OFFSET		(IO_OFFSET | 0x0F)
 
@@ -118,6 +120,9 @@
 
 # define TAC_ENABLE				(1 << 2)
 # define TAC_FREQ				(0b11)
+
+# define NORMAL_SPEED_MODE		0
+# define DOUBLE_SPEED_MODE		1
 
 # define VRAM_BANKS				2
 
@@ -272,9 +277,9 @@ struct	gb_cpu_s
 	uint8_t				vram[VRAM_BANKS][VRAM_SIZE];
 	int					vram_updated[VRAM_BANKS];
 	uint8_t				vram_bank;
-	uint8_t				ram[RAM_SIZE];
+	uint8_t				ram[8][RAM_SIZE];
+	uint8_t				wram_bank;
 	uint8_t*			extra_ram;
-	uint8_t				wram[WRAM_SIZE];
 	uint8_t				hram[HRAM_SIZE];
 	uint8_t				io_ports[IO_PORTS_SIZE];
 	uint8_t				oam[OAM_SIZE];
@@ -284,6 +289,7 @@ struct	gb_cpu_s
 	uint32_t			obj_palettes[8][4];
 	uint32_t			div_freq;
 	uint64_t			last_div_increment;
+	uint8_t				current_speed_mode;
 };
 
 /*
