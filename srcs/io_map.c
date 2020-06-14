@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/12 11:22:31 by niragne           #+#    #+#             */
-/*   Updated: 2020/06/11 15:07:23 by niragne          ###   ########.fr       */
+/*   Updated: 2020/06/14 17:05:00 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,14 @@ void	write_io(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, uint8_t lcdc)
 	{
 		gb->vram_bank = x & 0x01;
 	}
-	
+	else if (addr == SVBK_OFFSET && gb->mode == GB_MODE_CGB)
+	{
+		gb->wram_bank = x & 0b111;
+	}
+	else if (addr == KEY1_OFFSET && gb->mode == GB_MODE_CGB)
+	{
+		x = (gb->current_speed_mode << 7) | (x & 1);
+	}
 	if (addr == 0xff50 && x == 1)
 		gb->booted = 1;
 	if (addr == LCDC_OFFSET && (x & LCDC_ON) && !(lcdc & LCDC_ON))

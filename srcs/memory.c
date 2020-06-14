@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 18:10:17 by niragne           #+#    #+#             */
-/*   Updated: 2020/06/14 13:51:39 by niragne          ###   ########.fr       */
+/*   Updated: 2020/06/14 17:27:00 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,13 @@ uint8_t	read_8(struct gb_cpu_s* gb, uint16_t a16)
 	{
 		return(gb->mbc.read(gb, a16));
 	}
+	else if (a16 < 0xd000)
+	{
+		return (gb->ram[0][a16 - 0xc000]);		
+	}
 	else if (a16 < 0xe000)
 	{
-		return (((uint8_t*)(gb->ram))[a16 - 0xc000]);		
+		return (gb->ram[1][a16 - 0xd000]);
 	}
 	else if (a16 >= 0xFE00 && a16 < 0xFEA0)
 	{
@@ -71,6 +75,10 @@ uint8_t	read_8(struct gb_cpu_s* gb, uint16_t a16)
 
 void	write_8(struct gb_cpu_s* gb, uint16_t a16, uint8_t x)
 {
+	if (a16 == 0xc0f0)
+	{
+		printf("fion %d\n", x);
+	}
 	uint8_t lcdc = read_8(gb, LCDC_OFFSET);
 	if (a16 < 0x8000)
 	{
@@ -90,9 +98,23 @@ void	write_8(struct gb_cpu_s* gb, uint16_t a16, uint8_t x)
 		gb->mbc.write(gb, a16, x);
 		return ;
 	}
+	else if (a16 < 0xd000)
+	{
+		gb->ram[0][a16 - 0xc000] = x;
+		return ;
+	}
 	else if (a16 < 0xe000)
 	{
-		((uint8_t*)(gb->ram))[a16 - 0xc000] = x;
+		
+		if (gb->mode == GB_MODE_CGB)
+		{
+			uint8_t tmp = gb->wram_bank;
+			if (tmp == 0)
+				tmp = 1;
+			gb->ram[tmp][a16 - 0xd000] = x;
+		}
+		else 
+			gb->ram[1][a16 - 0xd000] = x;
 		return ;
 	}
 	else if (a16 >= 0xFE00 && a16 < 0xFEA0)

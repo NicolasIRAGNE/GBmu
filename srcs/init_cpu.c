@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:30:05 by niragne           #+#    #+#             */
-/*   Updated: 2020/06/11 15:07:16 by niragne          ###   ########.fr       */
+/*   Updated: 2020/06/14 17:27:18 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#define DEFAULT_GB_MODE	GB_MODE_CGB
+#define DEFAULT_GB_MODE	GB_MODE_DMG
 
 int		init_boot_rom(struct gb_cpu_s* gb)
 {
@@ -50,7 +50,7 @@ static int		init_cpu_dmg(struct gb_cpu_s* gb, struct rom_s* rom)
 	gb->reg.af = 0x0000;
 	gb->reg.de = 0;
 	gb->reg.hl = 0;
-	gb->reg.pc = 0x100;
+	gb->reg.pc = 0x00;
 	gb->booted = (gb->reg.pc) >= 0x100;
 	gb->running = 1;
 	gb->vram_viewer_running = 1;
