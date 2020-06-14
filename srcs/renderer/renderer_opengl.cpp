@@ -281,7 +281,15 @@ void Renderer::UpdateVram()
 {
     glBindBuffer(GL_UNIFORM_BUFFER, m_VramUbo);
     GLvoid* ptr = glMapBuffer(GL_UNIFORM_BUFFER, GL_WRITE_ONLY);
-    std::memcpy(ptr, m_Gb->vram, VRAM_SIZE * 2);
+
+	if (m_Gb->vram_updated[0]) {
+        std::memcpy(ptr, m_Gb->vram[0], VRAM_SIZE);
+    }
+
+	if (m_Gb->vram_updated[1]) {
+        std::memcpy((uint8_t*)ptr + VRAM_SIZE, m_Gb->vram[1], VRAM_SIZE);
+    }
+
     glUnmapBuffer(GL_UNIFORM_BUFFER);
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }

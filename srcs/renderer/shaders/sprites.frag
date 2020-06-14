@@ -22,7 +22,7 @@ layout(std140) uniform lcd
 
 layout(std140) uniform vram
 {
-    uvec4 data[8192 / 16];
+    uvec4 data[(8192 * 2) / 16];
 };
 
 uniform vec4 colors1[4];
@@ -34,9 +34,9 @@ in float fAttr;
 
 out vec4 fragColor;
 
-uint GetValueAt(uint addr)
+uint GetValueAt(uint addr, uint bank)
 {
-    uvec4 data16B = data[addr / 16u];
+    uvec4 data16B = data[addr / 16u + bank * 8192u];
     uint data4B = data16B[(addr % 16u) / 4u];
     uint offset = (addr % 4u) * 8u;
     uint data1B = (data4B & (0xffu << offset)) >> offset;
@@ -45,8 +45,8 @@ uint GetValueAt(uint addr)
 
 vec4 GetColorFromTileIndex(uint index, uvec2 posInTile)
 {
-    uint msb = GetValueAt(index * 16u + posInTile.y * 2u);
-    uint lsb = GetValueAt(index * 16u + posInTile.y * 2u + 1u);
+    uint msb = GetValueAt(index * 16u + posInTile.y * 2u, 0u);
+    uint lsb = GetValueAt(index * 16u + posInTile.y * 2u + 1u, 0u);
 
     uint posInByte = (7u - posInTile.x);
     uint bit = 1u << posInByte;
