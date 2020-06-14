@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 18:10:17 by niragne           #+#    #+#             */
-/*   Updated: 2020/06/11 15:08:59 by niragne          ###   ########.fr       */
+/*   Updated: 2020/06/14 13:51:39 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ static void	write_8_internal(struct gb_cpu_s* gb, uint16_t a16, uint8_t x, enum 
 	{
 		if (mode == MEM_SYSTEM && gb->gpu.mode == GPU_MODE_VRAM && (lcdc & LCDC_ON))
 			return;
-		gb->vram_updated = 1;
-		((uint8_t*)(gb->vram))[a16 - 0x8000 + gb->vram_bank * VRAM_SIZE] = x;
+		gb->vram_updated[gb->vram_bank] = 1;
+		gb->vram[gb->vram_bank][a16 - 0x8000] = x;
 		return ;
 	}
 	else if (a16 < 0xc000)

@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:34:47 by niragne           #+#    #+#             */
-/*   Updated: 2020/06/11 15:04:24 by niragne          ###   ########.fr       */
+/*   Updated: 2020/06/14 13:51:07 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,8 @@
 
 # define TAC_ENABLE				(1 << 2)
 # define TAC_FREQ				(0b11)
+
+# define VRAM_BANKS				2
 
 struct	gb_cpu_s;
 
@@ -267,7 +269,8 @@ struct	gb_cpu_s
 	struct tima_s		tima;
 	struct joypad_s		joypad;
 	uint8_t*			boot_rom;
-	uint8_t				vram[VRAM_SIZE * 2];
+	uint8_t				vram[VRAM_BANKS][VRAM_SIZE];
+	int					vram_updated[VRAM_BANKS];
 	uint8_t				vram_bank;
 	uint8_t				ram[RAM_SIZE];
 	uint8_t*			extra_ram;
