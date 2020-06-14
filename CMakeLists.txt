@@ -37,10 +37,10 @@ set(SOURCES
 	srcs/gpu.c
 	srcs/cpu_toggle_flag.c
 	srcs/init_sdl.c
-	srcs/video_loop.c
-	srcs/vram_viewer.c
+	# srcs/video_loop.c
+	# srcs/vram_viewer.c
 	srcs/tools.c
-	srcs/tile.c
+	# srcs/tile.c
 	srcs/breakpoints.c
 	srcs/main_window_loop.c
 	srcs/handle_joypad.c
@@ -53,7 +53,7 @@ set(SOURCES
 	srcs/mbc3.c
 	srcs/mbc5.c
 	srcs/errors.c
-	srcs/userscreen.c
+	# srcs/userscreen.c
 	srcs/savestate.c
 	srcs/timer.c
 	srcs/div.c

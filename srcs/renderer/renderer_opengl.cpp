@@ -123,9 +123,10 @@ int Renderer::Draw(int firstLine, int lastLine)
         return 0;
     }
 
-	if (m_Gb->vram_updated) {
+	if (m_Gb->vram_updated[0] || m_Gb->vram_updated[1]) {
 		UpdateVram();
-		m_Gb->vram_updated = 0;
+		m_Gb->vram_updated[0] = 0;
+		m_Gb->vram_updated[1] = 0;
 	}
     
 	m_Gb->oam_updated = 0;

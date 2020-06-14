@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/28 13:23:51 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/04 14:02:41 by niragne          ###   ########.fr       */
+/*   Updated: 2020/06/14 13:52:59 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,8 @@ int		loadstate(struct gb_cpu_s* gb, int number)
 	{
 		dprintf(2, "warning: read %d bytes from save data (expected %u). file may be corrupted.\n", rd, gb->mbc.ram_size);
 	}
-	gb->vram_updated = 1;
+	gb->vram_updated[0] = 1;
+	gb->vram_updated[1] = 1;
 	update_current_instruction(gb);
 	close(fd);
 	free(save_file);
