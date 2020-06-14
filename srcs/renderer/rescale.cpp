@@ -27,7 +27,7 @@ int Rescale::Init(GLuint texture)
 
     m_Program = compileProgram(
         "shaders/basic.vert",
-        "shaders/rain.frag");
+        "shaders/basic.frag");
 
     if (!m_Program) {
         printf("failed to compile program\n");
