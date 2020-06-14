@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:30:05 by niragne           #+#    #+#             */
-/*   Updated: 2020/06/11 15:07:16 by niragne          ###   ########.fr       */
+/*   Updated: 2020/06/14 17:27:18 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int		open_rom(char* name, struct rom_s* rom)
 	return (0);
 }
 
-#define DEFAULT_GB_MODE	GB_MODE_CGB
+#define DEFAULT_GB_MODE	GB_MODE_DMG
 
 int		init_boot_rom(struct gb_cpu_s* gb)
 {
