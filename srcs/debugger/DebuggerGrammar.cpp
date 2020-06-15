@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 17:03:31 by ldedier           #+#    #+#             */
-/*   Updated: 2020/06/06 15:25:51 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/06/15 17:50:49 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,13 @@
 DebuggerGrammar::DebuggerGrammar(void) : AbstractGrammar(new SymbolNonTerminalCommand(), true)
 {
 	addNonTerminal(new SymbolNonTerminalPrintCommand());
-	addNonTerminal(new SymbolNonTerminalWatchMode());
 	addNonTerminal(new SymbolNonTerminalQuitCommand());
 	addNonTerminal(new SymbolNonTerminalVerboseCommand());
 	addNonTerminal(new SymbolNonTerminalRegistersCommand());
 	addNonTerminal(new SymbolNonTerminalIntegerList());
 	addNonTerminal(new SymbolNonTerminalCommandName());
-	addNonTerminal(new SymbolNonTerminalUnwatchCommand());
 	addNonTerminal(new SymbolNonTerminalComparison());
 	addNonTerminal(new SymbolNonTerminalFactor());
-	addNonTerminal(new SymbolNonTerminalWatchModeList());
 	addNonTerminal(new SymbolNonTerminalStepCommand());
 	addNonTerminal(new SymbolNonTerminalInfoCommand());
 	addNonTerminal(new SymbolNonTerminalNextCommand());
@@ -75,13 +72,11 @@ DebuggerGrammar::DebuggerGrammar(void) : AbstractGrammar(new SymbolNonTerminalCo
 	addTerminal(new SymbolTerminalStep());
 	addTerminal(new SymbolTerminalVerbose());
 	addTerminal(new SymbolTerminalLeftShift());
-	addTerminal(new SymbolTerminalUnwatch());
-	addTerminal(new SymbolTerminalReadMode());
-	addTerminal(new SymbolTerminalWriteMode());
 	addTerminal(new SymbolTerminalBinaryOr());
 	addTerminal(new SymbolTerminalDelete());
 	addTerminal(new SymbolTerminalX());
 	addTerminal(new SymbolTerminalPrintCommandParams());
+	addTerminal(new SymbolTerminalWatchModes());
 
 	computeGrammar();
 }

@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 17:03:31 by ldedier           #+#    #+#             */
-/*   Updated: 2020/06/14 16:55:51 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/06/15 17:52:22 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,13 @@
 
 #include "DebuggerContext.hpp"
 #include "SymbolNonTerminalPrintCommand.hpp"
-#include "SymbolNonTerminalWatchMode.hpp"
 #include "SymbolNonTerminalQuitCommand.hpp"
 #include "SymbolNonTerminalVerboseCommand.hpp"
 #include "SymbolNonTerminalRegistersCommand.hpp"
 #include "SymbolNonTerminalIntegerList.hpp"
 #include "SymbolNonTerminalCommandName.hpp"
-#include "SymbolNonTerminalUnwatchCommand.hpp"
 #include "SymbolNonTerminalComparison.hpp"
 #include "SymbolNonTerminalFactor.hpp"
-#include "SymbolNonTerminalWatchModeList.hpp"
 #include "SymbolNonTerminalStepCommand.hpp"
 #include "SymbolNonTerminalInfoCommand.hpp"
 #include "SymbolNonTerminalNextCommand.hpp"
@@ -77,13 +74,11 @@
 #include "SymbolTerminalStep.hpp"
 #include "SymbolTerminalVerbose.hpp"
 #include "SymbolTerminalLeftShift.hpp"
-#include "SymbolTerminalUnwatch.hpp"
-#include "SymbolTerminalReadMode.hpp"
-#include "SymbolTerminalWriteMode.hpp"
 #include "SymbolTerminalBinaryOr.hpp"
 #include "SymbolTerminalDelete.hpp"
 #include "SymbolTerminalX.hpp"
 #include "SymbolTerminalPrintCommandParams.hpp"
+#include "SymbolTerminalWatchModes.hpp"
 
 class DebuggerGrammar : public AbstractGrammar<int, DebuggerContext &>
 {

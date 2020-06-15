@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/29 15:47:01 by ldedier           #+#    #+#             */
-/*   Updated: 2020/06/14 16:29:59 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/06/15 19:03:33 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,11 @@ class DebuggerVariableAddress : public DebuggerVariable
 	int	getValue()
 	{
 		return (static_cast<int>(*this->_address));
+	}
+
+	T	*getAddress()
+	{
+		return _address;
 	}
 
 	private:

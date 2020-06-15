@@ -135,6 +135,7 @@ set(SHADERS
 
 set(DEBUGGER_SOURCES
 	srcs/debugger/libyacc_wrapper.cpp
+	srcs/debugger/toLower.cpp
 	srcs/debugger/WatchPoint.cpp
 	srcs/debugger/DebuggerAddress.cpp
 	srcs/debugger/DebuggerContext.cpp
@@ -166,12 +167,9 @@ set(DEBUGGER_SOURCES
 	srcs/debugger/SymbolNonTerminalSetCommand.cpp
 	srcs/debugger/SymbolNonTerminalStepCommand.cpp
 	srcs/debugger/SymbolNonTerminalTerm.cpp
-	srcs/debugger/SymbolNonTerminalUnwatchCommand.cpp
 	srcs/debugger/SymbolNonTerminalValue.cpp
 	srcs/debugger/SymbolNonTerminalVerboseCommand.cpp
 	srcs/debugger/SymbolNonTerminalWatchCommand.cpp
-	srcs/debugger/SymbolNonTerminalWatchMode.cpp
-	srcs/debugger/SymbolNonTerminalWatchModeList.cpp
 	srcs/debugger/SymbolNonTerminalXCommand.cpp
 	srcs/debugger/SymbolTerminalAnd.cpp
 	srcs/debugger/SymbolTerminalAssign.cpp
@@ -204,20 +202,21 @@ set(DEBUGGER_SOURCES
 	srcs/debugger/SymbolTerminalPrint.cpp
 	srcs/debugger/SymbolTerminalPrintingCommand.cpp
 	srcs/debugger/SymbolTerminalQuit.cpp
-	srcs/debugger/SymbolTerminalReadMode.cpp
 	srcs/debugger/SymbolTerminalRegisters.cpp
 	srcs/debugger/SymbolTerminalRightShift.cpp
 	srcs/debugger/SymbolTerminalSet.cpp
 	srcs/debugger/SymbolTerminalStep.cpp
-	srcs/debugger/SymbolTerminalUnwatch.cpp
 	srcs/debugger/SymbolTerminalVerbose.cpp
 	srcs/debugger/SymbolTerminalWatch.cpp
-	srcs/debugger/SymbolTerminalWriteMode.cpp
 	srcs/debugger/SymbolTerminalX.cpp
+	srcs/debugger/SymbolTerminalWatchModes.cpp
 	srcs/debugger/TokenPrintCommandSuffix.cpp
+	srcs/debugger/TokenWatchModes.cpp
 	)
 
 	list(APPEND HEADERS
+	includes/debugger/toLower.hpp
+	includes/debugger/WatchModes.hpp
 	includes/debugger/DebuggerColors.h
 	includes/debugger/libyacc_wrapper.h
 	includes/debugger/PrintCommandSuffixParams.hpp
@@ -253,12 +252,9 @@ set(DEBUGGER_SOURCES
 	includes/debugger/SymbolNonTerminalSetCommand.hpp
 	includes/debugger/SymbolNonTerminalStepCommand.hpp
 	includes/debugger/SymbolNonTerminalTerm.hpp
-	includes/debugger/SymbolNonTerminalUnwatchCommand.hpp
 	includes/debugger/SymbolNonTerminalValue.hpp
 	includes/debugger/SymbolNonTerminalVerboseCommand.hpp
 	includes/debugger/SymbolNonTerminalWatchCommand.hpp
-	includes/debugger/SymbolNonTerminalWatchMode.hpp
-	includes/debugger/SymbolNonTerminalWatchModeList.hpp
 	includes/debugger/SymbolNonTerminalXCommand.hpp
 	includes/debugger/SymbolTerminalAnd.hpp
 	includes/debugger/SymbolTerminalAssign.hpp
@@ -291,17 +287,16 @@ set(DEBUGGER_SOURCES
 	includes/debugger/SymbolTerminalPrint.hpp
 	includes/debugger/SymbolTerminalPrintingCommand.hpp
 	includes/debugger/SymbolTerminalQuit.hpp
-	includes/debugger/SymbolTerminalReadMode.hpp
 	includes/debugger/SymbolTerminalRegisters.hpp
 	includes/debugger/SymbolTerminalRightShift.hpp
 	includes/debugger/SymbolTerminalSet.hpp
 	includes/debugger/SymbolTerminalStep.hpp
-	includes/debugger/SymbolTerminalUnwatch.hpp
 	includes/debugger/SymbolTerminalVerbose.hpp
 	includes/debugger/SymbolTerminalWatch.hpp
-	includes/debugger/SymbolTerminalWriteMode.hpp
 	includes/debugger/SymbolTerminalX.hpp
+	includes/debugger/SymbolTerminalWatchModes.hpp
 	includes/debugger/TokenPrintCommandSuffix.hpp
+	includes/debugger/TokenWatchModes.hpp
 	)
 
 	list (APPEND SOURCES ${DEBUGGER_SOURCES})

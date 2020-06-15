@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/14 17:55:53 by ldedier           #+#    #+#             */
-/*   Updated: 2020/06/15 15:21:54 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/06/15 19:18:44 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ class WatchPoint
 			E_WATCHPOINT_POINTER_8,
 			E_WATCHPOINT_POINTER_16
 		};
-
+		WatchPoint(void);
 		WatchPoint(uint8_t *ptr);
 		WatchPoint(uint16_t *ptr);
 		WatchPoint(DebuggerAddress address);
@@ -42,11 +42,15 @@ class WatchPoint
 
 		bool operator<(const WatchPoint & WatchPoint) const;
 
+		int getEnum(void) const;
+		DebuggerAddress getAddress(void) const;
+		void *getPointer(void) const;
 
 	private:
-		WatchPoint(void);
 		struct u_watchPointUnion	_un;
 		enum e_watchPointEnum		_en;
 };
+
+std::ostream &	operator<<(std::ostream &o, WatchPoint const &instance);
 
 #endif

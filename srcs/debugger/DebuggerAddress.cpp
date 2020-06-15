@@ -6,14 +6,13 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 14:50:49 by ldedier           #+#    #+#             */
-/*   Updated: 2020/06/15 15:36:47 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/06/15 15:44:09 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "DebuggerAddress.hpp"
 #include "DebuggerColors.h"
 # include <iomanip>
-
 
 DebuggerAddress::DebuggerAddress(void) : _value(0)
 {

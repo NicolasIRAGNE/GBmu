@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/14 18:08:06 by ldedier           #+#    #+#             */
-/*   Updated: 2020/06/15 15:22:49 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/06/15 20:13:01 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,34 @@ bool	WatchPoint::operator<(const WatchPoint & watchPoint) const
 		else
 			return this->_un.ptr < watchPoint._un.ptr;
 	}
+}
+
+int WatchPoint::getEnum(void) const
+{
+	return _en;
+}
+
+DebuggerAddress	WatchPoint::getAddress(void) const
+{
+	return (this->_un.address);
+}
+
+void *	WatchPoint::getPointer(void) const
+{
+	return (this->_un.ptr);
+}
+
+std::ostream &	operator<<(std::ostream &o, WatchPoint const &instance)
+{
+	if (instance.getEnum() == WatchPoint::E_WATCHPOINT_ADDRESS)
+		o << instance.getAddress();
+	else
+	{
+		// if (instance.getEnum() == WatchPoint::E_WATCHPOINT_POINTER_8)
+		// 	o << "uint8_t *: ";
+		// else
+		// 	o << "uint16_t *: ";
+		o << instance.getPointer();
+	}
+	return o;
 }

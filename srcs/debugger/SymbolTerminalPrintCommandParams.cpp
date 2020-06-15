@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/03 17:37:35 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/14 20:57:28 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/06/15 16:19:37 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ SymbolTerminalPrintCommandParams::~SymbolTerminalPrintCommandParams(void)
 
 int	SymbolTerminalPrintCommandParams::traverse(ASTNode<int, DebuggerContext &> & ast, DebuggerContext & context) const
 {
-	static_cast<void>(context);
 	TokenPrintCommandSuffix *token = dynamic_cast<TokenPrintCommandSuffix *>(ast.getToken());
 
 	context.printCommandSuffixParams = token->getPrintCommandSuffixParams();
@@ -58,7 +57,7 @@ bool SymbolTerminalPrintCommandParams::staysEligibleForCurrent(std::string & cur
 	if (i < current.length())
 	{
 		if (!current.substr(i, 2).compare("hh"))
-			i+=2;
+			i += 2;
 		else if (!current.substr(i, 1).compare("h"))
 			i++;
 	}

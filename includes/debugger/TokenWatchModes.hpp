@@ -1,29 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   SymbolTerminalReadMode.hpp                         :+:      :+:    :+:   */
+/*   TokenWatchModes.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/01 16:38:32 by ldedier            #+#    #+#            */
-/*   Updated: 2020/05/01 16:38:32 by ldedier           ###   ########.fr      */
+/*   Created: 2020/06/15 16:34:17 by ldedier           #+#    #+#             */
+/*   Updated: 2020/06/15 17:40:37 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SYMBOLTERMINALREADMODE_HPP
-# define SYMBOLTERMINALREADMODE_HPP
+#ifndef TOKENWATCHMODES_HPP
+# define TOKENWATCHMODES_HPP
 
-# include "AbstractTerminal.hpp"
+# include <iostream>
+# include "Token.hpp"
 # include "DebuggerContext.hpp"
+# include "WatchModes.hpp"
 
-class SymbolTerminalReadMode : public AbstractTerminal<int, DebuggerContext &>
+class TokenWatchModes : public Token<int, DebuggerContext &>
 {
 	public:
-		SymbolTerminalReadMode(void);
-		~SymbolTerminalReadMode(void);
-		virtual int traverse(ASTNode<int, DebuggerContext &> & ast, DebuggerContext & context) const;
+		TokenWatchModes(void);
+		virtual ~TokenWatchModes(void);
+		TokenWatchModes(AbstractTerminal<int, DebuggerContext &> &term
+		, std::string content
+		, WatchModes modes);
+		WatchModes getModes(void);
+		virtual std::ostream &repr(std::ostream &o);
 
 	private:
+		WatchModes _modes;
 
 };
 
