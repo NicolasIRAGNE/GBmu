@@ -135,6 +135,8 @@ set(SHADERS
 
 set(DEBUGGER_SOURCES
 	srcs/debugger/libyacc_wrapper.cpp
+	srcs/debugger/WatchPoint.cpp
+	srcs/debugger/DebuggerAddress.cpp
 	srcs/debugger/DebuggerContext.cpp
 	srcs/debugger/Debugger.cpp
 	srcs/debugger/History.cpp
@@ -145,7 +147,7 @@ set(DEBUGGER_SOURCES
 	srcs/debugger/PrintCommandSuffixParams.cpp
 	srcs/debugger/SymbolNonTerminalAndOr.cpp
 	srcs/debugger/SymbolNonTerminalAssignable.cpp
-	srcs/debugger/SymbolNonTerminalAssignableList.cpp
+	srcs/debugger/SymbolNonTerminalAddress.cpp
 	srcs/debugger/SymbolNonTerminalBreakpointCommand.cpp
 	srcs/debugger/SymbolNonTerminalCommand.cpp
 	srcs/debugger/SymbolNonTerminalCommandName.cpp
@@ -216,8 +218,12 @@ set(DEBUGGER_SOURCES
 	)
 
 	list(APPEND HEADERS
+	includes/debugger/DebuggerColors.h
 	includes/debugger/libyacc_wrapper.h
 	includes/debugger/PrintCommandSuffixParams.hpp
+	includes/debugger/WatchPoint.hpp
+	includes/debugger/DebuggerAddress.hpp
+	includes/debugger/MapOfListNoRepetitions.hpp
 	includes/debugger/Debugger.hpp
 	includes/debugger/History.hpp
 	includes/debugger/DebuggerVariable.hpp
@@ -228,7 +234,7 @@ set(DEBUGGER_SOURCES
 	includes/debugger/DebuggerGrammar.hpp
 	includes/debugger/SymbolNonTerminalAndOr.hpp
 	includes/debugger/SymbolNonTerminalAssignable.hpp
-	includes/debugger/SymbolNonTerminalAssignableList.hpp
+	includes/debugger/SymbolNonTerminalAddress.hpp
 	includes/debugger/SymbolNonTerminalBreakpointCommand.hpp
 	includes/debugger/SymbolNonTerminalCommand.hpp
 	includes/debugger/SymbolNonTerminalCommandName.hpp

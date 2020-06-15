@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   SymbolNonTerminalAssignableList.hpp                :+:      :+:    :+:   */
+/*   SymbolNonTerminalAddress.hpp                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/04/30 15:36:20 by ldedier            #+#    #+#            */
-/*   Updated: 2020/04/30 15:36:20 by ldedier           ###   ########.fr      */
+/*   Created: 2020/06/06 15:21:36 by ldedier            #+#    #+#            */
+/*   Updated: 2020/06/06 15:21:36 by ldedier           ###   ########.fr      */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SYMBOLNONTERMINALASSIGNABLELIST_HPP
-# define SYMBOLNONTERMINALASSIGNABLELIST_HPP
+#ifndef SYMBOLNONTERMINALADDRESS_HPP
+# define SYMBOLNONTERMINALADDRESS_HPP
 
 # include "DebuggerGrammar.hpp"
 
-class SymbolNonTerminalAssignableList : public AbstractNonTerminal<int, DebuggerContext &>
+class SymbolNonTerminalAddress : public AbstractNonTerminal<int, DebuggerContext &>
 {
 	public:
-		SymbolNonTerminalAssignableList(void);
-		~SymbolNonTerminalAssignableList(void);
+		SymbolNonTerminalAddress(void);
+		~SymbolNonTerminalAddress(void);
 		virtual int traverse(ASTNode<int, DebuggerContext &> & ast, DebuggerContext & context) const;
 		virtual void computeProductions(AbstractGrammar<int, DebuggerContext &> & cfg);
 

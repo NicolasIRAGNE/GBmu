@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 17:03:31 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/29 16:58:38 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/06/14 16:55:51 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 #include "SymbolNonTerminalSetCommand.hpp"
 #include "SymbolNonTerminalHelpCommand.hpp"
 #include "SymbolNonTerminalAssignable.hpp"
+#include "SymbolNonTerminalAddress.hpp"
 #include "SymbolNonTerminalTerm.hpp"
 #include "SymbolNonTerminalWatchCommand.hpp"
 #include "SymbolNonTerminalAndOr.hpp"

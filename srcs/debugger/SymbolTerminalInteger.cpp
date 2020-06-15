@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/18 16:30:57 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/03 14:54:27 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/06/06 15:37:40 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static bool belongToFormat(char c, t_integer_format format)
 {
 	int value;
 
-	if (tolower(c) > 'a')
+	if (tolower(c) >= 'a')
 		value = tolower(c) - 'a' + 10;
 	else
 		value = tolower(c) - '0';

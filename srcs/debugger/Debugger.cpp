@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/15 15:58:49 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/30 17:37:57 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/06/15 15:32:40 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ Debugger::Debugger(void) : _verbose(DEFAULT_VERBOSE)
 	
 }
 
-Debugger::Debugger(struct gb_cpu_s *cpu) : _cpu(cpu), _verbose(DEFAULT_VERBOSE), _lastCommand("")
+Debugger::Debugger(struct gb_cpu_s *cpu) : _cpu(cpu), _verbose(DEFAULT_VERBOSE), _counter(0), _lastCommand("")
 {
 	_variables["af"] = new DebuggerVariableAddress(&cpu->reg.af);
 	_variables["a"] = new DebuggerVariableAddress(&cpu->reg.a);
@@ -133,4 +133,35 @@ std::string	Debugger::getLastCommand(void)
 void	Debugger::setLastCommand(std::string string)
 {
 	this->_lastCommand = string;
+}
+
+void	Debugger::deleteValue(uint32_t value)
+{
+	static_cast<void>(value);
+	// (this->_maps[id]).removeValue(value);
+}
+
+void	Debugger::addBreakpointValuesList(DebuggerAddress key)
+{
+	(this->_breakpoints).addValue(key, ++_counter);
+}
+
+void	Debugger::addWatchpointValuesList(WatchPoint watchPoint, e_watchpoint_mode_id id)
+{
+	(this->_watchpoints[id]).addValue(watchPoint, ++_counter);
+}
+
+bool	Debugger::getWatchpointValuesList(WatchPoint watchPoint, std::list<uint32_t> *list, e_watchpoint_mode_id id)
+{
+	return ((this->_watchpoints[id]).getLists(watchPoint, list));
+}
+
+bool	Debugger::getBreakpointValuesList(DebuggerAddress key, std::list<uint32_t> *list)
+{
+	return ((this->_breakpoints).getLists(key, list));
+}
+
+uint32_t Debugger::getCounter(void)
+{
+	return _counter;
 }

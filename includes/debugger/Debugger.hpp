@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/15 15:56:33 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/30 17:37:45 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/06/15 15:32:20 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,10 @@
 # include <iostream>
 # include <map>
 # include "DebuggerVariable.hpp"
+# include "MapOfListNoRepetitions.hpp"
 # include "History.hpp"
+# include "DebuggerAddress.hpp"
+# include "WatchPoint.hpp"
 
 extern "C" {
 # include "gb.h"
@@ -35,21 +38,44 @@ class Debugger
 		DebuggerVariable *getVariable(std::string);
 		DebuggerVariableConstValue &getHistoryVariable(int nb);
 		uint32_t getHistoryCounter(void);
+		uint32_t getCounter(void);
+
 		void	addValue(int value);
 
 		std::string getLastCommand(void);
 		void		setLastCommand(std::string string);
 
+		
+		enum e_watchpoint_mode_id
+		{
+			E_WATCHPOINTS_READ,
+			E_WATCHPOINTS_WRITE,
+			E_NB_WATCHPOINT_MODES
+		};
+
+		bool getBreakpointValuesList(DebuggerAddress key, std::list<uint32_t> *list);
+		void addBreakpointValuesList(DebuggerAddress key);
+
+		bool getWatchpointValuesList(WatchPoint key, std::list<uint32_t> *list, e_watchpoint_mode_id id);
+		void addWatchpointValuesList(WatchPoint key, e_watchpoint_mode_id id);
+		
+		void deleteValue(uint32_t value);
+
 	private:
 		Debugger(void);
-		struct gb_cpu_s								*_cpu;
-		int											_verbose;
-		History										_history;
-		std::map<std::string, DebuggerVariable *>	_variables;
-		std::map<uint32_t, bool>					_breakpoints;
-		std::map<uint32_t, bool> 					_watchPointsRead;
-		std::map<uint32_t, bool>					_breakpointsWrite;
-		std::string									_lastCommand;
+		struct gb_cpu_s										*_cpu;
+		int													_verbose;
+
+		History												_history;
+
+		uint32_t											_counter;
+	
+		std::map<std::string, DebuggerVariable *>			_variables;
+
+		MapOfListNoRepetitions<DebuggerAddress, uint32_t>	_breakpoints;
+		MapOfListNoRepetitions<WatchPoint, uint32_t>		_watchpoints[E_NB_WATCHPOINT_MODES];
+
+		std::string										_lastCommand;
 };
 
 #endif
