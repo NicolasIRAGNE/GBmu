@@ -137,6 +137,7 @@ set(SHADERS
 
 set(DEBUGGER_SOURCES
 	srcs/debugger/libyacc_wrapper.cpp
+	srcs/debugger/toLower.cpp
 	srcs/debugger/WatchPoint.cpp
 	srcs/debugger/DebuggerAddress.cpp
 	srcs/debugger/DebuggerContext.cpp
@@ -170,14 +171,11 @@ set(DEBUGGER_SOURCES
 	srcs/debugger/SymbolNonTerminalSetCommand.cpp
 	srcs/debugger/SymbolNonTerminalStepCommand.cpp
 	srcs/debugger/SymbolNonTerminalTerm.cpp
-	srcs/debugger/SymbolNonTerminalUnwatchCommand.cpp
 	srcs/debugger/SymbolNonTerminalValue.cpp
 	srcs/debugger/SymbolNonTerminalVariable.cpp
 	srcs/debugger/SymbolNonTerminalVector.cpp
 	srcs/debugger/SymbolNonTerminalVerboseCommand.cpp
 	srcs/debugger/SymbolNonTerminalWatchCommand.cpp
-	srcs/debugger/SymbolNonTerminalWatchMode.cpp
-	srcs/debugger/SymbolNonTerminalWatchModeList.cpp
 	srcs/debugger/SymbolNonTerminalXCommand.cpp
 	srcs/debugger/SymbolTerminalAnd.cpp
 	srcs/debugger/SymbolTerminalAssign.cpp
@@ -217,35 +215,22 @@ set(DEBUGGER_SOURCES
 	srcs/debugger/SymbolTerminalPrintingCommand.cpp
 	srcs/debugger/SymbolTerminalProgramCounter.cpp
 	srcs/debugger/SymbolTerminalQuit.cpp
-	srcs/debugger/SymbolTerminalReadMode.cpp
-	srcs/debugger/SymbolTerminalRegisterA.cpp
-	srcs/debugger/SymbolTerminalRegisterAF.cpp
-	srcs/debugger/SymbolTerminalRegisterBC.cpp
-	srcs/debugger/SymbolTerminalRegisterB.cpp
-	srcs/debugger/SymbolTerminalRegisterC.cpp
-	srcs/debugger/SymbolTerminalRegisterD.cpp
-	srcs/debugger/SymbolTerminalRegisterDE.cpp
-	srcs/debugger/SymbolTerminalRegisterE.cpp
-	srcs/debugger/SymbolTerminalRegisterF.cpp
-	srcs/debugger/SymbolTerminalRegisterH.cpp
-	srcs/debugger/SymbolTerminalRegisterHL.cpp
-	srcs/debugger/SymbolTerminalRegisterL.cpp
 	srcs/debugger/SymbolTerminalRegisters.cpp
 	srcs/debugger/SymbolTerminalRightShift.cpp
 	srcs/debugger/SymbolTerminalSet.cpp
 	srcs/debugger/SymbolTerminalStackPointer.cpp
 	srcs/debugger/SymbolTerminalStep.cpp
-	srcs/debugger/SymbolTerminalTimaOffset.cpp
-	srcs/debugger/SymbolTerminalUnwatch.cpp
-	srcs/debugger/SymbolTerminalVariable.cpp
 	srcs/debugger/SymbolTerminalVerbose.cpp
 	srcs/debugger/SymbolTerminalWatch.cpp
-	srcs/debugger/SymbolTerminalWriteMode.cpp
 	srcs/debugger/SymbolTerminalX.cpp
+	srcs/debugger/SymbolTerminalWatchModes.cpp
 	srcs/debugger/TokenPrintCommandSuffix.cpp
+	srcs/debugger/TokenWatchModes.cpp
 	)
 
 	list(APPEND HEADERS
+	includes/debugger/toLower.hpp
+	includes/debugger/WatchModes.hpp
 	includes/debugger/DebuggerColors.h
 	includes/debugger/libyacc_wrapper.h
 	includes/debugger/PrintCommandSuffixParams.hpp
@@ -283,14 +268,11 @@ set(DEBUGGER_SOURCES
 	includes/debugger/SymbolNonTerminalSetCommand.hpp
 	includes/debugger/SymbolNonTerminalStepCommand.hpp
 	includes/debugger/SymbolNonTerminalTerm.hpp
-	includes/debugger/SymbolNonTerminalUnwatchCommand.hpp
 	includes/debugger/SymbolNonTerminalValue.hpp
 	includes/debugger/SymbolNonTerminalVariable.hpp
 	includes/debugger/SymbolNonTerminalVector.hpp
 	includes/debugger/SymbolNonTerminalVerboseCommand.hpp
 	includes/debugger/SymbolNonTerminalWatchCommand.hpp
-	includes/debugger/SymbolNonTerminalWatchMode.hpp
-	includes/debugger/SymbolNonTerminalWatchModeList.hpp
 	includes/debugger/SymbolNonTerminalXCommand.hpp
 	includes/debugger/SymbolTerminalAnd.hpp
 	includes/debugger/SymbolTerminalAssign.hpp
@@ -330,32 +312,17 @@ set(DEBUGGER_SOURCES
 	includes/debugger/SymbolTerminalPrintingCommand.hpp
 	includes/debugger/SymbolTerminalProgramCounter.hpp
 	includes/debugger/SymbolTerminalQuit.hpp
-	includes/debugger/SymbolTerminalReadMode.hpp
-	includes/debugger/SymbolTerminalRegisterAF.hpp
-	includes/debugger/SymbolTerminalRegisterA.hpp
-	includes/debugger/SymbolTerminalRegisterBC.hpp
-	includes/debugger/SymbolTerminalRegisterB.hpp
-	includes/debugger/SymbolTerminalRegisterC.hpp
-	includes/debugger/SymbolTerminalRegisterDE.hpp
-	includes/debugger/SymbolTerminalRegisterD.hpp
-	includes/debugger/SymbolTerminalRegisterE.hpp
-	includes/debugger/SymbolTerminalRegisterF.hpp
-	includes/debugger/SymbolTerminalRegisterH.hpp
-	includes/debugger/SymbolTerminalRegisterHL.hpp
-	includes/debugger/SymbolTerminalRegisterL.hpp
 	includes/debugger/SymbolTerminalRegisters.hpp
 	includes/debugger/SymbolTerminalRightShift.hpp
 	includes/debugger/SymbolTerminalSet.hpp
 	includes/debugger/SymbolTerminalStackPointer.hpp
 	includes/debugger/SymbolTerminalStep.hpp
-	includes/debugger/SymbolTerminalTimaOffset.hpp
-	includes/debugger/SymbolTerminalUnwatch.hpp
-	includes/debugger/SymbolTerminalVariable.hpp
 	includes/debugger/SymbolTerminalVerbose.hpp
 	includes/debugger/SymbolTerminalWatch.hpp
-	includes/debugger/SymbolTerminalWriteMode.hpp
 	includes/debugger/SymbolTerminalX.hpp
+	includes/debugger/SymbolTerminalWatchModes.hpp
 	includes/debugger/TokenPrintCommandSuffix.hpp
+	includes/debugger/TokenWatchModes.hpp
 	)
 
 include_directories(srcs)

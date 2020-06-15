@@ -1,31 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   SymbolTerminalWriteMode.cpp                        :+:      :+:    :+:   */
+/*   WatchModes.hpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/02 22:03:32 by ldedier          ###   ########.fr       */
+/*   Created: 2020/06/15 17:24:28 by ldedier           #+#    #+#             */
+/*   Updated: 2020/06/15 17:37:32 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "SymbolTerminalWriteMode.hpp"
+#ifndef WATCHMODES_HPP
+# define WATCHMODES_HPP
 
-SymbolTerminalWriteMode::SymbolTerminalWriteMode(void) : AbstractTerminal("w", E_PRIORITY_STANDARD, E_ADJACENT_ADJACENT)
-{
-	
-}
+#include <stdint.h>
 
-SymbolTerminalWriteMode::~SymbolTerminalWriteMode(void)
-{
-	
-}
+# define WATCH_MODE_READ (1 << 1)
+# define WATCH_MODE_WRITE (1 << 2)
 
-int	SymbolTerminalWriteMode::traverse(ASTNode<int, DebuggerContext &> & ast, DebuggerContext & context) const
-{
-	static_cast<void>(ast);
-	static_cast<void>(context);
-	return (0);
-}
+typedef uint8_t WatchModes; 
 
+#endif

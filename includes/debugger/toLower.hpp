@@ -1,30 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   SymbolTerminalUnwatch.hpp                          :+:      :+:    :+:   */
+/*   toLower.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/02 16:54:43 by ldedier          ###   ########.fr       */
+/*   Created: 2020/06/15 17:13:51 by ldedier           #+#    #+#             */
+/*   Updated: 2020/06/15 17:16:36 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SYMBOLTERMINALUNWATCH_HPP
-# define SYMBOLTERMINALUNWATCH_HPP
+#ifndef TOLOWER_HPP
+# define TOLOWER_HPP
 
-# include "SymbolTerminalCommand.hpp"
-# include "DebuggerContext.hpp"
+#include <string>
 
-class SymbolTerminalUnwatch : public SymbolTerminalCommand
-{
-	public:
-		SymbolTerminalUnwatch(void);
-		~SymbolTerminalUnwatch(void);
-		virtual int traverse(ASTNode<int, DebuggerContext &> & ast, DebuggerContext & context) const;
-
-	private:
-
-};
+std::string tolower(std::string string);
 
 #endif

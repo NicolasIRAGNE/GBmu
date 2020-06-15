@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/30 17:47:22 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/06/15 16:08:54 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void	SymbolNonTerminalCommand::computeProductions(AbstractGrammar<int, DebuggerC
 	addProduction(cfg, {"nextcommand"});
 	addProduction(cfg, {"breakpointcommand"});
 	addProduction(cfg, {"watchcommand"});
-	addProduction(cfg, {"unwatchcommand"});
 	addProduction(cfg, {"deletecommand"});
 	addProduction(cfg, {"infocommand"});
 	addProduction(cfg, {"setcommand"});

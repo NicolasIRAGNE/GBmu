@@ -1,31 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   SymbolTerminalUnwatch.cpp                          :+:      :+:    :+:   */
+/*   toLower.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/02 17:02:12 by ldedier          ###   ########.fr       */
+/*   Created: 2020/06/15 17:14:37 by ldedier           #+#    #+#             */
+/*   Updated: 2020/06/15 17:16:54 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "SymbolTerminalUnwatch.hpp"
+#include "toLower.hpp"
 
-SymbolTerminalUnwatch::SymbolTerminalUnwatch(void) : SymbolTerminalCommand("unwatch")
+std::string tolower(std::string string)
 {
-	
-}
+	std::string res = "";
 
-SymbolTerminalUnwatch::~SymbolTerminalUnwatch(void)
-{
-	
+	for (std::string::size_type i=0; i<string.length(); ++i)
+		res = res + static_cast<char>(std::tolower(string[i]));
+	return res;
 }
-
-int	SymbolTerminalUnwatch::traverse(ASTNode<int, DebuggerContext &> & ast, DebuggerContext & context) const
-{
-	static_cast<void>(ast);
-	static_cast<void>(context);
-	return (0);
-}
-

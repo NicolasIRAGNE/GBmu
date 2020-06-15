@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/01 16:38:32 by ldedier            #+#    #+#            */
-/*   Updated: 2020/05/01 16:38:32 by ldedier           ###   ########.fr      */
+/*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
+/*   Updated: 2020/06/15 16:06:05 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void	SymbolNonTerminalCommandName::computeProductions(AbstractGrammar<int, Debug
 	addProduction(cfg, {"help"});
 	addProduction(cfg, {"breakpoint"});
 	addProduction(cfg, {"watch"});
-	addProduction(cfg, {"unwatch"});
 	addProduction(cfg, {"delete"});
 	addProduction(cfg, {"info"});
 	addProduction(cfg, {"registers"});
