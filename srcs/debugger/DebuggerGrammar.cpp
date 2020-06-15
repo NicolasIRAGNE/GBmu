@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 17:03:31 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/14 20:50:13 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/06/06 15:25:51 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ DebuggerGrammar::DebuggerGrammar(void) : AbstractGrammar(new SymbolNonTerminalCo
 	addNonTerminal(new SymbolNonTerminalSetCommand());
 	addNonTerminal(new SymbolNonTerminalHelpCommand());
 	addNonTerminal(new SymbolNonTerminalAssignable());
+	addNonTerminal(new SymbolNonTerminalAddress());
 	addNonTerminal(new SymbolNonTerminalTerm());
 	addNonTerminal(new SymbolNonTerminalWatchCommand());
 	addNonTerminal(new SymbolNonTerminalAndOr());

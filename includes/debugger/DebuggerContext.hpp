@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/30 17:45:55 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/06/15 15:10:19 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,24 @@
 # include "ASTNode.hpp"
 # include <iostream>
 # include "PrintCommandSuffixParams.hpp"
+# include "DebuggerAddress.hpp"
 
 enum e_address_descriptor_type
 {
 	ADDRESS_DESCRIPTOR_TYPE_VARIABLE,
-	ADDRESS_DESCRIPTOR_TYPE_INDEX
+	ADDRESS_DESCRIPTOR_TYPE_ADDRESS
 };
 
 typedef struct						s_address_descriptor
 {
 	enum e_address_descriptor_type type;
 
-	union
+	struct
 	{
 		DebuggerVariable			*variable;
-		int32_t						index;
+		DebuggerAddress				address;
 	};
-}									t_address_descriptor;
+}									t_address_descriptor; // used for the set command (set *32 = 44 / set $af = 23)
 
 class DebuggerContext
 {

@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/29 17:09:31 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/06/15 15:11:44 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ int	SymbolNonTerminalSetCommand::traverse(ASTNode<int, DebuggerContext &> & ast,
 	int toAssign = ast.getChild(3)->getTraversed(context);
 	
 	ast.getChild(1)->getTraversed(context);
-	if (context.address_descriptor.type == ADDRESS_DESCRIPTOR_TYPE_INDEX)
+	if (context.address_descriptor.type == ADDRESS_DESCRIPTOR_TYPE_ADDRESS)
 	{
 		if (toAssign > 0xff)
-			write_16(context.debugger->getCPU(), context.address_descriptor.index, toAssign);
+			write_16(context.debugger->getCPU(), context.address_descriptor.address.getValue(), toAssign);
 		else
-			write_8(context.debugger->getCPU(), context.address_descriptor.index, toAssign);
+			write_8(context.debugger->getCPU(), context.address_descriptor.address.getValue(), toAssign);
 	}
 	else
 	{

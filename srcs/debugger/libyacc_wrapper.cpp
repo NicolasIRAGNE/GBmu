@@ -107,9 +107,9 @@ extern "C"
 
 	int	find_breakpoint(void *debugger, int pc)
 	{
-		(void)debugger;
-		(void)pc;
-		return 0;
+		Debugger *instance = static_cast<Debugger *>(debugger);
+
+		return instance->getBreakpointValuesList(pc, nullptr);
 	}
 
 }
