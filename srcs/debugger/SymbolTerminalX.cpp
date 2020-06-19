@@ -6,13 +6,13 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/02 19:29:45 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/03 13:11:12 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/06/19 16:52:00 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "SymbolTerminalX.hpp"
 
-SymbolTerminalX::SymbolTerminalX(void) : SymbolTerminalPrintingCommand("x")
+SymbolTerminalX::SymbolTerminalX(void) : SymbolTerminalPrintingCommand(X_COMMAND)
 {
 	
 }

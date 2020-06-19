@@ -226,6 +226,20 @@ set(DEBUGGER_SOURCES
 	srcs/debugger/SymbolTerminalWatchModes.cpp
 	srcs/debugger/TokenPrintCommandSuffix.cpp
 	srcs/debugger/TokenWatchModes.cpp
+	srcs/debugger/Commands/AbstractCommand.cpp
+	srcs/debugger/Commands/Set.cpp
+	srcs/debugger/Commands/Print.cpp
+	srcs/debugger/Commands/XCommand.cpp
+	srcs/debugger/Commands/Breakpoint.cpp
+	srcs/debugger/Commands/Quit.cpp
+	srcs/debugger/Commands/Watch.cpp
+	srcs/debugger/Commands/Info.cpp
+	srcs/debugger/Commands/Help.cpp
+	srcs/debugger/Commands/Registers.cpp
+	srcs/debugger/Commands/Delete.cpp
+	srcs/debugger/Commands/Next.cpp
+	srcs/debugger/Commands/Step.cpp
+	srcs/debugger/Commands/Verbose.cpp
 	)
 
 	list(APPEND HEADERS
@@ -323,11 +337,24 @@ set(DEBUGGER_SOURCES
 	includes/debugger/SymbolTerminalWatchModes.hpp
 	includes/debugger/TokenPrintCommandSuffix.hpp
 	includes/debugger/TokenWatchModes.hpp
+	includes/debugger/Commands/Set.hpp
+	includes/debugger/Commands/XCommand.hpp
+	includes/debugger/Commands/Breakpoint.hpp
+	includes/debugger/Commands/Quit.hpp
+	includes/debugger/Commands/Watch.hpp
+	includes/debugger/Commands/Info.hpp
+	includes/debugger/Commands/Help.hpp
+	includes/debugger/Commands/Registers.hpp
+	includes/debugger/Commands/Delete.hpp
+	includes/debugger/Commands/Next.hpp
+	includes/debugger/Commands/Step.hpp
+	includes/debugger/Commands/Verbose.hpp
 	)
 
 include_directories(srcs)
 include_directories(includes)
 include_directories(includes/debugger)
+include_directories(includes/debugger/Commands)
 include_directories(libyacc/includes)
 include_directories(${Readline_INCLUDE_DIR})
 

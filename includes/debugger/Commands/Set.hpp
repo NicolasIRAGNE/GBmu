@@ -1,31 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   SymbolTerminalInfo.cpp                             :+:      :+:    :+:   */
+/*   Set.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
-/*   Updated: 2020/06/19 16:53:30 by ldedier          ###   ########.fr       */
+/*   Created: 2020/06/19 12:15:16 by ldedier           #+#    #+#             */
+/*   Updated: 2020/06/19 12:35:56 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "SymbolTerminalInfo.hpp"
+#ifndef SET_HPP
+# define SET_HPP
 
-SymbolTerminalInfo::SymbolTerminalInfo(void) : SymbolTerminalCommand(INFO_COMMAND)
+# include <iostream>
+# include "AbstractCommand.hpp"
+
+class Set : public AbstractCommand
 {
+	public:
+		Set(void);
+		Set(Set const &instance);
+		Set &operator=(Set const &rhs);
+		virtual ~Set(void);
+		virtual std::string getHelp(void);
+		virtual std::string getShortHelp(void);
 	
-}
+	private:
 
-SymbolTerminalInfo::~SymbolTerminalInfo(void)
-{
-	
-}
+};
 
-int	SymbolTerminalInfo::traverse(ASTNode<int, DebuggerContext &> & ast, DebuggerContext & context) const
-{
-	static_cast<void>(ast);
-	static_cast<void>(context);
-	return (0);
-}
-
+std::ostream &operator<<(std::ostream &o, Set const &instance);
+#endif

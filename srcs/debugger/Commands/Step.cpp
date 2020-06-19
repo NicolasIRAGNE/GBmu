@@ -1,31 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   SymbolTerminalInfo.cpp                             :+:      :+:    :+:   */
+/*   Step.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
-/*   Updated: 2020/06/19 16:53:30 by ldedier          ###   ########.fr       */
+/*   Created: 2020/06/19 18:46:38 by ldedier           #+#    #+#             */
+/*   Updated: 2020/06/19 18:48:31 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "SymbolTerminalInfo.hpp"
+#include "Step.hpp"
 
-SymbolTerminalInfo::SymbolTerminalInfo(void) : SymbolTerminalCommand(INFO_COMMAND)
+Step::Step(void) : AbstractCommand(STEP_COMMAND)
 {
 	
 }
 
-SymbolTerminalInfo::~SymbolTerminalInfo(void)
+Step::Step(Step const &instance)
+{
+	*this = instance;
+}
+
+Step::~Step(void)
 {
 	
 }
 
-int	SymbolTerminalInfo::traverse(ASTNode<int, DebuggerContext &> & ast, DebuggerContext & context) const
+Step &	Step::operator=(Step const &rhs)
 {
-	static_cast<void>(ast);
-	static_cast<void>(context);
-	return (0);
+	static_cast<void>(rhs);
+	return *this;
 }
 
+std::string	Step::getHelp(void)
+{
+	return (_name + " # go to the next instruction");
+}
+
+std::string	Step::getShortHelp(void)
+{
+	return ("go to the next instruction");
+}

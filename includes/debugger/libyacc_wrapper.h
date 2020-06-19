@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/10 19:15:42 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/30 17:41:23 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/06/18 20:11:39 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@ int libyacc_execute(struct gb_cpu_s *cpu, const char *string, int store);
 void libyacc_free(struct gbmu_debugger_s *debugger);
 int	get_verbose(void *debugger);
 int	find_breakpoint(void *debugger, int pc);
+int	find_watchpointFromPointer(void *debugger, void *pointer , int mode);
+int	find_watchpointFromOffset(void *debugger, uint16_t offset, size_t size, int mode);
+
 void libyacc_free(struct gbmu_debugger_s *debugger);
 
 #ifdef __cplusplus

@@ -112,4 +112,46 @@ extern "C"
 		return instance->getBreakpointValuesList(pc, nullptr);
 	}
 
+	int	find_watchpointFromPointer(void *debugger, void *pointer , int mode)
+	{
+		Debugger *instance = static_cast<Debugger *>(debugger);
+		Debugger::e_watchpoint_mode_id mode_id = static_cast<Debugger::e_watchpoint_mode_id>(mode);
+
+		WatchPoint watchPoint;
+	
+		if (!instance->hasWatchPoints(mode_id))
+			return (0);
+		for (size_t i = 0 ; i < 7 && reinterpret_cast<uint64_t>(pointer) > i ; i++)
+		{
+			watchPoint = WatchPoint(reinterpret_cast<uint8_t *>(pointer) - i);
+			if (instance->getWatchpointValuesList(watchPoint, nullptr, mode_id))
+				return 1;
+		}
+		for (size_t i = 0 ; i < 15 && reinterpret_cast<uint64_t>(pointer) > i ; i++)
+		{
+			watchPoint = WatchPoint(reinterpret_cast<uint16_t *>(reinterpret_cast<uint8_t *>(pointer) - i));
+			if (instance->getWatchpointValuesList(watchPoint, nullptr, mode_id))
+				return 1;
+		}
+		return 0;
+	}
+
+	int	find_watchpointFromOffset(void *debugger, uint16_t offset, size_t size, int mode)
+	{
+		Debugger *instance = static_cast<Debugger *>(debugger);
+		Debugger::e_watchpoint_mode_id mode_id = static_cast<Debugger::e_watchpoint_mode_id>(mode);
+
+		WatchPoint watchPoint;
+		if (!instance->hasWatchPoints(mode_id))
+			return (0);
+		for (size_t i = 0 ; i < size && offset <= 0xff - i ; i++)
+		{
+			watchPoint = WatchPoint(DebuggerAddress(offset + i));
+			if (instance->getWatchpointValuesList(watchPoint, nullptr, mode_id))
+				return 1;
+		}
+		return 0;
+	}
+
+
 }

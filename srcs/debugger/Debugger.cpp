@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/15 15:58:49 by ldedier           #+#    #+#             */
-/*   Updated: 2020/06/15 15:32:40 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/06/19 19:03:50 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,20 @@
 #include "DebuggerVariableValue.hpp"
 #include "DebuggerVariableConstValue.hpp"
 #include "getValue.hpp"
+
+#include "Commands/Set.hpp"
+#include "Print.hpp"
+#include "XCommand.hpp"
+#include "Breakpoint.hpp"
+#include "Quit.hpp"
+#include "Info.hpp"
+#include "Watch.hpp"
+#include "Help.hpp"
+#include "Registers.hpp"
+#include "Delete.hpp"
+#include "Next.hpp"
+#include "Step.hpp"
+#include "Verbose.hpp"
 
 Debugger::Debugger(void) : _verbose(DEFAULT_VERBOSE)
 {
@@ -69,6 +83,21 @@ Debugger::Debugger(struct gb_cpu_s *cpu) : _cpu(cpu), _verbose(DEFAULT_VERBOSE),
 	_variables["INT_VBLANK_ADDR"] = new DebuggerVariableConstValue(INT_VBLANK_ADDR);
 	_variables["INT_STAT_ADDR"] = new DebuggerVariableConstValue(INT_STAT_ADDR);
 	_variables["INT_TIMER_ADDR"] = new DebuggerVariableConstValue(INT_TIMER_ADDR);
+
+	_commands[BREAKPOINT_COMMAND] = new Breakpoint();
+	_commands[DELETE_COMMAND] = new Delete();
+	_commands[HELP_COMMAND] = new Help();
+	_commands[INFO_COMMAND] = new Info();
+	_commands[NEXT_COMMAND] = new Next();
+	_commands[PRINT_COMMAND] = new Print();
+	_commands[QUIT_COMMAND] = new Quit();
+	_commands[REGISTERS_COMMAND] = new Registers();
+	_commands[SET_COMMAND] = new Set();
+	_commands[STEP_COMMAND] = new Step();
+	_commands[VERBOSE_COMMAND] = new Verbose();
+	_commands[WATCH_COMMAND] = new Watch();
+	_commands[X_COMMAND] = new XCommand();
+
 }
 
 Debugger::Debugger(Debugger const &instance)
@@ -78,7 +107,21 @@ Debugger::Debugger(Debugger const &instance)
 
 Debugger::~Debugger(void)
 {
+	typename std::map<std::string, AbstractCommand *>::iterator it;
+	typename std::map<std::string, DebuggerVariable *>::iterator it2;
 
+	it = _commands.begin();
+	while (it != _commands.end())
+	{
+		delete it->second;
+		it++;
+	}
+	it2 = _variables.begin();
+	while (it2 != _variables.end())
+	{
+		delete it2->second;
+		it2++;
+	}
 }
 
 Debugger &	Debugger::operator=(Debugger const &rhs)
@@ -135,10 +178,22 @@ void	Debugger::setLastCommand(std::string string)
 	this->_lastCommand = string;
 }
 
-void	Debugger::deleteValue(uint32_t value)
+bool	Debugger::deleteValue(uint32_t value)
 {
-	static_cast<void>(value);
-	// (this->_maps[id]).removeValue(value);
+	if ((this->_breakpoints).deleteValue(value))
+		return (true);
+	if (this->_watchpoints[Debugger::E_WATCHPOINTS_WRITE].deleteValue(value))
+		return (true);
+	if (this->_watchpoints[Debugger::E_WATCHPOINTS_READ].deleteValue(value))
+		return (true);
+	return (false);
+}
+
+void Debugger::removeAllBreakpoints(void)
+{
+	this->_breakpoints.clear();
+	this->_watchpoints[Debugger::E_WATCHPOINTS_WRITE].clear();
+	this->_watchpoints[Debugger::E_WATCHPOINTS_READ].clear();
 }
 
 void	Debugger::addBreakpointValuesList(DebuggerAddress key)
@@ -161,7 +216,64 @@ bool	Debugger::getBreakpointValuesList(DebuggerAddress key, std::list<uint32_t> 
 	return ((this->_breakpoints).getLists(key, list));
 }
 
+bool Debugger::hasWatchPoints(Debugger::e_watchpoint_mode_id id)
+{
+	return !this->_watchpoints[id].isEmpty();
+}
+
 uint32_t Debugger::getCounter(void)
 {
 	return _counter;
+}
+
+void Debugger::showRegisters(void)
+{
+	std::cout << "Registers:" << std::endl << std::endl;
+
+	std::cout << "f:	" << +_cpu->reg.f << std::endl;
+	std::cout << "a:	" << +_cpu->reg.a << std::endl;
+	std::cout << "af:	" << _cpu->reg.af << std::endl;
+
+	std::cout << "c:	" << +_cpu->reg.c << std::endl;
+	std::cout << "b:	" << +_cpu->reg.b << std::endl;
+	std::cout << "bc:	" << _cpu->reg.bc << std::endl;
+
+	std::cout << "e:	" << +_cpu->reg.e << std::endl;
+	std::cout << "d:	" << +_cpu->reg.d << std::endl;
+	std::cout << "de:	" << _cpu->reg.de << std::endl;
+
+	std::cout << "l:	" << +_cpu->reg.l << std::endl;
+	std::cout << "h:	" << +_cpu->reg.h << std::endl;
+	std::cout << "hl:	" << _cpu->reg.hl << std::endl;
+
+	std::cout << "sp:	" << _cpu->reg.sp << std::endl;
+	std::cout << "pc:	" << _cpu->reg.pc << std::endl;
+
+}
+
+void Debugger::showInfo(void)
+{
+	showRegisters();
+}
+
+std::string getPadding(std::string prefix)
+{
+	return std::string(std::max(static_cast<int>(2 - (prefix.size() / 8)), 1), '\t');
+}
+
+void Debugger::showHelp(void)
+{
+	typename std::map<std::string, AbstractCommand *>::iterator it;
+	std::cout << "Available commands:" << std::endl << std::endl;
+	it = _commands.begin();
+	while (it != _commands.end())
+	{
+		std::cout << it->first << getPadding(it->first) << ": " << it->second->getShortHelp() << std::endl;
+		it++;
+	}
+}
+
+void Debugger::showHelpCommand(std::string commandName)
+{
+	std::cout << "usage:\t" << _commands[commandName]->getHelp() << std::endl;
 }

@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/15 15:56:33 by ldedier           #+#    #+#             */
-/*   Updated: 2020/06/15 15:32:20 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/06/19 18:56:07 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include "History.hpp"
 # include "DebuggerAddress.hpp"
 # include "WatchPoint.hpp"
+# include "Commands/AbstractCommand.hpp"
 
 extern "C" {
 # include "gb.h"
@@ -58,24 +59,30 @@ class Debugger
 
 		bool getWatchpointValuesList(WatchPoint key, std::list<uint32_t> *list, e_watchpoint_mode_id id);
 		void addWatchpointValuesList(WatchPoint key, e_watchpoint_mode_id id);
-		
-		void deleteValue(uint32_t value);
+		bool hasWatchPoints(e_watchpoint_mode_id id);
+
+		bool deleteValue(uint32_t value);
+		void removeAllBreakpoints(void);
+
+		void showRegisters(void);
+		void showInfo(void);
+		void showHelp(void);
+		void showHelpCommand(std::string commandName);
 
 	private:
 		Debugger(void);
-		struct gb_cpu_s										*_cpu;
-		int													_verbose;
 
-		History												_history;
+		struct gb_cpu_s											*_cpu;
+		int														_verbose;
+		History													_history;
+		uint32_t												_counter;
+		MapOfListNoRepetitions<DebuggerAddress, uint32_t>		_breakpoints;
+		MapOfListNoRepetitions<WatchPoint, uint32_t>			_watchpoints[E_NB_WATCHPOINT_MODES];
+		std::string												_lastCommand;
+		
+		std::map<std::string, DebuggerVariable *>				_variables;
+		std::map<std::string, AbstractCommand *>				_commands;
 
-		uint32_t											_counter;
-	
-		std::map<std::string, DebuggerVariable *>			_variables;
-
-		MapOfListNoRepetitions<DebuggerAddress, uint32_t>	_breakpoints;
-		MapOfListNoRepetitions<WatchPoint, uint32_t>		_watchpoints[E_NB_WATCHPOINT_MODES];
-
-		std::string										_lastCommand;
 };
 
 #endif
