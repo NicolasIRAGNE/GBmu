@@ -1,31 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   SymbolTerminalInfo.cpp                             :+:      :+:    :+:   */
+/*   Quit.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
-/*   Updated: 2020/06/19 16:53:30 by ldedier          ###   ########.fr       */
+/*   Created: 2020/06/19 18:08:14 by ldedier           #+#    #+#             */
+/*   Updated: 2020/06/19 18:13:54 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "SymbolTerminalInfo.hpp"
+#include "Quit.hpp"
 
-SymbolTerminalInfo::SymbolTerminalInfo(void) : SymbolTerminalCommand(INFO_COMMAND)
+Quit::Quit(void) : AbstractCommand(QUIT_COMMAND)
 {
 	
 }
 
-SymbolTerminalInfo::~SymbolTerminalInfo(void)
+Quit::Quit(Quit const &instance)
+{
+	*this = instance;
+}
+
+Quit::~Quit(void)
 {
 	
 }
 
-int	SymbolTerminalInfo::traverse(ASTNode<int, DebuggerContext &> & ast, DebuggerContext & context) const
+Quit &	Quit::operator=(Quit const &rhs)
 {
-	static_cast<void>(ast);
-	static_cast<void>(context);
-	return (0);
+	static_cast<void>(rhs);
+	return *this;
 }
 
+std::string	Quit::getHelp(void)
+{
+	return (_name + " # exit the debugger");
+}
+
+std::string	Quit::getShortHelp(void)
+{
+	return ("exit the debugger");
+}

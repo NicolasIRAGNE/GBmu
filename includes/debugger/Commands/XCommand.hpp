@@ -1,31 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   SymbolTerminalInfo.cpp                             :+:      :+:    :+:   */
+/*   XCommand.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
-/*   Updated: 2020/06/19 16:53:30 by ldedier          ###   ########.fr       */
+/*   Created: 2020/06/19 12:17:34 by ldedier           #+#    #+#             */
+/*   Updated: 2020/06/19 12:36:25 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "SymbolTerminalInfo.hpp"
+#ifndef XCOMMAND_HPP
+# define XCOMMAND_HPP
 
-SymbolTerminalInfo::SymbolTerminalInfo(void) : SymbolTerminalCommand(INFO_COMMAND)
+# include <iostream>
+# include "AbstractCommand.hpp"
+
+class XCommand : public AbstractCommand
 {
-	
-}
+	public:
+		XCommand(void);
+		XCommand(XCommand const &instance);
+		XCommand &operator=(XCommand const &rhs);
+		virtual ~XCommand(void);
+		virtual std::string getHelp(void);
+		virtual std::string getShortHelp(void);
 
-SymbolTerminalInfo::~SymbolTerminalInfo(void)
-{
-	
-}
+	private:
 
-int	SymbolTerminalInfo::traverse(ASTNode<int, DebuggerContext &> & ast, DebuggerContext & context) const
-{
-	static_cast<void>(ast);
-	static_cast<void>(context);
-	return (0);
-}
-
+};
+#endif

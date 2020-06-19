@@ -6,13 +6,14 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
-/*   Updated: 2020/06/15 20:11:33 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/06/18 21:57:37 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "SymbolNonTerminalWatchCommand.hpp"
 # include "WatchModes.hpp"
 # include "DebuggerVariableAddress.hpp"
+# include "libyacc_wrapper.h"
 
 SymbolNonTerminalWatchCommand::SymbolNonTerminalWatchCommand(void) : AbstractNonTerminal("watchcommand")
 {
@@ -53,16 +54,15 @@ void SymbolNonTerminalWatchCommand::addWatchPoint(Debugger *debugger, const std:
 			}
 		}
 	}
-	static_cast<void>(mode);
 	debugger->addWatchpointValuesList(watchPoint, id);
 	std::cout << mode << " watchpoint " << debugger->getCounter() << " at " << watchPoint << std::endl;
 }
 
 int	SymbolNonTerminalWatchCommand::traverse(ASTNode<int, DebuggerContext &> & ast, DebuggerContext & context) const
 {
-	WatchPoint watchPoint;
-	DebuggerVariableAddress<uint8_t> *addressVariable8;
-	DebuggerVariableAddress<uint16_t> *addressVariable16;
+	WatchPoint							watchPoint;
+	DebuggerVariableAddress<uint8_t>	*addressVariable8;
+	DebuggerVariableAddress<uint16_t>	*addressVariable16;
 	
 	if (ast.getChildren().size() == 3)
 	{
@@ -75,9 +75,7 @@ int	SymbolNonTerminalWatchCommand::traverse(ASTNode<int, DebuggerContext &> & as
 		ast.getChild(1)->getTraversed(context); // fill assignable
 	}
 	if (context.address_descriptor.type == ADDRESS_DESCRIPTOR_TYPE_ADDRESS)
-	{
 		watchPoint = WatchPoint(context.address_descriptor.address);
-	}
 	else
 	{
 		if ((addressVariable8 = dynamic_cast<DebuggerVariableAddress<uint8_t> *>(context.address_descriptor.variable)) != nullptr)
@@ -86,7 +84,7 @@ int	SymbolNonTerminalWatchCommand::traverse(ASTNode<int, DebuggerContext &> & as
 			watchPoint = WatchPoint(addressVariable16->getAddress());
 		else
 		{
-			std::cerr << "not a watchable value" << std::endl;
+			std::cerr << "Not a watchable value." << std::endl;
 			return (1);
 		}
 	}

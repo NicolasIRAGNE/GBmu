@@ -6,13 +6,13 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/02 17:06:18 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/06/19 16:52:40 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "SymbolTerminalRegisters.hpp"
 
-SymbolTerminalRegisters::SymbolTerminalRegisters(void) : SymbolTerminalCommand("registers")
+SymbolTerminalRegisters::SymbolTerminalRegisters(void) : SymbolTerminalCommand(REGISTERS_COMMAND)
 {
 	
 }

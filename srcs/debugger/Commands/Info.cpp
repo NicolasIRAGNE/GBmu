@@ -1,31 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   SymbolTerminalInfo.cpp                             :+:      :+:    :+:   */
+/*   Info.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
-/*   Updated: 2020/06/19 16:53:30 by ldedier          ###   ########.fr       */
+/*   Created: 2020/06/19 18:25:45 by ldedier           #+#    #+#             */
+/*   Updated: 2020/06/19 18:27:25 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "SymbolTerminalInfo.hpp"
+#include "Info.hpp"
 
-SymbolTerminalInfo::SymbolTerminalInfo(void) : SymbolTerminalCommand(INFO_COMMAND)
+Info::Info(void) : AbstractCommand(INFO_COMMAND)
 {
 	
 }
 
-SymbolTerminalInfo::~SymbolTerminalInfo(void)
+Info::Info(Info const &instance)
+{
+	*this = instance;	
+}
+
+Info::~Info(void)
 {
 	
 }
 
-int	SymbolTerminalInfo::traverse(ASTNode<int, DebuggerContext &> & ast, DebuggerContext & context) const
+Info &	Info::operator=(Info const &rhs)
 {
-	static_cast<void>(ast);
-	static_cast<void>(context);
-	return (0);
+	static_cast<void>(rhs);
+	return *this;
 }
 
+std::string	Info::getHelp(void)
+{
+	return (_name + " # print info about the current context");
+}
+
+std::string	Info::getShortHelp(void)
+{
+	return ("print info about the current context");
+}

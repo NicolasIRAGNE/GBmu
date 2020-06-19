@@ -1,31 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   SymbolTerminalInfo.cpp                             :+:      :+:    :+:   */
+/*   Help.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
-/*   Updated: 2020/06/19 16:53:30 by ldedier          ###   ########.fr       */
+/*   Created: 2020/06/19 12:13:28 by ldedier           #+#    #+#             */
+/*   Updated: 2020/06/19 12:35:40 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "SymbolTerminalInfo.hpp"
+#ifndef HELP_HPP
+# define HELP_HPP
 
-SymbolTerminalInfo::SymbolTerminalInfo(void) : SymbolTerminalCommand(INFO_COMMAND)
+# include <iostream>
+# include "AbstractCommand.hpp"
+
+class Help : public AbstractCommand
 {
-	
-}
+	public:
+		Help(void);
+		Help(Help const &instance);
+		Help &operator=(Help const &rhs);
+		virtual ~Help(void);
+		virtual std::string getHelp(void);
+		virtual std::string getShortHelp(void);
 
-SymbolTerminalInfo::~SymbolTerminalInfo(void)
-{
-	
-}
+	private:
 
-int	SymbolTerminalInfo::traverse(ASTNode<int, DebuggerContext &> & ast, DebuggerContext & context) const
-{
-	static_cast<void>(ast);
-	static_cast<void>(context);
-	return (0);
-}
+};
 
+#endif

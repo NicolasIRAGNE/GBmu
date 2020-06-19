@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
-/*   Updated: 2020/06/15 15:31:55 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/06/19 18:20:28 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,6 @@ int	SymbolNonTerminalBreakpointCommand::traverse(ASTNode<int, DebuggerContext &>
 
 void	SymbolNonTerminalBreakpointCommand::computeProductions(AbstractGrammar<int, DebuggerContext &> & cfg)
 {
-	addProduction(cfg, {"breakpoint", "address"});
-	addProduction(cfg, {"breakpoint"});
+	addProduction(cfg, {"break", "address"});
+	addProduction(cfg, {"break"});
 }

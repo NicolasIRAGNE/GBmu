@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 17:03:31 by ldedier           #+#    #+#             */
-/*   Updated: 2020/06/15 17:50:49 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/06/19 17:01:00 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,18 +134,15 @@ bool DebuggerGrammar::treatTerminalEligibility(std::string current
 	{
 		while (it != _tokens.end())
 		{
-			if (!(commandTerminal = dynamic_cast<SymbolTerminalCommand *>(*it)))
+			if ((*it)->canBeAdded(tokens))
 			{
-				if ((*it)->canBeAdded(tokens))
+				if ((*it)->staysEligibleForCurrent(current))
+					res = true;
+				if ((*it)->isEligibleForCurrent(current))
 				{
-					if ((*it)->staysEligibleForCurrent(current))
-						res = true;
-					if ((*it)->isEligibleForCurrent(current))
-					{
-						isEligiblePos = staysEligiblePos + 1;
-						if (!(*terminal) || !(*terminal)->isEligibleForCurrent(current) || (*terminal)->getPriority() < (*it)->getPriority())
-							*terminal = *it;
-					}
+					isEligiblePos = staysEligiblePos + 1;
+					if (!(*terminal) || !(*terminal)->isEligibleForCurrent(current) || (*terminal)->getPriority() < (*it)->getPriority())
+						*terminal = *it;
 				}
 			}
 			it++;

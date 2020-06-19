@@ -6,13 +6,13 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/02 17:03:11 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/06/19 16:53:17 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "SymbolTerminalNext.hpp"
 
-SymbolTerminalNext::SymbolTerminalNext(void) : SymbolTerminalCommand("next")
+SymbolTerminalNext::SymbolTerminalNext(void) : SymbolTerminalCommand(NEXT_COMMAND)
 {
 	
 }
