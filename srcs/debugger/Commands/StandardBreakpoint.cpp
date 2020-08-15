@@ -1,45 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Set.cpp                                            :+:      :+:    :+:   */
+/*   StandardBreakpoint.cpp                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/19 12:29:04 by ldedier           #+#    #+#             */
-/*   Updated: 2020/06/19 18:48:25 by ldedier          ###   ########.fr       */
+/*   Created: 2020/06/19 17:57:41 by ldedier           #+#    #+#             */
+/*   Updated: 2020/06/30 00:45:26 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Set.hpp"
+#include "StandardBreakpoint.hpp"
 
-Set::Set(void) : AbstractCommand("set")
+StandardBreakpoint::StandardBreakpoint(void) : AbstractBreakpoint(BREAKPOINT_COMMAND, "standard")
 {
 	
 }
 
-Set::Set(Set const &instance)
+StandardBreakpoint::StandardBreakpoint(StandardBreakpoint const &instance)
 {
 	*this = instance;
 }
 
-Set::~Set(void)
+StandardBreakpoint::~StandardBreakpoint(void)
 {
 	
 }
 
-Set &	Set::operator=(Set const &rhs)
+StandardBreakpoint &	StandardBreakpoint::operator=(StandardBreakpoint const &rhs)
 {
 	static_cast<void>(rhs);
 	return *this;
 }
 
-std::string	Set::getHelp(void)
+int	StandardBreakpoint::addBreakpointToDebugger(Debugger *debugger, uint16_t address) const
 {
-	return (_name + " *offset = value\t# assigns value at offset in the cpu memory"\
-		"\n\t" + _name + " $variable = value\t# assigns value to $variable");
+	debugger->addBreakpointValuesList(address);
+	return 0;
 }
 
-std::string	Set::getShortHelp(void)
-{
-	return ("set registers, variables or directly the CPU memory");
-}

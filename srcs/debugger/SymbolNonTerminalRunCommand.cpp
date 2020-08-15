@@ -1,33 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Breakpoint.hpp                                     :+:      :+:    :+:   */
+/*   SymbolNonTerminalRunCommand.cpp                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/19 12:18:41 by ldedier           #+#    #+#             */
-/*   Updated: 2020/06/19 12:35:31 by ldedier          ###   ########.fr       */
+/*   Created: 2020/06/25 19:55:17 by ldedier           #+#    #+#             */
+/*   Updated: 2020/06/26 20:08:44 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BREAKPOINT_HPP
-# define BREAKPOINT_HPP
+# include "SymbolNonTerminalRunCommand.hpp"
 
-# include <iostream>
-# include "AbstractCommand.hpp"
-
-class Breakpoint : public AbstractCommand
+SymbolNonTerminalRunCommand::SymbolNonTerminalRunCommand(void) : SymbolNonTerminalAbstractCommand("runcommand")
 {
-	public:
-		Breakpoint(void);
-		Breakpoint(Breakpoint const &instance);
-		Breakpoint &operator=(Breakpoint const &rhs);
-		virtual ~Breakpoint(void);
-		virtual std::string getHelp(void);
-		virtual std::string getShortHelp(void);
+	
+}
 
-	private:
+SymbolNonTerminalRunCommand::~SymbolNonTerminalRunCommand(void)
+{
+	
+}
 
-};
-
-#endif
+void	SymbolNonTerminalRunCommand::computeProductions(AbstractGrammar<int, DebuggerContext &> & cfg)
+{
+	addProduction(cfg, {"run"});
+}

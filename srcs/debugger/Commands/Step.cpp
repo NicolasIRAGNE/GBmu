@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/19 18:46:38 by ldedier           #+#    #+#             */
-/*   Updated: 2020/06/19 18:48:31 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/06/27 16:44:38 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,11 @@ std::string	Step::getHelp(void)
 std::string	Step::getShortHelp(void)
 {
 	return ("go to the next instruction");
+}
+
+int	Step::execute(ASTNode<int, DebuggerContext &> & ast, DebuggerContext & context) const
+{
+	static_cast<void>(ast);
+	static_cast<void>(context);
+	return (0);
 }

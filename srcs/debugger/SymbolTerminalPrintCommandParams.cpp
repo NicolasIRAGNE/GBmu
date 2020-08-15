@@ -6,14 +6,14 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/03 17:37:35 by ldedier           #+#    #+#             */
-/*   Updated: 2020/06/15 16:19:37 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/06/25 18:31:04 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "SymbolTerminalPrintCommandParams.hpp"
 # include <string.h>
 
-SymbolTerminalPrintCommandParams::SymbolTerminalPrintCommandParams(void) : AbstractTerminal("printcommandparams")
+SymbolTerminalPrintCommandParams::SymbolTerminalPrintCommandParams(void) : AbstractTerminal("printcommandparams", E_PRIORITY_STANDARD, E_ADJACENT_DETACHED)
 {
 	
 }

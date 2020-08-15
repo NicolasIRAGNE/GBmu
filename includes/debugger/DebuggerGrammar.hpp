@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 17:03:31 by ldedier           #+#    #+#             */
-/*   Updated: 2020/06/15 17:52:22 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/06/26 16:16:40 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,12 @@
 #include "SymbolNonTerminalInfoCommand.hpp"
 #include "SymbolNonTerminalNextCommand.hpp"
 #include "SymbolNonTerminalXCommand.hpp"
-#include "SymbolNonTerminalVariable.hpp"
+#include "SymbolNonTerminalContinueCommand.hpp"
+#include "SymbolNonTerminalRunCommand.hpp"
 #include "SymbolNonTerminalSetCommand.hpp"
 #include "SymbolNonTerminalHelpCommand.hpp"
+#include "SymbolNonTerminalStartCommand.hpp"
+#include "SymbolNonTerminalTemporaryBreakpointCommand.hpp"
 #include "SymbolNonTerminalAssignable.hpp"
 #include "SymbolNonTerminalAddress.hpp"
 #include "SymbolNonTerminalTerm.hpp"
@@ -76,7 +79,8 @@
 #include "SymbolTerminalLesser.hpp"
 #include "SymbolTerminalGreater.hpp"
 #include "SymbolTerminalInfo.hpp"
-#include "SymbolTerminalRegisterBC.hpp"
+#include "SymbolTerminalRun.hpp"
+#include "SymbolTerminalContinue.hpp"
 #include "SymbolTerminalEqual.hpp"
 #include "SymbolTerminalInterruptJoypad.hpp"
 #include "SymbolTerminalRegisterDE.hpp"
@@ -92,6 +96,8 @@
 #include "SymbolTerminalX.hpp"
 #include "SymbolTerminalPrintCommandParams.hpp"
 #include "SymbolTerminalWatchModes.hpp"
+#include "SymbolTerminalStart.hpp"
+#include "SymbolTerminalTemporaryBreakpoint.hpp"
 
 class DebuggerGrammar : public AbstractGrammar<int, DebuggerContext &>
 {

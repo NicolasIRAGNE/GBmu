@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/15 15:56:33 by ldedier           #+#    #+#             */
-/*   Updated: 2020/06/19 18:56:07 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/08/15 14:57:10 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ class Debugger
 		~Debugger(void);
 
 		int getVerbose();
+		int setVerbose(int verbose);
+
 		struct gb_cpu_s *getCPU(void);
 		DebuggerVariable *getVariable(std::string);
 		DebuggerVariableConstValue &getHistoryVariable(int nb);
@@ -54,8 +56,9 @@ class Debugger
 			E_NB_WATCHPOINT_MODES
 		};
 
-		bool getBreakpointValuesList(DebuggerAddress key, std::list<uint32_t> *list);
+		bool getBreakpointValuesList(DebuggerAddress key, std::list<uint32_t> *list, uint32_t *id, bool *temp);
 		void addBreakpointValuesList(DebuggerAddress key);
+		void addTemporaryBreakpointValuesList(DebuggerAddress key);
 
 		bool getWatchpointValuesList(WatchPoint key, std::list<uint32_t> *list, e_watchpoint_mode_id id);
 		void addWatchpointValuesList(WatchPoint key, e_watchpoint_mode_id id);
@@ -68,16 +71,23 @@ class Debugger
 		void showInfo(void);
 		void showHelp(void);
 		void showHelpCommand(std::string commandName);
-
+		
+		int executeCommand(std::string const commandName, 
+			ASTNode<int, DebuggerContext &> & ast, DebuggerContext & context);
+	
 	private:
+	
 		Debugger(void);
 
 		struct gb_cpu_s											*_cpu;
 		int														_verbose;
 		History													_history;
 		uint32_t												_counter;
+
 		MapOfListNoRepetitions<DebuggerAddress, uint32_t>		_breakpoints;
+		MapOfListNoRepetitions<DebuggerAddress, uint32_t>		_temporaryBreakpoints;
 		MapOfListNoRepetitions<WatchPoint, uint32_t>			_watchpoints[E_NB_WATCHPOINT_MODES];
+		
 		std::string												_lastCommand;
 		
 		std::map<std::string, DebuggerVariable *>				_variables;

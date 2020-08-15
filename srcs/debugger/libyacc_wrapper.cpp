@@ -28,7 +28,7 @@ extern "C"
 		return EXIT_SUCCESS;
 	}
 
-	int libyacc_execute(struct gb_cpu_s *cpu, const char *string, int store)
+	int libyacc_execute(struct gb_cpu_s *cpu, const char *string, int store, int *quit)
 	{
 		int res;
 		DebuggerGrammar *grammar = static_cast<DebuggerGrammar *>(cpu->debugger->grammar);
@@ -82,6 +82,7 @@ extern "C"
 		}
 		if (store && context.shouldSaveAsLastCommand)
 			debugger->setLastCommand(string);
+		*quit = context.quit; 
 		return (res);
 	}
 
@@ -107,9 +108,16 @@ extern "C"
 
 	int	find_breakpoint(void *debugger, int pc)
 	{
-		Debugger *instance = static_cast<Debugger *>(debugger);
+		bool found;
+		bool temp;
+		uint32_t id;
 
-		return instance->getBreakpointValuesList(pc, nullptr);
+		Debugger *instance = static_cast<Debugger *>(debugger);
+		temp = false;
+		found = instance->getBreakpointValuesList(pc, nullptr, &id, &temp);
+		if (found)
+			std::cout << "Thread hit " << (temp ? "Temporary " : "") << "Breakpoint " << id << ", " << DebuggerAddress(instance->getCPU()->reg.pc) << std::endl; 
+		return found;
 	}
 
 	int	find_watchpointFromPointer(void *debugger, void *pointer , int mode)

@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/15 15:58:49 by ldedier           #+#    #+#             */
-/*   Updated: 2020/06/19 19:03:50 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/08/15 14:58:21 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,23 @@
 #include "DebuggerVariableConstValue.hpp"
 #include "getValue.hpp"
 
-#include "Commands/Set.hpp"
+#include "Commands/SetCommand.hpp"
 #include "Print.hpp"
 #include "XCommand.hpp"
-#include "Breakpoint.hpp"
+#include "StandardBreakpoint.hpp"
+#include "TemporaryBreakpoint.hpp"
 #include "Quit.hpp"
 #include "Info.hpp"
 #include "Watch.hpp"
+#include "Continue.hpp"
+#include "Start.hpp"
 #include "Help.hpp"
+#include "Run.hpp"
 #include "Registers.hpp"
 #include "Delete.hpp"
 #include "Next.hpp"
 #include "Step.hpp"
+#include "Start.hpp"
 #include "Verbose.hpp"
 
 Debugger::Debugger(void) : _verbose(DEFAULT_VERBOSE)
@@ -84,16 +89,20 @@ Debugger::Debugger(struct gb_cpu_s *cpu) : _cpu(cpu), _verbose(DEFAULT_VERBOSE),
 	_variables["INT_STAT_ADDR"] = new DebuggerVariableConstValue(INT_STAT_ADDR);
 	_variables["INT_TIMER_ADDR"] = new DebuggerVariableConstValue(INT_TIMER_ADDR);
 
-	_commands[BREAKPOINT_COMMAND] = new Breakpoint();
+	_commands[BREAKPOINT_COMMAND] = new StandardBreakpoint();
+	_commands[TBREAKPOINT_COMMAND] = new TemporaryBreakpoint();
 	_commands[DELETE_COMMAND] = new Delete();
 	_commands[HELP_COMMAND] = new Help();
+	_commands[CONTINUE_COMMAND] = new Continue();
 	_commands[INFO_COMMAND] = new Info();
 	_commands[NEXT_COMMAND] = new Next();
 	_commands[PRINT_COMMAND] = new Print();
 	_commands[QUIT_COMMAND] = new Quit();
 	_commands[REGISTERS_COMMAND] = new Registers();
-	_commands[SET_COMMAND] = new Set();
+	_commands[SET_COMMAND] = new SetCommand();
 	_commands[STEP_COMMAND] = new Step();
+	_commands[START_COMMAND] = new Start();
+	_commands[RUN_COMMAND] = new Run();
 	_commands[VERBOSE_COMMAND] = new Verbose();
 	_commands[WATCH_COMMAND] = new Watch();
 	_commands[X_COMMAND] = new XCommand();
@@ -134,6 +143,14 @@ int Debugger::getVerbose(void)
 {
 	return _verbose;
 }
+
+int Debugger::setVerbose(int verbose)
+{
+	_verbose = verbose;
+	std::cout << "Verbosity level set to " << _verbose << std::endl;
+	return 0;
+}
+
 
 struct gb_cpu_s *Debugger::getCPU(void)
 {
@@ -182,6 +199,8 @@ bool	Debugger::deleteValue(uint32_t value)
 {
 	if ((this->_breakpoints).deleteValue(value))
 		return (true);
+	if ((this->_temporaryBreakpoints).deleteValue(value))
+		return (true);
 	if (this->_watchpoints[Debugger::E_WATCHPOINTS_WRITE].deleteValue(value))
 		return (true);
 	if (this->_watchpoints[Debugger::E_WATCHPOINTS_READ].deleteValue(value))
@@ -192,6 +211,7 @@ bool	Debugger::deleteValue(uint32_t value)
 void Debugger::removeAllBreakpoints(void)
 {
 	this->_breakpoints.clear();
+	this->_temporaryBreakpoints.clear();
 	this->_watchpoints[Debugger::E_WATCHPOINTS_WRITE].clear();
 	this->_watchpoints[Debugger::E_WATCHPOINTS_READ].clear();
 }
@@ -199,6 +219,11 @@ void Debugger::removeAllBreakpoints(void)
 void	Debugger::addBreakpointValuesList(DebuggerAddress key)
 {
 	(this->_breakpoints).addValue(key, ++_counter);
+}
+
+void	Debugger::addTemporaryBreakpointValuesList(DebuggerAddress key)
+{
+	(this->_temporaryBreakpoints).addValue(key, ++_counter);
 }
 
 void	Debugger::addWatchpointValuesList(WatchPoint watchPoint, e_watchpoint_mode_id id)
@@ -211,9 +236,53 @@ bool	Debugger::getWatchpointValuesList(WatchPoint watchPoint, std::list<uint32_t
 	return ((this->_watchpoints[id]).getLists(watchPoint, list));
 }
 
-bool	Debugger::getBreakpointValuesList(DebuggerAddress key, std::list<uint32_t> *list)
+int Debugger::executeCommand(std::string const commandName, 
+			ASTNode<int, DebuggerContext &> & ast, DebuggerContext & context)
 {
-	return ((this->_breakpoints).getLists(key, list));
+	return _commands[commandName]->execute(ast, context);
+}
+
+bool comparator(uint32_t val1, uint32_t val2)
+{
+	return val1 < val2;
+}
+
+bool	Debugger::getBreakpointValuesList(DebuggerAddress key, std::list<uint32_t> *list, uint32_t *id, bool *temp)
+{
+	bool found = false;
+	std::list<uint32_t> *bplist = nullptr;
+	std::list<uint32_t> *tempbplist = nullptr;
+	std::list<uint32_t> tempbplistcopy;
+	
+	found |= (this->_temporaryBreakpoints).getLists(key, &tempbplist);
+	if (found && list == nullptr)
+	{
+		*id = tempbplist->front();
+		(this->_temporaryBreakpoints).deleteValue(*id);
+		*temp = true;
+		return found;
+	}
+	found |= (this->_breakpoints).getLists(key, &bplist);
+	if (found && list == nullptr)
+	{
+		*id = bplist->front();
+		*temp = false;
+		return found;
+	}
+	if (found)
+	{
+		if (bplist && !tempbplist)
+			*list = *bplist;
+		else if (!bplist && tempbplist)
+			*list = *tempbplist;
+		else
+		{
+			*list = *bplist;
+			tempbplistcopy = *tempbplist;
+			list->merge(tempbplistcopy, comparator);
+		}
+	}
+	return found;
 }
 
 bool Debugger::hasWatchPoints(Debugger::e_watchpoint_mode_id id)
@@ -248,11 +317,11 @@ void Debugger::showRegisters(void)
 
 	std::cout << "sp:	" << _cpu->reg.sp << std::endl;
 	std::cout << "pc:	" << _cpu->reg.pc << std::endl;
-
 }
 
 void Debugger::showInfo(void)
 {
+	std::cout << "Verbosity level:" << _verbose << std::endl << std::endl;
 	showRegisters();
 }
 
@@ -277,3 +346,4 @@ void Debugger::showHelpCommand(std::string commandName)
 {
 	std::cout << "usage:\t" << _commands[commandName]->getHelp() << std::endl;
 }
+

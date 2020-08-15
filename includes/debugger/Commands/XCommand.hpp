@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/19 12:17:34 by ldedier           #+#    #+#             */
-/*   Updated: 2020/06/19 12:36:25 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/06/26 17:50:19 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ class XCommand : public AbstractCommand
 		virtual ~XCommand(void);
 		virtual std::string getHelp(void);
 		virtual std::string getShortHelp(void);
+		virtual int execute(ASTNode<int, DebuggerContext &> & ast, DebuggerContext & context) const;
 
 	private:
 

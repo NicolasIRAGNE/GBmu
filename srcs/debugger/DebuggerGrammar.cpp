@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 17:03:31 by ldedier           #+#    #+#             */
-/*   Updated: 2020/06/19 17:01:00 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/06/26 16:22:57 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ DebuggerGrammar::DebuggerGrammar(void) : AbstractGrammar(new SymbolNonTerminalCo
 	addNonTerminal(new SymbolNonTerminalComparison());
 	addNonTerminal(new SymbolNonTerminalFactor());
 	addNonTerminal(new SymbolNonTerminalStepCommand());
+	addNonTerminal(new SymbolNonTerminalStartCommand());
+	addNonTerminal(new SymbolNonTerminalTemporaryBreakpointCommand());
 	addNonTerminal(new SymbolNonTerminalInfoCommand());
 	addNonTerminal(new SymbolNonTerminalNextCommand());
 	addNonTerminal(new SymbolNonTerminalXCommand());
@@ -41,6 +43,8 @@ DebuggerGrammar::DebuggerGrammar(void) : AbstractGrammar(new SymbolNonTerminalCo
 	addNonTerminal(new SymbolNonTerminalVector());
 	addNonTerminal(new SymbolNonTerminalDeleteCommand());
 	addNonTerminal(new SymbolNonTerminalBreakpointCommand());
+	addNonTerminal(new SymbolNonTerminalContinueCommand());
+	addNonTerminal(new SymbolNonTerminalRunCommand());
 	addNonTerminal(new SymbolNonTerminalPrintCommandSuffix());
 
 	addTerminal(new SymbolTerminalInterruptStat());
@@ -90,6 +94,10 @@ DebuggerGrammar::DebuggerGrammar(void) : AbstractGrammar(new SymbolNonTerminalCo
 	addTerminal(new SymbolTerminalX());
 	addTerminal(new SymbolTerminalPrintCommandParams());
 	addTerminal(new SymbolTerminalWatchModes());
+	addTerminal(new SymbolTerminalContinue());
+	addTerminal(new SymbolTerminalRun());
+	addTerminal(new SymbolTerminalStart());
+	addTerminal(new SymbolTerminalTemporaryBreakpoint());
 
 	computeGrammar();
 }

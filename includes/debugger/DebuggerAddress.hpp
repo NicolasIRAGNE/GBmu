@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 14:49:12 by ldedier           #+#    #+#             */
-/*   Updated: 2020/06/15 15:23:21 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/06/21 17:19:00 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ class DebuggerAddress
 		~DebuggerAddress(void);
 
 		bool operator<(const DebuggerAddress & debuggerAddress) const;
-
+		bool operator!=(const DebuggerAddress & debuggerAddress) const;
+		void operator+=(const int toAdd);
+		DebuggerAddress operator++(int dummy);
 		uint16_t getValue(void) const;
 		void setValue(uint16_t value);
 

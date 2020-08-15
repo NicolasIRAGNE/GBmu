@@ -170,6 +170,8 @@ set(DEBUGGER_SOURCES
 	srcs/debugger/SymbolNonTerminalRegistersCommand.cpp
 	srcs/debugger/SymbolNonTerminalSetCommand.cpp
 	srcs/debugger/SymbolNonTerminalStepCommand.cpp
+	srcs/debugger/SymbolNonTerminalContinueCommand.cpp
+	srcs/debugger/SymbolNonTerminalRunCommand.cpp
 	srcs/debugger/SymbolNonTerminalTerm.cpp
 	srcs/debugger/SymbolNonTerminalValue.cpp
 	srcs/debugger/SymbolNonTerminalVariable.cpp
@@ -177,6 +179,9 @@ set(DEBUGGER_SOURCES
 	srcs/debugger/SymbolNonTerminalVerboseCommand.cpp
 	srcs/debugger/SymbolNonTerminalWatchCommand.cpp
 	srcs/debugger/SymbolNonTerminalXCommand.cpp
+	srcs/debugger/SymbolNonTerminalStartCommand.cpp
+	srcs/debugger/SymbolNonTerminalTemporaryBreakpointCommand.cpp
+    srcs/debugger/SymbolNonTerminalAbstractCommand.cpp
 	srcs/debugger/SymbolTerminalAnd.cpp
 	srcs/debugger/SymbolTerminalAssign.cpp
 	srcs/debugger/SymbolTerminalBinaryAnd.cpp
@@ -223,14 +228,17 @@ set(DEBUGGER_SOURCES
 	srcs/debugger/SymbolTerminalVerbose.cpp
 	srcs/debugger/SymbolTerminalWatch.cpp
 	srcs/debugger/SymbolTerminalX.cpp
+	srcs/debugger/SymbolTerminalRun.cpp
+	srcs/debugger/SymbolTerminalContinue.cpp
 	srcs/debugger/SymbolTerminalWatchModes.cpp
+	srcs/debugger/SymbolTerminalStart.cpp
+	srcs/debugger/SymbolTerminalTemporaryBreakpoint.cpp
 	srcs/debugger/TokenPrintCommandSuffix.cpp
 	srcs/debugger/TokenWatchModes.cpp
 	srcs/debugger/Commands/AbstractCommand.cpp
-	srcs/debugger/Commands/Set.cpp
+	srcs/debugger/Commands/SetCommand.cpp
 	srcs/debugger/Commands/Print.cpp
 	srcs/debugger/Commands/XCommand.cpp
-	srcs/debugger/Commands/Breakpoint.cpp
 	srcs/debugger/Commands/Quit.cpp
 	srcs/debugger/Commands/Watch.cpp
 	srcs/debugger/Commands/Info.cpp
@@ -240,6 +248,12 @@ set(DEBUGGER_SOURCES
 	srcs/debugger/Commands/Next.cpp
 	srcs/debugger/Commands/Step.cpp
 	srcs/debugger/Commands/Verbose.cpp
+	srcs/debugger/Commands/AbstractBreakpoint.cpp
+	srcs/debugger/Commands/StandardBreakpoint.cpp
+	srcs/debugger/Commands/TemporaryBreakpoint.cpp
+	srcs/debugger/Commands/Run.cpp
+	srcs/debugger/Commands/Start.cpp
+	srcs/debugger/Commands/Continue.cpp
 	)
 
 	list(APPEND HEADERS
@@ -277,7 +291,8 @@ set(DEBUGGER_SOURCES
 	includes/debugger/SymbolNonTerminalPrintCommand.hpp
 	includes/debugger/SymbolNonTerminalPrintCommandSuffix.hpp
 	includes/debugger/SymbolNonTerminalQuitCommand.hpp
-	includes/debugger/SymbolNonTerminalRegisterName.hpp
+	includes/debugger/SymbolNonTerminalContinueCommand.hpp
+	includes/debugger/SymbolNonTerminalRunCommand.hpp
 	includes/debugger/SymbolNonTerminalRegistersCommand.hpp
 	includes/debugger/SymbolNonTerminalSetCommand.hpp
 	includes/debugger/SymbolNonTerminalStepCommand.hpp
@@ -288,6 +303,9 @@ set(DEBUGGER_SOURCES
 	includes/debugger/SymbolNonTerminalVerboseCommand.hpp
 	includes/debugger/SymbolNonTerminalWatchCommand.hpp
 	includes/debugger/SymbolNonTerminalXCommand.hpp
+	includes/debugger/SymbolNonTerminalStartCommand.hpp
+	includes/debugger/SymbolNonTerminalTemporaryBreakpointCommand.hpp
+    includes/debugger/SymbolNonTerminalAbstractCommand.hpp
 	includes/debugger/SymbolTerminalAnd.hpp
 	includes/debugger/SymbolTerminalAssign.hpp
 	includes/debugger/SymbolTerminalBinaryAnd.hpp
@@ -334,12 +352,15 @@ set(DEBUGGER_SOURCES
 	includes/debugger/SymbolTerminalVerbose.hpp
 	includes/debugger/SymbolTerminalWatch.hpp
 	includes/debugger/SymbolTerminalX.hpp
+	includes/debugger/SymbolTerminalRun.hpp
+	includes/debugger/SymbolTerminalContinue.hpp
 	includes/debugger/SymbolTerminalWatchModes.hpp
+	includes/debugger/SymbolTerminalStart.hpp
+	includes/debugger/SymbolTerminalTemporaryBreakpoint.hpp
 	includes/debugger/TokenPrintCommandSuffix.hpp
 	includes/debugger/TokenWatchModes.hpp
-	includes/debugger/Commands/Set.hpp
+	includes/debugger/Commands/SetCommand.hpp
 	includes/debugger/Commands/XCommand.hpp
-	includes/debugger/Commands/Breakpoint.hpp
 	includes/debugger/Commands/Quit.hpp
 	includes/debugger/Commands/Watch.hpp
 	includes/debugger/Commands/Info.hpp
@@ -349,6 +370,12 @@ set(DEBUGGER_SOURCES
 	includes/debugger/Commands/Next.hpp
 	includes/debugger/Commands/Step.hpp
 	includes/debugger/Commands/Verbose.hpp
+	includes/debugger/Commands/AbstractBreakpoint.hpp
+	includes/debugger/Commands/StandardBreakpoint.hpp
+	includes/debugger/Commands/TemporaryBreakpoint.hpp
+	includes/debugger/Commands/Run.hpp
+	includes/debugger/Commands/Start.hpp
+	includes/debugger/Commands/Continue.hpp
 	)
 
 include_directories(srcs)

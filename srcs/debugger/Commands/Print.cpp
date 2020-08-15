@@ -6,11 +6,13 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/19 17:19:50 by ldedier           #+#    #+#             */
-/*   Updated: 2020/06/19 17:45:33 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/06/27 16:35:51 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Print.hpp"
+#include "DebuggerContext.hpp"
+#include <iomanip>
 
 Print::Print(void) : AbstractCommand(PRINT_COMMAND)
 {
@@ -47,4 +49,34 @@ std::string	Print::getHelp(void)
 std::string	Print::getShortHelp(void)
 {
 	return ("print a given value by a given format");
+}
+
+int	Print::execute(ASTNode<int, DebuggerContext &> & ast, DebuggerContext & context) const
+{
+	int res;
+
+	res = ast.getChild(1)->getTraversed(context);
+	if (context.printCommandSuffixParams.precised & PRECISED_UNIT)
+	{
+		std::cerr << "Size letters are meaningless in \"print\" command." << std::endl;
+		return (1);
+	}
+	if (context.printCommandSuffixParams.count != 1)
+	{
+		std::cerr << "Item count other than 1 is meaningless in \"print\" command." << std::endl;
+		return (1);
+	}
+
+	context.debugger->addValue(res);
+	std::cout << "$" << context.debugger->getHistoryCounter() << " = ";
+
+	if (context.printCommandSuffixParams.format == PrintCommandSuffixParams::E_FORMAT_DECIMAL
+		|| context.printCommandSuffixParams.format == PrintCommandSuffixParams::E_FORMAT_OCTAL
+	 	|| context.printCommandSuffixParams.format == PrintCommandSuffixParams::E_FORMAT_HEXADECIMAL)
+	{
+		std::cout << std::setbase(context.printCommandSuffixParams.format) << std::showbase;
+	}
+	context.printCommandSuffixParams.printValue<int>(std::cout, res, true);
+	std::cout << std::endl << std::setbase(10);
+	return (0);
 }
