@@ -6,11 +6,12 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/19 18:25:45 by ldedier           #+#    #+#             */
-/*   Updated: 2020/06/19 18:27:25 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/06/27 16:43:56 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Info.hpp"
+#include "DebuggerContext.hpp"
 
 Info::Info(void) : AbstractCommand(INFO_COMMAND)
 {
@@ -41,4 +42,11 @@ std::string	Info::getHelp(void)
 std::string	Info::getShortHelp(void)
 {
 	return ("print info about the current context");
+}
+
+int	Info::execute(ASTNode<int, DebuggerContext &> & ast, DebuggerContext & context) const
+{
+	static_cast<void>(ast);
+	context.debugger->showInfo();
+	return (0);
 }

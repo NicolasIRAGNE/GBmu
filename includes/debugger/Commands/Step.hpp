@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/19 12:19:54 by ldedier           #+#    #+#             */
-/*   Updated: 2020/06/19 12:35:59 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/06/26 17:44:22 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ class Step : public AbstractCommand
 		virtual ~Step(void);
 		virtual std::string getHelp(void);
 		virtual std::string getShortHelp(void);
+		virtual int execute(ASTNode<int, DebuggerContext &> & ast, DebuggerContext & context) const;
 
 	private:
 

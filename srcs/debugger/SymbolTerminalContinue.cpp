@@ -1,34 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Set.hpp                                            :+:      :+:    :+:   */
+/*   SymbolTerminalContinue.cpp                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/06/19 12:15:16 by ldedier           #+#    #+#             */
-/*   Updated: 2020/06/19 12:35:56 by ldedier          ###   ########.fr       */
+/*   Created: 2020/06/25 19:55:18 by ldedier           #+#    #+#             */
+/*   Updated: 2020/06/26 18:55:05 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SET_HPP
-# define SET_HPP
+# include "SymbolTerminalContinue.hpp"
 
-# include <iostream>
-# include "AbstractCommand.hpp"
-
-class Set : public AbstractCommand
+SymbolTerminalContinue::SymbolTerminalContinue(void) : SymbolTerminalCommand("continue")
 {
-	public:
-		Set(void);
-		Set(Set const &instance);
-		Set &operator=(Set const &rhs);
-		virtual ~Set(void);
-		virtual std::string getHelp(void);
-		virtual std::string getShortHelp(void);
 	
-	private:
+}
 
-};
+SymbolTerminalContinue::~SymbolTerminalContinue(void)
+{
+	
+}
 
-std::ostream &operator<<(std::ostream &o, Set const &instance);
-#endif
+int	SymbolTerminalContinue::traverse(ASTNode<int, DebuggerContext &> & ast, DebuggerContext & context) const
+{
+	static_cast<void>(ast);
+	static_cast<void>(context);
+	return (0);
+}
+

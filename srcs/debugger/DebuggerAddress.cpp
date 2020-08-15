@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/15 14:50:49 by ldedier           #+#    #+#             */
-/*   Updated: 2020/06/15 15:44:09 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/06/25 16:36:27 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,31 @@ bool	DebuggerAddress::operator<(const DebuggerAddress & debuggerAddress) const
 	return this->_value < debuggerAddress.getValue();	
 }
 
-std::ostream &	operator<<(std::ostream &o, DebuggerAddress const &instance)
+bool DebuggerAddress::operator!=(const DebuggerAddress & debuggerAddress) const
 {
-	o << DEBUGGER_BLUE << std::setbase(16) << std::showbase << instance.getValue() << std::setbase(10) << DEBUGGER_EOC;
-	return o;
+	return this->_value != debuggerAddress.getValue();	
 }
 
+DebuggerAddress DebuggerAddress::operator++(int dummy)
+{
+	DebuggerAddress copy(*this);
+
+	static_cast<void>(dummy);
+	_value++;
+	return copy;
+}
+
+
+void DebuggerAddress::operator+=(const int toAdd)
+{
+	_value += toAdd;
+}
+
+std::ostream &	operator<<(std::ostream &o, DebuggerAddress const &instance)
+{
+	std::ios_base::fmtflags f(o.flags());
+
+	o << DEBUGGER_BLUE << std::setbase(16) << std::showbase << instance.getValue() << DEBUGGER_EOC;
+	o.flags(f);
+	return o;
+}

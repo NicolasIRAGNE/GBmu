@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/06 16:09:14 by ldedier           #+#    #+#             */
-/*   Updated: 2020/06/18 22:33:39 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/08/15 14:45:24 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,26 @@ class MapOfListNoRepetitions
 				{
 					if (value)
 						*value = it->second;
+					return true;
+				}
+			}
+		}
+
+		bool getLists(K key, std::list<V> **value)
+		{
+			typename std::map<K, std::list<V> >::iterator it;
+
+			it = _lists.find(key);
+			if (it == _lists.end())
+				return false;
+			else
+			{
+				if (it->second.size() == 0)
+					return false;
+				else
+				{
+					if (value)
+						*value = &(it->second);
 					return true;
 				}
 			}

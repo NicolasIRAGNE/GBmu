@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/19 18:45:13 by ldedier           #+#    #+#             */
-/*   Updated: 2020/06/19 18:52:54 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/06/26 18:58:33 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,11 @@ std::string	Next::getHelp(void)
 std::string	Next::getShortHelp(void)
 {
 	return ("go to the next instruction, jumping over calls");
+}
+
+int Next::execute(ASTNode<int, DebuggerContext &> & ast, DebuggerContext & context) const
+{
+	static_cast<void>(ast);
+	static_cast<void>(context);
+	return (0);
 }
