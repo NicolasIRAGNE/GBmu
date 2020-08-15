@@ -18,7 +18,7 @@ Verbose::Verbose(void) : AbstractCommand(VERBOSE_COMMAND)
 	
 }
 
-Verbose::Verbose(Verbose const &instance)
+Verbose::Verbose(Verbose const &instance) : AbstractCommand(instance)
 {
 	*this = instance;
 }

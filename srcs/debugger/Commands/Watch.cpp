@@ -20,7 +20,7 @@ Watch::Watch(void) : AbstractCommand(WATCH_COMMAND)
 	
 }
 
-Watch::Watch(Watch const &instance)
+Watch::Watch(Watch const &instance) : AbstractCommand(instance)
 {
 	*this = instance;
 }

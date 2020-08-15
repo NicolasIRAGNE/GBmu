@@ -18,7 +18,7 @@ Help::Help(void) : AbstractCommand(HELP_COMMAND)
 	
 }
 
-Help::Help(Help const &instance)
+Help::Help(Help const &instance) : AbstractCommand(instance)
 {
 	*this = instance;
 }

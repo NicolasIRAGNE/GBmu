@@ -19,7 +19,7 @@ Delete::Delete(void) : AbstractCommand(DELETE_COMMAND)
 	
 }
 
-Delete::Delete(Delete const &instance)
+Delete::Delete(Delete const &instance) : AbstractCommand(instance)
 {
 	*this = instance;
 }

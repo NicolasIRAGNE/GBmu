@@ -19,7 +19,7 @@ Print::Print(void) : AbstractCommand(PRINT_COMMAND)
 	
 }
 
-Print::Print(Print const &instance)
+Print::Print(Print const &instance) : AbstractCommand(instance)
 {
 	*this = instance;
 }

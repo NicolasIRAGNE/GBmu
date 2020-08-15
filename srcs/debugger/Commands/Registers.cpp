@@ -18,7 +18,7 @@ Registers::Registers(void) : AbstractCommand(REGISTERS_COMMAND)
 	
 }
 
-Registers::Registers(Registers const &instance)
+Registers::Registers(Registers const &instance) : AbstractCommand(instance)
 {
 	*this = instance;
 }

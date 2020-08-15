@@ -17,7 +17,7 @@ StandardBreakpoint::StandardBreakpoint(void) : AbstractBreakpoint(BREAKPOINT_COM
 	
 }
 
-StandardBreakpoint::StandardBreakpoint(StandardBreakpoint const &instance)
+StandardBreakpoint::StandardBreakpoint(StandardBreakpoint const &instance) : AbstractBreakpoint(instance)
 {
 	*this = instance;
 }

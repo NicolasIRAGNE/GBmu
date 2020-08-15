@@ -18,7 +18,7 @@ Quit::Quit(void) : AbstractCommand(QUIT_COMMAND)
 	
 }
 
-Quit::Quit(Quit const &instance)
+Quit::Quit(Quit const &instance) : AbstractCommand(instance)
 {
 	*this = instance;
 }

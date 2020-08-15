@@ -21,7 +21,7 @@ SetCommand::SetCommand(void) : AbstractCommand("set")
 	
 }
 
-SetCommand::SetCommand(SetCommand const &instance)
+SetCommand::SetCommand(SetCommand const &instance) : AbstractCommand(instance)
 {
 	*this = instance;
 }

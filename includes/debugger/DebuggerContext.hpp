@@ -30,11 +30,8 @@ typedef struct						s_address_descriptor
 {
 	enum e_address_descriptor_type type;
 
-	struct
-	{
-		DebuggerVariable			*variable;
-		DebuggerAddress				address;
-	};
+	DebuggerVariable			*variable;
+	DebuggerAddress				address;
 }									t_address_descriptor; // used for the set command (set *32 = 44 / set $af = 23)
 
 class DebuggerContext

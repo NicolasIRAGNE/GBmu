@@ -14,6 +14,7 @@
 # define PRINTCOMMANDSUFFIXPARAMS_HPP
 
 # include <iostream>
+# include <bitset>
 
 #define PRECISED_UNIT 1
 #define PRECISED_FORMAT 2

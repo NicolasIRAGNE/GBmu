@@ -18,7 +18,7 @@ Info::Info(void) : AbstractCommand(INFO_COMMAND)
 	
 }
 
-Info::Info(Info const &instance)
+Info::Info(Info const &instance) : AbstractCommand(instance)
 {
 	*this = instance;	
 }

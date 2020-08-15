@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "gb.h"
+#include "libyacc_wrapper.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
