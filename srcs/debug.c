@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "gb.h"
+#include "libyacc_wrapper.h"
 #include <stdio.h>
 
 void	debug_print_gb(struct gb_cpu_s* gb)

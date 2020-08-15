@@ -17,7 +17,7 @@ Step::Step(void) : AbstractCommand(STEP_COMMAND)
 	
 }
 
-Step::Step(Step const &instance)
+Step::Step(Step const &instance) : AbstractCommand(instance)
 {
 	*this = instance;
 }

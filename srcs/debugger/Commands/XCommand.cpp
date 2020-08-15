@@ -20,7 +20,7 @@ XCommand::XCommand(void) : AbstractCommand(X_COMMAND)
 	
 }
 
-XCommand::XCommand(XCommand const &instance)
+XCommand::XCommand(XCommand const &instance) : AbstractCommand(instance)
 {
 	*this = instance;
 }

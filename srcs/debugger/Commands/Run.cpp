@@ -18,7 +18,7 @@ Run::Run(void) : AbstractCommand(RUN_COMMAND)
 	
 }
 
-Run::Run(Run const &instance)
+Run::Run(Run const &instance) : AbstractCommand(instance)
 {
 	*this = instance;
 }

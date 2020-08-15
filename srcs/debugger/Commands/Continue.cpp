@@ -18,7 +18,7 @@ Continue::Continue(void) : AbstractCommand(CONTINUE_COMMAND)
 	
 }
 
-Continue::Continue(Continue const &instance)
+Continue::Continue(Continue const &instance) : AbstractCommand(instance)
 {
 	*this = instance;
 }

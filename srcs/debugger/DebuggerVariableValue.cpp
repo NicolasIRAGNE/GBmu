@@ -22,7 +22,7 @@ DebuggerVariableValue::DebuggerVariableValue(int value): _value(value)
 	
 }
 
-DebuggerVariableValue::DebuggerVariableValue(DebuggerVariableValue const &instance)
+DebuggerVariableValue::DebuggerVariableValue(DebuggerVariableValue const &instance) : DebuggerVariable(instance)
 {
 	*this = instance;
 }

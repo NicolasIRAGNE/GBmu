@@ -23,7 +23,7 @@ AbstractBreakpoint::~AbstractBreakpoint(void)
 	
 }
 
-AbstractBreakpoint::AbstractBreakpoint(void)
+AbstractBreakpoint::AbstractBreakpoint(void) 
 {
 
 }
@@ -34,7 +34,7 @@ AbstractBreakpoint &AbstractBreakpoint::operator=(AbstractBreakpoint const &rhs)
 	return *this;
 }
 
-AbstractBreakpoint::AbstractBreakpoint(AbstractBreakpoint const &instance)
+AbstractBreakpoint::AbstractBreakpoint(AbstractBreakpoint const &instance) : AbstractCommand(instance)
 {
 	*this = instance;
 }

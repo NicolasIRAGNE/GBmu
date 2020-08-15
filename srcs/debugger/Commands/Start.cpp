@@ -18,7 +18,7 @@ Start::Start(void) : AbstractCommand(START_COMMAND)
 	
 }
 
-Start::Start(Start const &instance)
+Start::Start(Start const &instance) : AbstractCommand(instance)
 {
 	*this = instance;
 }

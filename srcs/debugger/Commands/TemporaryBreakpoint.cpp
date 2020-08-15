@@ -17,7 +17,7 @@ TemporaryBreakpoint::TemporaryBreakpoint(void) : AbstractBreakpoint(TBREAKPOINT_
 	
 }
 
-TemporaryBreakpoint::TemporaryBreakpoint(TemporaryBreakpoint const &instance)
+TemporaryBreakpoint::TemporaryBreakpoint(TemporaryBreakpoint const &instance) : AbstractBreakpoint(instance)
 {
 	*this = instance;
 }

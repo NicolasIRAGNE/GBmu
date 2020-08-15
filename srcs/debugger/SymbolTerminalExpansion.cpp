@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 # include "SymbolTerminalExpansion.hpp"
+# include <string.h>
 
 SymbolTerminalExpansion::SymbolTerminalExpansion(void) : AbstractTerminal("expansion", E_PRIORITY_INF, E_ADJACENT_BOTH)
 {

@@ -17,7 +17,7 @@ Next::Next(void) : AbstractCommand(NEXT_COMMAND)
 	
 }
 
-Next::Next(Next const &instance)
+Next::Next(Next const &instance) : AbstractCommand(instance)
 {
 	*this = instance;
 }
