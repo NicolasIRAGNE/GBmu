@@ -6,13 +6,13 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/02 17:05:14 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/06/19 16:53:30 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "SymbolTerminalInfo.hpp"
 
-SymbolTerminalInfo::SymbolTerminalInfo(void) : SymbolTerminalCommand("info")
+SymbolTerminalInfo::SymbolTerminalInfo(void) : SymbolTerminalCommand(INFO_COMMAND)
 {
 	
 }

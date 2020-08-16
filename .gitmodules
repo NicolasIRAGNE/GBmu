@@ -1,0 +1,3 @@
+[submodule "libyacc"]
+	path = libyacc
+	url = https://github.com/ldedier/libyacc.git

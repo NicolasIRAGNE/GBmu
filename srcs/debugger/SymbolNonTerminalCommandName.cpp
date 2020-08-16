@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/01 16:38:32 by ldedier            #+#    #+#            */
-/*   Updated: 2020/05/01 16:38:32 by ldedier           ###   ########.fr      */
+/*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
+/*   Updated: 2020/08/15 14:10:07 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,20 @@ int	SymbolNonTerminalCommandName::traverse(ASTNode<int, DebuggerContext &> & ast
 void	SymbolNonTerminalCommandName::computeProductions(AbstractGrammar<int, DebuggerContext &> & cfg)
 {
 	addProduction(cfg, {"print"});
-	addProduction(cfg, {"step"});
-	addProduction(cfg, {"next"});
+	addProduction(cfg, {"x"}); //TODO i format
+	addProduction(cfg, {"step"}); // TODO
+	addProduction(cfg, {"next"}); // TODO
 	addProduction(cfg, {"help"});
-	addProduction(cfg, {"breakpoint"});
+	addProduction(cfg, {"break"});
+	addProduction(cfg, {"tbreak"}); //todo
 	addProduction(cfg, {"watch"});
-	addProduction(cfg, {"unwatch"});
 	addProduction(cfg, {"delete"});
 	addProduction(cfg, {"info"});
+	addProduction(cfg, {"start"});
+	addProduction(cfg, {"run"});
+	addProduction(cfg, {"continue"});
 	addProduction(cfg, {"registers"});
-	addProduction(cfg, {"quit"});
+	addProduction(cfg, {"quit"}); // TODO
 	addProduction(cfg, {"verbose"});
 	addProduction(cfg, {"set"});
 }

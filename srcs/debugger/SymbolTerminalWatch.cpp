@@ -6,13 +6,13 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/02 17:06:58 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/06/19 16:52:14 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "SymbolTerminalWatch.hpp"
 
-SymbolTerminalWatch::SymbolTerminalWatch(void) : SymbolTerminalCommand("watch")
+SymbolTerminalWatch::SymbolTerminalWatch(void) : SymbolTerminalCommand(WATCH_COMMAND)
 {
 	
 }

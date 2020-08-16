@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/01 16:38:32 by ldedier            #+#    #+#            */
-/*   Updated: 2020/05/01 16:38:32 by ldedier           ###   ########.fr      */
+/*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
+/*   Updated: 2020/06/18 22:02:26 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,5 @@ int	SymbolNonTerminalIntegerList::traverse(ASTNode<int, DebuggerContext &> & ast
 void	SymbolNonTerminalIntegerList::computeProductions(AbstractGrammar<int, DebuggerContext &> & cfg)
 {
 	addProduction(cfg, {"integer"});
-	addProduction(cfg, {"integerlist", "integer"});
+	addProduction(cfg, {"integerlist", "integer"}, 1);
 }

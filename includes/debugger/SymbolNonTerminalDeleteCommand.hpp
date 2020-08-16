@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/01 16:38:32 by ldedier            #+#    #+#            */
-/*   Updated: 2020/05/01 16:38:32 by ldedier           ###   ########.fr      */
+/*   Created: 2020/06/15 15:59:19 by ldedier           #+#    #+#             */
+/*   Updated: 2020/06/27 03:36:24 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,15 @@
 # define SYMBOLNONTERMINALDELETECOMMAND_HPP
 
 # include "DebuggerGrammar.hpp"
+# include "SymbolNonTerminalAbstractCommand.hpp"
 
-class SymbolNonTerminalDeleteCommand : public AbstractNonTerminal<int, DebuggerContext &>
+class SymbolNonTerminalDeleteCommand : public SymbolNonTerminalAbstractCommand
 {
 	public:
 		SymbolNonTerminalDeleteCommand(void);
 		~SymbolNonTerminalDeleteCommand(void);
-		virtual int traverse(ASTNode<int, DebuggerContext &> & ast, DebuggerContext & context) const;
 		virtual void computeProductions(AbstractGrammar<int, DebuggerContext &> & cfg);
+		
 
 	private:
 

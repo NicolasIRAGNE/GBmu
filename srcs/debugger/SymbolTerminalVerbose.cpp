@@ -6,13 +6,13 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/02 17:02:23 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/06/19 16:50:59 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "SymbolTerminalVerbose.hpp"
 
-SymbolTerminalVerbose::SymbolTerminalVerbose(void) : SymbolTerminalCommand("verbose")
+SymbolTerminalVerbose::SymbolTerminalVerbose(void) : SymbolTerminalCommand(VERBOSE_COMMAND)
 {
 	
 }

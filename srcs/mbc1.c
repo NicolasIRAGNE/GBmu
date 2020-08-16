@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   mbc1.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/25 12:53:11 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/09 13:03:19 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/15 16:48:27 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gb.h"
+#include "libyacc_wrapper.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -73,13 +74,13 @@ void	write_mbc1(struct gb_cpu_s* gb, uint16_t addr, uint8_t x)
 	{
 		if (x == 0x0a)
 		{
-			if (gb->debugger->verbose_level >= 1)
+			if (get_verbose(gb->debugger->instance) >= 1)
 				printf("RAM ENABLED (%4x)\n", addr);
 			gb->ram_enabled = 1;
 		}
 		else
 		{
-			if (gb->debugger->verbose_level >= 1)
+			if (get_verbose(gb->debugger->instance) >= 1)
 				printf("RAM DISABLED (%4x)\n", addr);
 			gb->ram_enabled = 0;
 		}

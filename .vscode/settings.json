@@ -1,5 +1,5 @@
 {
-    "files.associations": {
+	"files.associations": {
 		"stdio.h": "c",
 		"sdl.h": "c",
 		"gb.h": "c",
@@ -11,6 +11,27 @@
 		"stdlib.h": "c",
 		"signal.h": "c",
 		"type_traits": "c",
+<<<<<<< HEAD
+		"iostream": "cpp",
+		"vector": "cpp",
+		"__bit_reference": "cpp",
+		"__config": "cpp",
+		"__debug": "cpp",
+		"__functional_base": "cpp",
+		"__locale": "cpp",
+		"__mutex_base": "cpp",
+		"__nullptr": "cpp",
+		"__split_buffer": "cpp",
+		"__string": "cpp",
+		"__threading_support": "cpp",
+		"__tree": "cpp",
+		"__tuple": "cpp",
+		"algorithm": "cpp",
+		"atomic": "cpp",
+		"bitset": "cpp",
+		"cctype": "cpp",
+		"chrono": "cpp",
+=======
 		"*.tcc": "c",
 		"cstring": "cpp",
 		"array": "cpp",
@@ -19,15 +40,41 @@
 		"chrono": "cpp",
 		"clocale": "cpp",
 		"cmath": "cpp",
+>>>>>>> master
 		"cstdarg": "cpp",
 		"cstddef": "cpp",
 		"cstdint": "cpp",
 		"cstdio": "cpp",
 		"cstdlib": "cpp",
+<<<<<<< HEAD
+		"cstring": "cpp",
+=======
+>>>>>>> master
 		"ctime": "cpp",
 		"cwchar": "cpp",
 		"cwctype": "cpp",
 		"deque": "cpp",
+<<<<<<< HEAD
+		"exception": "cpp",
+		"functional": "cpp",
+		"initializer_list": "cpp",
+		"iomanip": "cpp",
+		"ios": "cpp",
+		"iosfwd": "cpp",
+		"istream": "cpp",
+		"iterator": "cpp",
+		"limits": "cpp",
+		"list": "cpp",
+		"locale": "cpp",
+		"map": "cpp",
+		"memory": "cpp",
+		"mutex": "cpp",
+		"new": "cpp",
+		"ostream": "cpp",
+		"ratio": "cpp",
+		"stdexcept": "cpp",
+		"streambuf": "cpp",
+=======
 		"list": "cpp",
 		"unordered_map": "cpp",
 		"vector": "cpp",
@@ -42,10 +89,15 @@
 		"optional": "cpp",
 		"random": "cpp",
 		"ratio": "cpp",
+>>>>>>> master
 		"string": "cpp",
 		"string_view": "cpp",
 		"system_error": "cpp",
 		"tuple": "cpp",
+<<<<<<< HEAD
+		"typeinfo": "cpp",
+		"utility": "cpp"
+=======
 		"utility": "cpp",
 		"fstream": "cpp",
 		"initializer_list": "cpp",
@@ -63,5 +115,6 @@
 		"typeinfo": "cpp",
 		"bit": "cpp",
 		"mbc.h": "c"
+>>>>>>> master
 	}
 }
