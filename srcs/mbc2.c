@@ -6,15 +6,14 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/25 12:53:23 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/09 13:06:29 by niragne          ###   ########.fr       */
+/*   Updated: 2020/08/17 15:02:17 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gb.h"
 #include <stdio.h>
 
-
-uint8_t	read_mbc2(struct gb_cpu_s* gb, uint16_t addr)
+uint8_t	read_mbc2(struct gb_cpu_s* gb, uint16_t addr, enum memory_mode_e mode)
 {
 	if (addr < 0x100 && !gb->booted)
 	{
@@ -58,7 +57,7 @@ uint8_t	read_mbc2(struct gb_cpu_s* gb, uint16_t addr)
 	return (0xff);
 }
 
-void	write_mbc2(struct gb_cpu_s* gb, uint16_t addr, uint8_t x)
+void	write_mbc2(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, enum memory_mode_e mode)
 {
 	if (addr < 0x2000)
 	{

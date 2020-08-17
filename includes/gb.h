@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gb.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:08:21 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/15 15:56:19 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/08/17 15:05:24 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include "op.h"
 # include "ext_op.h"
 # include <limits.h>
+# include <mbc.h>
 
 # include "renderer/wrapper_c/wrapper.h"
 
@@ -80,6 +81,7 @@ struct breakpoint_s
 //	int						verbose_level;
 //	struct breakpoint_s*	breakpoints;
 
+
 struct gbmu_debugger_s
 {
 	void					*grammar;	//c++ libyacc DebuggerGrammar instance
@@ -110,11 +112,20 @@ void	update_div_register(struct gb_cpu_s* gb);
 ** Memory
 */
 uint8_t		read_8(struct gb_cpu_s* gb, uint16_t a16);
+uint8_t		read_8_debug(struct gb_cpu_s* gb, uint16_t a16);
+uint8_t		read_8_force(struct gb_cpu_s* gb, uint16_t a16);
+
 uint16_t	read_16(struct gb_cpu_s* gb, uint16_t a16);
-uint8_t		read_io(struct gb_cpu_s* gb, uint16_t addr);
+uint16_t	read_16_debug(struct gb_cpu_s* gb, uint16_t a16);
+uint16_t	read_16_force(struct gb_cpu_s* gb, uint16_t a16);
+
 void		write_8(struct gb_cpu_s* gb, uint16_t a16, uint8_t x);
+void		write_8_debug(struct gb_cpu_s* gb, uint16_t a16, uint8_t x);
+void		write_8_force(struct gb_cpu_s* gb, uint16_t a16, uint8_t x);
+
 void		write_16(struct gb_cpu_s* gb, uint16_t a16, uint16_t x);
-void		write_io(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, uint8_t lcdc);
+void		write_16_debug(struct gb_cpu_s* gb, uint16_t a16, uint16_t x);
+void		write_16_force(struct gb_cpu_s* gb, uint16_t a16, uint16_t x);
 
 /*
 ** Debugger

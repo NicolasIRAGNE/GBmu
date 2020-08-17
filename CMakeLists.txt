@@ -39,7 +39,6 @@ set(SOURCES
 	srcs/init_cpu.c
 	srcs/init_op_tab.c
 	srcs/init_ext_op_tab.c
-	srcs/memory.c
 	srcs/debugger.c
 	srcs/gpu.c
 	srcs/cpu_toggle_flag.c
@@ -63,6 +62,8 @@ set(SOURCES
 	srcs/userscreen.c
 	srcs/savestate.c
 	srcs/timer.c
+	srcs/write.c
+	srcs/read.c
 	srcs/div.c
 	srcs/io_map.c
 	srcs/instructions/jp.c
