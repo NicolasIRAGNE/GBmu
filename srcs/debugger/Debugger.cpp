@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Debugger.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/15 15:58:49 by ldedier           #+#    #+#             */
-/*   Updated: 2020/08/15 14:58:21 by ldedier          ###   ########.fr       */
+/*   Updated: 2021/06/04 13:06:27 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,20 +42,20 @@ Debugger::Debugger(void) : _verbose(DEFAULT_VERBOSE)
 
 Debugger::Debugger(struct gb_cpu_s *cpu) : _cpu(cpu), _verbose(DEFAULT_VERBOSE), _counter(0), _lastCommand("")
 {
-	_variables["af"] = new DebuggerVariableAddress(&cpu->reg.af);
-	_variables["a"] = new DebuggerVariableAddress(&cpu->reg.a);
-	_variables["f"] = new DebuggerVariableAddress(&cpu->reg.f);
-	_variables["bc"] = new DebuggerVariableAddress(&cpu->reg.bc);
-	_variables["b"] = new DebuggerVariableAddress(&cpu->reg.b);
-	_variables["c"] = new DebuggerVariableAddress(&cpu->reg.c);
-	_variables["de"] = new DebuggerVariableAddress(&cpu->reg.de);
-	_variables["d"] = new DebuggerVariableAddress(&cpu->reg.d);
-	_variables["e"] = new DebuggerVariableAddress(&cpu->reg.e);
-	_variables["hl"] = new DebuggerVariableAddress(&cpu->reg.hl);
-	_variables["h"] = new DebuggerVariableAddress(&cpu->reg.h);
-	_variables["l"] = new DebuggerVariableAddress(&cpu->reg.l);
-	_variables["sp"] = new DebuggerVariableAddress(&cpu->reg.sp);
-	_variables["pc"] = new DebuggerVariableAddress(&cpu->reg.pc);
+	_variables["af"] = new DebuggerVariableAddress<uint16_t>(&cpu->reg.af);
+	_variables["a"] = new DebuggerVariableAddress<uint8_t>(&cpu->reg.a);
+	_variables["f"] = new DebuggerVariableAddress<uint8_t>(&cpu->reg.f);
+	_variables["bc"] = new DebuggerVariableAddress<uint16_t>(&cpu->reg.bc);
+	_variables["b"] = new DebuggerVariableAddress<uint8_t>(&cpu->reg.b);
+	_variables["c"] = new DebuggerVariableAddress<uint8_t>(&cpu->reg.c);
+	_variables["de"] = new DebuggerVariableAddress<uint16_t>(&cpu->reg.de);
+	_variables["d"] = new DebuggerVariableAddress<uint8_t>(&cpu->reg.d);
+	_variables["e"] = new DebuggerVariableAddress<uint8_t>(&cpu->reg.e);
+	_variables["hl"] = new DebuggerVariableAddress<uint16_t>(&cpu->reg.hl);
+	_variables["h"] = new DebuggerVariableAddress<uint8_t>(&cpu->reg.h);
+	_variables["l"] = new DebuggerVariableAddress<uint8_t>(&cpu->reg.l);
+	_variables["sp"] = new DebuggerVariableAddress<uint16_t>(&cpu->reg.sp);
+	_variables["pc"] = new DebuggerVariableAddress<uint16_t>(&cpu->reg.pc);
 
 	_variables["IO_OFFSET"] = new DebuggerVariableConstValue(IO_OFFSET);
 	_variables["JOYP_OFFSET"] = new DebuggerVariableConstValue(JOYP_OFFSET);

@@ -11,7 +11,15 @@
 /* ************************************************************************** */
 
 # include "SymbolTerminalVariable.hpp"
-# include "tolower.hpp"
+
+static std::string tolower(std::string string)
+{
+	std::string res = "";
+
+	for (std::string::size_type i=0; i<string.length(); ++i)
+		res = res + static_cast<char>(std::tolower(string[i]));
+	return res;
+}
 
 SymbolTerminalVariable::SymbolTerminalVariable(void) : AbstractTerminal()
 {

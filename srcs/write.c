@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/17 14:46:22 by niragne           #+#    #+#             */
-/*   Updated: 2020/08/17 15:03:08 by niragne          ###   ########.fr       */
+/*   Updated: 2021/06/04 12:15:14 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include <string.h>
 
 static void	write_8_internal(struct gb_cpu_s* gb, uint16_t a16, uint8_t x, enum memory_mode_e mode)
-{
 {
 	uint8_t lcdc = read_8(gb, LCDC_OFFSET);
 	if (a16 < 0x8000)

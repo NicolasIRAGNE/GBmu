@@ -137,25 +137,25 @@ set(SHADERS
 # Debugger
 
 set(DEBUGGER_SOURCES
-	srcs/debugger/libyacc_wrapper.cpp
-	srcs/debugger/toLower.cpp
-	srcs/debugger/WatchPoint.cpp
 	srcs/debugger/DebuggerAddress.cpp
 	srcs/debugger/DebuggerContext.cpp
 	srcs/debugger/Debugger.cpp
-	srcs/debugger/History.cpp
+	srcs/debugger/DebuggerGrammar.cpp
+	srcs/debugger/DebuggerVariableConstValue.cpp
 	srcs/debugger/DebuggerVariable.cpp
 	srcs/debugger/DebuggerVariableValue.cpp
-	srcs/debugger/DebuggerVariableConstValue.cpp
-	srcs/debugger/DebuggerGrammar.cpp
+	srcs/debugger/History.cpp
+	srcs/debugger/libyacc_wrapper.cpp
 	srcs/debugger/PrintCommandSuffixParams.cpp
+	srcs/debugger/SymbolNonTerminalAbstractCommand.cpp
+	srcs/debugger/SymbolNonTerminalAddress.cpp
 	srcs/debugger/SymbolNonTerminalAndOr.cpp
 	srcs/debugger/SymbolNonTerminalAssignable.cpp
-	srcs/debugger/SymbolNonTerminalAddress.cpp
 	srcs/debugger/SymbolNonTerminalBreakpointCommand.cpp
 	srcs/debugger/SymbolNonTerminalCommand.cpp
 	srcs/debugger/SymbolNonTerminalCommandName.cpp
 	srcs/debugger/SymbolNonTerminalComparison.cpp
+	srcs/debugger/SymbolNonTerminalContinueCommand.cpp
 	srcs/debugger/SymbolNonTerminalDeleteCommand.cpp
 	srcs/debugger/SymbolNonTerminalExpr.cpp
 	srcs/debugger/SymbolNonTerminalFactor.cpp
@@ -169,10 +169,11 @@ set(DEBUGGER_SOURCES
 	srcs/debugger/SymbolNonTerminalQuitCommand.cpp
 	srcs/debugger/SymbolNonTerminalRegisterName.cpp
 	srcs/debugger/SymbolNonTerminalRegistersCommand.cpp
-	srcs/debugger/SymbolNonTerminalSetCommand.cpp
-	srcs/debugger/SymbolNonTerminalStepCommand.cpp
-	srcs/debugger/SymbolNonTerminalContinueCommand.cpp
 	srcs/debugger/SymbolNonTerminalRunCommand.cpp
+	srcs/debugger/SymbolNonTerminalSetCommand.cpp
+	srcs/debugger/SymbolNonTerminalStartCommand.cpp
+	srcs/debugger/SymbolNonTerminalStepCommand.cpp
+	srcs/debugger/SymbolNonTerminalTemporaryBreakpointCommand.cpp
 	srcs/debugger/SymbolNonTerminalTerm.cpp
 	srcs/debugger/SymbolNonTerminalValue.cpp
 	srcs/debugger/SymbolNonTerminalVariable.cpp
@@ -180,9 +181,6 @@ set(DEBUGGER_SOURCES
 	srcs/debugger/SymbolNonTerminalVerboseCommand.cpp
 	srcs/debugger/SymbolNonTerminalWatchCommand.cpp
 	srcs/debugger/SymbolNonTerminalXCommand.cpp
-	srcs/debugger/SymbolNonTerminalStartCommand.cpp
-	srcs/debugger/SymbolNonTerminalTemporaryBreakpointCommand.cpp
-    srcs/debugger/SymbolNonTerminalAbstractCommand.cpp
 	srcs/debugger/SymbolTerminalAnd.cpp
 	srcs/debugger/SymbolTerminalAssign.cpp
 	srcs/debugger/SymbolTerminalBinaryAnd.cpp
@@ -190,6 +188,7 @@ set(DEBUGGER_SOURCES
 	srcs/debugger/SymbolTerminalBreakpoint.cpp
 	srcs/debugger/SymbolTerminalClosedParenthesis.cpp
 	srcs/debugger/SymbolTerminalCommand.cpp
+	srcs/debugger/SymbolTerminalContinue.cpp
 	srcs/debugger/SymbolTerminalDelete.cpp
 	srcs/debugger/SymbolTerminalDivide.cpp
 	srcs/debugger/SymbolTerminalDivOffset.cpp
@@ -221,21 +220,37 @@ set(DEBUGGER_SOURCES
 	srcs/debugger/SymbolTerminalPrintingCommand.cpp
 	srcs/debugger/SymbolTerminalProgramCounter.cpp
 	srcs/debugger/SymbolTerminalQuit.cpp
+	srcs/debugger/SymbolTerminalRegisterA.cpp
+	srcs/debugger/SymbolTerminalRegisterAF.cpp
+	srcs/debugger/SymbolTerminalRegisterBC.cpp
+	srcs/debugger/SymbolTerminalRegisterB.cpp
+	srcs/debugger/SymbolTerminalRegisterC.cpp
+	srcs/debugger/SymbolTerminalRegisterD.cpp
+	srcs/debugger/SymbolTerminalRegisterDE.cpp
+	srcs/debugger/SymbolTerminalRegisterE.cpp
+	srcs/debugger/SymbolTerminalRegisterF.cpp
+	srcs/debugger/SymbolTerminalRegisterH.cpp
+	srcs/debugger/SymbolTerminalRegisterHL.cpp
+	srcs/debugger/SymbolTerminalRegisterL.cpp
 	srcs/debugger/SymbolTerminalRegisters.cpp
 	srcs/debugger/SymbolTerminalRightShift.cpp
+	srcs/debugger/SymbolTerminalRun.cpp
 	srcs/debugger/SymbolTerminalSet.cpp
 	srcs/debugger/SymbolTerminalStackPointer.cpp
+	srcs/debugger/SymbolTerminalStart.cpp
 	srcs/debugger/SymbolTerminalStep.cpp
+	srcs/debugger/SymbolTerminalTemporaryBreakpoint.cpp
+	srcs/debugger/SymbolTerminalTimaOffset.cpp
+	srcs/debugger/SymbolTerminalVariable.cpp
 	srcs/debugger/SymbolTerminalVerbose.cpp
 	srcs/debugger/SymbolTerminalWatch.cpp
-	srcs/debugger/SymbolTerminalX.cpp
-	srcs/debugger/SymbolTerminalRun.cpp
-	srcs/debugger/SymbolTerminalContinue.cpp
 	srcs/debugger/SymbolTerminalWatchModes.cpp
-	srcs/debugger/SymbolTerminalStart.cpp
-	srcs/debugger/SymbolTerminalTemporaryBreakpoint.cpp
+	srcs/debugger/SymbolTerminalX.cpp
 	srcs/debugger/TokenPrintCommandSuffix.cpp
 	srcs/debugger/TokenWatchModes.cpp
+	srcs/debugger/toLower.cpp
+	srcs/debugger/WatchPoint.cpp
+
 	srcs/debugger/Commands/AbstractCommand.cpp
 	srcs/debugger/Commands/SetCommand.cpp
 	srcs/debugger/Commands/Print.cpp
@@ -262,6 +277,7 @@ set(DEBUGGER_SOURCES
 	includes/debugger/WatchModes.hpp
 	includes/debugger/DebuggerColors.h
 	includes/debugger/libyacc_wrapper.h
+	includes/debugger/SymbolNonTerminalWatchModeList.hpp
 	includes/debugger/PrintCommandSuffixParams.hpp
 	includes/debugger/WatchPoint.hpp
 	includes/debugger/DebuggerAddress.hpp
@@ -358,6 +374,7 @@ set(DEBUGGER_SOURCES
 	includes/debugger/SymbolTerminalWatchModes.hpp
 	includes/debugger/SymbolTerminalStart.hpp
 	includes/debugger/SymbolTerminalTemporaryBreakpoint.hpp
+	includes/debugger/SymbolTerminalTimaOffset.hpp
 	includes/debugger/TokenPrintCommandSuffix.hpp
 	includes/debugger/TokenWatchModes.hpp
 	includes/debugger/Commands/SetCommand.hpp
@@ -403,8 +420,9 @@ set(CMAKE_C_FLAGS_DEBUG     "${CMAKE_C_FLAGS_DEBUG}     -O0 -g")
 #                  EXECUTABLE                  #
 ################################################
 FILE(GLOB GENERATED_LIBYACC_SOURCES srcs/debugger/*.cpp)
+FILE(GLOB GENERATED_LIBYACC_SOURCES srcs/debugger/Commands/*.cpp)
 
-add_executable(${PROJECT_NAME} ${SOURCES} ${GENERATED_LIBYACC_SOURCES})
+add_executable(${PROJECT_NAME} ${SOURCES} ${GENERATED_LIBYACC_SOURCES} ${DEBUGGER_SOURCES})
 
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT})

@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:08:21 by niragne           #+#    #+#             */
-/*   Updated: 2020/08/17 15:05:24 by niragne          ###   ########.fr       */
+/*   Updated: 2021/06/04 12:21:06 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,10 @@ void		write_8_force(struct gb_cpu_s* gb, uint16_t a16, uint8_t x);
 void		write_16(struct gb_cpu_s* gb, uint16_t a16, uint16_t x);
 void		write_16_debug(struct gb_cpu_s* gb, uint16_t a16, uint16_t x);
 void		write_16_force(struct gb_cpu_s* gb, uint16_t a16, uint16_t x);
+
+uint8_t		read_io(struct gb_cpu_s* gb, uint16_t addr);
+void		write_io(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, uint8_t lcdc);
+
 
 /*
 ** Debugger

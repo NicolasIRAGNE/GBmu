@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   SymbolNonTerminalRegisterName.cpp                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/05/01 16:38:32 by ldedier            #+#    #+#            */
-/*   Updated: 2020/05/01 16:38:32 by ldedier           ###   ########.fr      */
+/*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
+/*   Updated: 2021/06/04 13:26:26 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

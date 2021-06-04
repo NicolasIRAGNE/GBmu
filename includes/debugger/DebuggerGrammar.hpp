@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   DebuggerGrammar.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 17:03:31 by ldedier           #+#    #+#             */
-/*   Updated: 2020/06/26 16:16:40 by ldedier          ###   ########.fr       */
+/*   Updated: 2021/06/04 13:36:04 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,12 @@
 
 #include "DebuggerContext.hpp"
 #include "SymbolNonTerminalPrintCommand.hpp"
+#include "SymbolNonTerminalRegisterName.hpp"
+#include "SymbolNonTerminalWatchModeList.hpp"
+#include "SymbolNonTerminalFormat.hpp"
+#include "SymbolNonTerminalVariable.hpp"
+#include "SymbolTerminalRegisterBC.hpp"
+#include "SymbolNonTerminalUnwatchCommand.hpp"
 #include "SymbolNonTerminalQuitCommand.hpp"
 #include "SymbolNonTerminalVerboseCommand.hpp"
 #include "SymbolNonTerminalRegistersCommand.hpp"
@@ -74,6 +80,7 @@
 #include "SymbolTerminalProgramCounter.hpp"
 #include "SymbolTerminalPrint.hpp"
 #include "SymbolTerminalInteger.hpp"
+#include "SymbolTerminalTimaOffset.hpp"
 #include "SymbolTerminalDivOffset.hpp"
 #include "SymbolTerminalAssign.hpp"
 #include "SymbolTerminalLesser.hpp"
@@ -98,6 +105,28 @@
 #include "SymbolTerminalWatchModes.hpp"
 #include "SymbolTerminalStart.hpp"
 #include "SymbolTerminalTemporaryBreakpoint.hpp"
+
+#include "SymbolTerminalInterruptTimer.hpp"
+#include "SymbolTerminalHalfWordFormat.hpp"
+#include "SymbolTerminalWordFormat.hpp"
+
+#include "SymbolTerminalRegisterA.hpp"
+#include "SymbolTerminalUnwatch.hpp"
+#include "SymbolTerminalRegisterC.hpp"
+#include "SymbolTerminalRegisterB.hpp"
+#include "SymbolTerminalRegisterE.hpp"
+#include "SymbolTerminalRegisterD.hpp"
+#include "SymbolTerminalRegisterF.hpp"
+#include "SymbolTerminalInstruction.hpp"
+#include "SymbolTerminalRegisterH.hpp"
+#include "SymbolTerminalDecimal.hpp"
+#include "SymbolTerminalStackPointer.hpp"
+#include "SymbolTerminalRegisterL.hpp"
+#include "SymbolTerminalOctal.hpp"
+#include "SymbolTerminalReadMode.hpp"
+#include "SymbolTerminalWriteMode.hpp"
+#include "SymbolTerminalHexadecimal.hpp"
+#include "SymbolTerminalBinary.hpp"
 
 class DebuggerGrammar : public AbstractGrammar<int, DebuggerContext &>
 {
