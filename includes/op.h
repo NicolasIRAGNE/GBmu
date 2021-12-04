@@ -14,7 +14,8 @@
 # define OP_H
 
 # include <stdint.h>
-# include <unistd.h>
+// # include <unistd.h>
+#include <stdlib.h>
 # include "cpu.h"
 # include "ext_op.h"
 

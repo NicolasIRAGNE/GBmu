@@ -13,6 +13,9 @@
 #ifndef MBC_H
 # define MBC_H
 # include <stdint.h>
+# ifdef WITH_LIBYACC
+#  include "libyacc_wrapper.h"
+# endif
 
 # define BUILT_IN_RAM_SIZE 0x200 // built in ram inside MBC2 chip
 

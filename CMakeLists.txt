@@ -1,10 +1,52 @@
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 3.21)
 SET(CMAKE_CXX_STANDARD 17)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
   ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 project(gbmu)
+
+include(FetchContent)
+
+option(WITH_LIBYACC "Build libyacc" OFF)
+
+FetchContent_Declare(
+        SDL2
+        GIT_REPOSITORY "https://github.com/SDL-mirror/SDL.git"
+        GIT_TAG release-2.0.10
+)
+
+FetchContent_GetProperties(SDL2)
+if (NOT sdl2_POPULATED)
+    FetchContent_Populate(SDL2)
+    add_subdirectory(${sdl2_SOURCE_DIR} ${sdl2_BINARY_DIR})
+endif ()
+
+FetchContent_Declare(
+        GLEW
+        GIT_REPOSITORY "https://github.com/Perlmint/glew-cmake"
+        GIT_TAG glew-cmake-release
+)
+
+FetchContent_GetProperties(GLEW)
+if (NOT glew_POPULATED)
+    FetchContent_Populate(GLEW)
+    add_subdirectory(${glew_SOURCE_DIR} ${glew_BINARY_DIR})
+endif ()
+
+if(WIN32)
+	FetchContent_Declare(
+			WINEDITLINE
+			GIT_REPOSITORY "https://github.com/winlibs/wineditline"
+			GIT_TAG WinEditLine-2.205
+	)
+
+	FetchContent_GetProperties(WINEDITLINE)
+	if (NOT wineditline_POPULATED)
+		FetchContent_Populate(WINEDITLINE)
+		add_subdirectory(${wineditline_SOURCE_DIR} ${wineditline_BINARY_DIR})
+	endif ()
+endif()
 
 ################################################
 #                  LIBRARIES                   #
@@ -13,15 +55,15 @@ project(gbmu)
 # pthread
 find_package(Threads)
 
-# SDL2
-find_package(SDL2 REQUIRED)
-
 # OpenGL
 find_package(OpenGL REQUIRED)
 
-# Glew
-find_package(GLEW REQUIRED)
 
+add_compile_definitions(READLINE_LIBRARY=1)
+add_compile_definitions(USE_READLINE_STATIC=1)
+add_compile_definitions(_SCL_SECURE_NO_WARNINGS)
+add_compile_definitions(_ITERATOR_DEBUG_LEVEL=0)
+set(Readline_ROOT_DIR "C:/Program\ Files\ (x86)/GnuWin32")
 #Readline
 find_package(Readline REQUIRED)
 
@@ -33,11 +75,11 @@ find_package(Readline REQUIRED)
 set(SOURCES
 	srcs/main.c
 	srcs/debug.c
+	srcs/debugger.c
 	srcs/execute.c
 	srcs/init_cpu.c
 	srcs/init_op_tab.c
 	srcs/init_ext_op_tab.c
-	srcs/debugger.c
 	srcs/gpu.c
 	srcs/cpu_toggle_flag.c
 	srcs/init_sdl.c
@@ -101,6 +143,21 @@ set(HEADERS
 	includes/op.h
 	includes/registers.h
 	includes/renderer.h)
+
+if (WIN32)
+	list (APPEND SOURCES 
+		srcs/asprintf.c
+	)
+	list (APPEND HEADERS 
+		includes/asprintf.h
+	)
+endif()
+
+if (NOT WITH_LIBYACC)
+ list(APPEND SOURCES
+		srcs/fallback_debugger.c
+	)
+endif()
 
 # Renderer
 list(APPEND SOURCES
@@ -270,7 +327,7 @@ set(DEBUGGER_SOURCES
 	srcs/debugger/Commands/Continue.cpp
 	)
 
-	list(APPEND HEADERS
+	set (DEBUGGER_HEADERS
 	includes/debugger/toLower.hpp
 	includes/debugger/WatchModes.hpp
 	includes/debugger/DebuggerColors.h
@@ -396,9 +453,7 @@ set(DEBUGGER_SOURCES
 
 include_directories(srcs)
 include_directories(includes)
-include_directories(includes/debugger)
-include_directories(includes/debugger/Commands)
-include_directories(libyacc/includes)
+
 include_directories(${Readline_INCLUDE_DIR})
 
 ################################################
@@ -407,27 +462,58 @@ include_directories(${Readline_INCLUDE_DIR})
 
 set(CMAKE_CXX_STANDARD 17)
 
-set(CMAKE_CXX_FLAGS         "${CMAKE_CXX_FLAGS}         -Wall -Wextra")
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -g -Werror")
-set(CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS_DEBUG}   -O0 -g")
-set(CMAKE_C_FLAGS           "${CMAKE_C_FLAGS}           -Wall -Wextra")
-set(CMAKE_C_FLAGS_RELEASE   "${CMAKE_C_FLAGS_RELEASE}   -O3 -g -Werror")
-set(CMAKE_C_FLAGS_DEBUG     "${CMAKE_C_FLAGS_DEBUG}     -O0 -g")
+if (WIN32)
+	set(CMAKE_CXX_FLAGS         "${CMAKE_CXX_FLAGS}         ")
+	set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} ")
+	set(CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS_DEBUG}   /DEBUG")
+	set(CMAKE_C_FLAGS           "${CMAKE_C_FLAGS}           ")
+	set(CMAKE_C_FLAGS_RELEASE   "${CMAKE_C_FLAGS_RELEASE}   ")
+	set(CMAKE_C_FLAGS_DEBUG     "${CMAKE_C_FLAGS_DEBUG}     /DEBUG")
+else()
+	set(CMAKE_CXX_FLAGS         "${CMAKE_CXX_FLAGS}         -Wall -Wextra")
+	set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -g -Werror")
+	set(CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS_DEBUG}   -O0 -g")
+	set(CMAKE_C_FLAGS           "${CMAKE_C_FLAGS}           -Wall -Wextra")
+	set(CMAKE_C_FLAGS_RELEASE   "${CMAKE_C_FLAGS_RELEASE}   -O3 -g -Werror")
+	set(CMAKE_C_FLAGS_DEBUG     "${CMAKE_C_FLAGS_DEBUG}     -O0 -g")
+endif()
+
 
 ################################################
 #                  EXECUTABLE                  #
 ################################################
-FILE(GLOB GENERATED_LIBYACC_SOURCES srcs/debugger/*.cpp)
-FILE(GLOB GENERATED_LIBYACC_SOURCES srcs/debugger/Commands/*.cpp)
 
-add_executable(gbmu ${SOURCES} ${GENERATED_LIBYACC_SOURCES} ${DEBUGGER_SOURCES})
+add_executable(gbmu)
 
-target_link_libraries(gbmu ${SDL2_LIBRARIES})
+if (WITH_LIBYACC)
+	target_sources(gbmu PRIVATE ${GENERATED_LIBYACC_SOURCES} ${DEBUGGER_SOURCES})
+	FILE(GLOB GENERATED_LIBYACC_SOURCES srcs/debugger/*.cpp)
+	FILE(GLOB GENERATED_LIBYACC_SOURCES srcs/debugger/Commands/*.cpp)
+	target_compile_definitions(gbmu PUBLIC WITH_LIBYACC)
+	target_include_directories(gbmu PRIVATE includes/debugger)
+	target_include_directories(gbmu PRIVATE includes/debugger/Commands)
+	include_directories(libyacc/includes)
+endif()
+
+target_sources(gbmu PRIVATE ${SOURCES})
+
+include_directories(${Readline_INCLUDE_DIR})
+target_link_libraries(gbmu SDL2main)
+target_link_libraries(gbmu SDL2-static)
 target_link_libraries(gbmu ${CMAKE_THREAD_LIBS_INIT})
 target_link_libraries(gbmu ${OPENGL_LIBRARIES})
-target_link_libraries(gbmu GLEW::GLEW)
-target_link_libraries(gbmu ${Readline_LIBRARY})
-include_directories(gbmu ${SDL2_INCLUDE_DIRS})
+target_link_libraries(gbmu libglew_static)
+
+# target_link_libraries(gbmu ${Readline_LIBRARY})
+
+if (WIN32)
+	target_link_libraries(gbmu edit_a)
+endif()
+
+# target_include_directories(gbmu ${SDL2_INCLUDE_DIRS})
+message("Readline_LIBRARY: ${Readline_LIBRARY}")
+message("Readline_INCLUDE_DIR: ${Readline_INCLUDE_DIR}")
+# target_include_directories(gbmu PUBLIC ${Readline_INCLUDE_DIR})
 
 ################################################
 #                   INSTALL                    #

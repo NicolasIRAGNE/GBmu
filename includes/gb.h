@@ -15,9 +15,10 @@
 
 # include <sys/stat.h>
 # include <sys/types.h>
-# include <unistd.h>
+// # include <unistd.h>
+#include <stdlib.h>
 # include <fcntl.h>
-# include <sys/mman.h>
+// # include <sys/mman.h>
 # include <stdint.h>
 # include "op.h"
 # include "ext_op.h"
@@ -35,7 +36,7 @@
 # define WHT	"\x1B[37m"
 # define EOC	"\x1B[0m"
 
-# define BOOT_ROM "../DMG_ROM.bin"
+# define BOOT_ROM "C:/Users/nicor/source/repos/GBmu/DMG_ROM.bin"
 # define SAVE_DIR "../saves/"
 # define SAVESTATE_DIR "../savestates/"
 
@@ -82,12 +83,22 @@ struct breakpoint_s
 //	struct breakpoint_s*	breakpoints;
 
 
+#ifdef WITH_LIBYACC
 struct gbmu_debugger_s
 {
 	void					*grammar;	//c++ libyacc DebuggerGrammar instance
 	void					*parser;	//c++ libyacc LRParser instance
 	void					*instance;	//c++ DebuggerContext instance
 };
+#else
+struct gbmu_debugger_s
+{
+	int						verbose_level;
+	struct breakpoint_s*	breakpoints;
+	void*					instance;
+};
+void	fallback_execute(struct gb_cpu_s* gb, char* str);
+#endif
 
 struct command_s
 {

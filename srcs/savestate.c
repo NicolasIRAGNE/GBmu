@@ -15,6 +15,9 @@
 #include <stdio.h>
 #include <SDL.h>
 #include <stdlib.h>
+#ifdef _WIN32
+# include "asprintf.h"
+#endif
 
 void	check_savestate(struct gb_cpu_s* gb, const Uint8* state, SDL_Event event)
 {
@@ -47,18 +50,18 @@ void	check_savestate(struct gb_cpu_s* gb, const Uint8* state, SDL_Event event)
 int		savestate(struct gb_cpu_s* gb, int number)
 {
 	char* save_file;
-	asprintf(&save_file, SAVESTATE_DIR"%.11s_%d.ss", gb->rom_ptr->header->title, number);
+	asprintf(&save_file, SAVE_DIR"%.11s.sav", gb->rom_ptr->header->title);
+	printf("saving current data to %s\n", save_file);	
 
-	int fd = open(save_file, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
-	printf("saving current state to %s\n", save_file);
-	if (fd < 0)
+	FILE* f = fopen(save_file, "wb");
+	if (!f)
 	{
 		perror(save_file);
 		return (1);
 	}
-	write(fd, gb, sizeof(*gb));
-	write(fd, gb->extra_ram, gb->mbc.ram_size);
-	close(fd);
+	fwrite(gb, sizeof(*gb), 1, f);
+	fwrite(gb->extra_ram, gb->mbc.ram_size, 1, f);
+	fclose(f);
 	free(save_file);
 	return(0);
 }
@@ -88,7 +91,7 @@ int		loadstate(struct gb_cpu_s* gb, int number)
 	}
 	if (rd != sizeof(*gb))
 	{
-		dprintf(2, "fatal: save file appears to be corrupted\n");
+		printf("fatal: save file appears to be corrupted\n");
 		fatal(gb); 
 		return (1);
 	}
@@ -107,7 +110,7 @@ int		loadstate(struct gb_cpu_s* gb, int number)
 	}
 	if (rd != (int)gb->mbc.ram_size)
 	{
-		dprintf(2, "warning: read %d bytes from save data (expected %u). file may be corrupted.\n", rd, gb->mbc.ram_size);
+		printf("warning: read %d bytes from save data (expected %u). file may be corrupted.\n", rd, gb->mbc.ram_size);
 	}
 	gb->vram_updated = 1;
 	update_current_instruction(gb);

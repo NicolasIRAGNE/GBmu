@@ -15,7 +15,7 @@
 
 void	handle_joypad(struct gb_cpu_s* gb, SDL_GameController* controller, const Uint8* state)
 {
-	struct joypad_s temp = {};
+	struct joypad_s temp = {0};
 
 	if (controller)
 	{

@@ -19,7 +19,7 @@ struct mbc_s	mbc_array[] =
 	{"MBC1", MBC_MODE_ROM, read_mbc1, write_mbc1, 0, 0, 0, 0, 0}, 
 	{"MBC2", MBC_MODE_ROM, read_mbc2, write_mbc2, 0, 0, 0, 0, BUILT_IN_RAM_SIZE},
 	{"MBC3", MBC_MODE_RAM, read_mbc3, write_mbc3, 0, 0, 0, 0, 0}, 
-	{}, 
+	{0}, 
 	{"MBC5", MBC_MODE_ROM, read_mbc5, write_mbc5, 0, 0, 0, 0, 0}, 
 };
 

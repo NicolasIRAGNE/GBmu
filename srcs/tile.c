@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "renderer.h"
+#include <stdio.h>
 
 void	fill_tile_array(struct gb_cpu_s* gb, struct tile_s* array)
 {

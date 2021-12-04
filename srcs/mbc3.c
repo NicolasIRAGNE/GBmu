@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "gb.h"
-#include "libyacc_wrapper.h"
+#include "mbc.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -33,7 +33,7 @@ uint8_t	read_mbc3(struct gb_cpu_s* gb, uint16_t addr, enum memory_mode_e mode)
 			tmp = gb->mbc.bank;
 			if (tmp * 0x4000 + addr - 0x4000 > gb->rom_ptr->st.st_size)
 			{
-				dprintf(2, "fatal: attempting to read outside the cartridge at %x in bank %x. aborting...\n", addr, tmp);
+				printf("fatal: attempting to read outside the cartridge at %x in bank %x. aborting...\n", addr, tmp);
 				fatal(gb);
 				return (0);
 			}

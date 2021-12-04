@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "gb.h"
+#include "mbc.h"
 #include <stdio.h>
 
 uint8_t	read_mbc2(struct gb_cpu_s* gb, uint16_t addr, enum memory_mode_e mode)
@@ -30,7 +31,7 @@ uint8_t	read_mbc2(struct gb_cpu_s* gb, uint16_t addr, enum memory_mode_e mode)
 		{
 			if (tmp * 0x4000 + addr - 0x4000 > gb->rom_ptr->st.st_size)
 			{
-				dprintf(2, "waring: attempting to read outside the cartridge at %x in bank %x\n", addr, tmp);
+				printf("waring: attempting to read outside the cartridge at %x in bank %x\n", addr, tmp);
 				return (0xff);
 			}
 			return (((uint8_t*)(gb->rom_ptr->ptr))[tmp * 0x4000 + addr - 0x4000]);
@@ -42,13 +43,13 @@ uint8_t	read_mbc2(struct gb_cpu_s* gb, uint16_t addr, enum memory_mode_e mode)
 	{
 		if (!gb->ram_enabled)
 		{
-			dprintf(2, "warning: attempting to read from disabled RAM at %x\n", addr);
+			printf("warning: attempting to read from disabled RAM at %x\n", addr);
 			return (0xff);
 		}
 		uint32_t index = addr - 0xa000;
 		if (index >= BUILT_IN_RAM_SIZE)
 		{
-			dprintf(2, "warning: attempting to read %x at invalid ram bank %x\n", addr, gb->mbc.ram_bank);
+			printf("warning: attempting to read %x at invalid ram bank %x\n", addr, gb->mbc.ram_bank);
 			return (0xff);
 		}
 		else
@@ -77,13 +78,13 @@ void	write_mbc2(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, enum memory_mode_
 	{
 		if (!gb->ram_enabled)
 		{
-			dprintf(2, "warning: attempting to write to disabled RAM at %x\n", addr);
+			printf("warning: attempting to write to disabled RAM at %x\n", addr);
 			return ;
 		}
 		uint32_t index = addr - 0xa000;
 		if (index >= BUILT_IN_RAM_SIZE)
 		{
-			dprintf(2, "warning: attempting to write outside of built in RAM at %x \n", addr);				
+			printf("warning: attempting to write outside of built in RAM at %x \n", addr);				
 			return ;
 		}
 		else

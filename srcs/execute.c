@@ -11,10 +11,13 @@
 /* ************************************************************************** */
 
 #include "gb.h"
-#include "libyacc_wrapper.h"
+#ifdef WITH_LIBYACC
+# include "libyacc_wrapper.h"
+#endif
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
+// #include <unistd.h>
+#include <stdlib.h>
 #include "renderer.h"
 
 uint8_t	update_current_instruction(struct gb_cpu_s* gb)
@@ -155,6 +158,8 @@ int		handle_instruction(struct gb_cpu_s* gb)
 
 		return (0);
 	}
+
+	#ifdef WITH_LIBYACC
 	if (get_verbose(gb->debugger->instance) >= 1)
 			debug_print_gb(gb);
 	
@@ -164,6 +169,8 @@ int		handle_instruction(struct gb_cpu_s* gb)
 		debug_print_gb(gb);
 		// return (0);
 	}
+	#endif
+
 	if (gb->current_instruction->exec)
 	{
 		gb->current_instruction->exec(gb);

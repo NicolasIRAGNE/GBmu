@@ -16,6 +16,7 @@
 # include <iostream>
 # include <vector>
 # include "DebuggerVariableConstValue.hpp"
+# include <string>
 
 class History
 {
