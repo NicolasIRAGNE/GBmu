@@ -36,13 +36,3 @@ int		clamp(int val, int min, int max)
 		return (max);
 	return (val);
 }
-
-#ifndef WITH_LIBYACC
-
-int		get_verbose(void* unused)
-{
-	(void)unused;
-	return 2;
-}
-
-#endif // DEBUG

@@ -14,8 +14,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#ifdef _WIN32
+# include <editline/readline.h>
+#else 
 #include <readline/readline.h>
 #include <readline/history.h>
+#endif
 #ifdef WITH_LIBYACC
 #include "libyacc_wrapper.h"
 #endif

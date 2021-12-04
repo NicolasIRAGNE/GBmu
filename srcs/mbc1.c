@@ -74,13 +74,13 @@ void	write_mbc1(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, enum memory_mode_
 	{
 		if (x == 0x0a)
 		{
-			if (get_verbose(gb->debugger->instance) >= 1)
+			if (get_verbose(gb->debugger) >= 1)
 				printf("RAM ENABLED (%4x)\n", addr);
 			gb->ram_enabled = 1;
 		}
 		else
 		{
-			if (get_verbose(gb->debugger->instance) >= 1)
+			if (get_verbose(gb->debugger) >= 1)
 				printf("RAM DISABLED (%4x)\n", addr);
 			gb->ram_enabled = 0;
 		}

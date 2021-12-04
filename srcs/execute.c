@@ -160,10 +160,10 @@ int		handle_instruction(struct gb_cpu_s* gb)
 	}
 
 	#ifdef WITH_LIBYACC
-	if (get_verbose(gb->debugger->instance) >= 1)
+	if (get_verbose(gb->debugger) >= 1)
 			debug_print_gb(gb);
 	
-	if (find_breakpoint(gb->debugger->instance, gb->reg.pc) && !gb->paused)
+	if (find_breakpoint(gb->debugger, gb->reg.pc) && !gb->paused)
 	{
 		gb->paused = 1;
 		debug_print_gb(gb);

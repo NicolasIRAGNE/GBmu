@@ -25,6 +25,12 @@ int		command_run(struct gb_cpu_s* gb, char* s, uint16_t arg);
 int		command_del(struct gb_cpu_s* gb, char* s, uint16_t arg);
 int		command_help(struct gb_cpu_s* gb, char* s, uint16_t arg);
 
+
+int		get_verbose(struct gbmu_debugger_s* debugger)
+{
+	return (debugger->verbose_level);
+}
+
 struct breakpoint_s*	new_breakpoint(uint16_t addr)
 {
 	struct breakpoint_s* ret;

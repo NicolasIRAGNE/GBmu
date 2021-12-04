@@ -100,6 +100,7 @@ struct gbmu_debugger_s
 void	fallback_execute(struct gb_cpu_s* gb, char* str);
 #endif
 
+
 struct command_s
 {
 	char*	name;
@@ -170,6 +171,7 @@ void	memset_4(uint32_t* ptr, uint32_t c, size_t n);
 void	process_dma_transfer(struct gb_cpu_s* gb, uint8_t a8);
 int		clamp(int val, int min, int max);
 void	fatal(struct gb_cpu_s* gb);
+int		get_debugger_verbose(struct gb_cpu_s* gb);
 
 /*
 ** Video
@@ -184,7 +186,6 @@ int		load_game(struct gb_cpu_s* gb);
 int		save_game_crash(struct gb_cpu_s* gb);
 int		savestate(struct gb_cpu_s* gb, int number);
 int		loadstate(struct gb_cpu_s* gb, int number);
-
 
 
 

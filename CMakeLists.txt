@@ -1,10 +1,13 @@
-cmake_minimum_required(VERSION 3.21)
+cmake_minimum_required(VERSION 3.15)
 SET(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
   ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 project(gbmu)
+
+add_executable(gbmu)
 
 include(FetchContent)
 
@@ -12,8 +15,8 @@ option(WITH_LIBYACC "Build libyacc" OFF)
 
 FetchContent_Declare(
         SDL2
-        GIT_REPOSITORY "https://github.com/SDL-mirror/SDL.git"
-        GIT_TAG release-2.0.10
+        GIT_REPOSITORY "https://github.com/libsdl-org/SDL/"
+        GIT_TAG release-2.0.18
 )
 
 FetchContent_GetProperties(SDL2)
@@ -59,13 +62,18 @@ find_package(Threads)
 find_package(OpenGL REQUIRED)
 
 
-add_compile_definitions(READLINE_LIBRARY=1)
-add_compile_definitions(USE_READLINE_STATIC=1)
 add_compile_definitions(_SCL_SECURE_NO_WARNINGS)
 add_compile_definitions(_ITERATOR_DEBUG_LEVEL=0)
-set(Readline_ROOT_DIR "C:/Program\ Files\ (x86)/GnuWin32")
-#Readline
-find_package(Readline REQUIRED)
+
+if (NOT WIN32)
+	#Readline
+	add_compile_definitions(USE_READLINE_STATIC=1)
+	add_compile_definitions(READLINE_LIBRARY=1)
+	find_package(Readline REQUIRED)
+	target_include_directories(gbmu PRIVATE ${Readline_INCLUDE_DIR})
+	target_link_libraries(gbmu ${Readline_LIBRARY})
+	target_include_directories(gbmu PUBLIC ${Readline_INCLUDE_DIR})
+endif()
 
 ################################################
 #                   SOURCES                    #
@@ -454,8 +462,6 @@ set(DEBUGGER_SOURCES
 include_directories(srcs)
 include_directories(includes)
 
-include_directories(${Readline_INCLUDE_DIR})
-
 ################################################
 #                COMPILE FLAGS                 #
 ################################################
@@ -483,7 +489,6 @@ endif()
 #                  EXECUTABLE                  #
 ################################################
 
-add_executable(gbmu)
 
 if (WITH_LIBYACC)
 	target_sources(gbmu PRIVATE ${GENERATED_LIBYACC_SOURCES} ${DEBUGGER_SOURCES})
@@ -497,23 +502,21 @@ endif()
 
 target_sources(gbmu PRIVATE ${SOURCES})
 
-include_directories(${Readline_INCLUDE_DIR})
 target_link_libraries(gbmu SDL2main)
 target_link_libraries(gbmu SDL2-static)
 target_link_libraries(gbmu ${CMAKE_THREAD_LIBS_INIT})
 target_link_libraries(gbmu ${OPENGL_LIBRARIES})
 target_link_libraries(gbmu libglew_static)
 
-# target_link_libraries(gbmu ${Readline_LIBRARY})
 
 if (WIN32)
 	target_link_libraries(gbmu edit_a)
+	target_include_directories(gbmu PRIVATE ${wineditline_SOURCE_DIR}/src)
+	message(STATUS "wineditline_SOURCE_DIR: ${wineditline_SOURCE_DIR}")
 endif()
 
 # target_include_directories(gbmu ${SDL2_INCLUDE_DIRS})
-message("Readline_LIBRARY: ${Readline_LIBRARY}")
-message("Readline_INCLUDE_DIR: ${Readline_INCLUDE_DIR}")
-# target_include_directories(gbmu PUBLIC ${Readline_INCLUDE_DIR})
+
 
 ################################################
 #                   INSTALL                    #

@@ -31,7 +31,7 @@ void	debug_print_gb(struct gb_cpu_s* gb)
 	debug_print_registers(gb->reg);
 	printf("\n");
 	printf("CYCLE: %ld\n", gb->cycle);
-	if (get_verbose(gb->debugger->instance) >= 2)
+	if (get_verbose(gb->debugger) >= 2)
 	{
 		debug_print_gb_flags(gb);
 		printf("\n");
@@ -39,7 +39,7 @@ void	debug_print_gb(struct gb_cpu_s* gb)
 	debug_print_stack(gb);
 	printf("\n");
 
-	if (get_verbose(gb->debugger->instance) >= 2)
+	if (get_verbose(gb->debugger) >= 2)
 	{
 		debug_print_mbc(gb);
 		printf("\n");
