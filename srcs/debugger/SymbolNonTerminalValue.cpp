@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/02 19:12:49 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/05/15 17:05:13 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	SymbolNonTerminalValue::traverse(ASTNode<int, DebuggerContext &> & ast, Debu
 	if (ast.getChildren().size() == 1)
 		return ast.getChild(0)->getTraversed(context);
 	else
-		return context.cpu.cycle; //TODO use true value
+		return context.debugger->getCPU()->cycle; //TODO use true value
 	return (0);
 }
 

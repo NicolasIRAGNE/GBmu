@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   SymbolNonTerminalFactor.cpp                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/02 19:16:01 by ldedier          ###   ########.fr       */
+/*   Updated: 2021/06/04 13:25:13 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,12 @@ int	SymbolNonTerminalFactor::traverse(ASTNode<int, DebuggerContext &> & ast, Deb
 	else if (ast.getChild(0)->getSymbol().getIdentifier() == "-")
 		return - ast.getChild(1)->getTraversed(context);
 	else if (ast.getChild(0)->getSymbol().getIdentifier() == "+")
-		return - ast.getChild(1)->getTraversed(context);
+		return ast.getChild(1)->getTraversed(context);
+	else if (ast.getChild(0)->getSymbol().getIdentifier() == "*")
+	{
+		int offset = ast.getChild(1)->getTraversed(context);
+		return read_8(context.debugger->getCPU(), offset);
+	}
 	return (0);
 }
 

@@ -41,6 +41,7 @@
 *.x86_64
 *.hex
 *gbmu
+debuggerTest
 rom/*sav
 
 # Debug files

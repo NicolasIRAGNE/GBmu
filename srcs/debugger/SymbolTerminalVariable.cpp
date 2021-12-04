@@ -12,6 +12,14 @@
 
 # include "SymbolTerminalVariable.hpp"
 
+static std::string tolower(std::string string)
+{
+	std::string res = "";
+
+	for (std::string::size_type i=0; i<string.length(); ++i)
+		res = res + static_cast<char>(std::tolower(string[i]));
+	return res;
+}
 
 SymbolTerminalVariable::SymbolTerminalVariable(void) : AbstractTerminal()
 {
@@ -28,14 +36,6 @@ SymbolTerminalVariable::~SymbolTerminalVariable(void)
 
 }
 
-static std::string tolower(std::string string)
-{
-	std::string res = "";
-
-	for (std::string::size_type i=0; i<string.length(); ++i)
-		res = res + static_cast<char>(std::tolower(string[i]));
-	return res;
-}
 
 bool SymbolTerminalVariable::isEligibleForCurrent(std::string & current)
 {

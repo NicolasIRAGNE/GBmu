@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/02 19:13:36 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/06/26 20:03:06 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 # define SYMBOLNONTERMINALSETCOMMAND_HPP
 
 # include "DebuggerGrammar.hpp"
+# include "SymbolNonTerminalAbstractCommand.hpp"
 
-class SymbolNonTerminalSetCommand : public AbstractNonTerminal<int, DebuggerContext &>
+class SymbolNonTerminalSetCommand : public SymbolNonTerminalAbstractCommand
 {
 	public:
 		SymbolNonTerminalSetCommand(void);
 		~SymbolNonTerminalSetCommand(void);
-		virtual int traverse(ASTNode<int, DebuggerContext &> & ast, DebuggerContext & context) const;
 		virtual void computeProductions(AbstractGrammar<int, DebuggerContext &> & cfg);
 
 	private:

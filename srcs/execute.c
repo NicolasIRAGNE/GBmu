@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:26 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/09 15:44:28 by niragne          ###   ########.fr       */
+/*   Updated: 2020/05/15 16:49:18 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gb.h"
+#include "libyacc_wrapper.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -84,7 +85,7 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 	uint8_t last_line = 0;
 	uint8_t	last_line_drawn = 0;
 
-	while(gb->running)
+	while (gb->running)
 	{
 		if (gb->ime && set_interrupt(gb))
 		{
@@ -92,7 +93,7 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 			gb->interrupt = 0;
 		}
 		if (gb->paused)
-			parse_command(gb);
+			execute_debugger(gb);
 		else
 			err = handle_instruction(gb);
 		if (err)
@@ -154,10 +155,10 @@ int		handle_instruction(struct gb_cpu_s* gb)
 
 		return (0);
 	}
-	if (gb->debugger->verbose_level > 0)
+	if (get_verbose(gb->debugger->instance) >= 1)
 			debug_print_gb(gb);
 	
-	if (find_breakpoint(gb->debugger->breakpoints, gb->reg.pc) && !gb->paused)
+	if (find_breakpoint(gb->debugger->instance, gb->reg.pc) && !gb->paused)
 	{
 		gb->paused = 1;
 		debug_print_gb(gb);

@@ -6,15 +6,16 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/25 12:26:42 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/29 15:17:38 by niragne          ###   ########.fr       */
+/*   Updated: 2020/08/17 15:02:35 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "gb.h"
+#include "libyacc_wrapper.h"
 #include <stdio.h>
 #include <stdlib.h>
 
-uint8_t	read_mbc5(struct gb_cpu_s* gb, uint16_t addr)
+uint8_t	read_mbc5(struct gb_cpu_s* gb, uint16_t addr, enum memory_mode_e mode)
 {
 	if (addr < 0x100 && !gb->booted)
 	{
@@ -61,19 +62,19 @@ uint8_t	read_mbc5(struct gb_cpu_s* gb, uint16_t addr)
 	return (0xff);
 }
 
-void	write_mbc5(struct gb_cpu_s* gb, uint16_t addr, uint8_t x)
+void	write_mbc5(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, enum memory_mode_e mode)
 {
 	if (addr < 0x2000)
 	{
 		if (x == 0x0a)
 		{
-			if (gb->debugger->verbose_level >= 1)
+			if (get_verbose(gb->debugger->instance) >= 1)
 				printf("RAM ENABLED (%4x)\n", addr);
 			gb->ram_enabled = 1;
 		}
 		else
 		{
-			if (gb->debugger->verbose_level >= 1)
+			if (get_verbose(gb->debugger->instance) >= 1)
 				printf("RAM DISABLED (%4x)\n", addr);
 			gb->ram_enabled = 0;
 		}

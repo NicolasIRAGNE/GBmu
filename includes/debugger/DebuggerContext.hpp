@@ -6,44 +6,55 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/03 21:14:10 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/06/25 19:22:33 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef DEBUGGERCONTEXT_HPP
 # define DEBUGGERCONTEXT_HPP
 
-#include "cpu.h"
-#include <iostream>
+# include "Debugger.hpp"
+# include "ASTNode.hpp"
+# include <iostream>
+# include "PrintCommandSuffixParams.hpp"
+# include "DebuggerAddress.hpp"
+# include "WatchModes.hpp"
+
+enum e_address_descriptor_type
+{
+	ADDRESS_DESCRIPTOR_TYPE_VARIABLE,
+	ADDRESS_DESCRIPTOR_TYPE_ADDRESS
+};
+
+typedef struct						s_address_descriptor
+{
+	enum e_address_descriptor_type type;
+
+	DebuggerVariable			*variable;
+	DebuggerAddress				address;
+}									t_address_descriptor; // used for the set command (set *32 = 44 / set $af = 23)
 
 class DebuggerContext
 {
 	public:
 
-		typedef enum	e_debugger_unit
-		{
-			E_DEBUGGER_UNIT_WORD,
-			E_DEBUGGER_UNIT_HALFWORD,
-		}				t_debugger_unit;
-
-		typedef enum	e_debugger_format
-		{
-			E_DEBUGGER_FORMAT_BINARY = 2,
-			E_DEBUGGER_FORMAT_OCTAL = 8,
-			E_DEBUGGER_FORMAT_DECIMAL = 10,
-			E_DEBUGGER_FORMAT_HEXADECIMAL = 16,
-			E_DEBUGGER_FORMAT_INSTRUCTION
-		}				t_debugger_format;
-
-		DebuggerContext(void);
+		DebuggerContext(Debugger *debugger);
 		DebuggerContext(DebuggerContext const &instance);
 		DebuggerContext & operator=(DebuggerContext const &rhs);
+		int 			printError(void);
 		~DebuggerContext(void);
 
-		static std::string getUnitString(t_debugger_unit unit);
-		static char getFormatChar(t_debugger_format format);
+		Debugger					*debugger;
+		PrintCommandSuffixParams	printCommandSuffixParams;
+		t_address_descriptor		address_descriptor;
+		WatchModes					watchModes;
+		bool						shouldSaveAsLastCommand;
+		int							quit;
 
-		struct gb_cpu_s cpu;
-		t_debugger_format format;
+	private:
+		DebuggerContext(void);
+		
+
 };
+
 #endif

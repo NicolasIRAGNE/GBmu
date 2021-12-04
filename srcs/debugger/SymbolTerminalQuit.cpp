@@ -6,13 +6,13 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#             */
-/*   Updated: 2020/05/02 17:02:46 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/06/19 16:52:48 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "SymbolTerminalQuit.hpp"
 
-SymbolTerminalQuit::SymbolTerminalQuit(void) : SymbolTerminalCommand("quit")
+SymbolTerminalQuit::SymbolTerminalQuit(void) : SymbolTerminalCommand(QUIT_COMMAND)
 {
 	
 }
