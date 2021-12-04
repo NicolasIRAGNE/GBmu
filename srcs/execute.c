@@ -137,6 +137,8 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 		}
 		update_div_register(gb);
 		update_timer_register(gb);
+		if (gb->mbc.attr & MBC_ATTR_TIMER)
+			update_rtc(gb);
 	}
 }
 

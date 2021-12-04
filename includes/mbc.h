@@ -31,6 +31,13 @@ enum	memory_mode_e
 	MEM_DEBUGGER,
 	MEM_FORCE
 };
+# define MBC_ATTR_RAM		(1 << 0)
+# define MBC_ATTR_BATTERY	(1 << 1)
+# define MBC_ATTR_TIMER		(1 << 2)
+# define MBC_ATTR_RUMBLE	(1 << 3)
+# define MBC_ATTR_SENSOR	(1 << 4)
+
+typedef uint8_t mbc_attr_t;
 
 struct	mbc_s
 {
@@ -43,6 +50,7 @@ struct	mbc_s
 	uint8_t			rtc;
 	uint32_t		rom_size;
 	uint32_t		ram_size;
+	mbc_attr_t		attr;
 };
 
 struct mbc_s get_mbc(int index);
@@ -56,8 +64,9 @@ uint8_t	read_mbc1(struct gb_cpu_s* gb, uint16_t addr, enum memory_mode_e mode);
 void	write_mbc2(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, enum memory_mode_e mode);
 uint8_t	read_mbc2(struct gb_cpu_s* gb, uint16_t addr, enum memory_mode_e mode);
 
-void	write_mbc3(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, enum memory_mode_e mode);
-uint8_t	read_mbc3(struct gb_cpu_s* gb, uint16_t addr, enum memory_mode_e mode);
+void	update_rtc(struct gb_cpu_s* gb);
+void	write_mbc3(struct gb_cpu_s* gb, uint16_t addr, uint8_t x);
+uint8_t	read_mbc3(struct gb_cpu_s* gb, uint16_t addr);
 
 void	write_mbc5(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, enum memory_mode_e mode);
 uint8_t	read_mbc5(struct gb_cpu_s* gb, uint16_t addr, enum memory_mode_e mode);
