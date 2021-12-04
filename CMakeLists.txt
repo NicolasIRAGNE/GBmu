@@ -15,11 +15,9 @@ find_package(Threads)
 
 # SDL2
 find_package(SDL2 REQUIRED)
-include_directories(${SDL2_INCLUDE_DIRS})
 
 # OpenGL
 find_package(OpenGL REQUIRED)
-include_directories(${OPENGL_INCLUDE_DIRS})
 
 # Glew
 find_package(GLEW REQUIRED)
@@ -422,13 +420,14 @@ set(CMAKE_C_FLAGS_DEBUG     "${CMAKE_C_FLAGS_DEBUG}     -O0 -g")
 FILE(GLOB GENERATED_LIBYACC_SOURCES srcs/debugger/*.cpp)
 FILE(GLOB GENERATED_LIBYACC_SOURCES srcs/debugger/Commands/*.cpp)
 
-add_executable(${PROJECT_NAME} ${SOURCES} ${GENERATED_LIBYACC_SOURCES} ${DEBUGGER_SOURCES})
+add_executable(gbmu ${SOURCES} ${GENERATED_LIBYACC_SOURCES} ${DEBUGGER_SOURCES})
 
-target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES})
-target_link_libraries(${PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT})
-target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES})
-target_link_libraries(${PROJECT_NAME} GLEW::GLEW)
-target_link_libraries(${PROJECT_NAME} ${Readline_LIBRARY})
+target_link_libraries(gbmu ${SDL2_LIBRARIES})
+target_link_libraries(gbmu ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(gbmu ${OPENGL_LIBRARIES})
+target_link_libraries(gbmu GLEW::GLEW)
+target_link_libraries(gbmu ${Readline_LIBRARY})
+include_directories(gbmu ${SDL2_INCLUDE_DIRS})
 
 ################################################
 #                   INSTALL                    #
@@ -436,9 +435,8 @@ target_link_libraries(${PROJECT_NAME} ${Readline_LIBRARY})
 
 foreach(shader ${SHADERS})
 	get_filename_component(filename ${shader} NAME)
-
 	add_custom_command(
-	 	OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/shaders/${filename}
+		TARGET gbmu POST_BUILD
 		COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/${shader} ${CMAKE_CURRENT_BINARY_DIR}/shaders/${filename}
-		MAIN_DEPENDENCY ${CMAKE_CURRENT_SOURCE_DIR}/${shader})
+		)
 endforeach()
