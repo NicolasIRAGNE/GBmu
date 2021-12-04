@@ -55,6 +55,21 @@ struct	joypad_s
 	uint8_t		right : 1;
 };
 
+struct	rtcs_s
+{
+	uint8_t		rtc[5];
+	uint8_t		last_write;
+	uint64_t	last_latch;
+	uint64_t	last_cycle;
+	uint64_t	clocks;
+	
+	uint8_t		sec;
+	uint8_t		min;
+	uint8_t		hour;
+	uint8_t		dayl;
+	uint8_t		dayh;
+};
+
 struct tima_s
 {
 	uint64_t	freq;
@@ -72,8 +87,7 @@ struct Lcd {
 
 struct	gb_cpu_s
 {
-	int					jmp : 1; // Flag used by the emulator. Ugly but hopefully temporary ?
-
+	int					jmp : 1;
 	int					vram_viewer_running : 1;
 	int					running : 1;
 	int					paused : 1;
@@ -83,6 +97,7 @@ struct	gb_cpu_s
 	int					hdma_in_progress : 1;
 	uint16_t			remaining_hdma_length;
 	uint8_t				hdma_index;
+	int					has_rtc : 1;
 	uint16_t			interrupt;
 	uint64_t			cycle;
 	uint64_t			last_sleep;
@@ -128,6 +143,7 @@ struct	gb_cpu_s
 
 	uint8_t				last_x;
 	uint8_t				last_y;
+	struct rtcs_s		rtc;
 };
 
 extern struct gb_cpu_s	gb_global;
