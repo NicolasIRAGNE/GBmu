@@ -11,13 +11,17 @@ layout(std140) uniform dynamicInfos
     float timestamp;
 };
 
-layout(std140) uniform lcd
-{
+struct Lcd {
     uint lcdc;
     int scx;
     int scy;
     int wx;
     int wy;
+};
+
+layout(std140) uniform lcd
+{
+    uvec4 lcdArray[144 * 5 / 4];
 };
 
 layout(std140) uniform vram
@@ -36,6 +40,21 @@ uint GetValueAt(uint addr)
     uint offset = (addr % 4u) * 8u;
     uint data1B = (data4B & (0xffu << offset)) >> offset;
     return data1B;
+}
+
+Lcd GetLcd(uint line)
+{
+    uint index = line * 5u / 4u;
+    uint offset = line * 5u % 4u;
+
+    Lcd lcd;
+    lcd.lcdc = lcdArray[index + ((offset + 0u) / 4u)][(offset + 0u) % 4u];
+    lcd.scx = int(lcdArray[index + ((offset + 1u) / 4u)][(offset + 1u) % 4u]);
+    lcd.scy = int(lcdArray[index + ((offset + 2u) / 4u)][(offset + 2u) % 4u]);
+    lcd.wx = int(lcdArray[index + ((offset + 3u) / 4u)][(offset + 3u) % 4u]);
+    lcd.wy = int(lcdArray[index + ((offset + 4u) / 4u)][(offset + 4u) % 4u]);
+
+    return lcd;
 }
 
 vec4 GetColorFromTileIndex(uint index, uvec2 posInTile)
@@ -61,17 +80,18 @@ vec4 GetColorFromTileIndex(uint index, uvec2 posInTile)
 void main()
 {
     uvec2 pixelPos = uvec2(gl_FragCoord.x, 144.f - gl_FragCoord.y);
-    pixelPos = (pixelPos + uvec2(scx, scy)) % 256u;
+    uint line = 144u - uint(gl_FragCoord.y);
+    pixelPos = (pixelPos + uvec2(GetLcd(line).scx, GetLcd(line).scy)) % 256u;
 
     uvec2 tilePos = pixelPos / 8u;
     uvec2 pixelPosInTile = pixelPos % 8u;
     
 	uint offset = 0x1800u;
-	if ((lcdc & 8u) != 0u)
+	if ((GetLcd(line).lcdc & 8u) != 0u)
 		offset = 0x1C00u;
 
 	uint tileIndex = GetValueAt(offset + tilePos.y * 32u + tilePos.x);
-	if (((lcdc & 16u) == 0u) && (tileIndex + 0x100u < 256u + 128u)) {
+	if (((GetLcd(line).lcdc & 16u) == 0u) && (tileIndex + 0x100u < 256u + 128u)) {
 		tileIndex = tileIndex + 0x100u;
     }
     

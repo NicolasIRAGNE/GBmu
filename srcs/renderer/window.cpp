@@ -28,7 +28,7 @@ int Window::Init()
         "shaders/window.frag");
 
     if (!m_Program) {
-        printf("failed to compile program\n");
+        printf("failed to compile program for window\n");
         return -1;
     }
 
@@ -36,7 +36,7 @@ int Window::Init()
 
     int ret = linkProgram(m_Program);
     if (ret < 0) {
-        printf("failed to link program\n");
+        printf("failed to link program for window\n");
         return -1;
     }
 

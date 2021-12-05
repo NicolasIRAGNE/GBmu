@@ -216,6 +216,14 @@ struct tima_s
 	uint64_t	last_cycle;
 };
 
+struct Lcd {
+    uint32_t lcdc;
+    int32_t scx;
+    int32_t scy;
+    int32_t wx;
+    int32_t wy;
+};
+
 struct	gb_cpu_s
 {
 	int					jmp : 1; // Flag used by the emulator. Ugly but hopefully temporary ?
@@ -225,7 +233,7 @@ struct	gb_cpu_s
 	int					paused : 1;
 	int					vram_updated : 1;
 	int					oam_updated : 1;
-	int					lcd_updated : 1;
+	struct Lcd			lcd[144];
 	uint16_t			interrupt;
 	uint64_t			cycle;
 	uint64_t			last_sleep;

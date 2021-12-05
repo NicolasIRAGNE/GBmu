@@ -11,13 +11,17 @@ layout(std140) uniform dynamicInfos
     float timestamp;
 };
 
-layout(std140) uniform lcd
-{
+struct Lcd {
     uint lcdc;
     int scx;
     int scy;
     int wx;
     int wy;
+};
+
+layout(std140) uniform lcd
+{
+    uvec4 lcdArray[144 * 5 / 4];
 };
 
 layout(std140) uniform vram
