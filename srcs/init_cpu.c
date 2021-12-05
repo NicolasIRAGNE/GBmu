@@ -11,37 +11,35 @@
 /* ************************************************************************** */
 
 #include "gb.h"
-#include <strings.h>
+#include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
 
 int		init_boot_rom(struct gb_cpu_s* gb)
 {
-	int fd;
-	int rd;
 
-	fd = open(BOOT_ROM, O_RDONLY);
-	if (fd < 0)
+    FILE* f = fopen(BOOT_ROM, "rb");
+
+	if (f == NULL)
 	{
 		perror("fatal: could not open "BOOT_ROM);
 		return (1);
 	}
-
-	rd = read(fd, gb->boot_rom, BOOT_ROM_SIZE);
-	if (rd < 0)
+	size_t rd = fread(gb->boot_rom, BOOT_ROM_SIZE, 1, f) * BOOT_ROM_SIZE;
+	if (rd == 0)
 	{
 		perror("fatal: could read from "BOOT_ROM);
 		return (1);
 	}
 	if (rd != BOOT_ROM_SIZE)
-		fprintf(stderr, "WARNING : read %d bytes from boot rom (expected %d). boot behavior is unexpected.\n", rd, BOOT_ROM_SIZE);
-	close(fd);
+		fprintf(stderr, "WARNING : read %zu bytes from boot rom (expected %d). boot behavior is unexpected.\n", rd, BOOT_ROM_SIZE);
+	fclose(f);
 	return (0);
 }
 
 int		init_cpu(struct gb_cpu_s* gb, struct rom_s* rom)
 {
-	bzero(gb, sizeof(*gb));
+	memset(gb, 0, sizeof(*gb));
 	if (init_boot_rom(gb))
 		return (1);
 	gb->rom_ptr = rom;
@@ -67,7 +65,7 @@ int		init_cpu(struct gb_cpu_s* gb, struct rom_s* rom)
 
 int		init_mbc(struct gb_cpu_s* gb)
 {
-	uint8_t		mbc_array[0xff] = {};
+	uint8_t		mbc_array[0xff] = {0};
 	mbc_array[0x00] = 0;
 	mbc_array[0x01] = 1;
 	mbc_array[0x02] = 1;

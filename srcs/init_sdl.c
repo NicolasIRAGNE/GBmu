@@ -12,6 +12,7 @@
 
 #include "gb.h"
 #include "renderer.h"
+#include <stdio.h>
 
 int		init_sdl()
 {

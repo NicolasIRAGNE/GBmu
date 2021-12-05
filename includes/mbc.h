@@ -10,11 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MBC_H
-# define MBC_H
-# include <stdint.h>
+#pragma once
 
-# define BUILT_IN_RAM_SIZE 0x200 // built in ram inside MBC2 chip
+#include <stdint.h>
+
+#define BUILT_IN_RAM_SIZE 0x200 // built in ram inside MBC2 chip
 
 struct	gb_cpu_s;
 
@@ -61,5 +61,3 @@ uint8_t	read_mbc3(struct gb_cpu_s* gb, uint16_t addr, enum memory_mode_e mode);
 
 void	write_mbc5(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, enum memory_mode_e mode);
 uint8_t	read_mbc5(struct gb_cpu_s* gb, uint16_t addr, enum memory_mode_e mode);
-
-#endif

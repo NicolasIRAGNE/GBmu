@@ -19,6 +19,30 @@
                     "ignoreFailures": true
                 }
             ]
-        }
+        },
+        {
+            "name": "C++ Launch (Windows)",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${command:cmake.launchTargetPath}",
+            "symbolSearchPath": "${workspaceFolder}/build/",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/build",
+            "environment": [
+                {
+                    // add the directory where our target was built to the PATHs
+                    // it gets resolved by CMake Tools:
+                    "name": "PATH",
+                    "value": "$PATH:${command:cmake.launchTargetDirectory}"
+                }
+            ],
+            "logging": {
+              "moduleLoad": false,
+              "trace": true
+            },
+            "args": ["${workspaceFolder}/rom/tetris.gb"],
+            "visualizerFile": "${workspaceFolder}/my.natvis",
+            "showDisplayString": true,
+          }
     ]
 }

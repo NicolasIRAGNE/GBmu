@@ -15,9 +15,10 @@
 
 # include <sys/stat.h>
 # include <sys/types.h>
-# include <unistd.h>
+// # include <unistd.h>
+#include <stdlib.h>
 # include <fcntl.h>
-# include <sys/mman.h>
+// # include <sys/mman.h>
 # include <stdint.h>
 # include "op.h"
 # include "ext_op.h"
@@ -82,12 +83,23 @@ struct breakpoint_s
 //	struct breakpoint_s*	breakpoints;
 
 
+#ifdef WITH_LIBYACC
 struct gbmu_debugger_s
 {
 	void					*grammar;	//c++ libyacc DebuggerGrammar instance
 	void					*parser;	//c++ libyacc LRParser instance
 	void					*instance;	//c++ DebuggerContext instance
 };
+#else
+struct gbmu_debugger_s
+{
+	int						verbose_level;
+	struct breakpoint_s*	breakpoints;
+	void*					instance;
+};
+void	fallback_execute(struct gb_cpu_s* gb, char* str);
+#endif
+
 
 struct command_s
 {
@@ -159,6 +171,7 @@ void	memset_4(uint32_t* ptr, uint32_t c, size_t n);
 void	process_dma_transfer(struct gb_cpu_s* gb, uint8_t a8);
 int		clamp(int val, int min, int max);
 void	fatal(struct gb_cpu_s* gb);
+int		get_debugger_verbose(struct gb_cpu_s* gb);
 
 /*
 ** Video
@@ -173,7 +186,6 @@ int		load_game(struct gb_cpu_s* gb);
 int		save_game_crash(struct gb_cpu_s* gb);
 int		savestate(struct gb_cpu_s* gb, int number);
 int		loadstate(struct gb_cpu_s* gb, int number);
-
 
 
 

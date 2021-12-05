@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 # include "SymbolTerminalPrintCommandParams.hpp"
-# include <string.h>
+# include <string>
 
 SymbolTerminalPrintCommandParams::SymbolTerminalPrintCommandParams(void) : AbstractTerminal("printcommandparams", E_PRIORITY_STANDARD, E_ADJACENT_DETACHED)
 {

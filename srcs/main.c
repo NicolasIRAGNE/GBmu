@@ -9,12 +9,13 @@
 /*   Updated: 2020/05/23 19:31:29 by ldedier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include <stdio.h>
 #include "gb.h"
 #include "renderer.h"
-#include "libyacc_wrapper.h"
-#include <pthread.h>
+#ifdef WITH_LIBYACC
+# include "libyacc_wrapper.h"
+#endif
+// #include <pthread.h>
 #include <signal.h>
 
 #define SCREEN_WIDTH 640
@@ -24,7 +25,6 @@ struct gb_cpu_s*	gb_global;
 
 int		open_rom(char* name, struct rom_s* rom)
 {
-	int fd;
 	int ret;
 
 	ret = stat(name, &rom->st);
@@ -33,26 +33,30 @@ int		open_rom(char* name, struct rom_s* rom)
 		perror(name);
 		return (ret);
 	}
-
-	fd = open(name, O_RDONLY);
-	if (fd < 0)
+	
+	FILE* f = fopen(name, "rb");
+	if (f == NULL)
 	{
 		perror(name);
-		return (fd);
+		return (1);
 	}
 	
 	uint8_t* buf = malloc(rom->st.st_size);
 	if (!buf)
 	{
 		perror("malloc");
+		fclose(f);
 		return (1);
 	}
-	int rd = read(fd, buf, rom->st.st_size);
+	size_t rd = fread(buf, rom->st.st_size, 1, f) * rom->st.st_size;
 	if (rd < 0 || rd != rom->st.st_size)
 	{
 		perror(name);
+		fclose(f);
+		free(buf);
 		return (1);
 	}
+	fclose(f);
 	rom->ptr = buf;
 	return (0);
 }
@@ -74,8 +78,14 @@ int		main(int ac, char** av)
 	gb_global = &gb;
 	// debugger.breakpoints = NULL;
 	// debugger.verbose_level = DEFAULT_VERBOSE;
+
+#ifdef WITH_LIBYACC
 	if ((libyacc_init_debugger(&gb, &debugger)) == EXIT_FAILURE)
 		return 1;
+#else
+	debugger.breakpoints = NULL;
+#endif	
+
 	if (ac < 2)
 	{
 		fprintf(stderr, "usage: %s <rom>\n", av[0]);
@@ -85,11 +95,12 @@ int		main(int ac, char** av)
 	if (open_rom(av[1], &rom))
 		return (1);
 		
-	rom.header = rom.ptr + 0x100;
+	rom.header = (uint8_t*)rom.ptr + 0x100;
 	debug_print_rom(&rom);
 
 	if (init_cpu(&gb, &rom))
 		return (1);
+	
 	gb.debugger = &debugger;
 	update_current_instruction(&gb);
 	init_op_tab();

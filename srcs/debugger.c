@@ -14,9 +14,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include "libyacc_wrapper.h"
+#ifdef _WIN32
+# include <editline/readline.h>
+#else 
+# include <readline/readline.h>
+# include <readline/history.h>
+#endif
+#ifdef WITH_LIBYACC
+# include "libyacc_wrapper.h"
+#endif
 
 void	execute_debugger(struct gb_cpu_s* gb)
 {
@@ -30,7 +36,12 @@ void	execute_debugger(struct gb_cpu_s* gb)
 		{
       		add_history(buf);
     	}
-   		libyacc_execute(gb, buf, 1, &quit);
+		#ifdef WITH_LIBYACC
+   			libyacc_execute(gb, buf, 1, &quit);
+		#else
+			fallback_execute(gb, buf);
+		#endif
+
 		free(buf);
 	}
 	if (buf == NULL)

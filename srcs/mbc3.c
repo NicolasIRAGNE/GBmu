@@ -11,9 +11,12 @@
 /* ************************************************************************** */
 
 #include "gb.h"
-#include "libyacc_wrapper.h"
+#include "mbc.h"
 #include <stdio.h>
 #include <stdlib.h>
+#ifdef WITH_LIBYACC
+# include "libyacc_wrapper.h"
+#endif
 
 uint8_t	read_mbc3(struct gb_cpu_s* gb, uint16_t addr, enum memory_mode_e mode)
 {
@@ -33,7 +36,7 @@ uint8_t	read_mbc3(struct gb_cpu_s* gb, uint16_t addr, enum memory_mode_e mode)
 			tmp = gb->mbc.bank;
 			if (tmp * 0x4000 + addr - 0x4000 > gb->rom_ptr->st.st_size)
 			{
-				dprintf(2, "fatal: attempting to read outside the cartridge at %x in bank %x. aborting...\n", addr, tmp);
+				printf("fatal: attempting to read outside the cartridge at %x in bank %x. aborting...\n", addr, tmp);
 				fatal(gb);
 				return (0);
 			}
@@ -64,13 +67,13 @@ void	write_mbc3(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, enum memory_mode_
 	{
 		if (x == 0x0a)
 		{
-			if (get_verbose(gb->debugger->instance) >= 1)
+			if (get_verbose(gb->debugger) >= 1)
 				printf("RAM ENABLED (%4x)\n", addr);
 			gb->ram_enabled = 1;
 		}
 		else
 		{
-			if (get_verbose(gb->debugger->instance) >= 1)
+			if (get_verbose(gb->debugger) >= 1)
 				printf("RAM DISABLED (%4x)\n", addr);
 			gb->ram_enabled = 0;
 		}
