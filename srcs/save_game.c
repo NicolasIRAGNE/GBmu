@@ -69,7 +69,7 @@ int		load_game(struct gb_cpu_s* gb)
 		perror(save_file);
 		return (1);
 	}
-	size_t rd = fread(gb->extra_ram, gb->mbc.ram_size, 1, f);
+	size_t rd = fread(gb->extra_ram, gb->mbc.ram_size, 1, f) * gb->mbc.ram_size;
 	if (rd < 0)
 	{
 		perror(save_file);

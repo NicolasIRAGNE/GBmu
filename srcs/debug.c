@@ -16,15 +16,6 @@
 #endif
 #include <stdio.h>
 
-#ifdef WITH_LIBYACC
-
-int get_verbose_level(void*)
-{
-	return 0;
-}
-
-#endif // DEBUG
-
 void	debug_print_gb(struct gb_cpu_s* gb)
 {
 	printf("-------------------\n");

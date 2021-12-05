@@ -26,7 +26,7 @@
             "request": "launch",
             "program": "${command:cmake.launchTargetPath}",
             "symbolSearchPath": "${workspaceFolder}/build/",
-            "console": "externalTerminal",
+            "console": "integratedTerminal",
             "cwd": "${workspaceFolder}/build",
             "environment": [
                 {
@@ -40,7 +40,7 @@
               "moduleLoad": false,
               "trace": true
             },
-            "args": ["${workspaceFolder}/rom/Legend_of_Zelda_link_Awaking.gb"],
+            "args": ["${workspaceFolder}/rom/tetris.gb"],
             "visualizerFile": "${workspaceFolder}/my.natvis",
             "showDisplayString": true,
           }

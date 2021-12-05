@@ -17,11 +17,11 @@
 #ifdef _WIN32
 # include <editline/readline.h>
 #else 
-#include <readline/readline.h>
-#include <readline/history.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 #endif
 #ifdef WITH_LIBYACC
-#include "libyacc_wrapper.h"
+# include "libyacc_wrapper.h"
 #endif
 
 void	execute_debugger(struct gb_cpu_s* gb)

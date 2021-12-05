@@ -11,6 +11,9 @@
 /* ************************************************************************** */
 
 #include "mbc.h"
+#ifdef WITH_LIBYACC
+# include "libyacc_wrapper.h"
+#endif
 #include <stdio.h>
 
 struct mbc_s	mbc_array[] =

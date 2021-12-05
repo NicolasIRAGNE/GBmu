@@ -45,14 +45,18 @@ int		open_rom(char* name, struct rom_s* rom)
 	if (!buf)
 	{
 		perror("malloc");
+		fclose(f);
 		return (1);
 	}
 	size_t rd = fread(buf, rom->st.st_size, 1, f) * rom->st.st_size;
 	if (rd < 0 || rd != rom->st.st_size)
 	{
 		perror(name);
+		fclose(f);
+		free(buf);
 		return (1);
 	}
+	fclose(f);
 	rom->ptr = buf;
 	return (0);
 }
@@ -78,6 +82,8 @@ int		main(int ac, char** av)
 #ifdef WITH_LIBYACC
 	if ((libyacc_init_debugger(&gb, &debugger)) == EXIT_FAILURE)
 		return 1;
+#else
+	debugger.breakpoints = NULL;
 #endif	
 
 	if (ac < 2)
@@ -94,6 +100,7 @@ int		main(int ac, char** av)
 
 	if (init_cpu(&gb, &rom))
 		return (1);
+	
 	gb.debugger = &debugger;
 	update_current_instruction(&gb);
 	init_op_tab();

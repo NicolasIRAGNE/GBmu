@@ -11,26 +11,14 @@
 /* ************************************************************************** */
 
 #include "gb.h"
+#include "fallback_debugger.h"
 #include <stdio.h>
 #include <string.h>
-
-int		command_next(struct gb_cpu_s* gb, char* s, uint16_t arg);
-int		command_add_breakpoint(struct gb_cpu_s* gb, char* s, uint16_t arg);
-int		command_info(struct gb_cpu_s* gb, char* s, uint16_t arg);
-int		command_not_found(struct gb_cpu_s* gb, char* s, uint16_t arg);
-int		command_set_verbose(struct gb_cpu_s* gb, char* s, uint16_t arg);
-int		command_quit(struct gb_cpu_s* gb, char* s, uint16_t arg);
-int		command_print(struct gb_cpu_s* gb, char* s, uint16_t arg);
-int		command_run(struct gb_cpu_s* gb, char* s, uint16_t arg);
-int		command_del(struct gb_cpu_s* gb, char* s, uint16_t arg);
-int		command_help(struct gb_cpu_s* gb, char* s, uint16_t arg);
-
 
 int		get_verbose(struct gbmu_debugger_s* debugger)
 {
 	return (debugger->verbose_level);
 }
-
 struct breakpoint_s*	new_breakpoint(uint16_t addr)
 {
 	struct breakpoint_s* ret;
@@ -86,11 +74,13 @@ int		print_breakpoints(struct breakpoint_s* lst)
 	return (0);
 }
 
-int		find_breakpoint(struct breakpoint_s* lst, uint16_t addr)
+int		find_breakpoint(void* debugger, int pc)
 {
+	struct gbmu_debugger_s* dbg = (struct gbmu_debugger_s*)debugger;
+	struct breakpoint_s* lst = dbg->breakpoints;
 	while (lst)
 	{
-		if (lst->addr == addr)
+		if (lst->addr == pc)
 		{
 			return (1);
 		}

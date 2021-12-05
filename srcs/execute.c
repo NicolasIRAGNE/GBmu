@@ -159,7 +159,6 @@ int		handle_instruction(struct gb_cpu_s* gb)
 		return (0);
 	}
 
-	#ifdef WITH_LIBYACC
 	if (get_verbose(gb->debugger) >= 1)
 			debug_print_gb(gb);
 	
@@ -169,7 +168,6 @@ int		handle_instruction(struct gb_cpu_s* gb)
 		debug_print_gb(gb);
 		// return (0);
 	}
-	#endif
 
 	if (gb->current_instruction->exec)
 	{

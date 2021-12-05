@@ -19,7 +19,6 @@ void	handle_joypad(struct gb_cpu_s* gb, SDL_GameController* controller, const Ui
 
 	if (controller)
 	{
-
 		temp.start = SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_START);
 		temp.select = SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_BACK);
 		temp.a = SDL_GameControllerGetButton(controller, SDL_CONTROLLER_BUTTON_A);

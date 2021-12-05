@@ -19,36 +19,22 @@ FetchContent_Declare(
         GIT_TAG release-2.0.18
 )
 
-FetchContent_GetProperties(SDL2)
-if (NOT sdl2_POPULATED)
-    FetchContent_Populate(SDL2)
-    add_subdirectory(${sdl2_SOURCE_DIR} ${sdl2_BINARY_DIR})
-endif ()
-
 FetchContent_Declare(
         GLEW
         GIT_REPOSITORY "https://github.com/Perlmint/glew-cmake"
         GIT_TAG glew-cmake-release
 )
 
-FetchContent_GetProperties(GLEW)
-if (NOT glew_POPULATED)
-    FetchContent_Populate(GLEW)
-    add_subdirectory(${glew_SOURCE_DIR} ${glew_BINARY_DIR})
-endif ()
+FetchContent_MakeAvailable(GLEW SDL2)
 
 if(WIN32)
 	FetchContent_Declare(
 			WINEDITLINE
-			GIT_REPOSITORY "https://github.com/winlibs/wineditline"
-			GIT_TAG WinEditLine-2.205
+			GIT_REPOSITORY "https://github.com/NicolasIRAGNE/wineditline"
+			GIT_TAG WinEditLine-2.207
 	)
 
-	FetchContent_GetProperties(WINEDITLINE)
-	if (NOT wineditline_POPULATED)
-		FetchContent_Populate(WINEDITLINE)
-		add_subdirectory(${wineditline_SOURCE_DIR} ${wineditline_BINARY_DIR})
-	endif ()
+	FetchContent_MakeAvailable(WINEDITLINE)
 endif()
 
 ################################################
@@ -459,9 +445,9 @@ set(DEBUGGER_SOURCES
 	includes/debugger/Commands/Continue.hpp
 	)
 
-include_directories(srcs)
-include_directories(includes)
-
+target_include_directories(gbmu PRIVATE srcs)
+target_include_directories(gbmu PRIVATE includes)
+	
 ################################################
 #                COMPILE FLAGS                 #
 ################################################
@@ -489,7 +475,6 @@ endif()
 #                  EXECUTABLE                  #
 ################################################
 
-
 if (WITH_LIBYACC)
 	target_sources(gbmu PRIVATE ${GENERATED_LIBYACC_SOURCES} ${DEBUGGER_SOURCES})
 	FILE(GLOB GENERATED_LIBYACC_SOURCES srcs/debugger/*.cpp)
@@ -508,15 +493,11 @@ target_link_libraries(gbmu ${CMAKE_THREAD_LIBS_INIT})
 target_link_libraries(gbmu ${OPENGL_LIBRARIES})
 target_link_libraries(gbmu libglew_static)
 
-
 if (WIN32)
-	target_link_libraries(gbmu edit_a)
-	target_include_directories(gbmu PRIVATE ${wineditline_SOURCE_DIR}/src)
-	message(STATUS "wineditline_SOURCE_DIR: ${wineditline_SOURCE_DIR}")
+	target_link_libraries(gbmu edit_static)
 endif()
 
 # target_include_directories(gbmu ${SDL2_INCLUDE_DIRS})
-
 
 ################################################
 #                   INSTALL                    #

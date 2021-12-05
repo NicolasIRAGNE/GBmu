@@ -14,6 +14,9 @@
 #include "mbc.h"
 #include <stdio.h>
 #include <stdlib.h>
+#ifdef WITH_LIBYACC
+# include "libyacc_wrapper.h"
+#endif
 
 uint8_t	read_mbc5(struct gb_cpu_s* gb, uint16_t addr, enum memory_mode_e mode)
 {
