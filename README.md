@@ -6,13 +6,9 @@ One of the dumbest ideas i've had so far.
 ### Dependencies.
 Cmake version 3.13 minimum.
 
-SDL2
+If you are building on `linux` or `macOs`: [GNU readline](https://tiswww.case.edu/php/chet/readline/rltop.html)
 
-Glu
-
-That should be it i don't know
-
-It should run on osx and linux as long as these dependencies are met. Not tested on windows.
+All other dependencies
 
 ### How to use
 cd build && cmake .. && make install
@@ -20,10 +16,10 @@ cd build && cmake .. && make install
 usage: ./gbmu <rom_file>
 
 ### Debugger 
-This includes a very rudimentary debugger with very poor syntax parsing. Type help for command info.
+This program ships with [libyacc](https://github.com/ldedier/libyacc). However, it can cause crashes on some architectures, so it also includes a fallback, much more rudimentary debugger. Use the CMake variable `WITH_LIBYACC` to choose which one to include.
 
 ### Does it work ?
-No.
+Not really. Maybe sometimes.
 
 ### Will it work one day ?
 Maybe.
