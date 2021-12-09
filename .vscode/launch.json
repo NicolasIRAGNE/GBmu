@@ -9,8 +9,8 @@
             "program": "${workspaceFolder}/build/gbmu",
             "args": ["${workspaceFolder}/rom/Legend_of_Zelda_link_Awaking.gb"],
             "stopAtEntry": true,
-            "cwd": "${workspaceFolder}",
-            "externalConsole": true,
+            "cwd": "${workspaceFolder}/build",
+            "console: "integratedTerminal",
             "MIMode": "gdb",
             "setupCommands": [
                 {
