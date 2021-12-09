@@ -29,7 +29,7 @@ int Sprites::Init()
         "shaders/sprites.frag");
 
     if (!m_Program) {
-        printf("failed to compile program\n");
+        printf("failed to compile program for sprites\n");
         return -1;
     }
 
@@ -38,7 +38,7 @@ int Sprites::Init()
 
     int ret = linkProgram(m_Program);
     if (ret < 0) {
-        printf("failed to link program\n");
+        printf("failed to link program for sprites\n");
         return -1;
     }
 

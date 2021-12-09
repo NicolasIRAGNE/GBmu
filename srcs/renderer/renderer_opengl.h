@@ -20,6 +20,9 @@ public:
     int Init();
     int Destroy();
 
+    void UpdateLcd();
+    void UpdateVram();
+
     int Clear();
     int Draw(int firstLine, int lastLine);
     int Render();
@@ -32,8 +35,6 @@ private:
 
     void UpdateStaticInfos();
     void UpdateDynamicInfos();
-    void UpdateLcd();
-    void UpdateVram();
 
 private:
     gb_cpu_s* m_Gb;

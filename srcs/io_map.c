@@ -85,7 +85,5 @@ void	write_io(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, uint8_t lcdc)
 		request_lcd_off(gb);
 		// return ;
 	}
-	else if (addr == LCDC_OFFSET || addr == STAT_OFFSET || (addr >= SCY_OFFSET && addr <= LYC_OFFSET) || addr == WY_OFFSET || addr == WX_OFFSET)
-		gb->lcd_updated = 1;
 	((uint8_t*)(gb->io_ports))[addr - 0xFF00] = x;
 }
