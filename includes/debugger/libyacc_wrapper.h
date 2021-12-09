@@ -12,7 +12,7 @@
 
 #ifndef LIBYACC_WRAPPER_H
 # define LIBYACC_WRAPPER_H
-
+# include <stddef.h>
 #include "cpu.h"
 
 #ifdef __cplusplus

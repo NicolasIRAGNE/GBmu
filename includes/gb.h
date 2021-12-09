@@ -24,7 +24,7 @@
 # include "ext_op.h"
 # include <limits.h>
 # include <mbc.h>
-
+# include <stdio.h>
 # include "renderer/wrapper_c/wrapper.h"
 
 # define RED	"\x1B[31m"
