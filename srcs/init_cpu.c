@@ -29,6 +29,7 @@ int		init_boot_rom(struct gb_cpu_s* gb)
 	if (rd == 0)
 	{
 		perror("fatal: could read from "BOOT_ROM);
+		fclose(f);
 		return (1);
 	}
 	if (rd != BOOT_ROM_SIZE)

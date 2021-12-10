@@ -12,6 +12,7 @@ add_executable(gbmu)
 include(FetchContent)
 
 option(WITH_LIBYACC "Build libyacc" OFF)
+option(WITH_ASAN "Build with memory sanitizer" OFF)
 
 FetchContent_Declare(
         SDL2
@@ -468,6 +469,12 @@ else()
 	# set(CMAKE_C_FLAGS           "${CMAKE_C_FLAGS}           -Wall -Wextra")
 	# set(CMAKE_C_FLAGS_RELEASE   "${CMAKE_C_FLAGS_RELEASE}   -O3 -g -Werror")
 	set(CMAKE_C_FLAGS_DEBUG     "${CMAKE_C_FLAGS_DEBUG}     -O0 -g")
+endif()
+
+if (WITH_ASAN)
+	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fsanitize=address")
+	set(CMAKE_C_FLAGS_DEBUG   "${CMAKE_C_FLAGS_DEBUG}   -fsanitize=address")
+	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fsanitize=address")
 endif()
 
 
