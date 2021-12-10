@@ -233,6 +233,9 @@ struct	gb_cpu_s
 	int					paused : 1;
 	int					vram_updated : 1;
 	int					oam_updated : 1;
+	int					draw_background : 1;
+	int					draw_window : 1;
+	int					draw_sprites : 1;
 	struct Lcd			lcd[144];
 	uint16_t			interrupt;
 	uint64_t			cycle;
@@ -244,6 +247,7 @@ struct	gb_cpu_s
 	int					ram_enabled : 1;
 	int					halted : 1;
 	int					booted : 1;
+	int					debug_palette : 1;
 	struct registers_s	reg;
 	struct inst_s*		current_instruction;
 	struct rom_s*		rom_ptr;

@@ -140,6 +140,12 @@ void Window::UpdateVertex(int wx, int firstLine, int lastLine)
 
 void Window::UpdateColors()
 {
+    constexpr float debug_palette[4][4] = {
+        {0.f, 0.f, 1.0f, 1.f},
+        {0.f, 0.f, 0.8f, 1.f},
+        {0.f, 0.f, 0.6f, 1.f},
+        {0.f, 0.f, 0.4f, 1.f},
+    };
     constexpr float palette[4][4] = {
         {0.86f, 0.79f, 0.62f, 1.f},
         {0.67f, 0.55f, 0.06f, 1.f},
@@ -148,12 +154,13 @@ void Window::UpdateColors()
     };
 
     float colors[4][4];
+    auto win_palette = (m_Gb->debug_palette) ? debug_palette : palette;
 
     uint8_t bgp = read_8(m_Gb, BGP_OFFSET);
-    std::memcpy(&colors[0], &palette[(bgp & 0b00000011) >> 0], 4 * sizeof(float));
-    std::memcpy(&colors[2], &palette[(bgp & 0b00001100) >> 2], 4 * sizeof(float));
-    std::memcpy(&colors[1], &palette[(bgp & 0b00110000) >> 4], 4 * sizeof(float));
-    std::memcpy(&colors[3], &palette[(bgp & 0b11000000) >> 6], 4 * sizeof(float));
+    std::memcpy(&colors[0], &win_palette[(bgp & 0b00000011) >> 0], 4 * sizeof(float));
+    std::memcpy(&colors[2], &win_palette[(bgp & 0b00001100) >> 2], 4 * sizeof(float));
+    std::memcpy(&colors[1], &win_palette[(bgp & 0b00110000) >> 4], 4 * sizeof(float));
+    std::memcpy(&colors[3], &win_palette[(bgp & 0b11000000) >> 6], 4 * sizeof(float));
 
     glUseProgram(m_Program);
     glUniform4fv(m_ColorsLoc, 4, (const GLfloat*)colors);

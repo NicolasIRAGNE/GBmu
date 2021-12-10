@@ -13,6 +13,7 @@
 #include "gb.h"
 #include "renderer.h"
 #include <stdio.h>
+#include "input_functions.h"
 
 int		init_sdl()
 {
@@ -55,6 +56,7 @@ int     init_main_window(struct sdl_context_s* context)
 	}
 	context->glcontext = SDL_GL_CreateContext(context->win);
 	SDL_GL_SetSwapInterval(0);
+	init_input_functions();
 	// context->surface = SDL_CreateRGBSurface(0, MAIN_SURFACE_WIDTH, MAIN_SURFACE_HEIGHT, 32, 0, 0, 0, 0);
 	// if (!context->surface)
 	// {

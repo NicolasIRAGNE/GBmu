@@ -13,6 +13,7 @@ include(FetchContent)
 
 option(WITH_LIBYACC "Build libyacc" OFF)
 option(WITH_ASAN "Build with memory sanitizer" OFF)
+option(DEBUG_COLORS "Enable debug palette" ON)
 
 FetchContent_Declare(
         SDL2
@@ -84,6 +85,7 @@ set(SOURCES
 	srcs/tile.c
 	srcs/breakpoints.c
 	srcs/main_window_loop.c
+	srcs/input_functions.c
 	srcs/handle_joypad.c
 	srcs/save_game.c
 	srcs/palette.c
@@ -137,7 +139,9 @@ set(HEADERS
 	includes/mbc.h
 	includes/op.h
 	includes/registers.h
-	includes/renderer.h)
+	includes/renderer.h
+	includes/input_functions.c
+	)
 
 if (WIN32)
 	list (APPEND SOURCES 
@@ -475,6 +479,10 @@ if (WITH_ASAN)
 	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fsanitize=address")
 	set(CMAKE_C_FLAGS_DEBUG   "${CMAKE_C_FLAGS_DEBUG}   -fsanitize=address")
 	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fsanitize=address")
+endif()
+
+if (DEBUG_COLORS)
+	target_compile_definitions(gbmu PRIVATE DEBUG_COLORS)
 endif()
 
 

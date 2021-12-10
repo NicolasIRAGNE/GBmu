@@ -59,6 +59,7 @@ Lcd GetLcd(uint line)
 
 vec4 GetColorFromTileIndex(uint index, uvec2 posInTile)
 {   
+
     uint msb = GetValueAt(index * 16u + posInTile.y * 2u);
     uint lsb = GetValueAt(index * 16u + posInTile.y * 2u + 1u);
 
@@ -73,8 +74,8 @@ vec4 GetColorFromTileIndex(uint index, uvec2 posInTile)
     if (colorIndex == 0u) {
         gl_FragDepth = 0.8f;
     }
-
-    return colors[colorIndex];
+    vec4 res = colors[colorIndex];
+    return res;
 }
 
 void main()
