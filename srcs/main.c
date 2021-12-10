@@ -79,12 +79,7 @@ int		main(int ac, char** av)
 	// debugger.breakpoints = NULL;
 	// debugger.verbose_level = DEFAULT_VERBOSE;
 
-#ifdef WITH_LIBYACC
-	if ((libyacc_init_debugger(&gb, &debugger)) == EXIT_FAILURE)
-		return 1;
-#else
-	debugger.breakpoints = NULL;
-#endif	
+
 
 	if (ac < 2)
 	{
@@ -101,6 +96,13 @@ int		main(int ac, char** av)
 	if (init_cpu(&gb, &rom))
 		return (1);
 	
+#ifdef WITH_LIBYACC
+	if ((libyacc_init_debugger(&gb, &debugger)) == EXIT_FAILURE)
+		return 1;
+#else
+	debugger.breakpoints = NULL;
+#endif	
+
 	gb.debugger = &debugger;
 	update_current_instruction(&gb);
 	init_op_tab();
@@ -111,8 +113,8 @@ int		main(int ac, char** av)
  #ifndef __SANITIZE_ADDRESS__
 	atexit(SDL_Quit);
  #endif
-	// if (init_vram_viewer(&vram_viewer_context))
-		// return (1);
+	if (init_vram_viewer(&vram_viewer_context))
+		return (1);
 	if (init_main_window(&main_window_context))
 		return (1);
 	load_game(&gb);

@@ -48,19 +48,23 @@ int		init_cpu(struct gb_cpu_s* gb, struct rom_s* rom)
 	gb->reg.af = 0;
 	gb->reg.de = 0;
 	gb->reg.hl = 0;
-	gb->reg.pc = 0;
+	gb->reg.pc = 0x100;
 	gb->booted = (gb->reg.pc) >= 0x100;
 	gb->running = 1;
 	gb->vram_viewer_running = 1;
+	gb->draw_background = 1;
+	gb->draw_sprites = 1;
+	gb->draw_window = 1;
 	gb->paused = 0;
 	gb->current_instruction = NULL;
 	gb->ime = 1;
 	gb->div_freq = DEFAULT_DIV_FREQ;
-	// gb->interrupt_enable_register |= INT_VBLANK_REQUEST;
-	// gb->interrupt_enable_register |= INT_TIMER_REQUEST;
-	// gb->interrupt_enable_register |= INT_STAT_REQUEST;
+	gb->interrupt_enable_register |= INT_VBLANK_REQUEST;
+	gb->interrupt_enable_register |= INT_TIMER_REQUEST;
+	gb->interrupt_enable_register |= INT_STAT_REQUEST;
 	init_mbc(gb);
 	gb->extra_ram = malloc(gb->mbc.ram_size);
+	write_8(gb, LCDC_OFFSET, read_8(gb, LCDC_OFFSET) | LCDC_ON);
 	return (0);
 }
 

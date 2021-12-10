@@ -118,18 +118,20 @@ int Renderer::Draw(int firstLine, int lastLine)
     glBindFramebuffer(GL_FRAMEBUFFER, m_FrameBuffer);
     glViewport(0, 0, MAIN_SURFACE_WIDTH, MAIN_SURFACE_HEIGHT);
 
+    // the draw_background property from Gb is handled inside (because we have to draw something)
     m_Background.Draw(firstLine, lastLine);
 
-    if (lcdc & LCDC_WINDOW_ON) {
+    if (m_Gb->draw_window && (lcdc & LCDC_WINDOW_ON)) {
         m_Menu.Draw(firstLine, lastLine);
     }
 
-    glDepthFunc(GL_LEQUAL);
-    m_Sprites.Draw(firstLine, lastLine);
-    glDepthFunc(GL_ALWAYS);
-
+    if (m_Gb->draw_sprites)
+    {
+        glDepthFunc(GL_LEQUAL);
+        m_Sprites.Draw(firstLine, lastLine);
+        glDepthFunc(GL_ALWAYS);
+    }
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
     return 0;
 }
 
