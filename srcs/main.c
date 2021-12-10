@@ -49,7 +49,7 @@ int		open_rom(char* name, struct rom_s* rom)
 		return (1);
 	}
 	size_t rd = fread(buf, rom->st.st_size, 1, f) * rom->st.st_size;
-	if (rd < 0 || rd != rom->st.st_size)
+	if (rd != rom->st.st_size)
 	{
 		perror(name);
 		fclose(f);

@@ -111,8 +111,14 @@ extern "C"
 		bool found;
 		bool temp;
 		uint32_t id;
+		
+		if (debugger == nullptr)
+			return 0;
 
-		Debugger *instance = static_cast<Debugger *>(debugger);
+		auto inst = ((struct gbmu_debugger_s*)debugger)->instance;
+		if (inst == nullptr)
+			return 0;
+		Debugger *instance = static_cast<Debugger *>(inst);
 		temp = false;
 		found = instance->getBreakpointValuesList(pc, nullptr, &id, &temp);
 		if (found)
