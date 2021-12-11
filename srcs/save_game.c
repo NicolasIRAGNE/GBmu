@@ -84,3 +84,4 @@ int		load_game(struct gb_cpu_s* gb)
 	free(save_file);
 	return(0);
 }
+

@@ -1,4 +1,5 @@
 #include "sprites.h"
+#include "gl_utils/glerr.h"
 
 #include <cstring>
 #include <algorithm>

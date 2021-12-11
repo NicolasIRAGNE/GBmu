@@ -23,44 +23,6 @@
 
 struct gb_cpu_s*	gb_global;
 
-int		open_rom(char* name, struct rom_s* rom)
-{
-	int ret;
-
-	ret = stat(name, &rom->st);
-	if (ret)
-	{
-		perror(name);
-		return (ret);
-	}
-	
-	FILE* f = fopen(name, "rb");
-	if (f == NULL)
-	{
-		perror(name);
-		return (1);
-	}
-	
-	uint8_t* buf = malloc(rom->st.st_size);
-	if (!buf)
-	{
-		perror("malloc");
-		fclose(f);
-		return (1);
-	}
-	size_t rd = fread(buf, rom->st.st_size, 1, f) * rom->st.st_size;
-	if (rd != rom->st.st_size)
-	{
-		perror(name);
-		fclose(f);
-		free(buf);
-		return (1);
-	}
-	fclose(f);
-	rom->ptr = buf;
-	return (0);
-}
-
 void	sigint_handler(int foo)
 {
 	(void)foo;
@@ -76,10 +38,8 @@ int		main(int ac, char** av)
 	struct sdl_context_s vram_viewer_context;
 	struct sdl_context_s main_window_context;
 	gb_global = &gb;
-	// debugger.breakpoints = NULL;
-	// debugger.verbose_level = DEFAULT_VERBOSE;
-
-
+	debugger.breakpoints = NULL;
+	debugger.verbose_level = DEFAULT_VERBOSE;
 
 	if (ac < 2)
 	{
@@ -113,8 +73,8 @@ int		main(int ac, char** av)
  #ifndef __SANITIZE_ADDRESS__
 	atexit(SDL_Quit);
  #endif
-	if (init_vram_viewer(&vram_viewer_context))
-		return (1);
+	// if (init_vram_viewer(&vram_viewer_context))
+		// return (1);
 	if (init_main_window(&main_window_context))
 		return (1);
 	load_game(&gb);

@@ -15,6 +15,45 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+
+int		open_rom(char* name, struct rom_s* rom)
+{
+	int ret;
+
+	ret = stat(name, &rom->st);
+	if (ret)
+	{
+		perror(name);
+		return (ret);
+	}
+	
+	FILE* f = fopen(name, "rb");
+	if (f == NULL)
+	{
+		perror(name);
+		return (1);
+	}
+	
+	uint8_t* buf = malloc(rom->st.st_size);
+	if (!buf)
+	{
+		perror("malloc");
+		fclose(f);
+		return (1);
+	}
+	size_t rd = fread(buf, rom->st.st_size, 1, f) * rom->st.st_size;
+	if (rd != rom->st.st_size)
+	{
+		perror(name);
+		fclose(f);
+		free(buf);
+		return (1);
+	}
+	fclose(f);
+	rom->ptr = buf;
+	return (0);
+}
+
 int		init_boot_rom(struct gb_cpu_s* gb)
 {
 
@@ -44,21 +83,21 @@ int		init_cpu(struct gb_cpu_s* gb, struct rom_s* rom)
 	if (init_boot_rom(gb))
 		return (1);
 	gb->rom_ptr = rom;
+	gb->reg.pc = 0;
+	gb->booted = (gb->reg.pc) >= 0x100;
 	gb->reg.sp = 0;
 	gb->reg.af = 0;
 	gb->reg.bc = 0;
 	gb->reg.de = 0;
 	gb->reg.hl = 0;
-	gb->reg.pc = 0x100;
-	gb->booted = (gb->reg.pc) >= 0x100;
 	gb->running = 1;
 	gb->vram_viewer_running = 1;
 	gb->draw_background = 1;
 	gb->draw_sprites = 1;
 	gb->draw_window = 1;
-	gb->paused = 0;
 	gb->current_instruction = NULL;
-	gb->ime = 1;
+	gb->ime = 0;
+	gb->paused = 0;
 	gb->div_freq = DEFAULT_DIV_FREQ;
 	// gb->interrupt_enable_register |= INT_VBLANK_REQUEST;
 	// gb->interrupt_enable_register |= INT_TIMER_REQUEST;

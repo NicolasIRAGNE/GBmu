@@ -172,6 +172,7 @@ void	process_dma_transfer(struct gb_cpu_s* gb, uint8_t a8);
 int		clamp(int val, int min, int max);
 void	fatal(struct gb_cpu_s* gb);
 int		get_debugger_verbose(struct gb_cpu_s* gb);
+int		open_rom(char* name, struct rom_s* rom);
 
 /*
 ** Video
