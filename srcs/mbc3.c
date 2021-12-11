@@ -10,10 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
+#include <stdint.h>
+#include <sys/stat.h>
+
 #include "gb.h"
 #include "mbc.h"
-#include <stdio.h>
-#include <stdlib.h>
+#include "cpu.h"
 #ifdef WITH_LIBYACC
 # include "libyacc_wrapper.h"
 #endif

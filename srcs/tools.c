@@ -10,6 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stddef.h>
+#include <stdint.h>
+
 #include "gb.h"
 
 uint32_t	get_color_from_palette(uint8_t index, uint32_t* palette)

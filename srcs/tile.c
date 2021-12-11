@@ -10,8 +10,16 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "renderer.h"
 #include <stdio.h>
+#include <stdint.h>
+
+#include "renderer.h"
+#include "SDL_blendmode.h"
+#include "SDL_error.h"
+#include "SDL_pixels.h"
+#include "SDL_rect.h"
+#include "SDL_surface.h"
+#include "cpu.h"
 
 void	fill_tile_array(struct gb_cpu_s* gb, struct tile_s* array)
 {

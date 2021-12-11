@@ -10,10 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdint.h>
+
 #include "gb.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "cpu.h"
+#include "mbc.h"
 
 static uint8_t	read_8_internal(struct gb_cpu_s* gb, uint16_t a16, enum memory_mode_e mode)
 {

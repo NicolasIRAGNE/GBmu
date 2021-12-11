@@ -1,13 +1,12 @@
 #include "rescale.h"
+
+#include <stdio.h>
+
 #include "gl_utils/glerr.h"
-
-#include <cstring>
-
 #include "gl_utils/compile_program.h"
+#include "GL/glew.h"
 
 extern "C" {
-#include "gb.h"
-#include "renderer.h"
 }
 
 namespace GBMU {

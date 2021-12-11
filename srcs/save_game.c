@@ -11,9 +11,12 @@
 /* ************************************************************************** */
 
 #define _GNU_SOURCE
-#include "gb.h"
 #include <stdio.h>
 #include <stdlib.h>
+
+#include "gb.h"
+#include "cpu.h"
+#include "mbc.h"
 
 #ifdef _WIN32
 #include "asprintf.h"

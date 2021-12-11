@@ -10,10 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdint.h>
+
 #include "gb.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "cpu.h"
+#include "mbc.h"
 
 static void	write_8_internal(struct gb_cpu_s* gb, uint16_t a16, uint8_t x, enum memory_mode_e mode)
 {

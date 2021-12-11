@@ -11,7 +11,12 @@
 /* ************************************************************************** */
 
 
+#include <limits.h>
+#include <stdint.h>
+
 #include "gb.h"
+#include "cpu.h"
+#include "op.h"
 
 void	add(struct gb_cpu_s* gb, uint8_t value)
 {

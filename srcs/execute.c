@@ -11,13 +11,17 @@
 /* ************************************************************************** */
 
 #include "gb.h"
+#include "SDL_surface.h"
+#include "SDL_video.h"
+#include "cpu.h"
+#include "op.h"
+#include "renderer/wrapper_c/wrapper.h"
 #ifdef WITH_LIBYACC
 # include "libyacc_wrapper.h"
 #endif
 #include <stdio.h>
-#include <stdlib.h>
-// #include <unistd.h>
-#include <stdlib.h>
+#include <stdint.h>
+
 #include "renderer.h"
 
 uint8_t	update_current_instruction(struct gb_cpu_s* gb)

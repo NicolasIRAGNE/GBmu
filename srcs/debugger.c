@@ -10,10 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "gb.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include "gb.h"
+#include "cpu.h"
 #ifdef _WIN32
 # include <editline/readline.h>
 #else 

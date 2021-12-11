@@ -1,9 +1,13 @@
 #include "window.h"
-#include "gl_utils/glerr.h"
 
+#include <stdint.h>
+#include <stdio.h>
 #include <cstring>
 
+#include "gl_utils/glerr.h"
 #include "gl_utils/compile_program.h"
+#include "GL/glew.h"
+#include "cpu.h"
 
 extern "C" {
 #include "gb.h"

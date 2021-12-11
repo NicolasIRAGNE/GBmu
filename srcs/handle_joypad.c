@@ -10,8 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "gb.h"
 #include "renderer.h"
+#include "SDL_gamecontroller.h"
+#include "SDL_scancode.h"
+#include "SDL_stdinc.h"
+#include "cpu.h"
 
 void	handle_joypad(struct gb_cpu_s* gb, SDL_GameController* controller, const Uint8* state)
 {
