@@ -10,9 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "gb.h"
-#include "renderer.h"
-
 // void	renderer_loop(struct gbmu_wrapper_s* wrapper)
 // {
 	// Uint64 startTime = 0;

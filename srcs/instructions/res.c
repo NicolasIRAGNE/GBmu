@@ -10,7 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdint.h>
+
 #include "ext_op.h"
+#include "cpu.h"
+#include "gb.h"
 
 void	res_reg8(struct gb_cpu_s* gb, int bit, uint8_t* reg)
 {

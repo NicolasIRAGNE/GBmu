@@ -6,7 +6,8 @@
  */
 
 #include "gb.h"
-#include "SDL.h"
+#include "SDL_scancode.h"
+#include "cpu.h"
 
 void	key_escape(struct gbmu_wrapper_s* wrapper)
 {

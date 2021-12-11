@@ -10,7 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdint.h>
+
 #include "gb.h"
+#include "cpu.h"
+#include "op.h"
 
 void	ld_reg_8(uint8_t* dst, uint8_t src)
 {

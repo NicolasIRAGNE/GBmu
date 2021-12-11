@@ -10,7 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdint.h>
+
 #include "gb.h"
+#include "cpu.h"
 
 void	update_div_register(struct gb_cpu_s* gb)
 {

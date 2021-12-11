@@ -10,7 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdint.h>
+
 #include "op.h"
+#include "cpu.h"
+#include "gb.h"
 
 void		adc(struct gb_cpu_s* gb, uint8_t value)
 {

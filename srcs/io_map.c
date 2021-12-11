@@ -10,7 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdint.h>
+
 #include "gb.h"
+#include "cpu.h"
 
 static void	request_lcd_on(struct gb_cpu_s* gb)
 {

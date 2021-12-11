@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "gb.h"
+#include "cpu.h"
+#include "op.h"
 
 void	push_hl(struct gb_cpu_s* gb)
 {

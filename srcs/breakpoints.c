@@ -10,10 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "gb.h"
-#include <stdio.h>
-#include <stdlib.h>
-
 /*
 
 struct breakpoint_s*	new_breakpoint(uint16_t addr)

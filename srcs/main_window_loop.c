@@ -10,8 +10,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stddef.h>
+#include <stdint.h>
+
 #include "renderer.h"
 #include "input_functions.h"
+#include "SDL_events.h"
+#include "SDL_keyboard.h"
+#include "SDL_stdinc.h"
+#include "SDL_surface.h"
+#include "SDL_video.h"
+#include "cpu.h"
+#include "gb.h"
+#include "renderer/wrapper_c/wrapper.h"
 
 int		display_test(struct gbmu_wrapper_s* wrapper, struct tile_s* array, SDL_Surface* tmp_surface)
 {

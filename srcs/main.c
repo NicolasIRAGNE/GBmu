@@ -10,8 +10,16 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdio.h>
+#include <stdint.h>
+#include <stdlib.h>
+
 #include "gb.h"
 #include "renderer.h"
+#include "SDL.h"
+#include "SDL_video.h"
+#include "cpu.h"
+#include "mbc.h"
+#include "renderer/wrapper_c/wrapper.h"
 #ifdef WITH_LIBYACC
 # include "libyacc_wrapper.h"
 #endif

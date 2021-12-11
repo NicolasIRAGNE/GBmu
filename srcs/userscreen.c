@@ -10,7 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdint.h>
+
 #include "renderer.h"
+#include "SDL_rect.h"
+#include "SDL_surface.h"
+#include "cpu.h"
+#include "gb.h"
 
 void	display_background(struct gbmu_wrapper_s* wrapper, uint8_t lcdc, struct tile_s* array, SDL_Surface* tmp_surface)
 {

@@ -10,9 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "gb.h"
 #include <stdio.h>
-#include <stdlib.h>
+#include <stdint.h>
+
+#include "gb.h"
+#include "cpu.h"
+#include "mbc.h"
 
 uint8_t	read_no_mbc(struct gb_cpu_s* gb, uint16_t addr, enum memory_mode_e mode)
 {

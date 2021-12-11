@@ -10,10 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "gb.h"
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdint.h>
+#include <sys/stat.h>
+
+#include "gb.h"
+#include "cpu.h"
+#include "mbc.h"
 
 
 int		open_rom(char* name, struct rom_s* rom)

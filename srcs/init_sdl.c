@@ -10,10 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "gb.h"
-#include "renderer.h"
 #include <stdio.h>
+
+#include "renderer.h"
 #include "input_functions.h"
+#include "SDL.h"
+#include "SDL_error.h"
+#include "SDL_gamecontroller.h"
+#include "SDL_joystick.h"
+#include "SDL_render.h"
+#include "SDL_surface.h"
+#include "SDL_video.h"
 
 int		init_sdl()
 {

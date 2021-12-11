@@ -10,10 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "gb.h"
-#include "fallback_debugger.h"
 #include <stdio.h>
 #include <string.h>
+#include <stdint.h>
+#include <stdlib.h>
+
+#include "gb.h"
+#include "fallback_debugger.h"
+#include "cpu.h"
 
 int		get_verbose(struct gbmu_debugger_s* debugger)
 {
