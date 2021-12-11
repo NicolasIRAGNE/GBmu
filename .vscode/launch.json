@@ -43,7 +43,7 @@
                 "trace": true
             },
             "args": [
-                "${workspaceFolder}/rom/tetris.gb"
+                "${workspaceFolder}/rom/Legend_of_Zelda_link_Awaking.gb"
             ],
             "visualizerFile": "${workspaceFolder}/my.natvis",
             "showDisplayString": true,

@@ -475,6 +475,7 @@ else()
 	set(CMAKE_C_FLAGS_DEBUG     "${CMAKE_C_FLAGS_DEBUG}     -O0 -g")
 endif()
 
+
 if (WITH_ASAN)
 	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fsanitize=address")
 	set(CMAKE_C_FLAGS_DEBUG   "${CMAKE_C_FLAGS_DEBUG}   -fsanitize=address")
@@ -521,7 +522,21 @@ endif()
 foreach(shader ${SHADERS})
 	get_filename_component(filename ${shader} NAME)
 	add_custom_command(
-		TARGET gbmu POST_BUILD
+		OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/shaders/${filename}
+		DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/${shader}
 		COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/${shader} ${CMAKE_CURRENT_BINARY_DIR}/shaders/${filename}
+		COMMENT "Copying shader ${filename} to ${CMAKE_CURRENT_BINARY_DIR}/shaders/"
 		)
+		set (GENERATED_SHADERS ${GENERATED_SHADERS} ${CMAKE_CURRENT_BINARY_DIR}/shaders/${filename})
+	# add_custom_target(gbmu_shader_${filename} ALL
+	# 	COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/${shader} ${CMAKE_CURRENT_BINARY_DIR}/shaders/${filename}
+	# 	DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/shaders/${filename}
+	# 	COMMENT "Copying shader ${filename} to ${CMAKE_CURRENT_BINARY_DIR}/shaders/"
+	# 	SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/${shader}
+	# )
+	# add_dependencies(gbmu gbmu_shader_${filename})
 endforeach()
+
+add_custom_target(gbmu_shaders ALL DEPENDS ${GENERATED_SHADERS})
+
+add_dependencies(gbmu gbmu_shaders)

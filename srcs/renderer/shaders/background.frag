@@ -80,7 +80,7 @@ vec4 GetColorFromTileIndex(uint index, uvec2 posInTile)
 void main()
 {
     uvec2 pixelPos = uvec2(gl_FragCoord.x, 144.f - gl_FragCoord.y);
-    uint line = 144u - uint(gl_FragCoord.y);
+    uint line = 144u - uint(gl_FragCoord.y) - 2u;
     pixelPos = (pixelPos + uvec2(GetLcd(line).scx, GetLcd(line).scy)) % 256u;
 
     uvec2 tilePos = pixelPos / 8u;

@@ -87,7 +87,8 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 	struct gb_cpu_s* gb = wrapper->gb;
 	uint8_t last_line = 0;
 	uint8_t	last_line_drawn = 0;
-
+    SDL_Surface* tmp_surface = SDL_CreateRGBSurface(0, BGMAP_SIZE, BGMAP_SIZE, 32, 0, 0, 0, 0);
+	struct tile_s tiles[TILES_COUNT];
 	while (gb->running)
 	{
 		if (gb->ime && set_interrupt(gb))
@@ -113,7 +114,7 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 
 		if (gb->gpu.y_coord == 0 && (gb->vram_updated || gb->oam_updated))
 		{
-			renderer_update_vram(renderer);
+ 			renderer_update_vram(renderer);
 			gb->vram_updated = 0;
 			gb->oam_updated = 0;
 		}
@@ -153,6 +154,7 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 				gb->oam_updated = 0;
 			}
 			main_window_loop(wrapper, renderer);
+			vram_viewer_loop(wrapper, renderer);
 			renderer_render(renderer);
 			SDL_GL_SwapWindow(wrapper->main_context->win);
 			renderer_clear(renderer);
