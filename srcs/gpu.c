@@ -10,7 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdint.h>
+
 #include "gb.h"
+#include "cpu.h"
 
 # define HBLANK_TIME	(204 * 1) //204
 # define OAM_TIME		(80 * 1)

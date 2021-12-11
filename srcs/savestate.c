@@ -11,10 +11,17 @@
 /* ************************************************************************** */
 
 #define _GNU_SOURCE
-#include "gb.h"
 #include <stdio.h>
-#include <SDL.h>
 #include <stdlib.h>
+#include <stdint.h>
+
+#include "gb.h"
+#include "SDL_events.h"
+#include "SDL_keyboard.h"
+#include "SDL_scancode.h"
+#include "SDL_stdinc.h"
+#include "cpu.h"
+#include "mbc.h"
 #ifdef _WIN32
 # include "asprintf.h"
 #endif

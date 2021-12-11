@@ -1,10 +1,17 @@
 #include "renderer_opengl.h"
-#include "gl_utils/glerr.h"
 
-#include <iostream>
-#include <vector>
+#include <stdint.h>
+#include <stdio.h>
 #include <cstring>
 #include <chrono>
+
+#include "gl_utils/glerr.h"
+#include "GL/glew.h"
+#include "cpu.h"
+#include "renderer/background.h"
+#include "renderer/rescale.h"
+#include "renderer/sprites.h"
+#include "renderer/window.h"
 
 extern "C" {
 #include "gb.h"

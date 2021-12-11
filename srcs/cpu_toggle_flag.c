@@ -10,7 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdint.h>
+
 #include "gb.h"
+#include "cpu.h"
 
 void    cpu_set_flag(struct gb_cpu_s* gb, uint8_t flag)
 {

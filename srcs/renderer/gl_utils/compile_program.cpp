@@ -1,7 +1,11 @@
 #include "compile_program.h"
 
+#include <stdio.h>
 #include <fstream>
 #include <string>
+#include <iterator>
+
+#include "GL/glew.h"
 
 GLuint compileShader(const char* source, GLuint shaderType)
 {

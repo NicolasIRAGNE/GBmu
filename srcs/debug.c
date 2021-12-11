@@ -11,10 +11,14 @@
 /* ************************************************************************** */
 
 #include "gb.h"
+#include "cpu.h"
+#include "mbc.h"
+#include "op.h"
 #ifdef WITH_LIBYACC
 # include "libyacc_wrapper.h"
 #endif
 #include <stdio.h>
+#include <stdint.h>
 
 void	debug_print_gb(struct gb_cpu_s* gb)
 {

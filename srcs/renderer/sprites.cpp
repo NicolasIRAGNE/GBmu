@@ -1,10 +1,13 @@
 #include "sprites.h"
-#include "gl_utils/glerr.h"
 
+#include <stdio.h>
 #include <cstring>
 #include <algorithm>
+#include <utility>
 
 #include "gl_utils/compile_program.h"
+#include "GL/glew.h"
+#include "cpu.h"
 
 extern "C" {
 #include "gb.h"
