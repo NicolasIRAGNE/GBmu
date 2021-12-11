@@ -44,8 +44,9 @@ int		init_cpu(struct gb_cpu_s* gb, struct rom_s* rom)
 	if (init_boot_rom(gb))
 		return (1);
 	gb->rom_ptr = rom;
-	gb->reg.sp = 0xFFFE;
+	gb->reg.sp = 0;
 	gb->reg.af = 0;
+	gb->reg.bc = 0;
 	gb->reg.de = 0;
 	gb->reg.hl = 0;
 	gb->reg.pc = 0x100;
@@ -59,9 +60,9 @@ int		init_cpu(struct gb_cpu_s* gb, struct rom_s* rom)
 	gb->current_instruction = NULL;
 	gb->ime = 1;
 	gb->div_freq = DEFAULT_DIV_FREQ;
-	gb->interrupt_enable_register |= INT_VBLANK_REQUEST;
-	gb->interrupt_enable_register |= INT_TIMER_REQUEST;
-	gb->interrupt_enable_register |= INT_STAT_REQUEST;
+	// gb->interrupt_enable_register |= INT_VBLANK_REQUEST;
+	// gb->interrupt_enable_register |= INT_TIMER_REQUEST;
+	// gb->interrupt_enable_register |= INT_STAT_REQUEST;
 	init_mbc(gb);
 	gb->extra_ram = malloc(gb->mbc.ram_size);
 	write_8(gb, LCDC_OFFSET, read_8(gb, LCDC_OFFSET) | LCDC_ON);
