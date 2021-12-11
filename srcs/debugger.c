@@ -30,7 +30,7 @@ void	execute_debugger(struct gb_cpu_s* gb)
 	int			quit;
 
 	quit = 0;
-	while (!quit && (buf = readline("gbmu> ")) != NULL)
+	while (gb->paused && !quit && (buf = readline("gbmu> ")) != NULL)
 	{
     	if (strlen(buf) > 0)
 		{

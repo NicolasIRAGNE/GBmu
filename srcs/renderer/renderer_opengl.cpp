@@ -1,4 +1,5 @@
 #include "renderer_opengl.h"
+#include "gl_utils/glerr.h"
 
 #include <iostream>
 #include <vector>
@@ -36,13 +37,13 @@ int Renderer::Init()
         return -1;
     }
 
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_BLEND); GLERR;
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); GLERR;
 
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_ALWAYS);
+    glEnable(GL_DEPTH_TEST); GLERR;
+    glDepthFunc(GL_ALWAYS); GLERR;
 
-    glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+    glClearColor(0.2f, 0.2f, 0.2f, 1.0f); GLERR;
 
     int ret = InitUbos();
     if (ret < 0) {
@@ -89,18 +90,18 @@ int Renderer::Destroy()
     m_Menu.Destroy();
     m_Background.Destroy();
 
-    glDeleteRenderbuffers(1, &m_DepthBuffer);
-    glDeleteTextures(1, &m_TargetTexture);
-    glDeleteFramebuffers(1, &m_FrameBuffer);
-    glDeleteBuffers(1, &m_VramUbo);
-    glDeleteBuffers(1, &m_DynamicInfosUbo);
-    glDeleteBuffers(1, &m_StaticInfosUbo);
+    glDeleteRenderbuffers(1, &m_DepthBuffer); GLERR;
+    glDeleteTextures(1, &m_TargetTexture); GLERR;
+    glDeleteFramebuffers(1, &m_FrameBuffer); GLERR;
+    glDeleteBuffers(1, &m_VramUbo); GLERR;
+    glDeleteBuffers(1, &m_DynamicInfosUbo); GLERR;
+    glDeleteBuffers(1, &m_StaticInfosUbo); GLERR;
 
     return 0;
 }
 
 int Renderer::Clear() {
-    glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+    glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT); GLERR;
 
     UpdateDynamicInfos();
 
@@ -115,8 +116,8 @@ int Renderer::Draw(int firstLine, int lastLine)
         return 0;
     }
 
-    glBindFramebuffer(GL_FRAMEBUFFER, m_FrameBuffer);
-    glViewport(0, 0, MAIN_SURFACE_WIDTH, MAIN_SURFACE_HEIGHT);
+    glBindFramebuffer(GL_FRAMEBUFFER, m_FrameBuffer); GLERR;
+    glViewport(0, 0, MAIN_SURFACE_WIDTH, MAIN_SURFACE_HEIGHT); GLERR;
 
     // the draw_background property from Gb is handled inside (because we have to draw something)
     m_Background.Draw(firstLine, lastLine);
@@ -127,17 +128,17 @@ int Renderer::Draw(int firstLine, int lastLine)
 
     if (m_Gb->draw_sprites)
     {
-        glDepthFunc(GL_LEQUAL);
+        glDepthFunc(GL_LEQUAL); GLERR;
         m_Sprites.Draw(firstLine, lastLine);
-        glDepthFunc(GL_ALWAYS);
+        glDepthFunc(GL_ALWAYS); GLERR;
     }
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glBindFramebuffer(GL_FRAMEBUFFER, 0); GLERR;
     return 0;
 }
 
 int Renderer::Render()
 {
-    glViewport(0, 0, m_WindowWidth, m_WindowHeight);
+    glViewport(0, 0, m_WindowWidth, m_WindowHeight); GLERR;
     m_Rescale.Draw();
 
     return 0;
@@ -153,61 +154,62 @@ void Renderer::SetWindowSize(int width, int height)
 
 int Renderer::InitUbos()
 {
-    glGenBuffers(1, &m_StaticInfosUbo);
-    glBindBuffer(GL_UNIFORM_BUFFER, m_StaticInfosUbo);
-    glBufferData(GL_UNIFORM_BUFFER, sizeof(StaticInfos), nullptr, GL_STATIC_DRAW);
-    glBindBuffer(GL_UNIFORM_BUFFER, 0);
+    glGenBuffers(1, &m_StaticInfosUbo); GLERR;
+    glBindBuffer(GL_UNIFORM_BUFFER, m_StaticInfosUbo); GLERR;
+    glBufferData(GL_UNIFORM_BUFFER, sizeof(StaticInfos), nullptr, GL_STATIC_DRAW); GLERR;
+    glBindBuffer(GL_UNIFORM_BUFFER, 0); GLERR;
     
-    glBindBufferBase(GL_UNIFORM_BUFFER, 0, m_StaticInfosUbo);
+    glBindBufferBase(GL_UNIFORM_BUFFER, 0, m_StaticInfosUbo); GLERR;
 
-    glGenBuffers(1, &m_DynamicInfosUbo);
-    glBindBuffer(GL_UNIFORM_BUFFER, m_DynamicInfosUbo);
-    glBufferData(GL_UNIFORM_BUFFER, sizeof(DynamicInfos), nullptr, GL_DYNAMIC_DRAW);
-    glBindBuffer(GL_UNIFORM_BUFFER, 0);
+    glGenBuffers(1, &m_DynamicInfosUbo); GLERR;
+    glBindBuffer(GL_UNIFORM_BUFFER, m_DynamicInfosUbo); GLERR;
+    glBufferData(GL_UNIFORM_BUFFER, sizeof(DynamicInfos), nullptr, GL_DYNAMIC_DRAW); GLERR;
+    glBindBuffer(GL_UNIFORM_BUFFER, 0); GLERR;
     
-    glBindBufferBase(GL_UNIFORM_BUFFER, 1, m_DynamicInfosUbo);
+    glBindBufferBase(GL_UNIFORM_BUFFER, 1, m_DynamicInfosUbo); GLERR;
 
-    glGenBuffers(1, &m_LcdUbo);
-    glBindBuffer(GL_UNIFORM_BUFFER, m_LcdUbo);
-    glBufferData(GL_UNIFORM_BUFFER, sizeof(Lcd) * 144, nullptr, GL_DYNAMIC_DRAW);
-    glBindBuffer(GL_UNIFORM_BUFFER, 0);
+    glGenBuffers(1, &m_LcdUbo); GLERR;
+    glBindBuffer(GL_UNIFORM_BUFFER, m_LcdUbo); GLERR;
+    glBufferData(GL_UNIFORM_BUFFER, sizeof(Lcd) * 144, nullptr, GL_DYNAMIC_DRAW); GLERR;
+    glBindBuffer(GL_UNIFORM_BUFFER, 0); GLERR;
     
-    glBindBufferBase(GL_UNIFORM_BUFFER, 2, m_LcdUbo);
+    glBindBufferBase(GL_UNIFORM_BUFFER, 2, m_LcdUbo); GLERR;
 
-    glGenBuffers(1, &m_VramUbo);
-    glBindBuffer(GL_UNIFORM_BUFFER, m_VramUbo);
-    glBufferData(GL_UNIFORM_BUFFER, VRAM_SIZE, nullptr, GL_DYNAMIC_DRAW);
-    glBindBuffer(GL_UNIFORM_BUFFER, 0);
+    glGenBuffers(1, &m_VramUbo); GLERR;
+    glBindBuffer(GL_UNIFORM_BUFFER, m_VramUbo); GLERR;
+    glBufferData(GL_UNIFORM_BUFFER, VRAM_SIZE, nullptr, GL_DYNAMIC_DRAW); GLERR;
+    glBindBuffer(GL_UNIFORM_BUFFER, 0); GLERR;
     
-    glBindBufferBase(GL_UNIFORM_BUFFER, 3, m_VramUbo);
+    glBindBufferBase(GL_UNIFORM_BUFFER, 3, m_VramUbo); GLERR;
 
     return 0;
 }
 
 int Renderer::InitFramebuffer()
 {
-    glGenFramebuffers(1, &m_FrameBuffer);
-    glBindFramebuffer(GL_FRAMEBUFFER, m_FrameBuffer);
+    glGenFramebuffers(1, &m_FrameBuffer); GLERR;
+    glBindFramebuffer(GL_FRAMEBUFFER, m_FrameBuffer); GLERR;
 
-    glGenTextures(1, &m_TargetTexture);
-    glBindTexture(GL_TEXTURE_2D, m_TargetTexture);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, MAIN_SURFACE_WIDTH, MAIN_SURFACE_HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
-    glBindTexture(GL_TEXTURE_2D, 0);
+    glGenTextures(1, &m_TargetTexture); GLERR;
+    glBindTexture(GL_TEXTURE_2D, m_TargetTexture); GLERR;
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, MAIN_SURFACE_WIDTH, MAIN_SURFACE_HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr); GLERR;
+    glBindTexture(GL_TEXTURE_2D, 0); GLERR;
     
-    glGenRenderbuffers(1, &m_DepthBuffer);
-    glBindRenderbuffer(GL_RENDERBUFFER, m_DepthBuffer);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, MAIN_SURFACE_WIDTH, MAIN_SURFACE_HEIGHT);
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_DepthBuffer);
+    glGenRenderbuffers(1, &m_DepthBuffer); GLERR;
+    glBindRenderbuffer(GL_RENDERBUFFER, m_DepthBuffer); GLERR;
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, MAIN_SURFACE_WIDTH, MAIN_SURFACE_HEIGHT); GLERR;
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_DepthBuffer); GLERR;
 
-    glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, m_FrameBuffer, 0);
+    glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, m_FrameBuffer, 0); GLERR;
     GLenum DrawBuffers = GL_COLOR_ATTACHMENT0;
-    glDrawBuffers(1, &DrawBuffers);
+    glDrawBuffers(1, &DrawBuffers); GLERR;
 
     if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+        GLERR;
         return -1;
     }
 
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glBindFramebuffer(GL_FRAMEBUFFER, 0); GLERR;
 
     return 0;
 }
@@ -218,11 +220,11 @@ void Renderer::UpdateStaticInfos()
     infos.windowWidth = static_cast<float>(m_WindowWidth);
     infos.windowHeight = static_cast<float>(m_WindowHeight);
 
-    glBindBuffer(GL_UNIFORM_BUFFER, m_StaticInfosUbo);
-    GLvoid* ptr = glMapBuffer(GL_UNIFORM_BUFFER, GL_WRITE_ONLY);
+    glBindBuffer(GL_UNIFORM_BUFFER, m_StaticInfosUbo); GLERR;
+    GLvoid* ptr = glMapBuffer(GL_UNIFORM_BUFFER, GL_WRITE_ONLY); GLERR;
     std::memcpy(ptr, &infos, sizeof(infos));
-    glUnmapBuffer(GL_UNIFORM_BUFFER);
-    glBindBuffer(GL_UNIFORM_BUFFER, 0);
+    glUnmapBuffer(GL_UNIFORM_BUFFER); GLERR;
+    glBindBuffer(GL_UNIFORM_BUFFER, 0); GLERR;
 }
 
 void Renderer::UpdateDynamicInfos()
@@ -231,12 +233,12 @@ void Renderer::UpdateDynamicInfos()
     auto now = std::chrono::high_resolution_clock::now();
 
     std::chrono::duration<float> timestamp = now - begin;
-
+ GLERR;
     DynamicInfos infos;
     infos.timestamp = timestamp.count();
 
-    glBindBuffer(GL_UNIFORM_BUFFER, m_DynamicInfosUbo);
-    GLvoid* ptr = glMapBuffer(GL_UNIFORM_BUFFER, GL_WRITE_ONLY);
+    glBindBuffer(GL_UNIFORM_BUFFER, m_DynamicInfosUbo); GLERR;
+    GLvoid* ptr = glMapBuffer(GL_UNIFORM_BUFFER, GL_WRITE_ONLY); GLERR;
     std::memcpy(ptr, &infos, sizeof(infos));
     glUnmapBuffer(GL_UNIFORM_BUFFER);
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
@@ -244,20 +246,20 @@ void Renderer::UpdateDynamicInfos()
 
 void Renderer::UpdateLcd()
 {
-    glBindBuffer(GL_UNIFORM_BUFFER, m_LcdUbo);
-    GLvoid* ptr = glMapBuffer(GL_UNIFORM_BUFFER, GL_WRITE_ONLY);
+    glBindBuffer(GL_UNIFORM_BUFFER, m_LcdUbo); GLERR;
+    GLvoid* ptr = glMapBuffer(GL_UNIFORM_BUFFER, GL_WRITE_ONLY); GLERR;
     std::memcpy(ptr, m_Gb->lcd, sizeof(m_Gb->lcd));
-    glUnmapBuffer(GL_UNIFORM_BUFFER);
-    glBindBuffer(GL_UNIFORM_BUFFER, 0);
+    glUnmapBuffer(GL_UNIFORM_BUFFER); GLERR;
+    glBindBuffer(GL_UNIFORM_BUFFER, 0); GLERR;
 }
 
 void Renderer::UpdateVram()
 {
-    glBindBuffer(GL_UNIFORM_BUFFER, m_VramUbo);
-    GLvoid* ptr = glMapBuffer(GL_UNIFORM_BUFFER, GL_WRITE_ONLY);
+    glBindBuffer(GL_UNIFORM_BUFFER, m_VramUbo); GLERR;
+    GLvoid* ptr = glMapBuffer(GL_UNIFORM_BUFFER, GL_WRITE_ONLY); GLERR;
     std::memcpy(ptr, m_Gb->vram, VRAM_SIZE);
-    glUnmapBuffer(GL_UNIFORM_BUFFER);
-    glBindBuffer(GL_UNIFORM_BUFFER, 0);
+    glUnmapBuffer(GL_UNIFORM_BUFFER); GLERR;
+    glBindBuffer(GL_UNIFORM_BUFFER, 0); GLERR;
 }
 
 } // namespace GBMU

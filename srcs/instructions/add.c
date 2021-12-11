@@ -121,3 +121,4 @@ void	add_sp_s(struct gb_cpu_s* gb)
 	gb->reg.sp = (uint16_t)ret;
 	cpu_unset_flag(gb, ZERO_FLAG | SUBSTRACTION_FLAG);
 }
+
