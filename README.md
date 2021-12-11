@@ -8,7 +8,7 @@ Cmake version 3.13 minimum.
 
 If you are building on `linux` or `macOs`: [GNU readline](https://tiswww.case.edu/php/chet/readline/rltop.html)
 
-All other dependencies
+All other dependencies should be handled by the CMakeLists
 
 ### How to use
 cd build && cmake .. && make install
