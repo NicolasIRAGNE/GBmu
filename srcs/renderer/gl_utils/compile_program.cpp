@@ -6,24 +6,25 @@
 #include <iterator>
 
 #include "GL/glew.h"
+#include "glerr.h"
 
 GLuint compileShader(const char* source, GLuint shaderType)
 {
-    GLuint shader_id = glCreateShader(shaderType);
-    glShaderSource(shader_id, 1, &source, NULL);
-    glCompileShader(shader_id);
+    GLuint shader_id = glCreateShader(shaderType); GLERR;
+    glShaderSource(shader_id, 1, &source, NULL); GLERR;
+    glCompileShader(shader_id); GLERR;
 
     GLint shaderCompiled;
-    glGetShaderiv(shader_id, GL_COMPILE_STATUS, &shaderCompiled);
+    glGetShaderiv(shader_id, GL_COMPILE_STATUS, &shaderCompiled); GLERR;
     if (shaderCompiled != GL_TRUE) {
         GLint logLength;
-        glGetShaderiv(shader_id, GL_INFO_LOG_LENGTH, &logLength);
+        glGetShaderiv(shader_id, GL_INFO_LOG_LENGTH, &logLength); GLERR;
         if (logLength > 0) {
             std::string log(logLength, '\0');
-            glGetShaderInfoLog(shader_id, logLength, &logLength, log.data());
+            glGetShaderInfoLog(shader_id, logLength, &logLength, log.data()); GLERR;
             printf("opengl compile shader error : %s\n", log.c_str());
         }
-        glDeleteShader(shader_id);
+        glDeleteShader(shader_id); GLERR;
         return 0;
     }
 
@@ -34,7 +35,7 @@ GLuint compileProgram(const char* vtxFile, const char* fragFile)
 {
     GLuint programId = 0;
     GLuint vtxShaderId, fragShaderId;
-    programId = glCreateProgram();
+    programId = glCreateProgram(); GLERR;
 
     std::ifstream f(fragFile);
     if (!f.is_open()) {
@@ -62,32 +63,32 @@ GLuint compileProgram(const char* vtxFile, const char* fragFile)
 
     if (!vtxShaderId || !fragShaderId) {
         printf("opengl: Failed to compile shaders\n");
-        glDeleteShader(vtxShaderId);
-        glDeleteShader(fragShaderId);
+        glDeleteShader(vtxShaderId); GLERR;
+        glDeleteShader(fragShaderId); GLERR;
         return 0;
     }
 
     // Associate shader with program
-    glAttachShader(programId, vtxShaderId);
-    glAttachShader(programId, fragShaderId);
+    glAttachShader(programId, vtxShaderId); GLERR;
+    glAttachShader(programId, fragShaderId); GLERR;
 
     return programId;
 }
 
 int linkProgram(GLuint program) {
-    glLinkProgram(program);
-    glValidateProgram(program);
+    glLinkProgram(program); GLERR;
+    glValidateProgram(program); GLERR;
 
     // Check the status of the compile/link
     GLint status;
-    glGetProgramiv(program, GL_VALIDATE_STATUS, &status);
+    glGetProgramiv(program, GL_VALIDATE_STATUS, &status); GLERR;
     if (status != GL_TRUE) {
         GLint logLength;
-        glGetProgramiv(program, GL_INFO_LOG_LENGTH, &logLength);
+        glGetProgramiv(program, GL_INFO_LOG_LENGTH, &logLength); GLERR;
         if (logLength > 0) {
             std::string log(logLength, '\0');
-            glGetProgramInfoLog(program, logLength, &logLength, log.data());
-            printf("opengl program error : %s\n", log.c_str());
+            glGetProgramInfoLog(program, logLength, &logLength, log.data()); GLERR;
+            printf("opengl program error : %s\n", log.c_str()); GLERR;
         }
         return -1;
     }
