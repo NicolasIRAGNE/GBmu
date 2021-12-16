@@ -91,7 +91,7 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 	struct gb_cpu_s* gb = wrapper->gb;
 	uint8_t last_line = 0;
 	uint8_t	last_line_drawn = 0;
-    SDL_Surface* tmp_surface = SDL_CreateRGBSurface(0, BGMAP_SIZE, BGMAP_SIZE, 32, 0, 0, 0, 0);
+    // SDL_Surface* tmp_surface = SDL_CreateRGBSurface(0, BGMAP_SIZE, BGMAP_SIZE, 32, 0, 0, 0, 0);
 	struct tile_s tiles[TILES_COUNT];
 	while (gb->running)
 	{

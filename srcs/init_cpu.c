@@ -82,19 +82,36 @@ int		init_boot_rom(struct gb_cpu_s* gb)
 	return (0);
 }
 
+void		init_registers(struct registers_s* reg, int booted)
+{
+	if (booted)
+	{
+		reg->af = 0x01B0;
+		reg->bc = 0x0013;
+		reg->de = 0x00D8;
+		reg->hl = 0x014D;
+		reg->sp = 0xFFFE;
+		reg->pc = 0x0100;
+	}
+	else
+	{
+		reg->af = 0x0000;
+		reg->bc = 0x0000;
+		reg->de = 0x0000;
+		reg->hl = 0x0000;
+		reg->pc = 0x0000;
+		reg->sp = 0x0000;
+	}
+}
+
 int		init_cpu(struct gb_cpu_s* gb, struct rom_s* rom)
 {
 	memset(gb, 0, sizeof(*gb));
 	if (init_boot_rom(gb))
 		return (1);
 	gb->rom_ptr = rom;
-	gb->reg.pc = 0;
-	gb->booted = (gb->reg.pc) >= 0x100;
-	gb->reg.sp = 0;
-	gb->reg.af = 0;
-	gb->reg.bc = 0;
-	gb->reg.de = 0;
-	gb->reg.hl = 0;
+	gb->booted = 0;
+	init_registers(&gb->reg, gb->booted);
 	gb->running = 1;
 	gb->vram_viewer_running = 1;
 	gb->draw_background = 1;

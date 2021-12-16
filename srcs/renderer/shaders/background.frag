@@ -94,6 +94,13 @@ void main()
 	if (((GetLcd(line).lcdc & 16u) == 0u) && (tileIndex + 0x100u < 256u + 128u)) {
 		tileIndex = tileIndex + 0x100u;
     }
-    
-    fragColor = GetColorFromTileIndex(tileIndex, pixelPosInTile);
+
+    if ((GetLcd(line).lcdc & 1u) == 0u) {
+        fragColor = vec4(0.f, 0.f, 0.f, 1.f);
+    }
+    else {
+        // fragColor = vec4(0.f, 0.f, 0.f, 1.f);
+        fragColor = GetColorFromTileIndex(tileIndex, pixelPosInTile);
+    }
+
 }

@@ -53,6 +53,13 @@ uint8_t		read_io(struct gb_cpu_s* gb, uint16_t addr)
 	return (((uint8_t*)(gb->io_ports))[addr - 0xFF00]);	
 }
 
+void print_binary(unsigned char c)
+{
+ unsigned char i1 = (1 << (sizeof(c)*8-1));
+ for(; i1; i1 >>= 1)
+      printf("%d",(c&i1)!=0);
+}
+
 void	write_io(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, uint8_t lcdc)
 {
 	if (addr == JOYP_OFFSET)
@@ -87,6 +94,18 @@ void	write_io(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, uint8_t lcdc)
 	{
 		request_lcd_off(gb);
 		// return ;
+	}
+	if (addr == SERIAL_DATA_OFFSET)
+	{
+		printf("%c", x);
+	}
+	if (addr == LCDC_OFFSET)
+	{
+		// printf("Setting LCDC to ");
+		// print_binary(x);
+		// printf(" (changed:"); 
+		// print_binary(x ^ ((uint8_t*)(gb->io_ports))[addr - 0xFF00]);
+		// printf(")\n");
 	}
 	((uint8_t*)(gb->io_ports))[addr - 0xFF00] = x;
 }

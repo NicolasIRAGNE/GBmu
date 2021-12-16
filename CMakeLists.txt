@@ -11,7 +11,9 @@ add_library(gbmu_lib)
 add_executable(gbmu srcs/main.c)
 
 include(FetchContent)
-
+if (NOT MSVC)
+	include(cmake/ccache.cmake)
+endif()
 option(WITH_LIBYACC "Build libyacc" OFF)
 option(WITH_ASAN "Build with memory sanitizer" OFF)
 option(DEBUG_COLORS "Enable debug palette" ON)
@@ -35,7 +37,7 @@ if(WIN32)
 	FetchContent_Declare(
 			WINEDITLINE
 			GIT_REPOSITORY "https://github.com/NicolasIRAGNE/wineditline"
-			GIT_TAG WinEditLine-2.207
+			GIT_TAG WinEditLine-2.207-Patch
 	)
 
 	FetchContent_MakeAvailable(WINEDITLINE)
@@ -51,9 +53,6 @@ find_package(Threads)
 # OpenGL
 find_package(OpenGL REQUIRED)
 
-
-add_compile_definitions(_SCL_SECURE_NO_WARNINGS)
-add_compile_definitions(_ITERATOR_DEBUG_LEVEL=0)
 
 if (NOT WIN32)
 	#Readline
@@ -461,7 +460,7 @@ target_include_directories(gbmu_lib PUBLIC includes)
 
 set(CMAKE_CXX_STANDARD 17)
 
-if (WIN32)
+if (MSVC)
 	set(CMAKE_CXX_FLAGS         "${CMAKE_CXX_FLAGS}         ")
 	set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} ")
 	set(CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS_DEBUG}   /DEBUG")
@@ -471,17 +470,17 @@ if (WIN32)
 else()
 	# set(CMAKE_CXX_FLAGS         "${CMAKE_CXX_FLAGS}         -Wall -Wextra")
 	# set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -g -Werror")
-	set(CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS_DEBUG}   -O0 -g")
+	set(CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS_DEBUG}   -O0 -g3")
 	# set(CMAKE_C_FLAGS           "${CMAKE_C_FLAGS}           -Wall -Wextra")
 	# set(CMAKE_C_FLAGS_RELEASE   "${CMAKE_C_FLAGS_RELEASE}   -O3 -g -Werror")
-	set(CMAKE_C_FLAGS_DEBUG     "${CMAKE_C_FLAGS_DEBUG}     -O0 -g")
+	set(CMAKE_C_FLAGS_DEBUG     "${CMAKE_C_FLAGS_DEBUG}     -O0 -g3")
 endif()
 
 
 if (WITH_ASAN)
-	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fsanitize=address")
-	set(CMAKE_C_FLAGS_DEBUG   "${CMAKE_C_FLAGS_DEBUG}   -fsanitize=address")
-	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fsanitize=address")
+	target_link_options(gbmu_lib PUBLIC "-fsanitize=address")
+	# target_link_options(gbmu_lib PUBLIC "/MD")
+	target_compile_options(gbmu_lib PUBLIC "-fsanitize=address")
 endif()
 
 if (DEBUG_COLORS)
@@ -498,8 +497,8 @@ if (WITH_LIBYACC)
 	FILE(GLOB GENERATED_LIBYACC_SOURCES srcs/debugger/*.cpp)
 	FILE(GLOB GENERATED_LIBYACC_SOURCES srcs/debugger/Commands/*.cpp)
 	target_compile_definitions(gbmu_lib PUBLIC WITH_LIBYACC)
-	target_include_directories(gbmu_lib PRIVATE includes/debugger)
-	target_include_directories(gbmu_lib PRIVATE includes/debugger/Commands)
+	target_include_directories(gbmu_lib PUBLIC includes/debugger)
+	target_include_directories(gbmu_lib PUBLIC includes/debugger/Commands)
 	include_directories(libyacc/includes)
 endif()
 
@@ -543,6 +542,10 @@ target_link_libraries(gbmu gbmu_lib)
 add_custom_target(gbmu_shaders ALL DEPENDS ${GENERATED_SHADERS})
 
 add_dependencies(gbmu_lib gbmu_shaders)
+
+include(cmake/CopyDLLs.cmake)
+
+# CopyDLLs(gbmu)
 
 if (WITH_TESTS)
 	enable_testing()
