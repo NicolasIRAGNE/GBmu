@@ -46,8 +46,10 @@ int		main(int ac, char** av)
 	struct sdl_context_s vram_viewer_context;
 	struct sdl_context_s main_window_context;
 	gb_global = &gb;
+#ifndef WITH_LIBYACC
 	debugger.breakpoints = NULL;
 	debugger.verbose_level = DEFAULT_VERBOSE;
+#endif
 
 	if (ac < 2)
 	{
@@ -67,8 +69,6 @@ int		main(int ac, char** av)
 #ifdef WITH_LIBYACC
 	if ((libyacc_init_debugger(&gb, &debugger)) == EXIT_FAILURE)
 		return 1;
-#else
-	debugger.breakpoints = NULL;
 #endif	
 
 	gb.debugger = &debugger;

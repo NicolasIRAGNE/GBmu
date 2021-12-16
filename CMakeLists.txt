@@ -16,6 +16,7 @@ option(WITH_LIBYACC "Build libyacc" OFF)
 option(WITH_ASAN "Build with memory sanitizer" OFF)
 option(DEBUG_COLORS "Enable debug palette" ON)
 option(WITH_TESTS "Build tests" ON)
+option(WITH_HWACCEL "Build with hardware acceleration" ON)
 
 FetchContent_Declare(
         SDL2
@@ -160,6 +161,7 @@ if (NOT WITH_LIBYACC)
 endif()
 
 # Renderer
+if (WITH_HWACCEL)
 list(APPEND SOURCES
 	srcs/renderer/renderer_opengl.cpp
 	srcs/renderer/background.cpp
@@ -168,7 +170,9 @@ list(APPEND SOURCES
 	srcs/renderer/rescale.cpp
 	srcs/renderer/gl_utils/compile_program.cpp
 	srcs/renderer/wrapper_c/wrapper.cpp)
+endif()
 
+if (WITH_HWACCEL)
 list(APPEND HEADERS
 	srcs/renderer/renderer_opengl.h
 	srcs/renderer/background.h
@@ -178,8 +182,8 @@ list(APPEND HEADERS
 	srcs/renderer/gl_utils/compile_program.h
 	srcs/renderer/gl_utils/glerr.h
 	srcs/renderer/wrapper_c/wrapper.h)
-
-set(SHADERS
+	
+	set(SHADERS
 	srcs/renderer/shaders/background.vert
 	srcs/renderer/shaders/background.frag
 	srcs/renderer/shaders/window.vert
@@ -189,6 +193,7 @@ set(SHADERS
 	srcs/renderer/shaders/basic.vert
 	srcs/renderer/shaders/basic.frag
 	srcs/renderer/shaders/rain.frag)
+endif()
 
 # Debugger
 
@@ -494,17 +499,17 @@ endif()
 ################################################
 
 if (WITH_LIBYACC)
+	message("bah ouais")
 	target_sources(gbmu_lib PRIVATE ${GENERATED_LIBYACC_SOURCES} ${DEBUGGER_SOURCES})
 	FILE(GLOB GENERATED_LIBYACC_SOURCES srcs/debugger/*.cpp)
 	FILE(GLOB GENERATED_LIBYACC_SOURCES srcs/debugger/Commands/*.cpp)
 	target_compile_definitions(gbmu_lib PUBLIC WITH_LIBYACC)
-	target_include_directories(gbmu_lib PRIVATE includes/debugger)
-	target_include_directories(gbmu_lib PRIVATE includes/debugger/Commands)
+	target_include_directories(gbmu_lib PUBLIC includes/debugger)
+	target_include_directories(gbmu_lib PUBLIC includes/debugger/Commands)
 	include_directories(libyacc/includes)
 endif()
 
 target_sources(gbmu_lib PRIVATE ${SOURCES})
-
 target_link_libraries(gbmu_lib SDL2main)
 target_link_libraries(gbmu_lib SDL2-static)
 target_link_libraries(gbmu_lib ${CMAKE_THREAD_LIBS_INIT})
