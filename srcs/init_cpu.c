@@ -88,7 +88,7 @@ int		init_cpu(struct gb_cpu_s* gb, struct rom_s* rom)
 	if (init_boot_rom(gb))
 		return (1);
 	gb->rom_ptr = rom;
-	gb->reg.pc = 0;
+	gb->reg.pc = 0x100;
 	gb->booted = (gb->reg.pc) >= 0x100;
 	gb->reg.sp = 0;
 	gb->reg.af = 0;

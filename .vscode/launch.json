@@ -8,7 +8,9 @@
             // Resolved by CMake Tools:
             "program": "${workspaceFolder}/build/gbmu",
             "args": [
-                "${workspaceFolder}/rom/Legend_of_Zelda_link_Awaking.gb"
+                // "${workspaceFolder}/rom/unit_tests/individual/02-interrupts.gb"
+                // "${workspaceFolder}/rom/unit_tests/cpu_instrs.gb"
+                "~/Downloads/dmg-acid2.gb"
             ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/build",
