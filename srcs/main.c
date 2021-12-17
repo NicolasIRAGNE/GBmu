@@ -104,7 +104,6 @@ int		main(int ac, char** av)
 	int window_height;
 	SDL_GetWindowSize(main_window_context.win, &window_width, &window_height);
 	renderer_set_window_size(renderer, window_width, window_height);
-	main_window_loop(&(struct gbmu_wrapper_s){&gb, &vram_viewer_context, &main_window_context, renderer}, renderer);
 	execute_loop(&(struct gbmu_wrapper_s){&gb, &vram_viewer_context, &main_window_context}, renderer);
 	delete_renderer(renderer);
 	if (gb.mbc.ram_size > 0)

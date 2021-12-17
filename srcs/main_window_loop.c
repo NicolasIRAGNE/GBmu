@@ -43,8 +43,6 @@ void	main_window_loop(struct gbmu_wrapper_s* wrapper)
 	const Uint8 *state = SDL_GetKeyboardState(NULL);
 
 	// printf("main_window_loop\n");
-   	while (wrapper->gb->running)
-	{
 		while (SDL_PollEvent(&event)) 
 		{
    			if (event.type == SDL_KEYDOWN)
@@ -70,5 +68,4 @@ void	main_window_loop(struct gbmu_wrapper_s* wrapper)
 	    SDL_SetRenderDrawColor( wrapper->main_context->renderer, 255, 0, 0, 255 );
 		SDL_RenderClear( wrapper->main_context->renderer );
     	SDL_RenderPresent(wrapper->main_context->renderer);
-	}
 }

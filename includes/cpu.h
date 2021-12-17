@@ -185,6 +185,7 @@ struct	gb_gpu_s
 	uint64_t		tick;
 	uint64_t		last_cycle;
 	uint8_t			y_coord;
+	uint8_t			x_coord;
 	uint64_t		tick_save;
 	uint32_t		y_coord_save;
 	enum gpu_mode_e	mode;

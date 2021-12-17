@@ -110,15 +110,6 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 		if (err)
 			gb->paused = 1;
 
-		if (gb->gpu.y_coord < 144)
-		{
-			gb->lcd[gb->gpu.y_coord].lcdc = read_8(gb, LCDC_OFFSET);
-			gb->lcd[gb->gpu.y_coord].scx = read_8(gb, SCX_OFFSET);
-			gb->lcd[gb->gpu.y_coord].scy = read_8(gb, SCY_OFFSET);
-			gb->lcd[gb->gpu.y_coord].wx = read_8(gb, WX_OFFSET) - 7;
-			gb->lcd[gb->gpu.y_coord].wy = read_8(gb, WY_OFFSET);
-		}
-
 		if (gb->gpu.y_coord == 0 && (gb->vram_updated || gb->oam_updated))
 		{
  			renderer_update_vram(renderer);
@@ -160,7 +151,7 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 				renderer_draw(renderer, last_line_drawn + (1 * last_line_drawn != 0), gb->gpu.y_coord);
 				gb->oam_updated = 0;
 			}
-			// main_window_loop(wrapper, renderer);
+			main_window_loop(wrapper, renderer);
 			// vram_viewer_loop(wrapper, tiles);
 			renderer_render(renderer);
 			// SDL_GL_SwapWindow(wrapper->main_context->win);
