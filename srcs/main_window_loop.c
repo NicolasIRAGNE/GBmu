@@ -22,7 +22,9 @@
 #include "SDL_video.h"
 #include "cpu.h"
 #include "gb.h"
-#include "renderer/wrapper_c/wrapper.h"
+#ifdef WITH_HWACCEL
+# include "renderer/wrapper_c/wrapper.h"
+#endif
 
 int		display_test(struct gbmu_wrapper_s* wrapper, struct tile_s* array, SDL_Surface* tmp_surface)
 {
@@ -35,31 +37,38 @@ int		display_test(struct gbmu_wrapper_s* wrapper, struct tile_s* array, SDL_Surf
 	return (0);
 }
 
-void	main_window_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
+void	main_window_loop(struct gbmu_wrapper_s* wrapper)
 {
 	SDL_Event event;
 	const Uint8 *state = SDL_GetKeyboardState(NULL);
 
-   	while (SDL_PollEvent(&event)) 
+	// printf("main_window_loop\n");
+   	while (wrapper->gb->running)
 	{
-   		if (event.type == SDL_KEYDOWN)
+		while (SDL_PollEvent(&event)) 
 		{
-			input_functions[event.key.keysym.scancode](wrapper);
-			//TODO FIXME
-			check_savestate(wrapper->gb, state, event);
-		}
-		else if (event.type == SDL_WINDOWEVENT) {
-			if (event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED) {
-				renderer_set_window_size(renderer, event.window.data1, event.window.data2);
+   			if (event.type == SDL_KEYDOWN)
+			{
+				input_functions[event.key.keysym.scancode](wrapper);
+				//TODO FIXME
+				check_savestate(wrapper->gb, state, event);
 			}
-		}
-		else if (event.type == SDL_QUIT)
+			// else if (event.type == SDL_WINDOWEVENT) {
+			// 	if (event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED) {
+			// 		renderer_set_window_size(wrapper->renderer, event.window.data1, event.window.data2);
+			// 	}
+			// }
+			else if (event.type == SDL_QUIT)
+			{
+				wrapper->gb->running = 0;
+			}
+   		}
+		if (!wrapper->gb->paused)
 		{
-			wrapper->gb->running = 0;
+			handle_joypad(wrapper->gb, wrapper->main_context->controller, state);
 		}
-   	}
-	if (!wrapper->gb->paused)
-	{
-		handle_joypad(wrapper->gb, wrapper->main_context->controller, state);
+	    SDL_SetRenderDrawColor( wrapper->main_context->renderer, 255, 0, 0, 255 );
+		SDL_RenderClear( wrapper->main_context->renderer );
+    	SDL_RenderPresent(wrapper->main_context->renderer);
 	}
 }

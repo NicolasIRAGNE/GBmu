@@ -15,7 +15,11 @@
 #include "SDL_video.h"
 #include "cpu.h"
 #include "op.h"
-#include "renderer/wrapper_c/wrapper.h"
+#ifdef WITH_HWACCEL
+# include "renderer/wrapper_c/wrapper.h"
+#else
+# include "renderer_cpu/renderer_sdl.h"
+#endif
 #ifdef WITH_LIBYACC
 # include "libyacc_wrapper.h"
 #endif
@@ -92,7 +96,6 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 	uint8_t last_line = 0;
 	uint8_t	last_line_drawn = 0;
     SDL_Surface* tmp_surface = SDL_CreateRGBSurface(0, BGMAP_SIZE, BGMAP_SIZE, 32, 0, 0, 0, 0);
-	struct tile_s tiles[TILES_COUNT];
 	while (gb->running)
 	{
 		if (gb->ime && set_interrupt(gb))
@@ -157,10 +160,10 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 				renderer_draw(renderer, last_line_drawn + (1 * last_line_drawn != 0), gb->gpu.y_coord);
 				gb->oam_updated = 0;
 			}
-			main_window_loop(wrapper, renderer);
+			// main_window_loop(wrapper, renderer);
 			// vram_viewer_loop(wrapper, tiles);
 			renderer_render(renderer);
-			SDL_GL_SwapWindow(wrapper->main_context->win);
+			// SDL_GL_SwapWindow(wrapper->main_context->win);
 			renderer_clear(renderer);
 			last_line_drawn = 0;
 		}

@@ -51,7 +51,9 @@ struct	sdl_context_s
     SDL_Surface *surface;
     SDL_Texture *texture;
 	SDL_GameController* controller;
+#ifdef WITH_HWACCEL
 	SDL_GLContext* glcontext;
+#endif
 };
 
 struct 	tile_s
@@ -63,8 +65,19 @@ struct 	tile_s
 
 
 void	vram_viewer_loop(struct gbmu_wrapper_s* wrapper, struct tile_s* array);
+/**
+ * @brief Initializes the VRAM viewer window.
+ * 
+ * @param context 
+ * @return 0 on success, 1 on failure.
+ */
 int     init_vram_viewer(struct sdl_context_s* context);
 int     init_main_window(struct sdl_context_s* context);
+/**
+ * @brief Initializes the renderer and the main window
+ * 
+ * @return 0 if success, nonzero if error
+ */
 int     init_sdl();
 void	destroy_context(struct sdl_context_s* context);
 void	renderer_loop(struct gbmu_wrapper_s* wrapper);

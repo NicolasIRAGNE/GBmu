@@ -19,11 +19,17 @@
 #include "SDL_video.h"
 #include "cpu.h"
 #include "mbc.h"
+#ifdef WITH_HWACCEL
 #include "renderer/wrapper_c/wrapper.h"
+#else
+#include "renderer_cpu/renderer_sdl.h"
+#endif
 #ifdef WITH_LIBYACC
 # include "libyacc_wrapper.h"
 #endif
-// #include <pthread.h>
+#ifdef __WIN32__
+#include <windows.h>
+#endif
 #include <signal.h>
 
 #define SCREEN_WIDTH 640
@@ -89,11 +95,16 @@ int		main(int ac, char** av)
 	signal(SIGINT, sigint_handler);
 
 	void*	renderer = new_renderer(&gb);
+	#ifndef WITH_HWACCEL
+	renderer_init(renderer, &main_window_context);
+	#else
 	renderer_init(renderer);
+	#endif
 	int window_width;
 	int window_height;
 	SDL_GetWindowSize(main_window_context.win, &window_width, &window_height);
 	renderer_set_window_size(renderer, window_width, window_height);
+	main_window_loop(&(struct gbmu_wrapper_s){&gb, &vram_viewer_context, &main_window_context, renderer}, renderer);
 	execute_loop(&(struct gbmu_wrapper_s){&gb, &vram_viewer_context, &main_window_context}, renderer);
 	delete_renderer(renderer);
 	if (gb.mbc.ram_size > 0)

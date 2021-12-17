@@ -2,13 +2,16 @@ cmake_minimum_required(VERSION 3.15)
 SET(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
   ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 project(gbmu)
 
 add_library(gbmu_lib)
+set_property(TARGET gbmu_lib PROPERTY C_STANDARD 11)
 add_executable(gbmu srcs/main.c)
+target_link_libraries(gbmu ${CMAKE_THREAD_LIBS_INIT})
 
 include(FetchContent)
 
@@ -16,7 +19,12 @@ option(WITH_LIBYACC "Build libyacc" OFF)
 option(WITH_ASAN "Build with memory sanitizer" OFF)
 option(DEBUG_COLORS "Enable debug palette" ON)
 option(WITH_TESTS "Build tests" ON)
-option(WITH_HWACCEL "Build with hardware acceleration" ON)
+option(WITH_HWACCEL "Build with hardware acceleration" OFF)
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+
+find_package(Threads REQUIRED)
+target_link_libraries(gbmu_lib ${CMAKE_THREAD_LIBS_INIT})
+set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -lpthread")
 
 FetchContent_Declare(
         SDL2
@@ -50,8 +58,9 @@ endif()
 find_package(Threads)
 
 # OpenGL
+if (WITH_HWACCEL)
 find_package(OpenGL REQUIRED)
-
+endif()
 
 add_compile_definitions(_SCL_SECURE_NO_WARNINGS)
 add_compile_definitions(_ITERATOR_DEBUG_LEVEL=0)
@@ -80,7 +89,6 @@ set(SOURCES
 	srcs/init_ext_op_tab.c
 	srcs/gpu.c
 	srcs/cpu_toggle_flag.c
-	srcs/init_sdl.c
 	srcs/video_loop.c
 	srcs/vram_viewer.c
 	srcs/tools.c
@@ -163,36 +171,42 @@ endif()
 # Renderer
 if (WITH_HWACCEL)
 list(APPEND SOURCES
-	srcs/renderer/renderer_opengl.cpp
-	srcs/renderer/background.cpp
-	srcs/renderer/window.cpp
-	srcs/renderer/sprites.cpp
-	srcs/renderer/rescale.cpp
-	srcs/renderer/gl_utils/compile_program.cpp
-	srcs/renderer/wrapper_c/wrapper.cpp)
+	srcs/renderer_gpu/renderer_opengl.cpp
+	srcs/renderer_gpu/background.cpp
+	srcs/renderer_gpu/window.cpp
+	srcs/renderer_gpu/sprites.cpp
+	srcs/renderer_gpu/rescale.cpp
+	srcs/renderer_gpu/gl_utils/compile_program.cpp
+	srcs/renderer_gpu/wrapper_c/wrapper.cpp
+	srcs/renderer_gpu/init_sdl.c)
+else()
+list (APPEND SOURCES
+	srcs/renderer_cpu/init_sdl.c
+	srcs/renderer_cpu/renderer_sdl.c
+	)
 endif()
 
 if (WITH_HWACCEL)
 list(APPEND HEADERS
-	srcs/renderer/renderer_opengl.h
-	srcs/renderer/background.h
-	srcs/renderer/window.h
-	srcs/renderer/sprites.h
-	srcs/renderer/rescale.h
-	srcs/renderer/gl_utils/compile_program.h
-	srcs/renderer/gl_utils/glerr.h
-	srcs/renderer/wrapper_c/wrapper.h)
+	srcs/renderer_gpu/renderer_opengl.h
+	srcs/renderer_gpu/background.h
+	srcs/renderer_gpu/window.h
+	srcs/renderer_gpu/sprites.h
+	srcs/renderer_gpu/rescale.h
+	srcs/renderer_gpu/gl_utils/compile_program.h
+	srcs/renderer_gpu/gl_utils/glerr.h
+	srcs/renderer_gpu/wrapper_c/wrapper.h)
 	
 	set(SHADERS
-	srcs/renderer/shaders/background.vert
-	srcs/renderer/shaders/background.frag
-	srcs/renderer/shaders/window.vert
-	srcs/renderer/shaders/window.frag
-	srcs/renderer/shaders/sprites.vert
-	srcs/renderer/shaders/sprites.frag
-	srcs/renderer/shaders/basic.vert
-	srcs/renderer/shaders/basic.frag
-	srcs/renderer/shaders/rain.frag)
+	srcs/renderer_gpu/shaders/background.vert
+	srcs/renderer_gpu/shaders/background.frag
+	srcs/renderer_gpu/shaders/window.vert
+	srcs/renderer_gpu/shaders/window.frag
+	srcs/renderer_gpu/shaders/sprites.vert
+	srcs/renderer_gpu/shaders/sprites.frag
+	srcs/renderer_gpu/shaders/basic.vert
+	srcs/renderer_gpu/shaders/basic.frag
+	srcs/renderer_gpu/shaders/rain.frag)
 endif()
 
 # Debugger
@@ -525,7 +539,6 @@ endif()
 ################################################
 #                   INSTALL                    #
 ################################################
-
 foreach(shader ${SHADERS})
 	get_filename_component(filename ${shader} NAME)
 	add_custom_command(

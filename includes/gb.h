@@ -25,7 +25,9 @@
 # include <limits.h>
 # include <mbc.h>
 # include <stdio.h>
-# include "renderer/wrapper_c/wrapper.h"
+# ifdef WITH_HWACCEL
+#  include "renderer/wrapper_c/wrapper.h"
+# endif
 
 # define RED	"\x1B[31m"
 # define GRN	"\x1B[32m"
@@ -71,6 +73,7 @@ struct gbmu_wrapper_s
 	struct gb_cpu_s* gb;
 	struct sdl_context_s* vram_viewer_context;
 	struct sdl_context_s* main_context;
+	void* renderer;
 };
 
 struct breakpoint_s
