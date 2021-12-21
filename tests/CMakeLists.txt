@@ -9,7 +9,7 @@ FetchContent_Declare(
 include (CTest)
 
 set(TEST_SOURCES
-    test_op_add.cpp
+    test_fifo.cpp
     # main.cpp
 )
 

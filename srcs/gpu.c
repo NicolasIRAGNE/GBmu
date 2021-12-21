@@ -16,9 +16,10 @@
 #include "cpu.h"
 
 # define HBLANK_TIME	(204 * 1) //204
-# define OAM_TIME		(80 * 1)
-# define VRAM_TIME		(172 * 1)
+# define OAM_TIME		(40 * 1)
+# define VRAM_TIME		(160 * 1)
 # define VBLANK_TIME	(HBLANK_TIME + OAM_TIME + VRAM_TIME) //456
+# define SCANLINE_TIME	(456 * 1)
 
 void	compare_ly(struct gb_cpu_s* gb, uint8_t lyc, uint8_t *stat, uint8_t lcdc)
 {
@@ -51,7 +52,7 @@ void	gpu_tick(struct gb_cpu_s* gb)
 	{
 		case GPU_MODE_HBLANK:
 		{
-			if (gb->gpu.tick >= HBLANK_TIME)
+			if (gb->gpu.tick >= SCANLINE_TIME)
 			{
 				write_8(gb, LY_OFFSET, gb->gpu.y_coord);
 				compare_ly(gb, lyc, &stat, lcdc);
@@ -70,7 +71,7 @@ void	gpu_tick(struct gb_cpu_s* gb)
 					if (stat & STAT_MODE_2_INT && (lcdc & LCDC_ON))
 						request_interrupt(gb, INT_STAT_REQUEST);
 				}
-				gb->gpu.tick -= HBLANK_TIME;
+				gb->gpu.tick = 0;
 			}
 			break;
 		}
@@ -80,26 +81,30 @@ void	gpu_tick(struct gb_cpu_s* gb)
 			if (gb->gpu.tick >= OAM_TIME)
 			{
 				gb->gpu.mode = GPU_MODE_VRAM;
-				gb->gpu.tick -= OAM_TIME;
+				gb->gpu.tick = 0;
 			}
 			break;
 		}
 
 		case GPU_MODE_VRAM:
 		{
+			// Fetch pixel data into our pixel FIFO.
+        	// Put a pixel (if any) from the FIFO on screen.
+        	// Check when the scanline is complete (160 pixels).
+			// If the scanline is complete, go to HBLANK.
 			if (gb->gpu.tick >= VRAM_TIME)
 			{
 				gb->gpu.mode = GPU_MODE_HBLANK;
 				if (stat & STAT_MODE_0_INT && (lcdc & LCDC_ON))
 					request_interrupt(gb, INT_STAT_REQUEST);
-				gb->gpu.tick -= VRAM_TIME;
+				gb->gpu.tick = 0;
 			}
 			break;
 		}
 		
 		case GPU_MODE_VBLANK:
 		{
-			if (gb->gpu.tick >= VBLANK_TIME)
+			if (gb->gpu.tick >= SCANLINE_TIME)
 			{
 				gb->gpu.y_coord++;
 				// compare_ly(gb, lyc, &stat, lcdc);
@@ -112,7 +117,7 @@ void	gpu_tick(struct gb_cpu_s* gb)
 					if (stat & STAT_MODE_2_INT && (lcdc & LCDC_ON))
 						request_interrupt(gb, INT_STAT_REQUEST);
 				}
-				gb->gpu.tick -= VBLANK_TIME;
+				gb->gpu.tick = 0;
 			}
 			break;
 		}

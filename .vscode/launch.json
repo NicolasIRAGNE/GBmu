@@ -47,7 +47,8 @@
             "args": [
                 // "${workspaceFolder}/rom/unit_tests/individual/02-interrupts.gb"
                 // "${workspaceFolder}/rom/unit_tests/cpu_instrs.gb"
-                "${workspaceFolder}/rom/unit_tests/dmg-acid2.gb"
+                // "${workspaceFolder}/rom/unit_tests/dmg-acid2.gb"
+                "${workspaceFolder}/rom/Legend_of_Zelda_link_Awaking.gb"
             ],
             "visualizerFile": "${workspaceFolder}/my.natvis",
             "showDisplayString": true,

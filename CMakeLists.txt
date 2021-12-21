@@ -73,6 +73,7 @@ endif()
 # Core
 set(SOURCES
 	srcs/debug.c
+	srcs/pixelfifo.c
 	srcs/debugger.c
 	srcs/execute.c
 	srcs/init_cpu.c
