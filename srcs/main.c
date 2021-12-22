@@ -83,8 +83,8 @@ int		main(int ac, char** av)
  #ifndef __SANITIZE_ADDRESS__
 	atexit(SDL_Quit);
  #endif
-	// if (init_vram_viewer(&vram_viewer_context))
-		// return (1);
+	if (init_vram_viewer(&vram_viewer_context))
+		return (1);
 	if (init_main_window(&main_window_context))
 		return (1);
 	load_game(&gb);

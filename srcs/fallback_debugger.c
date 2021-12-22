@@ -194,7 +194,7 @@ int		command_quit(struct gb_cpu_s* gb, char* s, uint16_t arg)
 int		command_run(struct gb_cpu_s* gb, char* s, uint16_t arg)
 {
 	(void)s;
-	(void)arg;	
+	(void)arg;
 	gb->paused = 0;
 	return (0);
 }

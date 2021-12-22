@@ -100,7 +100,7 @@ int		loadstate(struct gb_cpu_s* gb, int number)
 	{
 		printf("fatal: save file appears to be corrupted\n");
 		fatal(gb);
-		fclose(f); 
+		fclose(f);
 		return (1);
 	}
 	gb->rom_ptr = ptr_save;

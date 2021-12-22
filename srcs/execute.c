@@ -158,7 +158,12 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 				gb->oam_updated = 0;
 			}
 			main_window_loop(wrapper, renderer);
-			// vram_viewer_loop(wrapper, tiles);
+			if (wrapper->gb->vram_viewer_running)
+			{
+				update_palettes(wrapper->gb);
+				fill_tile_array(wrapper->gb, tiles);
+				vram_viewer_loop(wrapper, tiles);
+			}
 			renderer_render(renderer);
 			SDL_GL_SwapWindow(wrapper->main_context->win);
 			renderer_clear(renderer);

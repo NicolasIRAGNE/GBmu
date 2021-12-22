@@ -20,10 +20,9 @@ option(DEBUG_COLORS "Enable debug palette" ON)
 option(WITH_TESTS "Build tests" ON)
 
 FetchContent_Declare(
-        SDL2
-        GIT_REPOSITORY "https://github.com/libsdl-org/SDL/"
-        GIT_TAG release-2.0.18
-)
+      SDL2
+      URL            https://www.libsdl.org/release/SDL2-2.0.18.zip
+    )
 
 FetchContent_Declare(
         GLEW

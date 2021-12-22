@@ -113,7 +113,7 @@ int		init_cpu(struct gb_cpu_s* gb, struct rom_s* rom)
 	gb->booted = 0;
 	init_registers(&gb->reg, gb->booted);
 	gb->running = 1;
-	gb->vram_viewer_running = 1;
+	gb->vram_viewer_running = 0;
 	gb->draw_background = 1;
 	gb->draw_sprites = 1;
 	gb->draw_window = 1;
