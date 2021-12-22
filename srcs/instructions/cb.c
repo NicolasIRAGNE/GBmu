@@ -10,8 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "op.h"
 #include <stdio.h>
+#include <stdint.h>
+
+#include "op.h"
+#include "cpu.h"
+#include "ext_op.h"
+#include "gb.h"
 
 void	cb_n(struct gb_cpu_s* gb)
 {

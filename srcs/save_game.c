@@ -11,9 +11,12 @@
 /* ************************************************************************** */
 
 #define _GNU_SOURCE
-#include "gb.h"
 #include <stdio.h>
 #include <stdlib.h>
+
+#include "gb.h"
+#include "cpu.h"
+#include "mbc.h"
 
 #ifdef _WIN32
 #include "asprintf.h"
@@ -84,3 +87,4 @@ int		load_game(struct gb_cpu_s* gb)
 	free(save_file);
 	return(0);
 }
+

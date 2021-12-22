@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "renderer/renderer_opengl.h"
+#include <cstdio>
 
 extern "C"
 {
@@ -58,6 +59,7 @@ int renderer_clear(void* renderer)
 
 int renderer_draw(void* renderer, int firstLine, int lastLine)
 {
+    // printf("Request to draw lines %d to %d\n", firstLine, lastLine);
     auto ptr = reinterpret_cast<GBMU::Renderer*>(renderer);
     return ptr->Draw(firstLine, lastLine);
 }

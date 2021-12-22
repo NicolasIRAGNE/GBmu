@@ -11,13 +11,17 @@
 /* ************************************************************************** */
 
 #include "gb.h"
+#include "SDL_surface.h"
+#include "SDL_video.h"
+#include "cpu.h"
+#include "op.h"
+#include "renderer/wrapper_c/wrapper.h"
 #ifdef WITH_LIBYACC
 # include "libyacc_wrapper.h"
 #endif
 #include <stdio.h>
-#include <stdlib.h>
-// #include <unistd.h>
-#include <stdlib.h>
+#include <stdint.h>
+
 #include "renderer.h"
 
 uint8_t	update_current_instruction(struct gb_cpu_s* gb)
@@ -87,7 +91,8 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 	struct gb_cpu_s* gb = wrapper->gb;
 	uint8_t last_line = 0;
 	uint8_t	last_line_drawn = 0;
-
+    // SDL_Surface* tmp_surface = SDL_CreateRGBSurface(0, BGMAP_SIZE, BGMAP_SIZE, 32, 0, 0, 0, 0);
+	struct tile_s tiles[TILES_COUNT];
 	while (gb->running)
 	{
 		if (gb->ime && set_interrupt(gb))
@@ -113,7 +118,7 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 
 		if (gb->gpu.y_coord == 0 && (gb->vram_updated || gb->oam_updated))
 		{
-			renderer_update_vram(renderer);
+ 			renderer_update_vram(renderer);
 			gb->vram_updated = 0;
 			gb->oam_updated = 0;
 		}
@@ -153,6 +158,12 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 				gb->oam_updated = 0;
 			}
 			main_window_loop(wrapper, renderer);
+			if (wrapper->gb->vram_viewer_running)
+			{
+				update_palettes(wrapper->gb);
+				fill_tile_array(wrapper->gb, tiles);
+				vram_viewer_loop(wrapper, tiles);
+			}
 			renderer_render(renderer);
 			SDL_GL_SwapWindow(wrapper->main_context->win);
 			renderer_clear(renderer);
@@ -202,8 +213,8 @@ int		handle_instruction(struct gb_cpu_s* gb)
 	{
 		debug_print_gb(gb);
 		printf("fatal: illegal hardware instruction %x. aborting...\n", op);
-		fatal(gb);
-		return (1);
+		// fatal(gb);
+		// return (1);
 	}
 	if (!gb->jmp)
 		gb->reg.pc += gb->current_instruction->size + 1;

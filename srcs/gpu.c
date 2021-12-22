@@ -10,7 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdint.h>
+
 #include "gb.h"
+#include "cpu.h"
 
 # define HBLANK_TIME	(204 * 1) //204
 # define OAM_TIME		(80 * 1)
@@ -50,8 +53,8 @@ void	gpu_tick(struct gb_cpu_s* gb)
 		{
 			if (gb->gpu.tick >= HBLANK_TIME)
 			{
-				// write_8(gb, LY_OFFSET, gb->gpu.y_coord);
-				// compare_ly(gb, lyc, &stat, lcdc);
+				write_8(gb, LY_OFFSET, gb->gpu.y_coord);
+				compare_ly(gb, lyc, &stat, lcdc);
 				gb->gpu.y_coord++;
 				if (gb->gpu.y_coord == 144)
 				{

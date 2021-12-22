@@ -10,7 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
+
 #include "renderer.h"
+#include "SDL_rect.h"
+#include "SDL_render.h"
+#include "SDL_surface.h"
+#include "cpu.h"
+#include "gb.h"
 
 int		display_vram(struct gbmu_wrapper_s* wrapper, struct tile_s* array)
 {

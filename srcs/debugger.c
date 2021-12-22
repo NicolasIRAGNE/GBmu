@@ -10,10 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "gb.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include "gb.h"
+#include "cpu.h"
 #ifdef _WIN32
 # include <editline/readline.h>
 #else 
@@ -30,7 +32,7 @@ void	execute_debugger(struct gb_cpu_s* gb)
 	int			quit;
 
 	quit = 0;
-	while (!quit && (buf = readline("gbmu> ")) != NULL)
+	while (gb->paused && !quit && (buf = readline("gbmu> ")) != NULL)
 	{
     	if (strlen(buf) > 0)
 		{

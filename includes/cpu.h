@@ -26,30 +26,32 @@
 
 # define VRAM_TILE_BANK_SIZE 0x1800
 
-# define IO_OFFSET		0xFF00
-# define JOYP_OFFSET	(IO_OFFSET | 0x00)
+# define IO_OFFSET			0xFF00
+# define JOYP_OFFSET			(IO_OFFSET | 0x00)
+# define SERIAL_DATA_OFFSET		(IO_OFFSET | 0x01)
+# define SERIAL_CONTROL_OFFSET	(IO_OFFSET | 0x02)
 
 // TIMER
-# define DIV_OFFSET		(IO_OFFSET | 0x04)
-# define TIMA_OFFSET	(IO_OFFSET | 0x05)
-# define TMA_OFFSET		(IO_OFFSET | 0x06)
-# define TAC_OFFSET		(IO_OFFSET | 0x07)
+# define DIV_OFFSET				(IO_OFFSET | 0x04)
+# define TIMA_OFFSET			(IO_OFFSET | 0x05)
+# define TMA_OFFSET				(IO_OFFSET | 0x06)
+# define TAC_OFFSET				(IO_OFFSET | 0x07)
 
 // LCD SCREEN
-# define LCDC_OFFSET 	(IO_OFFSET | 0x40)
-# define STAT_OFFSET 	(IO_OFFSET | 0x41)
-# define SCY_OFFSET		(IO_OFFSET | 0x42)
-# define SCX_OFFSET		(IO_OFFSET | 0x43)
-# define LY_OFFSET		(IO_OFFSET | 0x44)
-# define LYC_OFFSET		(IO_OFFSET | 0x45)
-# define DMA_OFFSET		(IO_OFFSET | 0x46)
-# define BGP_OFFSET		(IO_OFFSET | 0x47)
-# define OBP0_OFFSET	(IO_OFFSET | 0x48)
-# define OBP1_OFFSET	(IO_OFFSET | 0x49)
-# define WY_OFFSET		(IO_OFFSET | 0x4a)
-# define WX_OFFSET		(IO_OFFSET | 0x4b)
+# define LCDC_OFFSET 			(IO_OFFSET | 0x40)
+# define STAT_OFFSET 			(IO_OFFSET | 0x41)
+# define SCY_OFFSET				(IO_OFFSET | 0x42)
+# define SCX_OFFSET				(IO_OFFSET | 0x43)
+# define LY_OFFSET				(IO_OFFSET | 0x44)
+# define LYC_OFFSET				(IO_OFFSET | 0x45)
+# define DMA_OFFSET				(IO_OFFSET | 0x46)
+# define BGP_OFFSET				(IO_OFFSET | 0x47)
+# define OBP0_OFFSET			(IO_OFFSET | 0x48)
+# define OBP1_OFFSET			(IO_OFFSET | 0x49)
+# define WY_OFFSET				(IO_OFFSET | 0x4a)
+# define WX_OFFSET				(IO_OFFSET | 0x4b)
 
-# define IF_OFFSET		(IO_OFFSET | 0x0F)
+# define IF_OFFSET				(IO_OFFSET | 0x0F)
 
 // LCDC
 # define LCDC_ON					(1 << 7)
@@ -233,6 +235,9 @@ struct	gb_cpu_s
 	int					paused : 1;
 	int					vram_updated : 1;
 	int					oam_updated : 1;
+	int					draw_background : 1;
+	int					draw_window : 1;
+	int					draw_sprites : 1;
 	struct Lcd			lcd[144];
 	uint16_t			interrupt;
 	uint64_t			cycle;
@@ -244,6 +249,7 @@ struct	gb_cpu_s
 	int					ram_enabled : 1;
 	int					halted : 1;
 	int					booted : 1;
+	int					debug_palette : 1;
 	struct registers_s	reg;
 	struct inst_s*		current_instruction;
 	struct rom_s*		rom_ptr;

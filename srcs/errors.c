@@ -10,8 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "gb.h"
 #include <stdlib.h>
+
+#include "gb.h"
+
+struct gb_cpu_s;
 
 void	fatal(struct gb_cpu_s* gb)
 {

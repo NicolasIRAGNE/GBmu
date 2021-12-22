@@ -6,9 +6,12 @@
             "type": "cppdbg",
             "request": "launch",
             // Resolved by CMake Tools:
-            "program": "${workspaceFolder}/build/gbmu",
+            "program": "${command:cmake.launchTargetPath}",
             "args": [
+                // "${workspaceFolder}/rom/unit_tests/individual/02-interrupts.gb"
+                // "${workspaceFolder}/rom/unit_tests/cpu_instrs.gb"
                 "${workspaceFolder}/rom/Legend_of_Zelda_link_Awaking.gb"
+                // "~/Downloads/dmg-acid2.gb"
             ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/build",
@@ -43,7 +46,8 @@
                 "trace": true
             },
             "args": [
-                "${workspaceFolder}/rom/tetris.gb"
+                "${workspaceFolder}/rom/Legend_of_Zelda_link_Awaking.gb"
+                // "${workspaceFolder}/rom/F-1_Race_World.gb"
             ],
             "visualizerFile": "${workspaceFolder}/my.natvis",
             "showDisplayString": true,

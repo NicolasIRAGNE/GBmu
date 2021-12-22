@@ -10,7 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdint.h>
+
 #include "gb.h"
+#include "cpu.h"
+#include "op.h"
 
 void	call(struct gb_cpu_s* gb, uint16_t a16)
 {

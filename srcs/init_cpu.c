@@ -10,10 +10,54 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "gb.h"
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdint.h>
+#include <sys/stat.h>
+
+#include "gb.h"
+#include "cpu.h"
+#include "mbc.h"
+
+
+int		open_rom(char* name, struct rom_s* rom)
+{
+	int ret;
+
+	ret = stat(name, &rom->st);
+	if (ret)
+	{
+		perror(name);
+		return (ret);
+	}
+	
+	FILE* f = fopen(name, "rb");
+	if (f == NULL)
+	{
+		perror(name);
+		return (1);
+	}
+	
+	uint8_t* buf = malloc(rom->st.st_size);
+	if (!buf)
+	{
+		perror("malloc");
+		fclose(f);
+		return (1);
+	}
+	size_t rd = fread(buf, rom->st.st_size, 1, f) * rom->st.st_size;
+	if (rd != rom->st.st_size)
+	{
+		perror(name);
+		fclose(f);
+		free(buf);
+		return (1);
+	}
+	fclose(f);
+	rom->ptr = buf;
+	return (0);
+}
 
 int		init_boot_rom(struct gb_cpu_s* gb)
 {
@@ -38,29 +82,51 @@ int		init_boot_rom(struct gb_cpu_s* gb)
 	return (0);
 }
 
+void		init_registers(struct registers_s* reg, int booted)
+{
+	if (booted)
+	{
+		reg->af = 0x01B0;
+		reg->bc = 0x0013;
+		reg->de = 0x00D8;
+		reg->hl = 0x014D;
+		reg->sp = 0xFFFE;
+		reg->pc = 0x0100;
+	}
+	else
+	{
+		reg->af = 0x0000;
+		reg->bc = 0x0000;
+		reg->de = 0x0000;
+		reg->hl = 0x0000;
+		reg->pc = 0x0000;
+		reg->sp = 0x0000;
+	}
+}
+
 int		init_cpu(struct gb_cpu_s* gb, struct rom_s* rom)
 {
 	memset(gb, 0, sizeof(*gb));
 	if (init_boot_rom(gb))
 		return (1);
 	gb->rom_ptr = rom;
-	gb->reg.sp = 0xFFFE;
-	gb->reg.af = 0;
-	gb->reg.de = 0;
-	gb->reg.hl = 0;
-	gb->reg.pc = 0;
-	gb->booted = (gb->reg.pc) >= 0x100;
+	gb->booted = 0;
+	init_registers(&gb->reg, gb->booted);
 	gb->running = 1;
-	gb->vram_viewer_running = 1;
-	gb->paused = 0;
+	gb->vram_viewer_running = 0;
+	gb->draw_background = 1;
+	gb->draw_sprites = 1;
+	gb->draw_window = 1;
 	gb->current_instruction = NULL;
-	gb->ime = 1;
+	gb->ime = 0;
+	gb->paused = 0;
 	gb->div_freq = DEFAULT_DIV_FREQ;
 	// gb->interrupt_enable_register |= INT_VBLANK_REQUEST;
 	// gb->interrupt_enable_register |= INT_TIMER_REQUEST;
 	// gb->interrupt_enable_register |= INT_STAT_REQUEST;
 	init_mbc(gb);
 	gb->extra_ram = malloc(gb->mbc.ram_size);
+	write_8(gb, LCDC_OFFSET, read_8(gb, LCDC_OFFSET) | LCDC_ON);
 	return (0);
 }
 

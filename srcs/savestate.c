@@ -11,10 +11,17 @@
 /* ************************************************************************** */
 
 #define _GNU_SOURCE
-#include "gb.h"
 #include <stdio.h>
-#include <SDL.h>
 #include <stdlib.h>
+#include <stdint.h>
+
+#include "gb.h"
+#include "SDL_events.h"
+#include "SDL_keyboard.h"
+#include "SDL_scancode.h"
+#include "SDL_stdinc.h"
+#include "cpu.h"
+#include "mbc.h"
 #ifdef _WIN32
 # include "asprintf.h"
 #endif
@@ -93,7 +100,7 @@ int		loadstate(struct gb_cpu_s* gb, int number)
 	{
 		printf("fatal: save file appears to be corrupted\n");
 		fatal(gb);
-		fclose(f); 
+		fclose(f);
 		return (1);
 	}
 	gb->rom_ptr = ptr_save;

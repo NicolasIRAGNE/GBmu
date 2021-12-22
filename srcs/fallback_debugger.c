@@ -10,10 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "gb.h"
-#include "fallback_debugger.h"
 #include <stdio.h>
 #include <string.h>
+#include <stdint.h>
+#include <stdlib.h>
+
+#include "gb.h"
+#include "fallback_debugger.h"
+#include "cpu.h"
 
 int		get_verbose(struct gbmu_debugger_s* debugger)
 {
@@ -190,7 +194,7 @@ int		command_quit(struct gb_cpu_s* gb, char* s, uint16_t arg)
 int		command_run(struct gb_cpu_s* gb, char* s, uint16_t arg)
 {
 	(void)s;
-	(void)arg;	
+	(void)arg;
 	gb->paused = 0;
 	return (0);
 }

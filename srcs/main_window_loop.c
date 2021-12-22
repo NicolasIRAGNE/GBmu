@@ -10,7 +10,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stddef.h>
+#include <stdint.h>
+
 #include "renderer.h"
+#include "input_functions.h"
+#include "SDL_events.h"
+#include "SDL_keyboard.h"
+#include "SDL_stdinc.h"
+#include "SDL_surface.h"
+#include "SDL_video.h"
+#include "cpu.h"
+#include "gb.h"
+#include "renderer/wrapper_c/wrapper.h"
 
 int		display_test(struct gbmu_wrapper_s* wrapper, struct tile_s* array, SDL_Surface* tmp_surface)
 {
@@ -32,10 +44,8 @@ void	main_window_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 	{
    		if (event.type == SDL_KEYDOWN)
 		{
-			if (event.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
-				wrapper->gb->running = 0;
-			if (event.key.keysym.scancode == SDL_SCANCODE_SPACE)
-				wrapper->gb->paused = 1;
+			input_functions[event.key.keysym.scancode](wrapper);
+			//TODO FIXME
 			check_savestate(wrapper->gb, state, event);
 		}
 		else if (event.type == SDL_WINDOWEVENT) {
