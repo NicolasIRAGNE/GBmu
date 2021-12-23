@@ -100,14 +100,13 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 		if (err)
 			gb->paused = 1;
 
-		if (last_line_drawn != gb->gpu.y_coord && gb->gpu.y_coord < 144)
+		if (gb->gpu.y_coord < 144)
 		{
 			uint8_t lcdc = (read_8(gb, LCDC_OFFSET));
+			uint8_t px = rand() % 160;
 			if ((lcdc & LCDC_ON) || !gb->booted)
 			{
-				for (int i = 0; i < MAIN_SURFACE_WIDTH; i++) {
-					renderer_draw_pixel(renderer, gb->gpu.y_coord, i);
-				}
+					renderer_draw_pixel(renderer, gb->gpu.y_coord, rand() % 160);
 			}
 			last_line_drawn = gb->gpu.y_coord;
 		}
