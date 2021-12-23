@@ -33,7 +33,9 @@ void Renderer::DrawPixel(int line, int pixel)
     int menuIndex = -1;
     int spriteIndex = -1;
 
-    backgroundIndex = GetBackgroundIndex(line, pixel, scx, scy, lcdc);
+    if (m_Gb->draw_background) {
+        backgroundIndex = GetBackgroundIndex(line, pixel, scx, scy, lcdc);
+    }
     if (m_Gb->draw_window && (lcdc & LCDC_WINDOW_ON)) {
         menuIndex = GetMenuIndex(line, pixel, wx, wy, lcdc);
     }
@@ -45,12 +47,21 @@ void Renderer::DrawPixel(int line, int pixel)
     m_TextureData[line][pixel] = 4;
     if (backgroundIndex != -1) {
         m_TextureData[line][pixel] = m_BackgroundAndMenuColorMapIndex[backgroundIndex];
+        if (m_Gb->debug_palette) {
+            m_TextureData[line][pixel] += kBackgroundDebugPaletteOffset;
+        }
     }
     if (menuIndex != -1) {
         m_TextureData[line][pixel] = m_BackgroundAndMenuColorMapIndex[menuIndex];
+        if (m_Gb->debug_palette) {
+            m_TextureData[line][pixel] += kWindowDebugPaletteOffset;
+        }
     }
     if (spriteIndex != -1 && (isSpriteInFront || (backgroundIndex <= 0 && menuIndex <= 0))) {
         m_TextureData[line][pixel] = spriteIndex;
+        if (m_Gb->debug_palette) {
+            m_TextureData[line][pixel] += kSpriteDebugPaletteOffset;
+        }
     }
 }
 

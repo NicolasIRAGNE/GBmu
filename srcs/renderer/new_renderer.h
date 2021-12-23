@@ -13,6 +13,10 @@ extern "C"
 namespace GBMU
 {
 
+constexpr int8_t kWindowDebugPaletteOffset = 5;
+constexpr int8_t kSpriteDebugPaletteOffset = 10;
+constexpr int8_t kBackgroundDebugPaletteOffset = 15;
+
 class Renderer
 {
 public:
