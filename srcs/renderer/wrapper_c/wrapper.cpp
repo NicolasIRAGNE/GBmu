@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "renderer/renderer_opengl.h"
+#include "renderer/new_renderer.h"
 #include <cstdio>
 
 extern "C"
@@ -27,47 +27,22 @@ void delete_renderer(void* renderer)
     delete ptr;
 }
 
-int renderer_init(void* renderer)
+void renderer_clear(void* renderer)
 {
     auto ptr = reinterpret_cast<GBMU::Renderer*>(renderer);
-    return ptr->Init();
+    ptr->Clear();
 }
 
-int renderer_destroy(void* renderer)
+void renderer_draw_pixel(void* renderer, int line, int pixel)
 {
     auto ptr = reinterpret_cast<GBMU::Renderer*>(renderer);
-    return ptr->Destroy();
+    ptr->DrawPixel(line, pixel);
 }
 
-void renderer_update_lcd(void* renderer)
+void renderer_render(void* renderer)
 {
     auto ptr = reinterpret_cast<GBMU::Renderer*>(renderer);
-    ptr->UpdateLcd();
-}
-
-void renderer_update_vram(void* renderer)
-{
-    auto ptr = reinterpret_cast<GBMU::Renderer*>(renderer);
-    ptr->UpdateVram();
-}
-
-int renderer_clear(void* renderer)
-{
-    auto ptr = reinterpret_cast<GBMU::Renderer*>(renderer);
-    return ptr->Clear();
-}
-
-int renderer_draw(void* renderer, int firstLine, int lastLine)
-{
-    // printf("Request to draw lines %d to %d\n", firstLine, lastLine);
-    auto ptr = reinterpret_cast<GBMU::Renderer*>(renderer);
-    return ptr->Draw(firstLine, lastLine);
-}
-
-int renderer_render(void* renderer)
-{
-    auto ptr = reinterpret_cast<GBMU::Renderer*>(renderer);
-    return ptr->Render();
+    ptr->Render();
 }
 
 void renderer_set_window_size(void* renderer, int width, int height)

@@ -233,12 +233,9 @@ struct	gb_cpu_s
 	int					vram_viewer_running : 1;
 	int					running : 1;
 	int					paused : 1;
-	int					vram_updated : 1;
-	int					oam_updated : 1;
 	int					draw_background : 1;
 	int					draw_window : 1;
 	int					draw_sprites : 1;
-	struct Lcd			lcd[144];
 	uint16_t			interrupt;
 	uint64_t			cycle;
 	uint64_t			last_sleep;

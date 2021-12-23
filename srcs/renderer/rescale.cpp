@@ -1,46 +1,38 @@
 #include "rescale.h"
 
 #include <stdio.h>
+#include <stdexcept>
 
 #include "gl_utils/glerr.h"
 #include "gl_utils/compile_program.h"
 #include "GL/glew.h"
 
-extern "C" {
-}
-
 namespace GBMU {
 
-Rescale::Rescale() {}
-
-Rescale::~Rescale()
+Rescale::Rescale()
 {
-    Destroy();
-}
+    GLenum err = glewInit();
+    if (err != GLEW_OK) {
+        throw std::runtime_error("Glew error: " + std::string((char*)glewGetErrorString(err)));
+    }
 
-int Rescale::Init(GLuint texture)
-{
-    m_Texture = texture;
-
-    glGenVertexArrays(1, &m_Vao); GLERR;
-    glBindVertexArray(m_Vao); GLERR;
+    glGenVertexArrays(1, &m_Vao);
+    glBindVertexArray(m_Vao);
 
     m_Program = compileProgram(
         "shaders/basic.vert",
         "shaders/basic.frag");
 
     if (!m_Program) {
-        printf("failed to compile program\n");
-        return -1;
+        throw std::runtime_error("Failed to compile program");
     }
 
-    glBindAttribLocation(m_Program, 0, "inVertex"); GLERR;
-    glBindAttribLocation(m_Program, 1, "inTextCoord"); GLERR;
+    glBindAttribLocation(m_Program, 0, "inVertex");
+    glBindAttribLocation(m_Program, 1, "inTextCoord");
 
     int ret = linkProgram(m_Program);
     if (ret < 0) {
-        printf("failed to link program\n");
-        return -1;
+        throw std::runtime_error("Failed to link program");
     }
 
     constexpr float quad[] = {
@@ -51,64 +43,47 @@ int Rescale::Init(GLuint texture)
     };
 
     constexpr float textCoord[] = {
-        0.f, 0.f,
         0.f, 1.f,
-        1.f, 0.f,
-        1.f, 1.f
+        0.f, 0.f,
+        1.f, 1.f,
+        1.f, 0.f
     };
 
-    glGenBuffers(1, &m_Vbo); GLERR;
-    glBindBuffer(GL_ARRAY_BUFFER, m_Vbo); GLERR;
-    glBufferData(GL_ARRAY_BUFFER, sizeof(quad) + sizeof(textCoord), nullptr, GL_STATIC_DRAW); GLERR;
-    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(quad), quad); GLERR;
-    glBufferSubData(GL_ARRAY_BUFFER, sizeof(quad), sizeof(textCoord), textCoord); GLERR;
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, (void*)0); GLERR;
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)sizeof(quad)); GLERR;
+    glGenBuffers(1, &m_Vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, m_Vbo);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(quad) + sizeof(textCoord), nullptr, GL_STATIC_DRAW);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(quad), quad);
+    glBufferSubData(GL_ARRAY_BUFFER, sizeof(quad), sizeof(textCoord), textCoord);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)sizeof(quad));
 
-    glEnableVertexAttribArray(0); GLERR;
-    glEnableVertexAttribArray(1); GLERR;
+    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
 
-    glBindBuffer(GL_ARRAY_BUFFER, 0); GLERR;
-    glBindVertexArray(0); GLERR;
-
-    glBindTexture(GL_TEXTURE_2D, m_Texture); GLERR;
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST); GLERR;
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST); GLERR;
-    glBindTexture(GL_TEXTURE_2D, 0); GLERR;
-
-    GLuint staticInfosLoc = glGetUniformBlockIndex(m_Program, "staticInfos"); GLERR;
-    glUniformBlockBinding(m_Program, staticInfosLoc, 0); GLERR;
-
-    GLuint dynamicInfosLoc = glGetUniformBlockIndex(m_Program, "dynamicInfos"); GLERR;
-    glUniformBlockBinding(m_Program, dynamicInfosLoc, 1); GLERR;
-
-    return 0;
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
 }
 
-int Rescale::Destroy()
+Rescale::~Rescale()
 {
-    glDeleteBuffers(1, &m_Vbo); GLERR;
-    glDeleteVertexArrays(1, &m_Vao); GLERR;
-    glDeleteProgram(m_Program); GLERR;
-
-    return 0;
+    glDeleteBuffers(1, &m_Vbo);
+    glDeleteVertexArrays(1, &m_Vao);
+    glDeleteProgram(m_Program);
 }
 
-int Rescale::Draw()
+void Rescale::Draw(GLuint texture)
 {
-    glUseProgram(m_Program); GLERR;
-    glBindVertexArray(m_Vao); GLERR;
-    glBindBuffer(GL_ARRAY_BUFFER, m_Vbo); GLERR;
-    glBindTexture(GL_TEXTURE_2D, m_Texture); GLERR;
+    glUseProgram(m_Program);
+    glBindVertexArray(m_Vao);
+    glBindBuffer(GL_ARRAY_BUFFER, m_Vbo);
+    glBindTexture(GL_TEXTURE_2D, texture);
 
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4); GLERR;
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
-    glBindTexture(GL_TEXTURE_2D, 0); GLERR;
-    glBindBuffer(GL_ARRAY_BUFFER, 0); GLERR;
-    glBindVertexArray(0); GLERR;
-    glUseProgram(0); GLERR;
-
-    return 0;
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
+    glUseProgram(0);
 }
 
 } // namespace GBMU
