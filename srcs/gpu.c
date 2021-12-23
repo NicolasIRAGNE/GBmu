@@ -89,6 +89,8 @@ void	gpu_tick(struct gb_cpu_s* gb)
 		case GPU_MODE_VRAM:
 		{
 			gb->gpu.x_coord = (float)(((float)gb->gpu.tick / (float)VRAM_TIME)) * 160;
+			if (gb->gpu.x_coord > 160)
+				gb->gpu.x_coord = 160;
 			if (gb->gpu.tick >= VRAM_TIME)
 			{
 				gb->gpu.mode = GPU_MODE_HBLANK;
@@ -122,7 +124,7 @@ void	gpu_tick(struct gb_cpu_s* gb)
 		default:
 			break;
 	}
-compare_ly(gb, lyc, &stat, lcdc);
+	compare_ly(gb, lyc, &stat, lcdc);
 	stat = (stat & 0b11111100) | gb->gpu.mode;
 	write_8(gb, STAT_OFFSET, stat);
 	write_8(gb, LY_OFFSET, gb->gpu.y_coord);

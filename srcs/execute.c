@@ -84,6 +84,7 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 	struct gb_cpu_s* gb = wrapper->gb;
 	uint8_t last_line = 0;
 	uint8_t	last_line_drawn = 0;
+	uint8_t	last_pixel_drawn = 0;
     // SDL_Surface* tmp_surface = SDL_CreateRGBSurface(0, BGMAP_SIZE, BGMAP_SIZE, 32, 0, 0, 0, 0);
 	struct tile_s tiles[TILES_COUNT];
 	while (gb->running)
@@ -100,15 +101,16 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 		if (err)
 			gb->paused = 1;
 
-		if (last_line_drawn != gb->gpu.y_coord && gb->gpu.y_coord < 144)
+		if (gb->gpu.y_coord < 144 && (last_line_drawn != gb->gpu.y_coord || last_pixel_drawn != gb->gpu.x_coord))
 		{
 			uint8_t lcdc = (read_8(gb, LCDC_OFFSET));
 			if ((lcdc & LCDC_ON) || !gb->booted)
 			{
-				for (int i = 0; i < MAIN_SURFACE_WIDTH; i++) {
+				for (int i = last_pixel_drawn; i < gb->gpu.x_coord; i++) {
 					renderer_draw_pixel(renderer, gb->gpu.y_coord, i);
 				}
 			}
+			last_pixel_drawn = gb->gpu.x_coord;
 			last_line_drawn = gb->gpu.y_coord;
 		}
 		last_line = gb->gpu.y_coord;
@@ -129,7 +131,7 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 			}
 			renderer_render(renderer);
 			SDL_GL_SwapWindow(wrapper->main_context->win);
-			renderer_clear(renderer);
+			// renderer_clear(renderer);
 			last_line_drawn = 0;
 		}
 		if (gb->cycle - gb->last_sleep > (70224 / 4))
