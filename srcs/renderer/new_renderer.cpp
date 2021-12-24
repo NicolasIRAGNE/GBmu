@@ -3,6 +3,35 @@
 #include <stdexcept>
 #include <string>
 
+constexpr uint16_t kBasicColorMap[4] = {
+    28 | (25 << 5) | (20 << 10),
+    21 | (18 << 5) | (2  << 10),
+    12 | (6  << 5) | (6  << 10),
+    7  | (2  << 5) | (2  << 10),
+};
+
+constexpr uint16_t kDebugWindowColorMap[4] = {
+    31 | (0 << 5) | (0 << 10),
+    25 | (0 << 5) | (0 << 10),
+    19 | (0 << 5) | (0 << 10),
+    12 | (0 << 5) | (0 << 10),
+};
+
+constexpr uint16_t kDebugSpriteColorMap[4] = {
+    0 | (31 << 5) | (0 << 10),
+    0 | (25 << 5) | (0 << 10),
+    0 | (19 << 5) | (0 << 10),
+    0 | (12 << 5) | (0 << 10),
+};
+
+constexpr uint16_t kDebugBackgroundColorMap[4] = {
+    0 | (0 << 5) | (31 << 10),
+    0 | (0 << 5) | (25 << 10),
+    0 | (0 << 5) | (19 << 10),
+    0 | (0 << 5) | (12 << 10),
+};
+
+
 namespace GBMU
 {
 
@@ -44,23 +73,26 @@ void Renderer::DrawPixel(int line, int pixel)
         spriteIndex = GetSpriteIndex(&isSpriteInFront, line, pixel, lcdc);
     }
 
-    m_TextureData[line][pixel] = 4;
+    m_TextureData[line][pixel] = 0;
     if (backgroundIndex != -1) {
-        m_TextureData[line][pixel] = m_BackgroundAndMenuColorMapIndex[backgroundIndex];
+        int8_t index = m_BackgroundAndMenuColorMapIndex[backgroundIndex];
+        m_TextureData[line][pixel] = kBasicColorMap[index];
         if (m_Gb->debug_palette) {
-            m_TextureData[line][pixel] += kBackgroundDebugPaletteOffset;
+            m_TextureData[line][pixel] = kDebugBackgroundColorMap[index];
         }
     }
     if (menuIndex != -1) {
-        m_TextureData[line][pixel] = m_BackgroundAndMenuColorMapIndex[menuIndex];
+        int8_t index = m_BackgroundAndMenuColorMapIndex[menuIndex];
+        m_TextureData[line][pixel] = kBasicColorMap[index];
         if (m_Gb->debug_palette) {
-            m_TextureData[line][pixel] += kWindowDebugPaletteOffset;
+            m_TextureData[line][pixel] = kDebugWindowColorMap[index];
         }
     }
     if (spriteIndex != -1 && (isSpriteInFront || (backgroundIndex <= 0 && menuIndex <= 0))) {
-        m_TextureData[line][pixel] = spriteIndex;
+        int8_t index = spriteIndex;
+        m_TextureData[line][pixel] = kBasicColorMap[index];
         if (m_Gb->debug_palette) {
-            m_TextureData[line][pixel] += kSpriteDebugPaletteOffset;
+            m_TextureData[line][pixel] = kDebugSpriteColorMap[index];
         }
     }
 }
@@ -69,7 +101,7 @@ void Renderer::Render()
 {
     // Copy the texture data to the texture
     glBindTexture(GL_TEXTURE_2D, m_Texture);
-    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, MAIN_SURFACE_WIDTH, MAIN_SURFACE_HEIGHT, GL_RED_INTEGER, GL_UNSIGNED_BYTE, m_TextureData);
+    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, MAIN_SURFACE_WIDTH, MAIN_SURFACE_HEIGHT, GL_RGBA, GL_UNSIGNED_SHORT_1_5_5_5_REV, m_TextureData);
     glBindTexture(GL_TEXTURE_2D, 0);
 
     m_Rescale.Draw(m_Texture);
@@ -92,12 +124,12 @@ void Renderer::InitTexture()
     glTexImage2D(
         GL_TEXTURE_2D,
         0,
-        GL_R8UI,
+        GL_RGBA,
         MAIN_SURFACE_WIDTH,
         MAIN_SURFACE_HEIGHT,
         0,
-        GL_RED_INTEGER,
-        GL_UNSIGNED_BYTE,
+        GL_RGBA,
+        GL_UNSIGNED_SHORT_1_5_5_5_REV,
         nullptr);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -111,7 +143,7 @@ void Renderer::DestroyTexture()
 int Renderer::GetBackgroundIndex(int line, int pixel, int scx, int scy, int lcdc)
 {
     if (!(lcdc & LCDC_DISPLAY_PRIORITY)) {
-        return 4;
+        return -1;
     }
 
     int backgroundX = (pixel + scx) % 256;

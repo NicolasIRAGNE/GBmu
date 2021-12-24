@@ -42,7 +42,7 @@ private:
 private:
     gb_cpu_s* m_Gb {nullptr};
 
-    uint8_t m_TextureData[MAIN_SURFACE_HEIGHT][MAIN_SURFACE_WIDTH] {};
+    uint16_t m_TextureData[MAIN_SURFACE_HEIGHT][MAIN_SURFACE_WIDTH] {};
     GLuint m_Texture {0};
 
     int8_t m_BackgroundAndMenuColorMapIndex[4] {};
