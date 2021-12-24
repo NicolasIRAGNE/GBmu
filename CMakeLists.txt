@@ -5,10 +5,11 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
   ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
-project(gbmu)
+project(gbmu LANGUAGES CXX C)
 
 add_library(gbmu_lib)
-add_executable(gbmu srcs/main.c)
+add_executable(gbmu srcs/main.cpp)
+target_link_libraries(gbmu cxxopts::cxxopts)
 
 include(FetchContent)
 if (NOT MSVC)
@@ -30,7 +31,13 @@ FetchContent_Declare(
         GIT_TAG glew-cmake-release
 )
 
-FetchContent_MakeAvailable(GLEW SDL2)
+FetchContent_Declare(
+	cxxopts
+	GIT_REPOSITORY "https://github.com/jarro2783/cxxopts"
+	GIT_TAG v3.0.0
+)
+
+FetchContent_MakeAvailable(GLEW SDL2 cxxopts)
 
 if(WIN32)
 	FetchContent_Declare(
@@ -440,6 +447,7 @@ set(DEBUGGER_SOURCES
 
 target_include_directories(gbmu_lib PUBLIC srcs)
 target_include_directories(gbmu_lib PUBLIC includes)
+target_include_directories(gbmu_lib PUBLIC srcs/renderer)
 	
 ################################################
 #                COMPILE FLAGS                 #

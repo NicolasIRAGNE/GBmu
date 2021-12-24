@@ -16,6 +16,30 @@
 #include "cpu.h"
 #include "mbc.h"
 
+/**
+ * @brief This function writes a byte to the gameboy RAM. It needs to be an interface for both the DMG and the CGB.
+ * On the DMG, there is only one RAM bank of size 0x2000 bytes. On the CGB, there are 8 banks of size 0x1000 bytes.
+ * The memory is mapped as follows:
+ * - 0xC000 - 0xCFFF is always mapped to the first bank of the RAM.
+ * - 0xD000 - 0xDFFF is dynamically mapped to an arbitrary bank of the RAM.
+ * 
+ * @param gb The GB to write to
+ * @param a16 The absolute address to write to
+ * @param x The byte to attempt to write
+ * @param mode The current write mode. See memory_mode_e
+ */
+static void	write_to_ram(struct gb_cpu_s* gb, uint16_t a16, uint8_t x, enum memory_mode_e mode)
+{
+	if (a16 < 0xD000)
+	{
+		gb->ram[0][a16 - 0xC000] = x;
+	}
+	else
+	{
+		gb->ram[gb->wram_bank][a16 - 0xD000] = x;
+	}
+}
+
 static void	write_8_internal(struct gb_cpu_s* gb, uint16_t a16, uint8_t x, enum memory_mode_e mode)
 {
 	if (a16 == 0xc0f0)
@@ -41,24 +65,9 @@ static void	write_8_internal(struct gb_cpu_s* gb, uint16_t a16, uint8_t x, enum 
 		gb->mbc.write(gb, a16, x, mode);
 		return ;
 	}
-	else if (a16 < 0xd000)
-	{
-		gb->ram[0][a16 - 0xc000] = x;
-		return ;
-	}
 	else if (a16 < 0xe000)
 	{
-		
-		if (gb->mode == GB_MODE_CGB)
-		{
-			uint8_t tmp = gb->wram_bank;
-			if (tmp == 0)
-				tmp = 1;
-			gb->ram[tmp][a16 - 0xd000] = x;
-		}
-		else 
-			gb->ram[1][a16 - 0xd000] = x;
-		return ;
+		write_to_ram(gb, a16, x, mode);
 	}
 	else if (a16 >= 0xFE00 && a16 < 0xFEA0)
 	{

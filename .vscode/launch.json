@@ -8,11 +8,15 @@
             // Resolved by CMake Tools:
             "program": "${command:cmake.launchTargetPath}",
             "args": [
-                // "${workspaceFolder}/rom/unit_tests/individual/02-interrupts.gb"
-                // "${workspaceFolder}/rom/unit_tests/cpu_instrs.gb"
-                // "${workspaceFolder}/rom/Legend_of_Zelda_link_Awaking.gb"
-                // "${workspaceFolder}/rom/batman.gb"
-                "~/Downloads/dmg-acid2.gb"
+                // "${workspaceFolder}/rom/unit_tests/individual/02-interrupts.gb",
+                // "${workspaceFolder}/rom/unit_tests/cpu_instrs.gb",
+                "${workspaceFolder}/rom/Legend_of_Zelda_link_Awaking.gb",
+                // "${workspaceFolder}/rom/Legend of Zelda, The - Oracle of Seasons.gbc"
+                // "${workspaceFolder}/rom/batman.gb",
+                // "${workspaceFolder}/rom/F-1_Race_World.gb",
+                // "~/Downloads/dmg-acid2.gb",
+
+                "--mode", "dmg"
             ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/build",
