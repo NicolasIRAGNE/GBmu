@@ -172,12 +172,6 @@ list(APPEND HEADERS
 	srcs/renderer/wrapper_c/wrapper.h)
 
 set(SHADERS
-	srcs/renderer/shaders/background.vert
-	srcs/renderer/shaders/background.frag
-	srcs/renderer/shaders/window.vert
-	srcs/renderer/shaders/window.frag
-	srcs/renderer/shaders/sprites.vert
-	srcs/renderer/shaders/sprites.frag
 	srcs/renderer/shaders/basic.vert
 	srcs/renderer/shaders/basic.frag
 	srcs/renderer/shaders/rain.frag)
