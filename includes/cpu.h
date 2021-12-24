@@ -125,6 +125,7 @@
 # define DOUBLE_SPEED_MODE		1
 
 # define VRAM_BANKS				2
+# define WRAM_BANKS				8
 
 struct	gb_cpu_s;
 
@@ -238,10 +239,11 @@ struct Lcd {
     
 enum	gb_mode_e
 {
-	GB_MODE_DMG = 0,
-	GB_MODE_CGB,
-	GB_MODE_GBA,
-	GB_MODE_UNKNOWN,
+	GB_MODE_DMG, //<! Original Gameboy mode.
+	GB_MODE_CGB, //<! Color Gameboy mode.
+	GB_MODE_GBA, //<! Gameboy Advance mode. Not supported.
+	GB_MODE_AUTO, //<! Auto-detect the gameboy mode. This is done by reading the ROM header.
+	GB_MODE_UNKNOWN //<! Unknown mode. I don't know what this is. Too bad!
 };
 
 struct	gb_cpu_s
@@ -277,7 +279,7 @@ struct	gb_cpu_s
 	uint8_t				vram[VRAM_BANKS][VRAM_SIZE];
 	int					vram_updated[VRAM_BANKS];
 	uint8_t				vram_bank;
-	uint8_t				ram[8][RAM_SIZE];
+	uint8_t				ram[WRAM_BANKS][RAM_SIZE];
 	uint8_t				wram_bank;
 	uint8_t*			extra_ram;
 	uint8_t				hram[HRAM_SIZE];

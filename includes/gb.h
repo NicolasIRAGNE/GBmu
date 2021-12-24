@@ -12,6 +12,9 @@
 
 #ifndef GB_H
 # define GB_H
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 # include <sys/stat.h>
 # include <sys/types.h>
@@ -108,7 +111,7 @@ struct command_s
 	char*	desc;
 };
 
-int		init_cpu(struct gb_cpu_s* gb, struct rom_s* rom);
+int		init_cpu(struct gb_cpu_s* gb, struct rom_s* rom, enum gb_mode_e mode);
 int		init_mbc(struct gb_cpu_s* gb);
 int		handle_instruction(struct gb_cpu_s* gb);
 uint8_t	update_current_instruction(struct gb_cpu_s* gb);
@@ -189,5 +192,7 @@ int		savestate(struct gb_cpu_s* gb, int number);
 int		loadstate(struct gb_cpu_s* gb, int number);
 
 
-
+#ifdef __cplusplus
+}
+#endif
 #endif

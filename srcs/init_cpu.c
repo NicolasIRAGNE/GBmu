@@ -56,14 +56,12 @@ int		open_rom(char* name, struct rom_s* rom)
 	}
 	fclose(f);
 	rom->ptr = buf;
+	rom->header = (struct rom_hdr_s*)((uint8_t*)rom->ptr + 0x100);
 	return (0);
 }
 
-#define DEFAULT_GB_MODE	GB_MODE_CGB
-
 int		init_boot_rom(struct gb_cpu_s* gb)
 {
-
     FILE* f = fopen(DMG_BOOT_ROM, "rb");
 
 	if (f == NULL)
@@ -91,35 +89,54 @@ int		init_boot_rom(struct gb_cpu_s* gb)
 	return (0);
 }
 
-void		init_registers(struct registers_s* reg, int booted)
+void init_registers(struct registers_s* reg, int booted, enum gb_mode_e mode)
 {
-	if (booted)
-	{
-		reg->af = 0x01B0;
-		reg->bc = 0x0013;
-		reg->de = 0x00D8;
-		reg->hl = 0x014D;
-		reg->sp = 0xFFFE;
-		reg->pc = 0x0100;
-	}
-	else
-	{
-		reg->af = 0x0000;
+    switch (mode)
+    {
+    case GB_MODE_DMG:
+        if (booted)
+        {
+            reg->af = 0x01B0;
+            reg->bc = 0x0013;
+            reg->de = 0x00D8;
+            reg->hl = 0x014D;
+            reg->sp = 0xFFFE;
+            reg->pc = 0x0100;
+        }
+        else
+        {
+            reg->af = 0x0000;
+            reg->bc = 0x0000;
+            reg->de = 0x0000;
+            reg->hl = 0x0000;
+            reg->pc = 0x0000;
+            reg->sp = 0x0000;
+        }
+        break;
+	
+	case GB_MODE_CGB:
+		reg->af = 0x1180;
 		reg->bc = 0x0000;
-		reg->de = 0x0000;
-		reg->hl = 0x0000;
-		reg->pc = 0x0000;
-		reg->sp = 0x0000;
-	}
+		reg->de = 0xFF56;
+		reg->hl = 0x000D;
+    	reg->sp = 0xFFFE;
+		reg->pc = 0x0100;
+		break;
+
+    default:
+		printf("error: unknown GB mode %d!\n", mode);
+        break;
+    }
 }
 
 int		init_cpu_dmg(struct gb_cpu_s* gb, struct rom_s* rom)
 {
-	if (init_boot_rom(gb))
-		return (1);
+	if (gb->booted == 0)
+	{
+		if (init_boot_rom(gb))
+			return (1);
+	}
 	gb->rom_ptr = rom;
-	gb->booted = 1;
-	init_registers(&gb->reg, gb->booted);
 	gb->running = 1;
 	gb->vram_viewer_running = 0;
 	gb->draw_background = 1;
@@ -127,6 +144,7 @@ int		init_cpu_dmg(struct gb_cpu_s* gb, struct rom_s* rom)
 	gb->draw_window = 1;
 	gb->current_instruction = NULL;
 	gb->ime = 0;
+	gb->wram_bank = 1;
 	gb->paused = 0;
 	gb->div_freq = DEFAULT_DIV_FREQ;
 	// gb->interrupt_enable_register |= INT_VBLANK_REQUEST;
@@ -141,32 +159,38 @@ int		init_cpu_dmg(struct gb_cpu_s* gb, struct rom_s* rom)
 
 static int		init_cpu_cgb(struct gb_cpu_s* gb, struct rom_s* rom)
 {
+	if (gb->booted == 0)
+	{
+		printf("warning: CGB boot rom is not supported by the current version of GBmu.\n");
+		gb->booted = 1;
+	}
 	gb->rom_ptr = rom;
-	gb->reg.sp = 0xFFFE;
-	gb->reg.af = 0x1100;
-	gb->reg.de = 0;
-	gb->reg.hl = 0;
-	gb->reg.pc = 0x100;
-	gb->booted = (gb->reg.pc) >= 0x100;
+	gb->draw_background = 1;
+	gb->draw_sprites = 1;
+	gb->draw_window = 1;
 	gb->running = 1;
-	gb->vram_viewer_running = 1;
+	gb->vram_viewer_running = 0;
 	gb->paused = 0;
 	gb->current_instruction = NULL;
-	gb->ime = 1;
+	gb->ime = 0;
+	gb->wram_bank = 1;
 	gb->div_freq = DEFAULT_DIV_FREQ;
 	// gb->interrupt_enable_register |= INT_VBLANK_REQUEST;
 	// gb->interrupt_enable_register |= INT_TIMER_REQUEST;
 	// gb->interrupt_enable_register |= INT_STAT_REQUEST;
 	init_mbc(gb);
+	write_8(gb, LCDC_OFFSET, read_8(gb, LCDC_OFFSET) | LCDC_ON);
 	if (gb->mbc.ram_size)
 		gb->extra_ram = malloc(gb->mbc.ram_size);
 	return (0);
 }
 
-int		init_cpu(struct gb_cpu_s* gb, struct rom_s* rom)
+int		init_cpu(struct gb_cpu_s* gb, struct rom_s* rom, enum gb_mode_e mode)
 {
 	memset(gb, 0, sizeof(*gb));
-	gb->mode = DEFAULT_GB_MODE;
+	gb->mode = mode;
+	gb->booted = 0;
+	init_registers(&gb->reg, gb->booted, gb->mode);
 	if (gb->mode == GB_MODE_DMG)
 	{
 		return (init_cpu_dmg(gb, rom));

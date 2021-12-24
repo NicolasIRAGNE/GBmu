@@ -12,8 +12,11 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <cxxopts.hpp>
+#include <functional>
 
 #include "gb.h"
+extern "C" {
 #include "renderer.h"
 #include "SDL.h"
 #include "SDL_video.h"
@@ -24,8 +27,8 @@
 # include "libyacc_wrapper.h"
 #endif
 // #include <pthread.h>
+}
 #include <signal.h>
-
 struct gb_cpu_s*	gb_global;
 
 void	sigint_handler(int foo)
@@ -48,19 +51,71 @@ int		main(int ac, char** av)
 	debugger.verbose_level = DEFAULT_VERBOSE;
 #endif
 
-	if (ac < 2)
+	cxxopts::Options options(av[0], "Very wonky GameBoy emulator");
+
+	options.add_options()
+	("f,file", "Rom name", cxxopts::value<std::string>())
+	("v,verbose", "Verbose output", cxxopts::value<bool>()->default_value("false"))
+	("m,mode", "Mode", cxxopts::value<std::string>()->default_value("auto"))
+	("h,help", "Print help");
+	;
+
+	cxxopts::ParseResult result;
+
+	try
+	{
+		result = options.parse(ac, av);
+	}
+	catch (const cxxopts::OptionException& e)
+	{
+		std::cout << "error parsing options: " << e.what() << std::endl;
+		return (1);
+	}
+
+	std::string filename;
+	if (result.count("file") == 0)
+	{
+		auto u = result.unmatched();
+		if (u.size() == 1)
+			filename = u[0];
+	}
+	else
+	{
+		try {
+			filename = result["file"].as<std::string>();
+		}
+		catch (const cxxopts::OptionException& e)
+		{
+			std::cout << "Error parsing options: " << e.what() << std::endl;
+			return (1);
+		}
+	}
+	if (filename.empty())
 	{
 		fprintf(stderr, "usage: %s <rom>\n", av[0]);
 		return (1);
 	}
 
-	if (open_rom(av[1], &rom))
+	if (open_rom(filename.data(), &rom))
 		return (1);
 		
-	rom.header = (uint8_t*)rom.ptr + 0x100;
 	debug_print_rom(&rom);
 
-	if (init_cpu(&gb, &rom))
+	enum gb_mode_e mode;
+	auto modeopt = result["mode"].as<std::string>();
+	if (modeopt == "auto")
+		mode = GB_MODE_AUTO;
+	else if (modeopt == "dmg")
+		mode = GB_MODE_DMG;
+	else if (modeopt == "cgb")
+		mode = GB_MODE_CGB;
+	else
+	{
+		fprintf(stderr, "Invalid mode: %s\n", modeopt.data());
+		return (1);
+	}
+
+	if (init_cpu(&gb, &rom, mode))
 		return (1);
 	
 #ifdef WITH_LIBYACC
@@ -92,7 +147,8 @@ int		main(int ac, char** av)
 	int window_height;
 	SDL_GetWindowSize(main_window_context.win, &window_width, &window_height);
 	renderer_set_window_size(renderer, window_width, window_height);
-	execute_loop(&(struct gbmu_wrapper_s){&gb, &vram_viewer_context, &main_window_context}, renderer);
+	struct gbmu_wrapper_s wrapper = {&gb, &vram_viewer_context, &main_window_context};
+	execute_loop(&wrapper, renderer);
 	delete_renderer(renderer);
 	if (gb.mbc.ram_size > 0)
 		save_game(&gb);
