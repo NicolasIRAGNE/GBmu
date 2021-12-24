@@ -31,7 +31,6 @@ constexpr uint16_t kDebugBackgroundColorMap[4] = {
     0 | (0 << 5) | (12 << 10),
 };
 
-
 namespace GBMU
 {
 
@@ -48,10 +47,6 @@ Renderer::~Renderer()
 
 void Renderer::DrawPixel(int line, int pixel)
 {
-    if (pixel == 0) {
-        UpdateColorMapIndex();
-    }
-
     int lcdc = read_8(m_Gb, LCDC_OFFSET);
     int scx = read_8(m_Gb, SCX_OFFSET);
     int scy = read_8(m_Gb, SCY_OFFSET);
@@ -73,16 +68,18 @@ void Renderer::DrawPixel(int line, int pixel)
         spriteIndex = GetSpriteIndex(&isSpriteInFront, line, pixel, lcdc);
     }
 
+    int bgp = read_8(m_Gb, BGP_OFFSET);
+    constexpr int kBgpOffsets[4] = {0, 4, 2, 6};
     m_TextureData[line][pixel] = 0;
     if (backgroundIndex != -1) {
-        int8_t index = m_BackgroundAndMenuColorMapIndex[backgroundIndex];
+        int8_t index = (bgp >> kBgpOffsets[backgroundIndex]) & 0b11;
         m_TextureData[line][pixel] = kBasicColorMap[index];
         if (m_Gb->debug_palette) {
             m_TextureData[line][pixel] = kDebugBackgroundColorMap[index];
         }
     }
     if (menuIndex != -1) {
-        int8_t index = m_BackgroundAndMenuColorMapIndex[menuIndex];
+        int8_t index = (bgp >> kBgpOffsets[menuIndex]) & 0b11;
         m_TextureData[line][pixel] = kBasicColorMap[index];
         if (m_Gb->debug_palette) {
             m_TextureData[line][pixel] = kDebugWindowColorMap[index];
@@ -267,38 +264,17 @@ int Renderer::GetSpriteIndex(bool* isInFront, int line, int pixel, int lcdc)
             continue;
         }
 
+        constexpr int kObpOffsets[4] = {0, 4, 2, 6};
         if (attributes & ATTR_PALETTE) {
-            spriteIndex = m_SpriteColorMapIndex2[colorIndex];
+            int obp1 = read_8(m_Gb, OBP1_OFFSET);
+            spriteIndex = (obp1 >> kObpOffsets[colorIndex]) & 0b11;
         } else {
-            spriteIndex = m_SpriteColorMapIndex1[colorIndex];
+            int obp0 = read_8(m_Gb, OBP0_OFFSET);
+            spriteIndex = (obp0 >> kObpOffsets[colorIndex]) & 0b11;
         }
     }
 
     return spriteIndex;
-}
-
-void Renderer::UpdateColorMapIndex()
-{
-    int bgp = read_8(m_Gb, BGP_OFFSET);
-
-    m_BackgroundAndMenuColorMapIndex[0] = (bgp >> 0) & 0x3;
-    m_BackgroundAndMenuColorMapIndex[2] = (bgp >> 2) & 0x3;
-    m_BackgroundAndMenuColorMapIndex[1] = (bgp >> 4) & 0x3;
-    m_BackgroundAndMenuColorMapIndex[3] = (bgp >> 6) & 0x3;
-
-    int obp0 = read_8(m_Gb, OBP0_OFFSET);
-
-    m_SpriteColorMapIndex1[0] = -1;
-    m_SpriteColorMapIndex1[2] = (obp0 >> 2) & 0x3;
-    m_SpriteColorMapIndex1[1] = (obp0 >> 4) & 0x3;
-    m_SpriteColorMapIndex1[3] = (obp0 >> 6) & 0x3;
-
-    int obp1 = read_8(m_Gb, OBP1_OFFSET);
-
-    m_SpriteColorMapIndex2[0] = -1;
-    m_SpriteColorMapIndex2[2] = (obp1 >> 2) & 0x3;
-    m_SpriteColorMapIndex2[1] = (obp1 >> 4) & 0x3;
-    m_SpriteColorMapIndex2[3] = (obp1 >> 6) & 0x3;
 }
 
 } // namespace GBMU

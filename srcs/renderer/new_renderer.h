@@ -37,17 +37,11 @@ private:
     int GetMenuIndex(int line, int pixel, int wx, int wy, int lcdc);
     int GetSpriteIndex(bool* isInFront, int line, int pixel, int lcdc);
 
-    void UpdateColorMapIndex();
-
 private:
     gb_cpu_s* m_Gb {nullptr};
 
     uint16_t m_TextureData[MAIN_SURFACE_HEIGHT][MAIN_SURFACE_WIDTH] {};
     GLuint m_Texture {0};
-
-    int8_t m_BackgroundAndMenuColorMapIndex[4] {};
-    int8_t m_SpriteColorMapIndex1[4] {};
-    int8_t m_SpriteColorMapIndex2[4] {};
 
     Rescale m_Rescale;
 };
