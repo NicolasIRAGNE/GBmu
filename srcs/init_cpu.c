@@ -59,7 +59,7 @@ int		open_rom(char* name, struct rom_s* rom)
 	return (0);
 }
 
-#define DEFAULT_GB_MODE	GB_MODE_DMG
+#define DEFAULT_GB_MODE	GB_MODE_CGB
 
 int		init_boot_rom(struct gb_cpu_s* gb)
 {
@@ -69,6 +69,13 @@ int		init_boot_rom(struct gb_cpu_s* gb)
 	if (f == NULL)
 	{
 		perror("fatal: could not open "DMG_BOOT_ROM);
+		return (1);
+	}
+	gb->boot_rom = malloc(DMG_BOOT_ROM_SIZE);
+	if (!gb->boot_rom)
+	{
+		perror("malloc:");
+		fclose(f);
 		return (1);
 	}
 	size_t rd = fread(gb->boot_rom, DMG_BOOT_ROM_SIZE, 1, f) * DMG_BOOT_ROM_SIZE;
@@ -108,8 +115,6 @@ void		init_registers(struct registers_s* reg, int booted)
 
 int		init_cpu_dmg(struct gb_cpu_s* gb, struct rom_s* rom)
 {
-	memset(gb, 0, sizeof(*gb));
-	gb->mode = DEFAULT_GB_MODE;
 	if (init_boot_rom(gb))
 		return (1);
 	gb->rom_ptr = rom;
@@ -160,7 +165,7 @@ static int		init_cpu_cgb(struct gb_cpu_s* gb, struct rom_s* rom)
 
 int		init_cpu(struct gb_cpu_s* gb, struct rom_s* rom)
 {
-	bzero(gb, sizeof(*gb));
+	memset(gb, 0, sizeof(*gb));
 	gb->mode = DEFAULT_GB_MODE;
 	if (gb->mode == GB_MODE_DMG)
 	{

@@ -79,9 +79,9 @@ set(SOURCES
 	srcs/cpu_toggle_flag.c
 	srcs/init_sdl.c
 	# srcs/video_loop.c
-	# srcs/vram_viewer.c
+	srcs/vram_viewer.c
 	srcs/tools.c
-	# srcs/tile.c
+	srcs/tile.c
 	srcs/breakpoints.c
 	srcs/main_window_loop.c
 	srcs/input_functions.c
