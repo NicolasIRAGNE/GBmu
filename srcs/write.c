@@ -42,10 +42,6 @@ static void	write_to_ram(struct gb_cpu_s* gb, uint16_t a16, uint8_t x, enum memo
 
 static void	write_8_internal(struct gb_cpu_s* gb, uint16_t a16, uint8_t x, enum memory_mode_e mode)
 {
-	if (a16 == 0xc0f0)
-	{
-		printf("fion %d\n", x);
-	}
 	uint8_t lcdc = read_8(gb, LCDC_OFFSET);
 	if (a16 < 0x8000)
 	{
