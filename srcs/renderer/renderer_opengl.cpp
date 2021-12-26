@@ -5,6 +5,7 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
+#include <cstring>
 
 constexpr uint16_t kBasicColorMap[4] = {
     28 | (25 << 5) | (20 << 10),
@@ -95,7 +96,7 @@ void Renderer::DrawPixel(int line, int pixel)
         }
     }
 
-    if (m_Gb->draw_sprites)
+    if (m_Gb->draw_sprites && (lcdc & LCDC_SPRITE_ON))
     {
         const auto& sprite = m_SpriteLine[pixel];
         if (sprite.isExist && (sprite.isInFront || (backgroundIndex <= 0 && menuIndex <= 0)))
