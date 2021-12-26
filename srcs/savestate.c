@@ -99,6 +99,7 @@ int		loadstate(struct gb_cpu_s* gb, int number)
 	if (rd != sizeof(*gb))
 	{
 		printf("fatal: save file appears to be corrupted\n");
+		gb->rom_ptr = ptr_save; // Restore so we can actually save
 		fatal(gb);
 		fclose(f);
 		return (1);

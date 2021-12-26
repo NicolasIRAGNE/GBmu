@@ -123,7 +123,7 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 			uint8_t lcdc = (read_8(gb, LCDC_OFFSET));
 			if (!(lcdc & LCDC_ON) && gb->booted)
 			{
-				renderer_clear(renderer);
+				// renderer_clear(renderer);
 			}
 			if (wrapper->gb->vram_viewer_running)
 			{
@@ -133,6 +133,7 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 			}
 			// if (!gb->halted)
 				renderer_render(renderer);
+			SDL_GL_SwapWindow(wrapper->main_context->win);
 			// renderer_clear(renderer);
 			last_line_drawn = 0;
 		}
@@ -140,7 +141,6 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 		{
 			// usleep(128);
 			main_window_loop(wrapper, renderer);
-			SDL_GL_SwapWindow(wrapper->main_context->win);
 			gb->last_sleep = gb->cycle;
 		}
 		update_div_register(gb);
