@@ -39,6 +39,7 @@ uint8_t	update_current_instruction(struct gb_cpu_s* gb)
 void	request_interrupt(struct gb_cpu_s* gb, uint8_t request)
 {
 	uint8_t interrupt_requests = read_8_force(gb, IF_OFFSET);
+	gb->halted = 0;
 	write_8(gb, IF_OFFSET, interrupt_requests | request);
 }
 
@@ -91,6 +92,7 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 	{
 		if (set_interrupt(gb))
 		{
+			// gb->halted = 0;
 			if (gb->ime)
 			{
 				interrupt_a16(gb, gb->interrupt);
