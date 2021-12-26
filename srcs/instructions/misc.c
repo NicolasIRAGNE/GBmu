@@ -41,6 +41,7 @@ void	stop(struct gb_cpu_s* gb)
 {
 	(void)gb;
 	gb->halted = 1;
+	gb->io_ports[0x04] = 0;
 	if (gb->mode == GB_MODE_CGB)
 	{
 		uint8_t key1 = read_8(gb, KEY1_OFFSET);

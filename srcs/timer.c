@@ -42,7 +42,7 @@ void	update_timer_register(struct gb_cpu_s* gb)
 	{
 		tima = read_8(gb, TIMA_OFFSET);
 		gb->tima.clocks -= gb->tima.freq;
-		if (tima == 0xff)
+		if (tima >= 0xff)
 		{
 			tima = read_8(gb, TMA_OFFSET);
 			request_interrupt(gb, INT_TIMER_REQUEST);

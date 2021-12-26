@@ -49,8 +49,8 @@ struct tile_s	create_tile(struct gb_cpu_s* gb, uint16_t index)
 
 	while (i < 8)
 	{
-		msb = gb->vram[index + offset + k];
-		lsb = gb->vram[index + offset + k + 1];
+		msb = read_8_force(gb, 0x8000 + index + offset + k);
+		lsb = read_8_force(gb, 0x8000 + index + offset + k + 1);
 
 		msb_tmp = ((msb & 0b00000001) << 1)
 				| ((msb & 0b00000010) << 2)

@@ -62,7 +62,7 @@ uint8_t	read_mbc1(struct gb_cpu_s* gb, uint16_t addr, enum memory_mode_e mode)
 		if (gb->mbc.mode == MBC_MODE_RAM)
 			index = addr - 0xa000 + gb->mbc.ram_bank * EXTRA_RAM_SIZE;
 		else
-			index = addr - 0xa000;		
+			index = addr - 0xa000;
 		if (index >= gb->mbc.ram_size)
 		{
 			printf("warning: attempting to read %x at invalid ram bank %x\n", addr, gb->mbc.ram_bank);				

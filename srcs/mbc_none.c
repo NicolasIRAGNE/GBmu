@@ -29,7 +29,10 @@ uint8_t	read_no_mbc(struct gb_cpu_s* gb, uint16_t addr, enum memory_mode_e mode)
 	}
 	else if (addr < 0xc000)
 	{
-		printf("WARNING: READING FROM EXTRA RAM AT %x\n", addr);
+		if (gb->extra_ram)
+			return (((uint8_t*)(gb->extra_ram))[addr - 0x8000]);
+		else
+			return (0xff);
 		return (0xff);
 	}
 	return (0xff);
@@ -56,7 +59,8 @@ void	write_no_mbc(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, enum memory_mod
 	}
 	else if (addr < 0xc000)
 	{
-		printf("WARNING: WRITING %x TO EXTRA RAM AT INDEX %x\n", x, addr);
+		if (gb->extra_ram)
+			((uint8_t*)(gb->extra_ram))[addr - 0x8000] = x;
 		return;
 	}
 }
