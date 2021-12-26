@@ -1,4 +1,4 @@
-#include "new_renderer.h"
+#include "renderer_opengl.h"
 
 #include <stdexcept>
 #include <string>

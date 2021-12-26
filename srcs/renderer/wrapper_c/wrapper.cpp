@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "renderer/new_renderer.h"
+#include "renderer/renderer_opengl.h"
 #include <cstdio>
 
 extern "C"

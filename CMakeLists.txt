@@ -159,13 +159,13 @@ endif()
 
 # Renderer
 list(APPEND SOURCES
-	srcs/renderer/new_renderer.cpp
+	srcs/renderer/renderer_opengl.cpp
 	srcs/renderer/rescale.cpp
 	srcs/renderer/gl_utils/compile_program.cpp
 	srcs/renderer/wrapper_c/wrapper.cpp)
 
 list(APPEND HEADERS
-	srcs/renderer/new_renderer.h
+	srcs/renderer/renderer_opengl.h
 	srcs/renderer/rescale.h
 	srcs/renderer/gl_utils/compile_program.h
 	srcs/renderer/gl_utils/glerr.h
