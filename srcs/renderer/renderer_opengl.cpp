@@ -158,13 +158,13 @@ int Renderer::GetBackgroundIndex(int line, int pixel, int scx, int scy, int lcdc
         offset = BGMAP2_OFFSET;
     }
 
-    int tileIndex = m_Gb->vram[offset + tileY * 32 + tileX];
+    int tileIndex = m_Gb->vram[0][offset + tileY * 32 + tileX];
     if (!(lcdc & LCDC_TILE_DATA_SELECT) && tileIndex + 0x100 < 256 + 128) {
         tileIndex += 0x100;
     }
 
-    int msb = m_Gb->vram[tileIndex * 16 + tileOffsetY * 2];
-    int lsb = m_Gb->vram[tileIndex * 16 + tileOffsetY * 2 + 1];
+    int msb = m_Gb->vram[0][tileIndex * 16 + tileOffsetY * 2];
+    int lsb = m_Gb->vram[0][tileIndex * 16 + tileOffsetY * 2 + 1];
 
     int posInByte = 7 - tileOffsetX;
     int bit = 1 << posInByte;
@@ -198,13 +198,13 @@ int Renderer::GetMenuIndex(int line, int pixel, int wx, int wy, int lcdc)
         offset = BGMAP2_OFFSET;
     }
 
-    int tileIndex = m_Gb->vram[offset + tileY * 32 + tileX];
+    int tileIndex = m_Gb->vram[0][offset + tileY * 32 + tileX];
     if (!(lcdc & LCDC_TILE_DATA_SELECT) && tileIndex + 0x100 < 256 + 128) {
         tileIndex += 0x100;
     }
 
-    int msb = m_Gb->vram[tileIndex * 16 + tileOffsetY * 2];
-    int lsb = m_Gb->vram[tileIndex * 16 + tileOffsetY * 2 + 1];
+    int msb = m_Gb->vram[0][tileIndex * 16 + tileOffsetY * 2];
+    int lsb = m_Gb->vram[0][tileIndex * 16 + tileOffsetY * 2 + 1];
 
     int posInByte = 7 - tileOffsetX;
     int bit = 1 << posInByte;
@@ -257,8 +257,8 @@ int Renderer::GetSpriteIndex(bool* isInFront, int line, int pixel, int lcdc)
 
         *isInFront = !(attributes & ATTR_PRIORITY);
 
-        int msb = m_Gb->vram[tileIndex * 16 + posInTileY * 2];
-        int lsb = m_Gb->vram[tileIndex * 16 + posInTileY * 2 + 1];
+        int msb = m_Gb->vram[0][tileIndex * 16 + posInTileY * 2];
+        int lsb = m_Gb->vram[0][tileIndex * 16 + posInTileY * 2 + 1];
 
         int posInByte = 7 - posInTileX;
         int bit = 1 << posInByte;

@@ -138,11 +138,11 @@ int		init_cpu_dmg(struct gb_cpu_s* gb, struct rom_s* rom)
 	}
 	gb->rom_ptr = rom;
 	gb->running = 1;
-	gb->vram_viewer_running = 1;
+	gb->vram_viewer_running = 0;
 	gb->draw_background = 1;
 	gb->draw_sprites = 1;
 	gb->draw_window = 1;
-	gb->debug_palette = 1;
+	gb->debug_palette = 0;
 	gb->current_instruction = NULL;
 	gb->ime = 0;
 	gb->wram_bank = 1;
@@ -170,7 +170,7 @@ static int		init_cpu_cgb(struct gb_cpu_s* gb, struct rom_s* rom)
 	gb->draw_sprites = 1;
 	gb->draw_window = 1;
 	gb->running = 1;
-	gb->vram_viewer_running = 1;
+	gb->vram_viewer_running = 0;
 	gb->paused = 0;
 	gb->current_instruction = NULL;
 	gb->ime = 0;
