@@ -10,8 +10,9 @@
             "args": [
                 // "${workspaceFolder}/rom/unit_tests/individual/02-interrupts.gb"
                 // "${workspaceFolder}/rom/unit_tests/cpu_instrs.gb"
-                "${workspaceFolder}/rom/Legend_of_Zelda_link_Awaking.gb"
-                // "~/Downloads/dmg-acid2.gb"
+                // "${workspaceFolder}/rom/Legend_of_Zelda_link_Awaking.gb"
+                // "${workspaceFolder}/rom/batman.gb"
+                "~/Downloads/dmg-acid2.gb"
             ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/build",

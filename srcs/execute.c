@@ -78,19 +78,13 @@ int		set_interrupt(struct gb_cpu_s* gb)
 	return (ret);
 }
 
-int		should_rerender(struct gb_cpu_s* gb)
-{
-	if (gb->vram_updated || gb->oam_updated)
-		return (1);
-	return (0);
-}
-
 void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 {
 	int err = 0;
 	struct gb_cpu_s* gb = wrapper->gb;
 	uint8_t last_line = 0;
 	uint8_t	last_line_drawn = 0;
+	uint8_t	last_pixel_drawn = 0;
     // SDL_Surface* tmp_surface = SDL_CreateRGBSurface(0, BGMAP_SIZE, BGMAP_SIZE, 32, 0, 0, 0, 0);
 	struct tile_s tiles[TILES_COUNT];
 	while (gb->running)
@@ -107,39 +101,16 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 		if (err)
 			gb->paused = 1;
 
-		if (gb->gpu.y_coord < 144)
-		{
-			gb->lcd[gb->gpu.y_coord].lcdc = read_8(gb, LCDC_OFFSET);
-			gb->lcd[gb->gpu.y_coord].scx = read_8(gb, SCX_OFFSET);
-			gb->lcd[gb->gpu.y_coord].scy = read_8(gb, SCY_OFFSET);
-			gb->lcd[gb->gpu.y_coord].wx = read_8(gb, WX_OFFSET) - 7;
-			gb->lcd[gb->gpu.y_coord].wy = read_8(gb, WY_OFFSET);
-		}
-
-		if (gb->gpu.y_coord == 0 && (gb->vram_updated || gb->oam_updated))
-		{
- 			renderer_update_vram(renderer);
-			gb->vram_updated = 0;
-			gb->oam_updated = 0;
-		}
-
-		if (should_rerender(gb) && last_line_drawn != gb->gpu.y_coord && gb->gpu.y_coord < 144)
+		if (gb->gpu.y_coord < 144 && (last_line_drawn != gb->gpu.y_coord || last_pixel_drawn != gb->gpu.x_coord))
 		{
 			uint8_t lcdc = (read_8(gb, LCDC_OFFSET));
-			if (!(lcdc & LCDC_ON) && gb->booted)
+			if ((lcdc & LCDC_ON) || !gb->booted)
 			{
-				renderer_clear(renderer);
-			}
-			else
-			{
-				renderer_update_lcd(renderer);
-				renderer_draw(renderer, last_line_drawn + (1 * last_line_drawn != 0), gb->gpu.y_coord);
-				gb->oam_updated = 0;
-				if (gb->vram_updated) {
-					renderer_update_vram(renderer);
-					gb->vram_updated = 0;
+				for (int i = last_pixel_drawn; i < gb->gpu.x_coord; i++) {
+					renderer_draw_pixel(renderer, gb->gpu.y_coord, i);
 				}
 			}
+			last_pixel_drawn = gb->gpu.x_coord;
 			last_line_drawn = gb->gpu.y_coord;
 		}
 		last_line = gb->gpu.y_coord;
@@ -151,12 +122,6 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 			{
 				renderer_clear(renderer);
 			}
-			else
-			{
-				renderer_update_lcd(renderer);
-				renderer_draw(renderer, last_line_drawn + (1 * last_line_drawn != 0), gb->gpu.y_coord);
-				gb->oam_updated = 0;
-			}
 			main_window_loop(wrapper, renderer);
 			if (wrapper->gb->vram_viewer_running)
 			{
@@ -166,7 +131,7 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 			}
 			renderer_render(renderer);
 			SDL_GL_SwapWindow(wrapper->main_context->win);
-			renderer_clear(renderer);
+			// renderer_clear(renderer);
 			last_line_drawn = 0;
 		}
 		if (gb->cycle - gb->last_sleep > (70224 / 4))

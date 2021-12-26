@@ -120,7 +120,6 @@ int		loadstate(struct gb_cpu_s* gb, int number)
 	{
 		printf("warning: read %d bytes from save data (expected %u). file may be corrupted.\n", rd, gb->mbc.ram_size);
 	}
-	gb->vram_updated = 1;
 	update_current_instruction(gb);
 	fclose(f);
 	free(save_file);

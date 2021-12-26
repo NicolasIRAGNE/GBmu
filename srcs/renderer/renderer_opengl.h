@@ -2,59 +2,48 @@
 
 #include <GL/glew.h>
 
-#include "background.h"
-#include "window.h"
-#include "sprites.h"
-
 #include "rescale.h"
 
-struct gb_cpu_s;
+extern "C"
+{
+#include "gb.h"
+#include "renderer.h"
+}
 
-namespace GBMU {
+namespace GBMU
+{
 
-class Renderer {
+constexpr int8_t kWindowDebugPaletteOffset = 5;
+constexpr int8_t kSpriteDebugPaletteOffset = 10;
+constexpr int8_t kBackgroundDebugPaletteOffset = 15;
+
+class Renderer
+{
 public:
-    Renderer(gb_cpu_s* gb);
+    explicit Renderer(gb_cpu_s* gb);
     ~Renderer();
 
-    int Init();
-    int Destroy();
-
-    void UpdateLcd();
-    void UpdateVram();
-
-    int Clear();
-    int Draw(int firstLine, int lastLine);
-    int Render();
+    void DrawPixel(int line, int pixel);
+    void Render();
+    void Clear();
 
     void SetWindowSize(int width, int height);
 
 private:
-    int InitUbos();
-    int InitFramebuffer();
+    void InitTexture();
+    void DestroyTexture();
 
-    void UpdateStaticInfos();
-    void UpdateDynamicInfos();
+    int GetBackgroundIndex(int line, int pixel, int scx, int scy, int lcdc);
+    int GetMenuIndex(int line, int pixel, int wx, int wy, int lcdc);
+    int GetSpriteIndex(bool* isInFront, int line, int pixel, int lcdc);
 
 private:
-    gb_cpu_s* m_Gb;
+    gb_cpu_s* m_Gb {nullptr};
 
-    GLuint m_StaticInfosUbo {0};
-    GLuint m_DynamicInfosUbo {0};
-    GLuint m_LcdUbo{0};
-    GLuint m_VramUbo {0};
-    GLuint m_FrameBuffer {0};
-    GLuint m_TargetTexture {0};
-    GLuint m_DepthBuffer {0};
-
-    Background m_Background;
-    Window m_Menu;
-    Sprites m_Sprites;
+    uint16_t m_TextureData[MAIN_SURFACE_HEIGHT][MAIN_SURFACE_WIDTH] {};
+    GLuint m_Texture {0};
 
     Rescale m_Rescale;
-
-    int m_WindowWidth {0};
-    int m_WindowHeight {0};
 };
 
 } // namespace GBMU

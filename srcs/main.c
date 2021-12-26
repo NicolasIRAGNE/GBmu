@@ -91,7 +91,6 @@ int		main(int ac, char** av)
 	signal(SIGINT, sigint_handler);
 
 	void*	renderer = new_renderer(&gb);
-	renderer_init(renderer);
 	int window_width;
 	int window_height;
 	SDL_GetWindowSize(main_window_context.win, &window_width, &window_height);

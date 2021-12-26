@@ -160,30 +160,18 @@ endif()
 # Renderer
 list(APPEND SOURCES
 	srcs/renderer/renderer_opengl.cpp
-	srcs/renderer/background.cpp
-	srcs/renderer/window.cpp
-	srcs/renderer/sprites.cpp
 	srcs/renderer/rescale.cpp
 	srcs/renderer/gl_utils/compile_program.cpp
 	srcs/renderer/wrapper_c/wrapper.cpp)
 
 list(APPEND HEADERS
 	srcs/renderer/renderer_opengl.h
-	srcs/renderer/background.h
-	srcs/renderer/window.h
-	srcs/renderer/sprites.h
 	srcs/renderer/rescale.h
 	srcs/renderer/gl_utils/compile_program.h
 	srcs/renderer/gl_utils/glerr.h
 	srcs/renderer/wrapper_c/wrapper.h)
 
 set(SHADERS
-	srcs/renderer/shaders/background.vert
-	srcs/renderer/shaders/background.frag
-	srcs/renderer/shaders/window.vert
-	srcs/renderer/shaders/window.frag
-	srcs/renderer/shaders/sprites.vert
-	srcs/renderer/shaders/sprites.frag
 	srcs/renderer/shaders/basic.vert
 	srcs/renderer/shaders/basic.frag
 	srcs/renderer/shaders/rain.frag)

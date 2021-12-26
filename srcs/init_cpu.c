@@ -110,7 +110,7 @@ int		init_cpu(struct gb_cpu_s* gb, struct rom_s* rom)
 	if (init_boot_rom(gb))
 		return (1);
 	gb->rom_ptr = rom;
-	gb->booted = 0;
+	gb->booted = 1;
 	init_registers(&gb->reg, gb->booted);
 	gb->running = 1;
 	gb->vram_viewer_running = 0;
