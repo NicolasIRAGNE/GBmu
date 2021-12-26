@@ -50,7 +50,7 @@ uint8_t	read_mbc2(struct gb_cpu_s* gb, uint16_t addr, enum memory_mode_e mode)
 	{
 		if (!gb->ram_enabled)
 		{
-			printf("warning: attempting to read from disabled RAM at %x\n", addr);
+			// printf("warning: attempting to read from disabled RAM at %x\n", addr);
 			return (0xff);
 		}
 		uint32_t index = addr - 0xa000;
@@ -67,21 +67,23 @@ uint8_t	read_mbc2(struct gb_cpu_s* gb, uint16_t addr, enum memory_mode_e mode)
 
 void	write_mbc2(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, enum memory_mode_e mode)
 {
-	if (addr < 0x2000)
+	if (addr < 0x4000)
 	{
-		if (!(addr & 0x0100))
+		if (addr & 0x0100)
 		{
-			gb->ram_enabled = !gb->ram_enabled;
+			// Controlling rom bank
+			gb->mbc.bank = x & 0x0f;
+			if (gb->mbc.bank == 0)
+				gb->mbc.bank = 1;
 		}
-	}
-	else if (addr < 0x4000)
-	{
-		if (!(addr & 0x0100))
-			return;
-		gb->mbc.bank = (x & 0b1111);
+		else
+		{
+			// Controlling ram enable
+			gb->ram_enabled = (x == 0x0a);
+		}
 		return ;
 	}
-	else if (addr < 0xc000)
+	if (addr < 0xc000)
 	{
 		if (!gb->ram_enabled)
 		{

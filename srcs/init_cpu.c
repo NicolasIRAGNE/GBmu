@@ -138,10 +138,11 @@ int		init_cpu_dmg(struct gb_cpu_s* gb, struct rom_s* rom)
 	}
 	gb->rom_ptr = rom;
 	gb->running = 1;
-	gb->vram_viewer_running = 0;
+	gb->vram_viewer_running = 1;
 	gb->draw_background = 1;
 	gb->draw_sprites = 1;
 	gb->draw_window = 1;
+	gb->debug_palette = 1;
 	gb->current_instruction = NULL;
 	gb->ime = 0;
 	gb->wram_bank = 1;
@@ -169,7 +170,7 @@ static int		init_cpu_cgb(struct gb_cpu_s* gb, struct rom_s* rom)
 	gb->draw_sprites = 1;
 	gb->draw_window = 1;
 	gb->running = 1;
-	gb->vram_viewer_running = 0;
+	gb->vram_viewer_running = 1;
 	gb->paused = 0;
 	gb->current_instruction = NULL;
 	gb->ime = 0;
@@ -188,8 +189,15 @@ static int		init_cpu_cgb(struct gb_cpu_s* gb, struct rom_s* rom)
 int		init_cpu(struct gb_cpu_s* gb, struct rom_s* rom, enum gb_mode_e mode)
 {
 	memset(gb, 0, sizeof(*gb));
+	if (mode == GB_MODE_AUTO)
+	{
+		if (rom->header->title[15] == 0x80 || rom->header->title[15] == 0xC0)
+			mode = GB_MODE_CGB;
+		else
+			mode = GB_MODE_DMG;
+	}
 	gb->mode = mode;
-	gb->booted = 0;
+	gb->booted = 1;
 	init_registers(&gb->reg, gb->booted, gb->mode);
 	if (gb->mode == GB_MODE_DMG)
 	{

@@ -17,6 +17,8 @@
 
 void	update_div_register(struct gb_cpu_s* gb)
 {
+	if (gb->halted)
+		return ;
 	if (gb->cycle - gb->last_div_increment >= DEFAULT_DIV_FREQ)
 	{
 		gb->last_div_increment = gb->cycle;

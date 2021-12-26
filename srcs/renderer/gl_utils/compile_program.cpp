@@ -7,6 +7,7 @@
 
 #include "GL/glew.h"
 #include "glerr.h"
+#include <iostream>
 
 GLuint compileShader(const char* source, GLuint shaderType)
 {
@@ -37,9 +38,17 @@ GLuint compileProgram(const char* vtxFile, const char* fragFile)
     GLuint vtxShaderId, fragShaderId;
     programId = glCreateProgram(); GLERR;
 
-    std::ifstream f(fragFile);
+    #ifdef SHADERS_LOCATION
+    auto vtxFileAbsolutePath = std::string(SHADERS_LOCATION) + "/"  + vtxFile;
+    auto fragFileAbsolutePath = std::string(SHADERS_LOCATION) + std::string("/") + std::string(fragFile);
+    #else
+    auto vtxFileAbsolutePath = std::string(vtxFile);
+    auto fragFileAbsolutePath = std::string(fragFile);
+    #endif
+
+    std::ifstream f(fragFileAbsolutePath);
     if (!f.is_open()) {
-        printf("Failed to open file %s\n", fragFile);
+        std::cout << "Unable to open fragment shader file " << fragFileAbsolutePath << std::endl;
         return 0;
     }
 
@@ -51,9 +60,9 @@ GLuint compileProgram(const char* vtxFile, const char* fragFile)
         (std::istreambuf_iterator<char>(f)), std::istreambuf_iterator<char>());
     fragShaderId = compileShader(source.c_str(), GL_FRAGMENT_SHADER);
 
-    f = std::ifstream(vtxFile);
+    f = std::ifstream(vtxFileAbsolutePath);
     if (!f.is_open()) {
-        printf("Failed to open file %s\n", vtxFile);
+        printf("Failed to open file %s\n", vtxFileAbsolutePath);
         return 0;
     }
 

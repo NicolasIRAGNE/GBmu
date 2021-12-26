@@ -101,8 +101,8 @@ void	process_dma_transfer(struct gb_cpu_s* gb, uint8_t a8)
 
 	while (i < OAM_SIZE)
 	{
-		uint8_t x = read_8(gb, ((a8 << 8) | i));
-		write_8(gb, 0xFE00 | i, x);
+		uint8_t x = read_8_force(gb, ((a8 << 8) | i));
+		write_8_force(gb, 0xFE00 | i, x);
 		i++;
 	}
 }

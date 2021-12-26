@@ -8,6 +8,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
 project(gbmu LANGUAGES CXX C)
 
 add_library(gbmu_lib)
+target_compile_definitions(gbmu_lib PRIVATE "SHADERS_LOCATION=\"${CMAKE_CURRENT_SOURCE_DIR}/srcs/renderer/shaders\"")
 add_executable(gbmu srcs/main.cpp)
 target_link_libraries(gbmu cxxopts::cxxopts)
 

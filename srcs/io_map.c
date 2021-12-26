@@ -71,7 +71,7 @@ void	write_io(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, uint8_t lcdc)
 		else if (x == SELECT_NONE)
 			gb->joypad_mode = JOYPAD_MODE_NONE;
 	}
-	else if (addr == DMA_OFFSET)
+	if (addr == DMA_OFFSET)
 	{
 		if (gb->cycle - gb->last_dma > 160)
 		{
@@ -80,25 +80,30 @@ void	write_io(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, uint8_t lcdc)
 		}
 		return ;
 	}
-	else if (addr == DIV_OFFSET)
+	if (addr == DIV_OFFSET)
+	{
 		x = 0;
-	else if (addr == IF_OFFSET)
+	}
+	if (addr == IF_OFFSET)
+	{
 		gb->halted = 0;
-	
-	else if (addr == VBK_OFFSET && gb->mode == GB_MODE_CGB)
+	}
+	if (addr == VBK_OFFSET && gb->mode == GB_MODE_CGB)
 	{
 		gb->vram_bank = x & 0x01;
 	}
-	else if (addr == SVBK_OFFSET && gb->mode == GB_MODE_CGB)
+	if (addr == SVBK_OFFSET && gb->mode == GB_MODE_CGB)
 	{
 		gb->wram_bank = x & 0b111;
 	}
-	else if (addr == KEY1_OFFSET && gb->mode == GB_MODE_CGB)
+	if (addr == KEY1_OFFSET && gb->mode == GB_MODE_CGB)
 	{
 		x = (gb->current_speed_mode << 7) | (x & 1);
 	}
 	if (addr == 0xff50 && x == 1)
+	{
 		gb->booted = 1;
+	}
 	if (addr == LCDC_OFFSET && (x & LCDC_ON) && !(lcdc & LCDC_ON))
 	{
 		request_lcd_on(gb);

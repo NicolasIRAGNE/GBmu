@@ -65,7 +65,7 @@ void Renderer::DrawPixel(int line, int pixel)
         menuIndex = GetMenuIndex(line, pixel, wx, wy, lcdc);
     }
     bool isSpriteInFront = false;
-    if (m_Gb->draw_sprites) {
+    if (m_Gb->draw_sprites && (lcdc & LCDC_SPRITE_ON)) {
         spriteIndex = GetSpriteIndex(&isSpriteInFront, line, pixel, lcdc);
     }
 
