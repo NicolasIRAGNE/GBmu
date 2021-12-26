@@ -60,6 +60,7 @@ private:
     uint16_t m_TextureData[MAIN_SURFACE_HEIGHT][MAIN_SURFACE_WIDTH] {};
     GLuint m_Texture { 0 };
     Pixel m_SpriteLine[MAIN_SURFACE_WIDTH] {};
+    int m_MenuXOffset { 0 };
     int m_MenuYOffset { 0 };
 
     Rescale m_Rescale;

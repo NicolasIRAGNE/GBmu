@@ -54,15 +54,13 @@ void Renderer::DrawPixel(int line, int pixel)
     int lcdc = read_8(m_Gb, LCDC_OFFSET);
     int scx = read_8(m_Gb, SCX_OFFSET);
     int scy = read_8(m_Gb, SCY_OFFSET);
-    int wx = read_8(m_Gb, WX_OFFSET) - 7;
 
-    if (line == 0 && pixel == 0) {
-        m_MenuYOffset = read_8(m_Gb, WY_OFFSET);
-    }
-
-    if (pixel == 0)
-    {
+    if (pixel == 0) {
         ScanOAM(line, lcdc);
+        m_MenuXOffset = read_8(m_Gb, WX_OFFSET) - 7;
+        if (line == 0) {
+            m_MenuYOffset = read_8(m_Gb, WY_OFFSET);
+        }
     }
 
     int backgroundIndex = -1;
@@ -74,7 +72,7 @@ void Renderer::DrawPixel(int line, int pixel)
     }
     if (m_Gb->draw_window && (lcdc & LCDC_WINDOW_ON))
     {
-        menuIndex = GetMenuIndex(line, pixel, wx, m_MenuYOffset, lcdc);
+        menuIndex = GetMenuIndex(line, pixel, m_MenuXOffset, m_MenuYOffset, lcdc);
     }
 
     int bgp = read_8(m_Gb, BGP_OFFSET);
