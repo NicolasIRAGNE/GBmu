@@ -60,7 +60,7 @@ void print_binary(unsigned char c)
       printf("%d",(c&i1)!=0);
 }
 
-void	write_io(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, uint8_t lcdc)
+void	write_io(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, uint8_t lcdc, enum memory_mode_e mode)
 {
 	if (addr == JOYP_OFFSET)
 	{
@@ -73,7 +73,7 @@ void	write_io(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, uint8_t lcdc)
 	}
 	if (addr == DMA_OFFSET)
 	{
-		if (gb->cycle - gb->last_dma > 160)
+		if (gb->cycle - gb->last_dma > 0)
 		{
 			gb->last_dma = gb->cycle;
 			process_dma_transfer(gb, x);
@@ -84,7 +84,7 @@ void	write_io(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, uint8_t lcdc)
 	{
 		x = 0;
 	}
-	if (addr == IF_OFFSET)
+	if (addr == IF_OFFSET && mode != MEM_SYSTEM)
 	{
 		gb->halted = 0;
 	}

@@ -16,6 +16,8 @@
 #include "cpu.h"
 #include "mbc.h"
 
+#define IGNORE_LOCKS 1
+
 /**
  * @brief This function writes a byte to the gameboy RAM. It needs to be an interface for both the DMG and the CGB.
  * On the DMG, there is only one RAM bank of size 0x2000 bytes. On the CGB, there are 8 banks of size 0x1000 bytes.
@@ -50,7 +52,7 @@ static void	write_8_internal(struct gb_cpu_s* gb, uint16_t a16, uint8_t x, enum 
 	}
 	else if (a16 < 0xa000)
 	{
-		if (mode == MEM_SYSTEM && gb->gpu.mode == GPU_MODE_VRAM && (lcdc & LCDC_ON))
+		if (!IGNORE_LOCKS && (mode == MEM_SYSTEM && gb->gpu.mode == GPU_MODE_VRAM && (lcdc & LCDC_ON)))
 			return;
 		gb->vram_updated[gb->vram_bank] = 1;
 		gb->vram[gb->vram_bank][a16 - 0x8000] = x;
@@ -67,7 +69,7 @@ static void	write_8_internal(struct gb_cpu_s* gb, uint16_t a16, uint8_t x, enum 
 	}
 	else if (a16 >= 0xFE00 && a16 < 0xFEA0)
 	{
-		if (mode != MEM_SYSTEM || gb->gpu.mode == GPU_MODE_HBLANK || gb->gpu.mode == GPU_MODE_VBLANK || !(lcdc && LCDC_ON))
+		if (IGNORE_LOCKS || mode != MEM_SYSTEM || gb->gpu.mode == GPU_MODE_HBLANK || gb->gpu.mode == GPU_MODE_VBLANK || !(lcdc && LCDC_ON))
 		{
 			((uint8_t*)(gb->oam))[a16 - 0xFE00] = x;
 		}
@@ -75,7 +77,7 @@ static void	write_8_internal(struct gb_cpu_s* gb, uint16_t a16, uint8_t x, enum 
 	}
 	else if (a16 >= 0xFF00 && a16 < 0xFF80)
 	{
-		write_io(gb, a16, x, lcdc);
+		write_io(gb, a16, x, lcdc, mode);
 		return ;
 	}
 	else if (a16 >= 0xFF80 && a16 < 0xFFFF)
@@ -102,7 +104,7 @@ void	process_dma_transfer(struct gb_cpu_s* gb, uint8_t a8)
 	while (i < OAM_SIZE)
 	{
 		uint8_t x = read_8_force(gb, ((a8 << 8) | i));
-		write_8_force(gb, 0xFE00 | i, x);
+		gb->oam[i] = x;
 		i++;
 	}
 }
