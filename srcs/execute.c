@@ -38,7 +38,7 @@ uint8_t	update_current_instruction(struct gb_cpu_s* gb)
 
 void	request_interrupt(struct gb_cpu_s* gb, uint8_t request)
 {
-	uint8_t interrupt_requests = read_8(gb, IF_OFFSET);
+	uint8_t interrupt_requests = read_8_force(gb, IF_OFFSET);
 	write_8(gb, IF_OFFSET, interrupt_requests | request);
 }
 
@@ -55,7 +55,7 @@ int		set_interrupt(struct gb_cpu_s* gb)
 			ret = INT_TIMER_ADDR;
 		}
 	}
-	else if (interrupt_requests & INT_VBLANK_REQUEST)
+	if (interrupt_requests & INT_VBLANK_REQUEST)
 	{
 		if (gb->interrupt_enable_register & INT_VBLANK_REQUEST)
 		{
@@ -64,7 +64,7 @@ int		set_interrupt(struct gb_cpu_s* gb)
 			ret = INT_VBLANK_ADDR;
 		}
 	}
-	else if (interrupt_requests & INT_STAT_REQUEST)
+	if (interrupt_requests & INT_STAT_REQUEST)
 	{
 		if (gb->interrupt_enable_register & INT_STAT_REQUEST)
 		{
@@ -73,8 +73,20 @@ int		set_interrupt(struct gb_cpu_s* gb)
 			ret = INT_STAT_ADDR;
 		}
 	}
+	if (interrupt_requests & INT_SERIAL_REQUEST)
+	{
+		if (gb->interrupt_enable_register & INT_SERIAL_REQUEST)
+		{
+			gb->interrupt = INT_SERIAL_ADDR;
+			interrupt_requests &= ~INT_SERIAL_REQUEST;
+			ret = INT_SERIAL_ADDR;
+		}
+	}
 	if (ret)
-		write_8(gb, IF_OFFSET, interrupt_requests);
+	{
+		if (gb->ime)
+			write_8_force(gb, IF_OFFSET, interrupt_requests);
+	}
 	return (ret);
 }
 
@@ -89,10 +101,13 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 	struct tile_s tiles[TILES_COUNT];
 	while (gb->running)
 	{
-		if (gb->ime && set_interrupt(gb))
+		if (set_interrupt(gb))
 		{
-			interrupt_a16(gb, gb->interrupt);
-			gb->interrupt = 0;
+			if (gb->ime)
+			{
+				interrupt_a16(gb, gb->interrupt);
+				gb->interrupt = 0;
+			}
 		}
 		if (gb->paused)
 			execute_debugger(gb);
@@ -122,21 +137,22 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 			{
 				renderer_clear(renderer);
 			}
-			main_window_loop(wrapper, renderer);
 			if (wrapper->gb->vram_viewer_running)
 			{
 				update_palettes(wrapper->gb);
 				fill_tile_array(wrapper->gb, tiles);
 				vram_viewer_loop(wrapper, tiles);
 			}
-			renderer_render(renderer);
-			SDL_GL_SwapWindow(wrapper->main_context->win);
+			// if (!gb->halted)
+				renderer_render(renderer);
 			// renderer_clear(renderer);
 			last_line_drawn = 0;
 		}
 		if (gb->cycle - gb->last_sleep > (70224 / 4))
 		{
 			// usleep(128);
+			main_window_loop(wrapper, renderer);
+			SDL_GL_SwapWindow(wrapper->main_context->win);
 			gb->last_sleep = gb->cycle;
 		}
 		update_div_register(gb);

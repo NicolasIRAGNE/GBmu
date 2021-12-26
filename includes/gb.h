@@ -143,7 +143,7 @@ void		write_16_debug(struct gb_cpu_s* gb, uint16_t a16, uint16_t x);
 void		write_16_force(struct gb_cpu_s* gb, uint16_t a16, uint16_t x);
 
 uint8_t		read_io(struct gb_cpu_s* gb, uint16_t addr);
-void		write_io(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, uint8_t lcdc);
+void		write_io(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, uint8_t lcdc, enum memory_mode_e mode);
 
 
 /*
