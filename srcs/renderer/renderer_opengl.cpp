@@ -159,7 +159,7 @@ int Renderer::GetBackgroundIndex(int line, int pixel, int scx, int scy, int lcdc
 {
     if (!(lcdc & LCDC_DISPLAY_PRIORITY))
     {
-        return -1;
+        return 0;
     }
 
     int backgroundX = (pixel + scx) % 256;
