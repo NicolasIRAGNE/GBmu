@@ -226,6 +226,10 @@ int Renderer::GetSpriteIndex(bool* isInFront, int line, int pixel, int lcdc)
             continue;
         }
 
+        if (lcdc & LCDC_SPRITE_SIZE) {
+            tileIndex &= 0xFE;
+        }
+
         int posInTileX = pixel - (x - 8);
         int posInTileY = 0;
         if (line >= y - 16 && line < y - 8) {
