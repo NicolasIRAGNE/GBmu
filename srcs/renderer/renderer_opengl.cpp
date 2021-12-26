@@ -1,14 +1,16 @@
 #include "renderer_opengl.h"
 
+#include "gl_utils/glerr.h"
+#include <algorithm>
 #include <stdexcept>
 #include <string>
-#include "gl_utils/glerr.h"
+#include <vector>
 
 constexpr uint16_t kBasicColorMap[4] = {
     28 | (25 << 5) | (20 << 10),
-    21 | (18 << 5) | (2  << 10),
-    12 | (6  << 5) | (6  << 10),
-    7  | (2  << 5) | (2  << 10),
+    21 | (18 << 5) | (2 << 10),
+    12 | (6 << 5) | (6 << 10),
+    7 | (2 << 5) | (2 << 10),
 };
 
 constexpr uint16_t kDebugWindowColorMap[4] = {
@@ -54,43 +56,51 @@ void Renderer::DrawPixel(int line, int pixel)
     int wx = read_8(m_Gb, WX_OFFSET) - 7;
     int wy = read_8(m_Gb, WY_OFFSET);
 
+    if (pixel == 0)
+    {
+        ScanOAM(line, lcdc);
+    }
+
     int backgroundIndex = -1;
     int menuIndex = -1;
-    int spriteIndex = -1;
 
-    if (m_Gb->draw_background) {
+    if (m_Gb->draw_background)
+    {
         backgroundIndex = GetBackgroundIndex(line, pixel, scx, scy, lcdc);
     }
-    if (m_Gb->draw_window && (lcdc & LCDC_WINDOW_ON)) {
+    if (m_Gb->draw_window && (lcdc & LCDC_WINDOW_ON))
+    {
         menuIndex = GetMenuIndex(line, pixel, wx, wy, lcdc);
-    }
-    bool isSpriteInFront = false;
-    if (m_Gb->draw_sprites && (lcdc & LCDC_SPRITE_ON)) {
-        spriteIndex = GetSpriteIndex(&isSpriteInFront, line, pixel, lcdc);
     }
 
     int bgp = read_8(m_Gb, BGP_OFFSET);
-    constexpr int kBgpOffsets[4] = {0, 4, 2, 6};
+    constexpr int kBgpOffsets[4] = { 0, 4, 2, 6 };
     m_TextureData[line][pixel] = 0;
-    if (backgroundIndex != -1) {
+    if (backgroundIndex != -1)
+    {
         int8_t index = (bgp >> kBgpOffsets[backgroundIndex]) & 0b11;
         m_TextureData[line][pixel] = kBasicColorMap[index];
-        if (m_Gb->debug_palette) {
+        if (m_Gb->debug_palette)
+        {
             m_TextureData[line][pixel] = kDebugBackgroundColorMap[index];
         }
     }
-    if (menuIndex != -1) {
+    if (menuIndex != -1)
+    {
         int8_t index = (bgp >> kBgpOffsets[menuIndex]) & 0b11;
         m_TextureData[line][pixel] = kBasicColorMap[index];
-        if (m_Gb->debug_palette) {
+        if (m_Gb->debug_palette)
+        {
             m_TextureData[line][pixel] = kDebugWindowColorMap[index];
         }
     }
-    if (spriteIndex != -1 && (isSpriteInFront || (backgroundIndex <= 0 && menuIndex <= 0))) {
-        int8_t index = spriteIndex;
-        m_TextureData[line][pixel] = kBasicColorMap[index];
-        if (m_Gb->debug_palette) {
-            m_TextureData[line][pixel] = kDebugSpriteColorMap[index];
+
+    if (m_Gb->draw_sprites)
+    {
+        const auto& sprite = m_SpriteLine[pixel];
+        if (sprite.isExist && (sprite.isInFront || (backgroundIndex <= 0 && menuIndex <= 0)))
+        {
+            m_TextureData[line][pixel] = sprite.color;
         }
     }
 }
@@ -107,18 +117,22 @@ void Renderer::Render()
 
 void Renderer::Clear()
 {
-    glClear(GL_COLOR_BUFFER_BIT); GLERR;
+    glClear(GL_COLOR_BUFFER_BIT);
+    GLERR;
 }
 
 void Renderer::SetWindowSize(int width, int height)
 {
-    glViewport(0, 0, width, height); GLERR;
+    glViewport(0, 0, width, height);
+    GLERR;
 }
 
 void Renderer::InitTexture()
 {
-    glGenTextures(1, &m_Texture); GLERR;
-    glBindTexture(GL_TEXTURE_2D, m_Texture); GLERR;
+    glGenTextures(1, &m_Texture);
+    GLERR;
+    glBindTexture(GL_TEXTURE_2D, m_Texture);
+    GLERR;
     glTexImage2D(
         GL_TEXTURE_2D,
         0,
@@ -135,12 +149,14 @@ void Renderer::InitTexture()
 
 void Renderer::DestroyTexture()
 {
-    glDeleteTextures(1, &m_Texture); GLERR;
+    glDeleteTextures(1, &m_Texture);
+    GLERR;
 }
 
 int Renderer::GetBackgroundIndex(int line, int pixel, int scx, int scy, int lcdc)
 {
-    if (!(lcdc & LCDC_DISPLAY_PRIORITY)) {
+    if (!(lcdc & LCDC_DISPLAY_PRIORITY))
+    {
         return -1;
     }
 
@@ -154,12 +170,14 @@ int Renderer::GetBackgroundIndex(int line, int pixel, int scx, int scy, int lcdc
     int tileOffsetY = backgroundY % 8;
 
     int offset = BGMAP1_OFFSET;
-    if (lcdc & LCDC_TILE_MAP_SELECT) {
+    if (lcdc & LCDC_TILE_MAP_SELECT)
+    {
         offset = BGMAP2_OFFSET;
     }
 
     int tileIndex = m_Gb->vram[0][offset + tileY * 32 + tileX];
-    if (!(lcdc & LCDC_TILE_DATA_SELECT) && tileIndex + 0x100 < 256 + 128) {
+    if (!(lcdc & LCDC_TILE_DATA_SELECT) && tileIndex + 0x100 < 256 + 128)
+    {
         tileIndex += 0x100;
     }
 
@@ -170,17 +188,19 @@ int Renderer::GetBackgroundIndex(int line, int pixel, int scx, int scy, int lcdc
     int bit = 1 << posInByte;
     int colorIndex = ((msb & bit) << (posInByte + 1u)) | ((lsb & bit) << posInByte);
     colorIndex >>= posInByte * 2;
-    
+
     return colorIndex;
 }
 
 int Renderer::GetMenuIndex(int line, int pixel, int wx, int wy, int lcdc)
 {
-    if (line < wy) {
+    if (line < wy)
+    {
         return -1;
     }
 
-    if (pixel < wx) {
+    if (pixel < wx)
+    {
         return -1;
     }
 
@@ -194,12 +214,14 @@ int Renderer::GetMenuIndex(int line, int pixel, int wx, int wy, int lcdc)
     int tileOffsetY = menuY % 8;
 
     int offset = BGMAP1_OFFSET;
-    if (lcdc & LCDC_WINDOW_SELECT) {
+    if (lcdc & LCDC_WINDOW_SELECT)
+    {
         offset = BGMAP2_OFFSET;
     }
 
     int tileIndex = m_Gb->vram[0][offset + tileY * 32 + tileX];
-    if (!(lcdc & LCDC_TILE_DATA_SELECT) && tileIndex + 0x100 < 256 + 128) {
+    if (!(lcdc & LCDC_TILE_DATA_SELECT) && tileIndex + 0x100 < 256 + 128)
+    {
         tileIndex += 0x100;
     }
 
@@ -214,72 +236,111 @@ int Renderer::GetMenuIndex(int line, int pixel, int wx, int wy, int lcdc)
     return colorIndex;
 }
 
-int Renderer::GetSpriteIndex(bool* isInFront, int line, int pixel, int lcdc)
+void Renderer::ScanOAM(int line, int lcdc)
 {
-    int spriteIndex = -1;
-    for (int i = OAM_SIZE - 4; i >= 0; i -= 4) {
-        int y = m_Gb->oam[i + 0];
-        int x = m_Gb->oam[i + 1];
-        int tileIndex = m_Gb->oam[i + 2];
-        int attributes = m_Gb->oam[i + 3];
+    std::memset(m_SpriteLine, 0, sizeof(m_SpriteLine));
 
-        if (pixel < x - 8 || pixel >= x) {
-            continue;
+    bool isBigSprite = lcdc & LCDC_SPRITE_SIZE;
+    std::vector<OAMCase> oamCases;
+
+    int count = 0;
+    for (int i = 0; i < OAM_SIZE; i += 4)
+    {
+        if (count == 10)
+        {
+            break;
         }
 
-        if (lcdc & LCDC_SPRITE_SIZE) {
-            tileIndex &= 0xFE;
-        }
+        OAMCase oamCase = { m_Gb->oam[i], m_Gb->oam[i + 1], m_Gb->oam[i + 2], m_Gb->oam[i + 3] };
+        bool isInRange = line >= oamCase.y - 16 && line < oamCase.y - 8;
+        bool isInRangeForBigSprite = line >= oamCase.y - 16 && line < oamCase.y;
 
-        int posInTileX = pixel - (x - 8);
-        int posInTileY = 0;
-        if (line >= y - 16 && line < y - 8) {
-            posInTileY = line - (y - 16);
-            if ((lcdc & LCDC_SPRITE_SIZE) && (attributes & ATTR_Y_FLIP)) {
-                tileIndex += 1;
-            }
-        } else if ((lcdc & LCDC_SPRITE_SIZE) && line >= y - 8 && line < y) {
-            posInTileY = line - (y - 8);
-            if ((lcdc & LCDC_SPRITE_SIZE) && !(attributes & ATTR_Y_FLIP)) {
-                tileIndex += 1;
-            }
-        } else {
-            continue;
-        }
-        
-        if (attributes & ATTR_X_FLIP) {
-            posInTileX = 7 - posInTileX;
-        }
-
-        if (attributes & ATTR_Y_FLIP) {
-            posInTileY = 7 - posInTileY;
-        }
-
-        *isInFront = !(attributes & ATTR_PRIORITY);
-
-        int msb = m_Gb->vram[0][tileIndex * 16 + posInTileY * 2];
-        int lsb = m_Gb->vram[0][tileIndex * 16 + posInTileY * 2 + 1];
-
-        int posInByte = 7 - posInTileX;
-        int bit = 1 << posInByte;
-        int colorIndex = ((msb & bit) << (posInByte + 1u)) | ((lsb & bit) << posInByte);
-        colorIndex >>= posInByte * 2;
-
-        if (colorIndex == 0) {
-            continue;
-        }
-
-        constexpr int kObpOffsets[4] = {0, 4, 2, 6};
-        if (attributes & ATTR_PALETTE) {
-            int obp1 = read_8(m_Gb, OBP1_OFFSET);
-            spriteIndex = (obp1 >> kObpOffsets[colorIndex]) & 0b11;
-        } else {
-            int obp0 = read_8(m_Gb, OBP0_OFFSET);
-            spriteIndex = (obp0 >> kObpOffsets[colorIndex]) & 0b11;
+        if (isInRange || (isBigSprite && isInRangeForBigSprite))
+        {
+            oamCases.push_back(oamCase);
+            count++;
         }
     }
 
-    return spriteIndex;
+    if (m_Gb->mode == GB_MODE_DMG)
+    {
+        std::sort(oamCases.begin(), oamCases.end(), [](const OAMCase& a, const OAMCase& b)
+            { return a.x < b.x; });
+    }
+
+    for (int i = oamCases.size() - 1; i >= 0; i--)
+    {
+        auto& oamCase = oamCases[i];
+
+        if (isBigSprite)
+        {
+            oamCase.tileIndex &= 0xFE;
+        }
+
+        bool isFlipX = oamCase.attributes & ATTR_X_FLIP;
+        bool isFlipY = oamCase.attributes & ATTR_Y_FLIP;
+        bool isTopSprite = line >= oamCase.y - 8;
+
+        if (isBigSprite && isTopSprite != isFlipY)
+        {
+            oamCase.tileIndex |= 1;
+        }
+
+        int posInTileY = (line - (oamCase.y - 16)) % 8;
+        if (isFlipY)
+        {
+            posInTileY = 7 - posInTileY;
+        }
+
+        for (int x = oamCase.x - 8; x < oamCase.x; x++)
+        {
+            if (x < 0 || x >= MAIN_SURFACE_WIDTH)
+            {
+                continue;
+            }
+
+            int posInTileX = x - (oamCase.x - 8);
+            if (isFlipX)
+            {
+                posInTileX = 7 - posInTileX;
+            }
+
+            int msb = m_Gb->vram[0][oamCase.tileIndex * 16 + posInTileY * 2];
+            int lsb = m_Gb->vram[0][oamCase.tileIndex * 16 + posInTileY * 2 + 1];
+
+            int posInByte = 7 - posInTileX;
+            int bit = 1 << posInByte;
+            int colorIndex = ((msb & bit) << (posInByte + 1u)) | ((lsb & bit) << posInByte);
+            colorIndex >>= posInByte * 2;
+
+            if (colorIndex == 0)
+            {
+                continue;
+            }
+
+            int obp = 0;
+            if (oamCase.attributes & ATTR_PALETTE)
+            {
+                obp = read_8(m_Gb, OBP1_OFFSET);
+            }
+            else
+            {
+                obp = read_8(m_Gb, OBP0_OFFSET);
+            }
+
+            constexpr int kObpOffsets[4] = { 0, 4, 2, 6 };
+            colorIndex = (obp >> kObpOffsets[colorIndex]) & 0b11;
+            
+            uint16_t color = kBasicColorMap[colorIndex];
+            if (m_Gb->debug_palette) {
+                color = kDebugSpriteColorMap[colorIndex];
+            }
+
+            m_SpriteLine[x].isExist = true;
+            m_SpriteLine[x].color = color;
+            m_SpriteLine[x].isInFront = !(oamCase.attributes & ATTR_PRIORITY);
+        }
+    }
 }
 
 } // namespace GBMU

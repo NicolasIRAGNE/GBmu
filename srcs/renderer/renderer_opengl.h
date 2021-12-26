@@ -35,13 +35,32 @@ private:
 
     int GetBackgroundIndex(int line, int pixel, int scx, int scy, int lcdc);
     int GetMenuIndex(int line, int pixel, int wx, int wy, int lcdc);
-    int GetSpriteIndex(bool* isInFront, int line, int pixel, int lcdc);
+
+    void ScanOAM(int line, int lcdc);
 
 private:
-    gb_cpu_s* m_Gb {nullptr};
+    struct Pixel
+    {
+        bool isExist = false;
+        uint16_t color = 0;
+        bool isInFront = false;
+    };
+
+    struct OAMCase
+    {
+        uint8_t y;
+        uint8_t x;
+        uint8_t tileIndex;
+        uint8_t attributes;
+    };
+
+private:
+    gb_cpu_s* m_Gb { nullptr };
 
     uint16_t m_TextureData[MAIN_SURFACE_HEIGHT][MAIN_SURFACE_WIDTH] {};
-    GLuint m_Texture {0};
+    GLuint m_Texture { 0 };
+
+    Pixel m_SpriteLine[MAIN_SURFACE_WIDTH] {};
 
     Rescale m_Rescale;
 };
