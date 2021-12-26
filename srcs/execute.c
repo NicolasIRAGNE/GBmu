@@ -46,41 +46,29 @@ int		set_interrupt(struct gb_cpu_s* gb)
 {
 	int ret = 0;
 	uint8_t interrupt_requests = read_8(gb, IF_OFFSET);
-	if (interrupt_requests & INT_TIMER_REQUEST)
+	if (interrupt_requests & INT_TIMER_REQUEST && gb->interrupt_enable_register & INT_TIMER_REQUEST)
 	{
-		if (gb->interrupt_enable_register & INT_TIMER_REQUEST)
-		{
-			gb->interrupt = INT_TIMER_ADDR;
-			interrupt_requests &= ~INT_TIMER_REQUEST;
-			ret = INT_TIMER_ADDR;
-		}
+		gb->interrupt = INT_TIMER_ADDR;
+		interrupt_requests &= ~INT_TIMER_REQUEST;
+		ret = INT_TIMER_ADDR;
 	}
-	if (interrupt_requests & INT_VBLANK_REQUEST)
+	else if (interrupt_requests & INT_VBLANK_REQUEST && gb->interrupt_enable_register & INT_VBLANK_REQUEST)
 	{
-		if (gb->interrupt_enable_register & INT_VBLANK_REQUEST)
-		{
-			gb->interrupt = INT_VBLANK_ADDR;
-			interrupt_requests &= ~INT_VBLANK_REQUEST;
-			ret = INT_VBLANK_ADDR;
-		}
+		gb->interrupt = INT_VBLANK_ADDR;
+		interrupt_requests &= ~INT_VBLANK_REQUEST;
+		ret = INT_VBLANK_ADDR;
 	}
-	if (interrupt_requests & INT_STAT_REQUEST)
+	else if (interrupt_requests & INT_STAT_REQUEST && gb->interrupt_enable_register & INT_STAT_REQUEST)
 	{
-		if (gb->interrupt_enable_register & INT_STAT_REQUEST)
-		{
-			gb->interrupt = INT_STAT_ADDR;
-			interrupt_requests &= ~INT_STAT_REQUEST;
-			ret = INT_STAT_ADDR;
-		}
+		gb->interrupt = INT_STAT_ADDR;
+		interrupt_requests &= ~INT_STAT_REQUEST;
+		ret = INT_STAT_ADDR;
 	}
-	if (interrupt_requests & INT_SERIAL_REQUEST)
+	else if (interrupt_requests & INT_SERIAL_REQUEST && gb->interrupt_enable_register & INT_SERIAL_REQUEST)
 	{
-		if (gb->interrupt_enable_register & INT_SERIAL_REQUEST)
-		{
-			gb->interrupt = INT_SERIAL_ADDR;
-			interrupt_requests &= ~INT_SERIAL_REQUEST;
-			ret = INT_SERIAL_ADDR;
-		}
+		gb->interrupt = INT_SERIAL_ADDR;
+		interrupt_requests &= ~INT_SERIAL_REQUEST;
+		ret = INT_SERIAL_ADDR;
 	}
 	if (ret)
 	{
