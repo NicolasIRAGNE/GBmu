@@ -152,6 +152,7 @@ int		init_cpu_dmg(struct gb_cpu_s* gb, struct rom_s* rom)
 	// gb->interrupt_enable_register |= INT_TIMER_REQUEST;
 	// gb->interrupt_enable_register |= INT_STAT_REQUEST;
 	init_mbc(gb);
+	gb->mbc.bank = 1;
 	write_8(gb, LCDC_OFFSET, read_8(gb, LCDC_OFFSET) | LCDC_ON);
 	if (gb->mbc.ram_size)
 		gb->extra_ram = malloc(gb->mbc.ram_size);
@@ -180,6 +181,7 @@ static int		init_cpu_cgb(struct gb_cpu_s* gb, struct rom_s* rom)
 	// gb->interrupt_enable_register |= INT_TIMER_REQUEST;
 	// gb->interrupt_enable_register |= INT_STAT_REQUEST;
 	init_mbc(gb);
+	gb->mbc.bank = 1;
 	write_8(gb, LCDC_OFFSET, read_8(gb, LCDC_OFFSET) | LCDC_ON);
 	if (gb->mbc.ram_size)
 		gb->extra_ram = malloc(gb->mbc.ram_size);

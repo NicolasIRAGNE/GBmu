@@ -33,20 +33,21 @@ uint8_t	read_mbc5(struct gb_cpu_s* gb, uint16_t addr, enum memory_mode_e mode)
 	}
 	else if (addr < 0x8000)
 	{
+		// printf("Reading at 0x%04x in bank %x\n", addr, gb->mbc.bank);
 		uint8_t tmp;
 		tmp = gb->mbc.bank;
 		if (tmp != 0)
 		{
-			if (tmp * 0x4000 + addr - 0x4000 > gb->rom_ptr->st.st_size)
+			if (tmp * 0x4000 + addr - 0x4000 >= gb->rom_ptr->st.st_size)
 			{
-				printf("fatal: attempting to read outside the cartridge at %x in bank %x. aborting...\n", addr, tmp);
-				fatal(gb);
+				printf("fatal: attempting to read outside the cartridge at %x in bank %x. aborting...\n", tmp * 0x4000 + addr - 0x4000, tmp);
+				// fatal(gb);
 				return (0);
 			}
 			return (((uint8_t*)(gb->rom_ptr->ptr))[tmp * 0x4000 + addr - 0x4000]);
 		}
 		else
-			return (((uint8_t*)(gb->rom_ptr->ptr))[addr]);
+			return (((uint8_t*)(gb->rom_ptr->ptr))[addr % 0x4000]);
 	}
 	else if (addr < 0xc000)
 	{
@@ -74,13 +75,13 @@ void	write_mbc5(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, enum memory_mode_
 	{
 		if (x == 0x0a)
 		{
-			if (get_verbose(gb->debugger) >= 1)
+			// if (get_verbose(gb->debugger) >= 1)
 				printf("RAM ENABLED (%4x)\n", addr);
 			gb->ram_enabled = 1;
 		}
 		else
 		{
-			if (get_verbose(gb->debugger) >= 1)
+			// if (get_verbose(gb->debugger) >= 1)
 				printf("RAM DISABLED (%4x)\n", addr);
 			gb->ram_enabled = 0;
 		}
@@ -88,18 +89,28 @@ void	write_mbc5(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, enum memory_mode_
 	}
 	else if (addr < 0x3000)
 	{
-		gb->mbc.bank = (gb->mbc.bank & 0x100) | (x);
+		gb->mbc.bank &= ~0xFF;
+		gb->mbc.bank |= x;
+		// gb->mbc.bank = (gb->mbc.bank & 0x100) | (x & 0x0f);
 		return ;
 	}
 	else if (addr < 0x4000)
 	{
-		gb->mbc.bank = (gb->mbc.bank & 0xf) | ((x & 0x1) << 8);
+		if (x & 0x01)
+		{
+			gb->mbc.bank = (gb->mbc.bank | 0x100);
+		}
+		else
+		{
+			gb->mbc.bank &= ~0x100;
+		}
+		printf("Switched to bank %x\n", gb->mbc.bank);
 		return ;
 	}
 	else if (addr < 0x6000)
 	{
 		gb->mbc.ram_bank = x & 0xf;
-		gb->mbc.ram_bank &= (gb->mbc.ram_size / 0x2000) - 1;
+		// gb->mbc.ram_bank &= (gb->mbc.ram_size / 0x2000) - 1;
 		printf("switching ram bank to %x\n", gb->mbc.ram_bank);
 		return ;
 	}

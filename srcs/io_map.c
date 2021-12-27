@@ -50,6 +50,10 @@ uint8_t		read_io(struct gb_cpu_s* gb, uint16_t addr)
 		ret = ~ret;
 		return (ret);
 	}
+	if (addr == VBK_OFFSET && gb->mode == GB_MODE_CGB)
+	{
+		return (gb->vram_bank & 0xfe);
+	}
 	return (((uint8_t*)(gb->io_ports))[addr - 0xFF00]);	
 }
 
@@ -90,10 +94,12 @@ void	write_io(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, uint8_t lcdc, enum 
 	}
 	if (addr == VBK_OFFSET && gb->mode == GB_MODE_CGB)
 	{
+		printf("Switching to VRAM bank %d\n", x );
 		gb->vram_bank = x & 0x01;
 	}
 	if (addr == SVBK_OFFSET && gb->mode == GB_MODE_CGB)
 	{
+		printf("Switching to WRAM bank %d\n", x & 0b111);
 		gb->wram_bank = x & 0b111;
 	}
 	if (addr == KEY1_OFFSET && gb->mode == GB_MODE_CGB)
