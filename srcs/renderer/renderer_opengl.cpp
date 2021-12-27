@@ -58,10 +58,13 @@ void Renderer::DrawPixel(int line, int pixel)
     if (pixel == 0) {
         ScanOAM(line, lcdc);
         m_MenuXOffset = read_8(m_Gb, WX_OFFSET) - 7;
+        m_Low3bitsOfSCX = scx & 0b111;
         if (line == 0) {
             m_MenuYOffset = read_8(m_Gb, WY_OFFSET);
         }
     }
+
+    scx = (scx & ~0b111) | m_Low3bitsOfSCX;
 
     int backgroundIndex = -1;
     int menuIndex = -1;

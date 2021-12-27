@@ -62,6 +62,7 @@ private:
     Pixel m_SpriteLine[MAIN_SURFACE_WIDTH] {};
     int m_MenuXOffset { 0 };
     int m_MenuYOffset { 0 };
+    uint8_t m_Low3bitsOfSCX { 0 };
 
     Rescale m_Rescale;
 };
