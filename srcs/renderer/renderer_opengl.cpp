@@ -90,7 +90,7 @@ void Renderer::DrawPixel(int line, int pixel)
         }
     }
 
-    Priority backgroundPriority = Priority::kNull;
+    Priority backgroundPriority = Priority::kLow;
     if (m_Gb->draw_background && menuPriority == kNull)
     {
         uint16_t color = GetBackgroundColor(&backgroundPriority, line, pixel, scx, scy, lcdc);
