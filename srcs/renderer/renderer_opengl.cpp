@@ -334,7 +334,7 @@ void Renderer::ScanOAM(int line, int lcdc)
 
 int Renderer::GetColorIndex(int tileIndex, int tileAttr, int x, int y)
 {
-    int tileBank = tileAttr & ATTR_BANK;
+    int tileBank = (tileAttr & ATTR_BANK) ? 1 : 0;
 
     if (tileAttr & ATTR_X_FLIP)
     {

@@ -85,7 +85,7 @@ void	write_io(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, uint8_t lcdc, enum 
 	}
 	if (addr == DMA_OFFSET)
 	{
-		if (gb->cycle - gb->last_dma > 0)
+		if (gb->cycle - gb->last_dma > 0) //FIXME: this should be *something else* than 0
 		{
 			gb->last_dma = gb->cycle;
 			process_dma_transfer(gb, x);
@@ -107,6 +107,8 @@ void	write_io(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, uint8_t lcdc, enum 
 	}
 	if (addr == SVBK_OFFSET && gb->mode == GB_MODE_CGB)
 	{
+		if (x == 0)
+			x = 1;
 		printf("Switching to WRAM bank %d\n", x & 0b111);
 		gb->wram_bank = x & 0b111;
 	}
