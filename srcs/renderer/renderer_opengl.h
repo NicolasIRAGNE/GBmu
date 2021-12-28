@@ -38,6 +38,9 @@ private:
 
     void ScanOAM(int line, int lcdc);
 
+    int GetColorIndex(int tileIndex, int tileAttr, int x, int y);
+    int TransformColorIndex(int colorIndex, int paletteOffset);
+
 private:
     struct Pixel
     {

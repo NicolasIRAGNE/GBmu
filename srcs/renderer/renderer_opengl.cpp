@@ -2,10 +2,10 @@
 
 #include "gl_utils/glerr.h"
 #include <algorithm>
+#include <cstring>
 #include <stdexcept>
 #include <string>
 #include <vector>
-#include <cstring>
 
 constexpr uint16_t kBasicColorMap[4] = {
     28 | (25 << 5) | (20 << 10),
@@ -55,11 +55,13 @@ void Renderer::DrawPixel(int line, int pixel)
     int scx = read_8(m_Gb, SCX_OFFSET);
     int scy = read_8(m_Gb, SCY_OFFSET);
 
-    if (pixel == 0) {
+    if (pixel == 0)
+    {
         ScanOAM(line, lcdc);
         m_MenuXOffset = read_8(m_Gb, WX_OFFSET) - 7;
         m_Low3bitsOfSCX = scx & 0b111;
-        if (line == 0) {
+        if (line == 0)
+        {
             m_MenuYOffset = read_8(m_Gb, WY_OFFSET);
         }
     }
@@ -79,11 +81,10 @@ void Renderer::DrawPixel(int line, int pixel)
     }
 
     int bgp = read_8(m_Gb, BGP_OFFSET);
-    constexpr int kBgpOffsets[4] = { 0, 4, 2, 6 };
     m_TextureData[line][pixel] = 0;
     if (backgroundIndex != -1)
     {
-        int8_t index = (bgp >> kBgpOffsets[backgroundIndex]) & 0b11;
+        int8_t index = TransformColorIndex(backgroundIndex, bgp);
         m_TextureData[line][pixel] = kBasicColorMap[index];
         if (m_Gb->debug_palette)
         {
@@ -92,7 +93,7 @@ void Renderer::DrawPixel(int line, int pixel)
     }
     if (menuIndex != -1)
     {
-        int8_t index = (bgp >> kBgpOffsets[menuIndex]) & 0b11;
+        int8_t index = TransformColorIndex(menuIndex, bgp);
         m_TextureData[line][pixel] = kBasicColorMap[index];
         if (m_Gb->debug_palette)
         {
@@ -181,20 +182,17 @@ int Renderer::GetBackgroundIndex(int line, int pixel, int scx, int scy, int lcdc
     }
 
     int tileIndex = m_Gb->vram[0][offset + tileY * 32 + tileX];
-    int tileAttr = m_Gb->vram[1][offset + tileY * 32 + tileX];
     if (!(lcdc & LCDC_TILE_DATA_SELECT) && tileIndex + 0x100 < 256 + 128)
     {
         tileIndex += 0x100;
     }
 
-    int tileBank = (tileAttr & ATTR_BANK) >> 3;
-    int msb = m_Gb->vram[tileBank][tileIndex * 16 + tileOffsetY * 2];
-    int lsb = m_Gb->vram[tileBank][tileIndex * 16 + tileOffsetY * 2 + 1];
-
-    int posInByte = 7 - tileOffsetX;
-    int bit = 1 << posInByte;
-    int colorIndex = ((msb & bit) << (posInByte + 1u)) | ((lsb & bit) << posInByte);
-    colorIndex >>= posInByte * 2;
+    int tileAttr = 0;
+    if (m_Gb->mode == GB_MODE_CGB)
+    {
+        tileAttr = m_Gb->vram[1][offset + tileY * 32 + tileX];
+    }
+    int colorIndex = GetColorIndex(tileIndex, tileAttr, tileOffsetX, tileOffsetY);
 
     return colorIndex;
 }
@@ -227,19 +225,17 @@ int Renderer::GetMenuIndex(int line, int pixel, int wx, int wy, int lcdc)
     }
 
     int tileIndex = m_Gb->vram[0][offset + tileY * 32 + tileX];
-    int tileAttr = m_Gb->vram[1][offset + tileY * 32 + tileX];
     if (!(lcdc & LCDC_TILE_DATA_SELECT) && tileIndex + 0x100 < 256 + 128)
     {
         tileIndex += 0x100;
     }
-    int tileBank = (tileAttr & ATTR_BANK) >> 3;
-    int msb = m_Gb->vram[tileBank][tileIndex * 16 + tileOffsetY * 2];
-    int lsb = m_Gb->vram[tileBank][tileIndex * 16 + tileOffsetY * 2 + 1];
 
-    int posInByte = 7 - tileOffsetX;
-    int bit = 1 << posInByte;
-    int colorIndex = ((msb & bit) << (posInByte + 1)) | ((lsb & bit) << posInByte);
-    colorIndex >>= posInByte * 2;
+    int tileAttr = 0;
+    if (m_Gb->mode == GB_MODE_CGB)
+    {
+        tileAttr = m_Gb->vram[1][offset + tileY * 32 + tileX];
+    }
+    int colorIndex = GetColorIndex(tileIndex, tileAttr, tileOffsetX, tileOffsetY);
 
     return colorIndex;
 }
@@ -295,10 +291,6 @@ void Renderer::ScanOAM(int line, int lcdc)
         }
 
         int posInTileY = (line - (oamCase.y - 16)) % 8;
-        if (isFlipY)
-        {
-            posInTileY = 7 - posInTileY;
-        }
 
         for (int x = oamCase.x - 8; x < oamCase.x; x++)
         {
@@ -308,18 +300,7 @@ void Renderer::ScanOAM(int line, int lcdc)
             }
 
             int posInTileX = x - (oamCase.x - 8);
-            if (isFlipX)
-            {
-                posInTileX = 7 - posInTileX;
-            }
-
-            int msb = m_Gb->vram[m_Gb->vram_bank][oamCase.tileIndex * 16 + posInTileY * 2];
-            int lsb = m_Gb->vram[m_Gb->vram_bank][oamCase.tileIndex * 16 + posInTileY * 2 + 1];
-
-            int posInByte = 7 - posInTileX;
-            int bit = 1 << posInByte;
-            int colorIndex = ((msb & bit) << (posInByte + 1u)) | ((lsb & bit) << posInByte);
-            colorIndex >>= posInByte * 2;
+            int colorIndex = GetColorIndex(oamCase.tileIndex, oamCase.attributes, posInTileX, posInTileY);
 
             if (colorIndex == 0)
             {
@@ -335,12 +316,12 @@ void Renderer::ScanOAM(int line, int lcdc)
             {
                 obp = read_8(m_Gb, OBP0_OFFSET);
             }
-
-            constexpr int kObpOffsets[4] = { 0, 4, 2, 6 };
-            colorIndex = (obp >> kObpOffsets[colorIndex]) & 0b11;
             
+            colorIndex = TransformColorIndex(colorIndex, obp);
+
             uint16_t color = kBasicColorMap[colorIndex];
-            if (m_Gb->debug_palette) {
+            if (m_Gb->debug_palette)
+            {
                 color = kDebugSpriteColorMap[colorIndex];
             }
 
@@ -349,6 +330,39 @@ void Renderer::ScanOAM(int line, int lcdc)
             m_SpriteLine[x].isInFront = !(oamCase.attributes & ATTR_PRIORITY);
         }
     }
+}
+
+int Renderer::GetColorIndex(int tileIndex, int tileAttr, int x, int y)
+{
+    int tileBank = tileAttr & ATTR_BANK;
+
+    if (tileAttr & ATTR_X_FLIP)
+    {
+        x = 7 - x;
+    }
+
+    if (tileAttr & ATTR_Y_FLIP)
+    {
+        y = 7 - y;
+    }
+
+    int msb = m_Gb->vram[tileBank][tileIndex * 16 + y * 2];
+    int lsb = m_Gb->vram[tileBank][tileIndex * 16 + y * 2 + 1];
+
+    int posInByte = 7 - x;
+    int bit = 1 << posInByte;
+    int colorIndex = ((msb & bit) << (posInByte + 1u)) | ((lsb & bit) << posInByte);
+    colorIndex >>= posInByte * 2;
+
+    return colorIndex;
+}
+
+int Renderer::TransformColorIndex(int colorIndex, int paletteOffset) 
+{
+    constexpr int kObpOffsets[4] = { 0, 4, 2, 6 };
+    colorIndex = (paletteOffset >> kObpOffsets[colorIndex]) & 0b11;
+
+    return colorIndex;
 }
 
 } // namespace GBMU
