@@ -198,7 +198,19 @@ uint16_t Renderer::GetBackgroundColor(bool* isInFront, int line, int pixel, int 
         return kDebugBackgroundColorMap[colorIndex];
     }
     
-    return kBasicColorMap[colorIndex];
+    if (m_Gb->mode == GB_MODE_DMG)
+    {
+        return kBasicColorMap[colorIndex];
+    }
+    
+    if (m_Gb->mode == GB_MODE_CGB)
+    {
+        int nPalette = (tileAttr & 0b111);
+        uint16_t* bgPalette = reinterpret_cast<uint16_t*>(m_Gb->cgb_bg_palettes);
+        return bgPalette[4 * nPalette + colorIndex];
+    }
+
+    return 0;
 }
 
 uint16_t Renderer::GetMenuColor(bool* isMenuExist, bool* isInFront, int line, int pixel, int wx, int wy, int lcdc)
@@ -254,7 +266,19 @@ uint16_t Renderer::GetMenuColor(bool* isMenuExist, bool* isInFront, int line, in
         return kDebugMenuColorMap[colorIndex];
     }
 
-    return kBasicColorMap[colorIndex];
+    if (m_Gb->mode == GB_MODE_DMG)
+    {
+        return kBasicColorMap[colorIndex];
+    }
+    
+    if (m_Gb->mode == GB_MODE_CGB)
+    {
+        int nPalette = (tileAttr & 0b111);
+        uint16_t* menuPalette = reinterpret_cast<uint16_t*>(m_Gb->cgb_bg_palettes);
+        return menuPalette[4 * nPalette + colorIndex];
+    }
+
+    return 0;
 }
 
 void Renderer::ScanOAM(int line, int lcdc)
@@ -343,10 +367,20 @@ void Renderer::ScanOAM(int line, int lcdc)
 
             colorIndex = TransformColorIndex(colorIndex, obp);
 
-            uint16_t color = kBasicColorMap[colorIndex];
+            uint16_t color = 0;
             if (m_Gb->debug_palette)
             {
                 color = kDebugSpriteColorMap[colorIndex];
+            }
+            else if (m_Gb->mode == GB_MODE_DMG)
+            {
+                color = kBasicColorMap[colorIndex];
+            }
+            else if (m_Gb->mode == GB_MODE_CGB)
+            {
+                int nPalette = (oamCase.attributes & 0b111);
+                uint16_t* objPalette = reinterpret_cast<uint16_t*>(m_Gb->cgb_obj_palettes);
+                color = objPalette[4 * nPalette + colorIndex];
             }
 
             m_SpriteLine[x].isExist = true;
