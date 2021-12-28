@@ -30,11 +30,21 @@ public:
     void SetWindowSize(int width, int height);
 
 private:
+    enum Priority : int
+    {
+        kNull = 0,
+        kVeryLow = 1,
+        kLow = 2,
+        kMedium = 3,
+        kHigh = 4
+    };
+
+private:
     void InitTexture();
     void DestroyTexture();
 
-    uint16_t GetBackgroundColor(bool* isInFront, int line, int pixel, int scx, int scy, int lcdc);
-    uint16_t GetMenuColor(bool* isExist, bool* isInFront, int line, int pixel, int wx, int wy, int lcdc);
+    uint16_t GetBackgroundColor(Priority* priority, int line, int pixel, int scx, int scy, int lcdc);
+    uint16_t GetMenuColor(Priority* priority, int line, int pixel, int wx, int wy, int lcdc);
 
     void ScanOAM(int line, int lcdc);
 
@@ -43,10 +53,9 @@ private:
 
 private:
     struct Pixel
-    {
-        bool isExist = false;
+    {   
+        Priority priority = kNull;
         uint16_t color = 0;
-        bool isInFront = false;
     };
 
     struct OAMCase

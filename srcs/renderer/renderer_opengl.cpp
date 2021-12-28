@@ -73,30 +73,28 @@ void Renderer::DrawPixel(int line, int pixel)
     auto& sprite = m_SpriteLine[pixel];
     if (!(lcdc & LCDC_SPRITE_ON))
     {
-        sprite.isExist = false;
-        sprite.isInFront = false;
+        sprite.priority = Priority::kNull;
     }
-    if (m_Gb->draw_sprites && sprite.isExist)
+    if (m_Gb->draw_sprites && sprite.priority != Priority::kNull)
     {
         m_TextureData[line][pixel] = sprite.color;
     }
 
-    bool menuIsExist = false;
-    if (m_Gb->draw_window && (lcdc & LCDC_WINDOW_ON) && !sprite.isInFront)
+    Priority menuPriority = Priority::kNull;
+    if (m_Gb->draw_window && (lcdc & LCDC_WINDOW_ON))
     {
-        bool menuIsFront = false;
-        uint16_t color = GetMenuColor(&menuIsExist, &menuIsFront, line, pixel, m_MenuXOffset, m_MenuYOffset, lcdc);
-        if (menuIsExist && (menuIsFront || !sprite.isExist))
+        uint16_t color = GetMenuColor(&menuPriority, line, pixel, m_MenuXOffset, m_MenuYOffset, lcdc);
+        if (menuPriority > sprite.priority)
         {
             m_TextureData[line][pixel] = color;
         }
     }
 
-    if (m_Gb->draw_background && !menuIsExist && !sprite.isInFront)
+    Priority backgroundPriority = Priority::kNull;
+    if (m_Gb->draw_background && menuPriority == kNull)
     {
-        bool backgroundInFront = false;
-        uint16_t color = GetBackgroundColor(&backgroundInFront, line, pixel, scx, scy, lcdc);
-        if (backgroundInFront || !sprite.isExist)
+        uint16_t color = GetBackgroundColor(&backgroundPriority, line, pixel, scx, scy, lcdc);
+        if (backgroundPriority > menuPriority && backgroundPriority > sprite.priority)
         {
             m_TextureData[line][pixel] = color;
         }
@@ -151,7 +149,7 @@ void Renderer::DestroyTexture()
     GLERR;
 }
 
-uint16_t Renderer::GetBackgroundColor(bool* isInFront, int line, int pixel, int scx, int scy, int lcdc)
+uint16_t Renderer::GetBackgroundColor(Priority* priority, int line, int pixel, int scx, int scy, int lcdc)
 {
     if (!(lcdc & LCDC_DISPLAY_PRIORITY) && m_Gb->mode == GB_MODE_DMG)
     {
@@ -191,14 +189,18 @@ uint16_t Renderer::GetBackgroundColor(bool* isInFront, int line, int pixel, int 
         colorIndex = TransformColorIndex(colorIndex, bgp);
     }
 
-    *isInFront = colorIndex != 0;
-    if (tileAttr & ATTR_PRIORITY)
-    {
-        *isInFront = true;
-    }
+    *priority = kLow;
     if (!(lcdc & LCDC_DISPLAY_PRIORITY))
     {
-        *isInFront = false;
+        *priority = kVeryLow;
+    }
+    else if (tileAttr & ATTR_PRIORITY)
+    {
+        *priority = kHigh;
+    }
+    else if (colorIndex != 0)
+    {
+        *priority = kMedium;
     }
 
     if (m_Gb->debug_palette)
@@ -221,7 +223,7 @@ uint16_t Renderer::GetBackgroundColor(bool* isInFront, int line, int pixel, int 
     return 0;
 }
 
-uint16_t Renderer::GetMenuColor(bool* isExist, bool* isInFront, int line, int pixel, int wx, int wy, int lcdc)
+uint16_t Renderer::GetMenuColor(Priority* priority, int line, int pixel, int wx, int wy, int lcdc)
 {
     if (!(lcdc & LCDC_DISPLAY_PRIORITY) && m_Gb->mode == GB_MODE_DMG)
     {
@@ -271,15 +273,18 @@ uint16_t Renderer::GetMenuColor(bool* isExist, bool* isInFront, int line, int pi
         colorIndex = TransformColorIndex(colorIndex, bgp);
     }
 
-    *isExist = true;
-    *isInFront = colorIndex != 0;
-    if (tileAttr & ATTR_PRIORITY)
-    {
-        *isInFront = true;
-    }
+    *priority = kLow;
     if (!(lcdc & LCDC_DISPLAY_PRIORITY))
     {
-        *isInFront = false;
+        *priority = kVeryLow;
+    }
+    else if (tileAttr & ATTR_PRIORITY)
+    {
+        *priority = kHigh;
+    }
+    else if (colorIndex != 0)
+    {
+        *priority = kMedium;
     }
 
     if (m_Gb->debug_palette)
@@ -404,9 +409,12 @@ void Renderer::ScanOAM(int line, int lcdc)
                 color = objPalette[4 * nPalette + colorIndex];
             }
 
-            m_SpriteLine[x].isExist = true;
+            m_SpriteLine[x].priority = kMedium;
+            if (oamCase.attributes & ATTR_PRIORITY)
+            {
+                m_SpriteLine[x].priority = kLow;
+            }
             m_SpriteLine[x].color = color;
-            m_SpriteLine[x].isInFront = !(oamCase.attributes & ATTR_PRIORITY);
         }
     }
 }
