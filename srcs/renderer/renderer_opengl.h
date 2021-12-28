@@ -48,6 +48,7 @@ private:
 
     void ScanOAM(int line, int lcdc);
 
+    uint16_t GetColor(Priority* priority, int offsetX, int offsetY, int lcdc, bool useBgmap2, const uint16_t* debugPalette);
     int GetColorIndex(int tileIndex, int tileAttr, int x, int y);
     int TransformColorIndex(int colorIndex, int paletteOffset);
 

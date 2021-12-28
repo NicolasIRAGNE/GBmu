@@ -151,160 +151,27 @@ void Renderer::DestroyTexture()
 
 uint16_t Renderer::GetBackgroundColor(Priority* priority, int line, int pixel, int scx, int scy, int lcdc)
 {
-    if (!(lcdc & LCDC_DISPLAY_PRIORITY) && m_Gb->mode == GB_MODE_DMG)
-    {
-        return kBasicColorMap[0];
-    }
+    int offsetX = (pixel + scx) % 256;
+    int offsetY = (line + scy) % 256;
 
-    int backgroundX = (pixel + scx) % 256;
-    int backgroundY = (line + scy) % 256;
+    bool useBgmap2 = lcdc & LCDC_TILE_MAP_SELECT;
 
-    int tileX = backgroundX / 8;
-    int tileY = backgroundY / 8;
-
-    int tileOffsetX = backgroundX % 8;
-    int tileOffsetY = backgroundY % 8;
-
-    int offset = BGMAP1_OFFSET;
-    if (lcdc & LCDC_TILE_MAP_SELECT)
-    {
-        offset = BGMAP2_OFFSET;
-    }
-
-    int tileIndex = m_Gb->vram[0][offset + tileY * 32 + tileX];
-    if (!(lcdc & LCDC_TILE_DATA_SELECT) && tileIndex + 0x100 < 256 + 128)
-    {
-        tileIndex += 0x100;
-    }
-
-    int tileAttr = 0;
-    if (m_Gb->mode == GB_MODE_CGB)
-    {
-        tileAttr = m_Gb->vram[1][offset + tileY * 32 + tileX];
-    }
-    int colorIndex = GetColorIndex(tileIndex, tileAttr, tileOffsetX, tileOffsetY);
-    if (m_Gb->mode == GB_MODE_DMG)
-    {
-        int bgp = read_8(m_Gb, BGP_OFFSET);
-        colorIndex = TransformColorIndex(colorIndex, bgp);
-    }
-
-    *priority = kLow;
-    if (!(lcdc & LCDC_DISPLAY_PRIORITY))
-    {
-        *priority = kVeryLow;
-    }
-    else if (tileAttr & ATTR_PRIORITY)
-    {
-        *priority = kHigh;
-    }
-    else if (colorIndex != 0)
-    {
-        *priority = kMedium;
-    }
-
-    if (m_Gb->debug_palette)
-    {
-        return kDebugBackgroundColorMap[colorIndex];
-    }
-    
-    if (m_Gb->mode == GB_MODE_DMG)
-    {
-        return kBasicColorMap[colorIndex];
-    }
-    
-    if (m_Gb->mode == GB_MODE_CGB)
-    {
-        int nPalette = (tileAttr & 0b111);
-        uint16_t* bgPalette = reinterpret_cast<uint16_t*>(m_Gb->cgb_bg_palettes);
-        return bgPalette[4 * nPalette + colorIndex];
-    }
-
-    return 0;
+    return GetColor(priority, offsetX, offsetY, lcdc, useBgmap2, kDebugBackgroundColorMap);
 }
 
 uint16_t Renderer::GetMenuColor(Priority* priority, int line, int pixel, int wx, int wy, int lcdc)
 {
-    if (!(lcdc & LCDC_DISPLAY_PRIORITY) && m_Gb->mode == GB_MODE_DMG)
-    {
-        return kBasicColorMap[0];
-    }
-
-    if (line < wy)
+    if (pixel < wx || line < wy)
     {
         return 0;
     }
 
-    if (pixel < wx)
-    {
-        return 0;
-    }
+    int offsetX = pixel - wx;
+    int offsetY = line - wy;
 
-    int menuX = pixel - wx;
-    int menuY = line - wy;
+    bool useBgmap2 = lcdc & LCDC_WINDOW_SELECT;
 
-    int tileX = menuX / 8;
-    int tileY = menuY / 8;
-
-    int tileOffsetX = menuX % 8;
-    int tileOffsetY = menuY % 8;
-
-    int offset = BGMAP1_OFFSET;
-    if (lcdc & LCDC_WINDOW_SELECT)
-    {
-        offset = BGMAP2_OFFSET;
-    }
-
-    int tileIndex = m_Gb->vram[0][offset + tileY * 32 + tileX];
-    if (!(lcdc & LCDC_TILE_DATA_SELECT) && tileIndex + 0x100 < 256 + 128)
-    {
-        tileIndex += 0x100;
-    }
-
-    int tileAttr = 0;
-    if (m_Gb->mode == GB_MODE_CGB)
-    {
-        tileAttr = m_Gb->vram[1][offset + tileY * 32 + tileX];
-    }
-    int colorIndex = GetColorIndex(tileIndex, tileAttr, tileOffsetX, tileOffsetY);
-    if (m_Gb->mode == GB_MODE_DMG)
-    {
-        int bgp = read_8(m_Gb, BGP_OFFSET);
-        colorIndex = TransformColorIndex(colorIndex, bgp);
-    }
-
-    *priority = kLow;
-    if (!(lcdc & LCDC_DISPLAY_PRIORITY))
-    {
-        *priority = kVeryLow;
-    }
-    else if (tileAttr & ATTR_PRIORITY)
-    {
-        *priority = kHigh;
-    }
-    else if (colorIndex != 0)
-    {
-        *priority = kMedium;
-    }
-
-    if (m_Gb->debug_palette)
-    {
-        return kDebugMenuColorMap[colorIndex];
-    }
-
-    if (m_Gb->mode == GB_MODE_DMG)
-    {
-        return kBasicColorMap[colorIndex];
-    }
-    
-    if (m_Gb->mode == GB_MODE_CGB)
-    {
-        int nPalette = (tileAttr & 0b111);
-        uint16_t* menuPalette = reinterpret_cast<uint16_t*>(m_Gb->cgb_bg_palettes);
-        return menuPalette[4 * nPalette + colorIndex];
-    }
-
-    return 0;
+    return GetColor(priority, offsetX, offsetY, lcdc, useBgmap2, kDebugMenuColorMap);
 }
 
 void Renderer::ScanOAM(int line, int lcdc)
@@ -399,7 +266,7 @@ void Renderer::ScanOAM(int line, int lcdc)
             }
             else if (m_Gb->mode == GB_MODE_CGB)
             {
-                int nPalette = (oamCase.attributes & 0b111);
+                int nPalette = oamCase.attributes & 0b111;
                 uint16_t* objPalette = reinterpret_cast<uint16_t*>(m_Gb->cgb_obj_palettes);
                 color = objPalette[4 * nPalette + colorIndex];
             }
@@ -412,6 +279,77 @@ void Renderer::ScanOAM(int line, int lcdc)
             m_SpriteLine[x].color = color;
         }
     }
+}
+
+uint16_t Renderer::GetColor(Priority* priority, int offsetX, int offsetY, int lcdc, bool useBgmap2, const uint16_t* debugPalette) 
+{
+    if (!(lcdc & LCDC_DISPLAY_PRIORITY) && m_Gb->mode == GB_MODE_DMG)
+    {
+        return kBasicColorMap[0];
+    }
+
+    int tileX = offsetX / 8;
+    int tileY = offsetY / 8;
+
+    int tileOffsetX = offsetX % 8;
+    int tileOffsetY = offsetY % 8;
+
+    int offset = BGMAP1_OFFSET;
+    if (useBgmap2)
+    {
+        offset = BGMAP2_OFFSET;
+    }
+
+    int tileIndex = m_Gb->vram[0][offset + tileY * 32 + tileX];
+    if (!(lcdc & LCDC_TILE_DATA_SELECT) && tileIndex + 0x100 < 256 + 128)
+    {
+        tileIndex += 0x100;
+    }
+
+    int tileAttr = 0;
+    if (m_Gb->mode == GB_MODE_CGB)
+    {
+        tileAttr = m_Gb->vram[1][offset + tileY * 32 + tileX];
+    }
+    int colorIndex = GetColorIndex(tileIndex, tileAttr, tileOffsetX, tileOffsetY);
+    if (m_Gb->mode == GB_MODE_DMG)
+    {
+        int bgp = read_8(m_Gb, BGP_OFFSET);
+        colorIndex = TransformColorIndex(colorIndex, bgp);
+    }
+
+    *priority = kLow;
+    if (!(lcdc & LCDC_DISPLAY_PRIORITY))
+    {
+        *priority = kVeryLow;
+    }
+    else if (tileAttr & ATTR_PRIORITY)
+    {
+        *priority = kHigh;
+    }
+    else if (colorIndex != 0)
+    {
+        *priority = kMedium;
+    }
+
+    if (m_Gb->debug_palette)
+    {
+        return debugPalette[colorIndex];
+    }
+
+    if (m_Gb->mode == GB_MODE_DMG)
+    {
+        return kBasicColorMap[colorIndex];
+    }
+    
+    if (m_Gb->mode == GB_MODE_CGB)
+    {
+        int paletteNumber = tileAttr & 0b111;
+        uint16_t* palettes = reinterpret_cast<uint16_t*>(m_Gb->cgb_bg_palettes);
+        return palettes[4 * paletteNumber + colorIndex];
+    }
+
+    return 0;
 }
 
 int Renderer::GetColorIndex(int tileIndex, int tileAttr, int x, int y)
