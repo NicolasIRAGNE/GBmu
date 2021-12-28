@@ -153,7 +153,7 @@ void Renderer::DestroyTexture()
 
 uint16_t Renderer::GetBackgroundColor(bool* isInFront, int line, int pixel, int scx, int scy, int lcdc)
 {
-    if (!(lcdc & LCDC_DISPLAY_PRIORITY))
+    if (!(lcdc & LCDC_DISPLAY_PRIORITY) && m_Gb->mode == GB_MODE_DMG)
     {
         return kBasicColorMap[0];
     }
@@ -192,6 +192,10 @@ uint16_t Renderer::GetBackgroundColor(bool* isInFront, int line, int pixel, int 
     }
 
     *isInFront = colorIndex != 0;
+    if (!(lcdc & LCDC_DISPLAY_PRIORITY) && m_Gb->mode == GB_MODE_CGB)
+    {
+        *isInFront = false;
+    }
 
     if (m_Gb->debug_palette)
     {
@@ -215,6 +219,11 @@ uint16_t Renderer::GetBackgroundColor(bool* isInFront, int line, int pixel, int 
 
 uint16_t Renderer::GetMenuColor(bool* isMenuExist, bool* isInFront, int line, int pixel, int wx, int wy, int lcdc)
 {
+    if (!(lcdc & LCDC_DISPLAY_PRIORITY) && m_Gb->mode == GB_MODE_DMG)
+    {
+        return kBasicColorMap[0];
+    }
+
     if (line < wy)
     {
         return 0;
@@ -260,6 +269,10 @@ uint16_t Renderer::GetMenuColor(bool* isMenuExist, bool* isInFront, int line, in
 
     *isMenuExist = true;
     *isInFront = colorIndex != 0;
+    if (!(lcdc & LCDC_DISPLAY_PRIORITY) && m_Gb->mode == GB_MODE_CGB)
+    {
+        *isInFront = false;
+    }
 
     if (m_Gb->debug_palette)
     {
