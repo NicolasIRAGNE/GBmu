@@ -62,7 +62,7 @@ GLuint compileProgram(const char* vtxFile, const char* fragFile)
 
     f = std::ifstream(vtxFileAbsolutePath);
     if (!f.is_open()) {
-        printf("Failed to open file %s\n", vtxFileAbsolutePath);
+        std::cout << "Unable to open vertex shader file " << vtxFileAbsolutePath << std::endl;
         return 0;
     }
 
