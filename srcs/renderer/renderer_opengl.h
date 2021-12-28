@@ -34,7 +34,7 @@ private:
     void DestroyTexture();
 
     uint16_t GetBackgroundColor(bool* isInFront, int line, int pixel, int scx, int scy, int lcdc);
-    uint16_t GetMenuColor(bool* isMenuExist, bool* isInFront, int line, int pixel, int wx, int wy, int lcdc);
+    uint16_t GetMenuColor(bool* isExist, bool* isInFront, int line, int pixel, int wx, int wy, int lcdc);
 
     void ScanOAM(int line, int lcdc);
 

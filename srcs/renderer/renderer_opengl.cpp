@@ -192,7 +192,11 @@ uint16_t Renderer::GetBackgroundColor(bool* isInFront, int line, int pixel, int 
     }
 
     *isInFront = colorIndex != 0;
-    if (!(lcdc & LCDC_DISPLAY_PRIORITY) && m_Gb->mode == GB_MODE_CGB)
+    if (tileAttr & ATTR_PRIORITY)
+    {
+        *isInFront = true;
+    }
+    if (!(lcdc & LCDC_DISPLAY_PRIORITY))
     {
         *isInFront = false;
     }
@@ -217,7 +221,7 @@ uint16_t Renderer::GetBackgroundColor(bool* isInFront, int line, int pixel, int 
     return 0;
 }
 
-uint16_t Renderer::GetMenuColor(bool* isMenuExist, bool* isInFront, int line, int pixel, int wx, int wy, int lcdc)
+uint16_t Renderer::GetMenuColor(bool* isExist, bool* isInFront, int line, int pixel, int wx, int wy, int lcdc)
 {
     if (!(lcdc & LCDC_DISPLAY_PRIORITY) && m_Gb->mode == GB_MODE_DMG)
     {
@@ -267,9 +271,13 @@ uint16_t Renderer::GetMenuColor(bool* isMenuExist, bool* isInFront, int line, in
         colorIndex = TransformColorIndex(colorIndex, bgp);
     }
 
-    *isMenuExist = true;
+    *isExist = true;
     *isInFront = colorIndex != 0;
-    if (!(lcdc & LCDC_DISPLAY_PRIORITY) && m_Gb->mode == GB_MODE_CGB)
+    if (tileAttr & ATTR_PRIORITY)
+    {
+        *isInFront = true;
+    }
+    if (!(lcdc & LCDC_DISPLAY_PRIORITY))
     {
         *isInFront = false;
     }
