@@ -227,13 +227,14 @@ int Renderer::GetMenuIndex(int line, int pixel, int wx, int wy, int lcdc)
     }
 
     int tileIndex = m_Gb->vram[0][offset + tileY * 32 + tileX];
+    int tileAttr = m_Gb->vram[1][offset + tileY * 32 + tileX];
     if (!(lcdc & LCDC_TILE_DATA_SELECT) && tileIndex + 0x100 < 256 + 128)
     {
         tileIndex += 0x100;
     }
-
-    int msb = m_Gb->vram[0][tileIndex * 16 + tileOffsetY * 2];
-    int lsb = m_Gb->vram[0][tileIndex * 16 + tileOffsetY * 2 + 1];
+    int tileBank = (tileAttr & ATTR_BANK) >> 3;
+    int msb = m_Gb->vram[tileBank][tileIndex * 16 + tileOffsetY * 2];
+    int lsb = m_Gb->vram[tileBank][tileIndex * 16 + tileOffsetY * 2 + 1];
 
     int posInByte = 7 - tileOffsetX;
     int bit = 1 << posInByte;
@@ -312,8 +313,8 @@ void Renderer::ScanOAM(int line, int lcdc)
                 posInTileX = 7 - posInTileX;
             }
 
-            int msb = m_Gb->vram[0][oamCase.tileIndex * 16 + posInTileY * 2];
-            int lsb = m_Gb->vram[0][oamCase.tileIndex * 16 + posInTileY * 2 + 1];
+            int msb = m_Gb->vram[m_Gb->vram_bank][oamCase.tileIndex * 16 + posInTileY * 2];
+            int lsb = m_Gb->vram[m_Gb->vram_bank][oamCase.tileIndex * 16 + posInTileY * 2 + 1];
 
             int posInByte = 7 - posInTileX;
             int bit = 1 << posInByte;

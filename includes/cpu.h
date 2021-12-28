@@ -23,6 +23,7 @@
 # define IO_PORTS_SIZE 0x100		// 256B
 # define OAM_SIZE 0xa0				// 160B
 # define DMG_BOOT_ROM_SIZE 0x100	// 256B
+# define CRAM_SIZE	0x40			// 64B
 
 # define VRAM_TILE_BANK_SIZE 0x1800
 
@@ -51,6 +52,11 @@
 # define WY_OFFSET				(IO_OFFSET | 0x4A)
 # define WX_OFFSET				(IO_OFFSET | 0x4B)
 # define KEY1_OFFSET			(IO_OFFSET | 0x4D)
+
+# define BCPS_OFFSET			(IO_OFFSET | 0x68)
+# define BCPD_OFFSET			(IO_OFFSET | 0x69)
+# define OCPS_OFFSET			(IO_OFFSET | 0x6A)
+# define OCPD_OFFSET			(IO_OFFSET | 0x6B)
 
 # define VBK_OFFSET				(IO_OFFSET | 0x4F)
 # define SVBK_OFFSET			(IO_OFFSET | 0x70)
@@ -286,6 +292,12 @@ struct	gb_cpu_s
 	uint8_t				hram[HRAM_SIZE];
 	uint8_t				io_ports[IO_PORTS_SIZE];
 	uint8_t				oam[OAM_SIZE];
+	uint8_t				cgb_bg_palettes[CRAM_SIZE];
+	uint8_t				cgb_obj_palettes[CRAM_SIZE];
+	uint8_t				bg_palette_index;
+	uint8_t				obj_palette_index;
+	uint8_t				bcpd_auto_increment : 1;
+	uint8_t				ocpd_auto_increment : 1;
 	uint8_t				interrupt_enable_register;
 	enum joypad_mode_e	joypad_mode;
 	uint32_t			bg_palettes[8][4];

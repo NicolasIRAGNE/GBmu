@@ -43,6 +43,7 @@ struct	mbc_s
 	uint8_t			rtc;
 	uint32_t		rom_size;
 	uint32_t		ram_size;
+	uint32_t		max_rom_banks;
 };
 
 struct mbc_s get_mbc(int index);

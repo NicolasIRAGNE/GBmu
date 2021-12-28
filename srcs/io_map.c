@@ -54,6 +54,14 @@ uint8_t		read_io(struct gb_cpu_s* gb, uint16_t addr)
 	{
 		return (gb->vram_bank & 0xfe);
 	}
+	if (addr == BCPD_OFFSET && gb->mode == GB_MODE_CGB)
+	{
+		return (gb->cgb_bg_palettes[gb->bg_palette_index]);
+	}
+	if (addr == OCPD_OFFSET && gb->mode == GB_MODE_CGB)
+	{
+		return (gb->cgb_obj_palettes[gb->obj_palette_index]);
+	}
 	return (((uint8_t*)(gb->io_ports))[addr - 0xFF00]);	
 }
 
@@ -130,6 +138,28 @@ void	write_io(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, uint8_t lcdc, enum 
 		// printf(" (changed:"); 
 		// print_binary(x ^ ((uint8_t*)(gb->io_ports))[addr - 0xFF00]);
 		// printf(")\n");
+	}
+	if (addr == BCPS_OFFSET && gb->mode == GB_MODE_CGB)
+	{
+		gb->bcpd_auto_increment = (x & 0x80) != 0;
+		gb->bg_palette_index = x & 0b111;
+	}
+	if (addr == BCPD_OFFSET && gb->mode == GB_MODE_CGB)
+	{
+		gb->cgb_bg_palettes[gb->bg_palette_index] = x;
+		if (gb->bcpd_auto_increment)
+			gb->bg_palette_index = (gb->bg_palette_index + 1) & 0b111;
+	}
+	if (addr == OCPS_OFFSET && gb->mode == GB_MODE_CGB)
+	{
+		gb->ocpd_auto_increment = (x & 0x80) != 0;
+		gb->obj_palette_index = x & 0b111;
+	}
+	if (addr == OCPD_OFFSET && gb->mode == GB_MODE_CGB)
+	{
+		gb->cgb_obj_palettes[gb->obj_palette_index] = x;
+		if (gb->ocpd_auto_increment)
+			gb->obj_palette_index = (gb->obj_palette_index + 1) & 0b111;
 	}
 	((uint8_t*)(gb->io_ports))[addr - 0xFF00] = x;
 }

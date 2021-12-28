@@ -244,7 +244,52 @@ int		init_mbc(struct gb_cpu_s* gb)
 
 	if (gb->rom_ptr->header->rom_size <= 0x8)
 	{
-		gb->mbc.rom_size = 0x8000 << gb->rom_ptr->header->rom_size;
+		switch (gb->rom_ptr->header->rom_size)
+		{
+		case 0:
+			gb->mbc.max_rom_banks = 0;
+			gb->mbc.rom_size = 0x8000;
+			break;
+		case 1:
+			gb->mbc.max_rom_banks = 4;
+			gb->mbc.rom_size = 0x10000;
+			break;
+		case 2:
+			gb->mbc.max_rom_banks = 8;
+			gb->mbc.rom_size = 0x20000;
+			break;
+		case 3:
+			gb->mbc.max_rom_banks = 16;
+			gb->mbc.rom_size = 0x40000;
+			break;
+		case 4:
+			gb->mbc.max_rom_banks = 32;
+			gb->mbc.rom_size = 0x80000;
+			break;
+		case 5:
+			gb->mbc.max_rom_banks = 64;
+			gb->mbc.rom_size = 0x100000;
+			break;
+		case 6:
+			gb->mbc.max_rom_banks = 128;
+			gb->mbc.rom_size = 0x200000;
+			break;
+		case 7:
+			gb->mbc.max_rom_banks = 256;
+			gb->mbc.rom_size = 0x400000;
+			break;
+		case 8:
+			gb->mbc.max_rom_banks = 512;
+			gb->mbc.rom_size = 0x800000;
+			break;
+		case 52:
+			gb->mbc.max_rom_banks = 72;
+			gb->mbc.rom_size = 0x280000;
+			break;
+
+		}
+		
+		
 	}
 
 	if (gb->mbc.ram_size != 0)

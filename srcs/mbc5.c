@@ -33,14 +33,16 @@ uint8_t	read_mbc5(struct gb_cpu_s* gb, uint16_t addr, enum memory_mode_e mode)
 	}
 	else if (addr < 0x8000)
 	{
-		// printf("Reading at 0x%04x in bank %x\n", addr, gb->mbc.bank);
 		uint8_t tmp;
-		tmp = gb->mbc.bank;
-		if (tmp != 0)
+		tmp = gb->mbc.bank % gb->mbc.max_rom_banks;
+		if (tmp)
 		{
 			if (tmp * 0x4000 + addr - 0x4000 >= gb->rom_ptr->st.st_size)
 			{
 				printf("fatal: attempting to read outside the cartridge at %x in bank %x. aborting...\n", tmp * 0x4000 + addr - 0x4000, tmp);
+				printf("fatal: cartridge size is %x\n", gb->rom_ptr->st.st_size);
+				printf("banks: %x\n", gb->mbc.max_rom_banks);
+
 				// fatal(gb);
 				return (0);
 			}
@@ -57,7 +59,7 @@ uint8_t	read_mbc5(struct gb_cpu_s* gb, uint16_t addr, enum memory_mode_e mode)
 			return (0xff);
 		}
 		uint32_t index;
-		index = addr - 0xa000 + gb->mbc.ram_bank * EXTRA_RAM_SIZE;
+		index = addr - 0xa000 + (gb->mbc.ram_bank * EXTRA_RAM_SIZE);
 		if (index >= gb->mbc.ram_size)
 		{
 			printf("warning: attempting to read %x at invalid ram bank %x\n", addr, gb->mbc.ram_bank);				
@@ -109,7 +111,7 @@ void	write_mbc5(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, enum memory_mode_
 	}
 	else if (addr < 0x6000)
 	{
-		gb->mbc.ram_bank = x & 0xf;
+		gb->mbc.ram_bank = gb->mbc.ram_bank & 0xf0 | (x & 0xf);
 		// gb->mbc.ram_bank &= (gb->mbc.ram_size / 0x2000) - 1;
 		printf("switching ram bank to %x\n", gb->mbc.ram_bank);
 		return ;
