@@ -374,9 +374,9 @@ void Renderer::ScanOAM(int line, int lcdc)
                 continue;
             }
 
-            int obp = 0;
             if (m_Gb->mode == GB_MODE_DMG)
             {
+                int obp = 0;
                 if (oamCase.attributes & ATTR_PALETTE)
                 {
                     obp = read_8(m_Gb, OBP1_OFFSET);
@@ -385,13 +385,8 @@ void Renderer::ScanOAM(int line, int lcdc)
                 {
                     obp = read_8(m_Gb, OBP0_OFFSET);
                 }
+                colorIndex = TransformColorIndex(colorIndex, obp);
             }
-            else if (m_Gb->mode == GB_MODE_CGB)
-            {
-                obp = read_8(m_Gb, oamCase.attributes & 0b111);
-            }
-
-            colorIndex = TransformColorIndex(colorIndex, obp);
 
             uint16_t color = 0;
             if (m_Gb->debug_palette)
