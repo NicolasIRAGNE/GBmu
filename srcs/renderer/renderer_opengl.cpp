@@ -14,7 +14,7 @@ constexpr uint16_t kBasicColorMap[4] = {
     7 | (2 << 5) | (2 << 10),
 };
 
-constexpr uint16_t kDebugWindowColorMap[4] = {
+constexpr uint16_t kDebugMenuColorMap[4] = {
     31 | (0 << 5) | (0 << 10),
     25 | (0 << 5) | (0 << 10),
     19 | (0 << 5) | (0 << 10),
@@ -68,45 +68,37 @@ void Renderer::DrawPixel(int line, int pixel)
 
     scx = (scx & ~0b111) | m_Low3bitsOfSCX;
 
-    int backgroundIndex = -1;
-    int menuIndex = -1;
-
-    if (m_Gb->draw_background)
-    {
-        backgroundIndex = GetBackgroundIndex(line, pixel, scx, scy, lcdc);
-    }
-    if (m_Gb->draw_window && (lcdc & LCDC_WINDOW_ON))
-    {
-        menuIndex = GetMenuIndex(line, pixel, m_MenuXOffset, m_MenuYOffset, lcdc);
-    }
-
-    int bgp = read_8(m_Gb, BGP_OFFSET);
     m_TextureData[line][pixel] = 0;
-    if (backgroundIndex != -1)
+
+    auto& sprite = m_SpriteLine[pixel];
+    if (!(lcdc & LCDC_SPRITE_ON))
     {
-        int8_t index = TransformColorIndex(backgroundIndex, bgp);
-        m_TextureData[line][pixel] = kBasicColorMap[index];
-        if (m_Gb->debug_palette)
-        {
-            m_TextureData[line][pixel] = kDebugBackgroundColorMap[index];
-        }
+        sprite.isExist = false;
+        sprite.isInFront = false;
     }
-    if (menuIndex != -1)
+    if (m_Gb->draw_sprites && sprite.isExist)
     {
-        int8_t index = TransformColorIndex(menuIndex, bgp);
-        m_TextureData[line][pixel] = kBasicColorMap[index];
-        if (m_Gb->debug_palette)
+        m_TextureData[line][pixel] = sprite.color;
+    }
+
+    bool menuIsExist = false;
+    if (m_Gb->draw_window && (lcdc & LCDC_WINDOW_ON) && !sprite.isInFront)
+    {
+        bool menuIsFront = false;
+        uint16_t color = GetMenuColor(&menuIsExist, &menuIsFront, line, pixel, m_MenuXOffset, m_MenuYOffset, lcdc);
+        if (menuIsExist && (menuIsFront || !sprite.isExist))
         {
-            m_TextureData[line][pixel] = kDebugWindowColorMap[index];
+            m_TextureData[line][pixel] = color;
         }
     }
 
-    if (m_Gb->draw_sprites && (lcdc & LCDC_SPRITE_ON))
+    if (m_Gb->draw_background && !menuIsExist && !sprite.isInFront)
     {
-        const auto& sprite = m_SpriteLine[pixel];
-        if (sprite.isExist && (sprite.isInFront || (backgroundIndex <= 0 && menuIndex <= 0)))
+        bool backgroundInFront = false;
+        uint16_t color = GetBackgroundColor(&backgroundInFront, line, pixel, scx, scy, lcdc);
+        if (backgroundInFront || !sprite.isExist)
         {
-            m_TextureData[line][pixel] = sprite.color;
+            m_TextureData[line][pixel] = color;
         }
     }
 }
@@ -159,11 +151,11 @@ void Renderer::DestroyTexture()
     GLERR;
 }
 
-int Renderer::GetBackgroundIndex(int line, int pixel, int scx, int scy, int lcdc)
+uint16_t Renderer::GetBackgroundColor(bool* isInFront, int line, int pixel, int scx, int scy, int lcdc)
 {
     if (!(lcdc & LCDC_DISPLAY_PRIORITY))
     {
-        return 0;
+        return kBasicColorMap[0];
     }
 
     int backgroundX = (pixel + scx) % 256;
@@ -193,20 +185,32 @@ int Renderer::GetBackgroundIndex(int line, int pixel, int scx, int scy, int lcdc
         tileAttr = m_Gb->vram[1][offset + tileY * 32 + tileX];
     }
     int colorIndex = GetColorIndex(tileIndex, tileAttr, tileOffsetX, tileOffsetY);
+    if (m_Gb->mode == GB_MODE_DMG)
+    {
+        int bgp = read_8(m_Gb, BGP_OFFSET);
+        colorIndex = TransformColorIndex(colorIndex, bgp);
+    }
 
-    return colorIndex;
+    *isInFront = colorIndex != 0;
+
+    if (m_Gb->debug_palette)
+    {
+        return kDebugBackgroundColorMap[colorIndex];
+    }
+    
+    return kBasicColorMap[colorIndex];
 }
 
-int Renderer::GetMenuIndex(int line, int pixel, int wx, int wy, int lcdc)
+uint16_t Renderer::GetMenuColor(bool* isMenuExist, bool* isInFront, int line, int pixel, int wx, int wy, int lcdc)
 {
     if (line < wy)
     {
-        return -1;
+        return 0;
     }
 
     if (pixel < wx)
     {
-        return -1;
+        return 0;
     }
 
     int menuX = pixel - wx;
@@ -236,8 +240,21 @@ int Renderer::GetMenuIndex(int line, int pixel, int wx, int wy, int lcdc)
         tileAttr = m_Gb->vram[1][offset + tileY * 32 + tileX];
     }
     int colorIndex = GetColorIndex(tileIndex, tileAttr, tileOffsetX, tileOffsetY);
+    if (m_Gb->mode == GB_MODE_DMG)
+    {
+        int bgp = read_8(m_Gb, BGP_OFFSET);
+        colorIndex = TransformColorIndex(colorIndex, bgp);
+    }
 
-    return colorIndex;
+    *isMenuExist = true;
+    *isInFront = colorIndex != 0;
+
+    if (m_Gb->debug_palette)
+    {
+        return kDebugMenuColorMap[colorIndex];
+    }
+
+    return kBasicColorMap[colorIndex];
 }
 
 void Renderer::ScanOAM(int line, int lcdc)
@@ -308,15 +325,22 @@ void Renderer::ScanOAM(int line, int lcdc)
             }
 
             int obp = 0;
-            if (oamCase.attributes & ATTR_PALETTE)
+            if (m_Gb->mode == GB_MODE_DMG)
             {
-                obp = read_8(m_Gb, OBP1_OFFSET);
+                if (oamCase.attributes & ATTR_PALETTE)
+                {
+                    obp = read_8(m_Gb, OBP1_OFFSET);
+                }
+                else
+                {
+                    obp = read_8(m_Gb, OBP0_OFFSET);
+                }
             }
-            else
+            else if (m_Gb->mode == GB_MODE_CGB)
             {
-                obp = read_8(m_Gb, OBP0_OFFSET);
+                obp = read_8(m_Gb, oamCase.attributes & 0b111);
             }
-            
+
             colorIndex = TransformColorIndex(colorIndex, obp);
 
             uint16_t color = kBasicColorMap[colorIndex];
@@ -357,7 +381,7 @@ int Renderer::GetColorIndex(int tileIndex, int tileAttr, int x, int y)
     return colorIndex;
 }
 
-int Renderer::TransformColorIndex(int colorIndex, int paletteOffset) 
+int Renderer::TransformColorIndex(int colorIndex, int paletteOffset)
 {
     constexpr int kObpOffsets[4] = { 0, 4, 2, 6 };
     colorIndex = (paletteOffset >> kObpOffsets[colorIndex]) & 0b11;
