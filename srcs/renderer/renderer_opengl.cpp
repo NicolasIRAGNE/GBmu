@@ -42,10 +42,12 @@ Renderer::Renderer(gb_cpu_s* gb)
     : m_Gb(gb)
 {
     InitTexture();
+    InitPbo();
 }
 
 Renderer::~Renderer()
 {
+    DestroyPbo();
     DestroyTexture();
 }
 
@@ -103,10 +105,24 @@ void Renderer::DrawPixel(int line, int pixel)
 
 void Renderer::Render()
 {
-    // Copy the texture data to the texture
+    glBindBuffer(GL_PIXEL_UNPACK_BUFFER, m_Pbo);
+    void* mappedBuffer = glMapBuffer(GL_PIXEL_UNPACK_BUFFER, GL_WRITE_ONLY);
+    std::memcpy(mappedBuffer, m_TextureData, sizeof(m_TextureData));
+    glUnmapBuffer(GL_PIXEL_UNPACK_BUFFER);
+
     glBindTexture(GL_TEXTURE_2D, m_Texture);
-    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, MAIN_SURFACE_WIDTH, MAIN_SURFACE_HEIGHT, GL_RGBA, GL_UNSIGNED_SHORT_1_5_5_5_REV, m_TextureData);
+    glTexImage2D(
+        GL_TEXTURE_2D,
+        0,
+        GL_RGBA,
+        MAIN_SURFACE_WIDTH,
+        MAIN_SURFACE_HEIGHT,
+        0,
+        GL_RGBA,
+        GL_UNSIGNED_SHORT_1_5_5_5_REV,
+        0);
     glBindTexture(GL_TEXTURE_2D, 0);
+    glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
 
     m_Rescale.Draw(m_Texture);
 }
@@ -142,6 +158,21 @@ void Renderer::InitTexture()
 void Renderer::DestroyTexture()
 {
     glDeleteTextures(1, &m_Texture);
+}
+
+void Renderer::InitPbo()
+{
+    int pboSize = MAIN_SURFACE_WIDTH * MAIN_SURFACE_HEIGHT * sizeof(uint16_t);
+
+    glGenBuffers(1, &m_Pbo);
+    glBindBuffer(GL_PIXEL_UNPACK_BUFFER, m_Pbo);
+    glBufferData(GL_PIXEL_UNPACK_BUFFER, pboSize, NULL, GL_STREAM_DRAW);
+    glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
+}
+
+void Renderer::DestroyPbo()
+{
+    glDeleteBuffers(1, &m_Pbo);
 }
 
 uint16_t Renderer::GetBackgroundColor(Priority* priority, int line, int pixel, int scx, int scy, int lcdc)
@@ -276,7 +307,7 @@ void Renderer::ScanOAM(int line, int lcdc)
     }
 }
 
-uint16_t Renderer::GetColor(Priority* priority, int offsetX, int offsetY, int lcdc, bool useBgmap2, const uint16_t* debugPalette) 
+uint16_t Renderer::GetColor(Priority* priority, int offsetX, int offsetY, int lcdc, bool useBgmap2, const uint16_t* debugPalette)
 {
     if (!(lcdc & LCDC_DISPLAY_PRIORITY) && m_Gb->mode == GB_MODE_DMG)
     {
@@ -336,7 +367,7 @@ uint16_t Renderer::GetColor(Priority* priority, int offsetX, int offsetY, int lc
     {
         return kBasicColorMap[colorIndex];
     }
-    
+
     if (m_Gb->mode == GB_MODE_CGB)
     {
         int paletteNumber = tileAttr & 0b111;

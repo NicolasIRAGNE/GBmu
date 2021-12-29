@@ -43,6 +43,9 @@ private:
     void InitTexture();
     void DestroyTexture();
 
+    void InitPbo();
+    void DestroyPbo();
+
     uint16_t GetBackgroundColor(Priority* priority, int line, int pixel, int scx, int scy, int lcdc);
     uint16_t GetMenuColor(Priority* priority, int line, int pixel, int wx, int wy, int lcdc);
 
@@ -72,6 +75,7 @@ private:
 
     uint16_t m_TextureData[MAIN_SURFACE_HEIGHT][MAIN_SURFACE_WIDTH] {};
     GLuint m_Texture { 0 };
+    GLuint m_Pbo { 0 };
     Pixel m_SpriteLine[MAIN_SURFACE_WIDTH] {};
     int m_MenuXOffset { 0 };
     int m_MenuYOffset { 0 };
