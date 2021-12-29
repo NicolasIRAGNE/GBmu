@@ -338,11 +338,6 @@ uint16_t Renderer::GetColor(Priority* priority, int offsetX, int offsetY, int lc
         tileAttr = m_Gb->vram[1][offset + tileY * 32 + tileX];
     }
     int colorIndex = GetColorIndex(tileIndex, tileAttr, tileOffsetX, tileOffsetY);
-    if (m_Gb->mode == GB_MODE_DMG)
-    {
-        int bgp = read_8(m_Gb, BGP_OFFSET);
-        colorIndex = TransformColorIndex(colorIndex, bgp);
-    }
 
     *priority = kLow;
     if (!(lcdc & LCDC_DISPLAY_PRIORITY))
@@ -356,6 +351,12 @@ uint16_t Renderer::GetColor(Priority* priority, int offsetX, int offsetY, int lc
     else if (colorIndex != 0)
     {
         *priority = kMedium;
+    }
+
+    if (m_Gb->mode == GB_MODE_DMG)
+    {
+        int bgp = read_8(m_Gb, BGP_OFFSET);
+        colorIndex = TransformColorIndex(colorIndex, bgp);
     }
 
     if (m_Gb->debug_palette)
