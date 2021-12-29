@@ -114,21 +114,17 @@ void Renderer::Render()
 void Renderer::Clear()
 {
     glClear(GL_COLOR_BUFFER_BIT);
-    GLERR;
 }
 
 void Renderer::SetWindowSize(int width, int height)
 {
     glViewport(0, 0, width, height);
-    GLERR;
 }
 
 void Renderer::InitTexture()
 {
     glGenTextures(1, &m_Texture);
-    GLERR;
     glBindTexture(GL_TEXTURE_2D, m_Texture);
-    GLERR;
     glTexImage2D(
         GL_TEXTURE_2D,
         0,
@@ -146,7 +142,6 @@ void Renderer::InitTexture()
 void Renderer::DestroyTexture()
 {
     glDeleteTextures(1, &m_Texture);
-    GLERR;
 }
 
 uint16_t Renderer::GetBackgroundColor(Priority* priority, int line, int pixel, int scx, int scy, int lcdc)
