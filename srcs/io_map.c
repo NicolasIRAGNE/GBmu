@@ -108,6 +108,7 @@ void	write_io(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, uint8_t lcdc, enum 
 	if (addr == DIV_OFFSET)
 	{
 		x = 0;
+		write_8_force(gb, TIMA_OFFSET, 0);
 	}
 	if (addr == IF_OFFSET && mode != MEM_SYSTEM)
 	{

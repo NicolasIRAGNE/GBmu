@@ -38,10 +38,10 @@ void	update_timer_register(struct gb_cpu_s* gb)
 	gb->tima.freq = freqs[tac & TAC_FREQ];
 	uint16_t tima = read_8(gb, TIMA_OFFSET);
 
-	while (gb->tima.clocks >= gb->tima.freq)
+	while (gb->tima.clocks >= gb->tima.freq / 4)
 	{
 		tima = read_8(gb, TIMA_OFFSET);
-		gb->tima.clocks -= gb->tima.freq;
+		gb->tima.clocks = 0;
 		if (tima >= 0xff)
 		{
 			tima = read_8(gb, TMA_OFFSET);

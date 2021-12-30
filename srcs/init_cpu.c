@@ -204,7 +204,7 @@ int		init_cpu(struct gb_cpu_s* gb, struct rom_s* rom, enum gb_mode_e mode)
 			mode = GB_MODE_DMG;
 	}
 	gb->mode = mode;
-	gb->booted = 0;
+	gb->booted = 1;
 	init_registers(&gb->reg, gb->booted, gb->mode);
 	if (gb->mode == GB_MODE_DMG)
 	{
