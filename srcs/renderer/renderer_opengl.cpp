@@ -73,11 +73,11 @@ void Renderer::DrawPixel(int line, int pixel)
     m_TextureData[line][pixel] = 0;
 
     auto& sprite = m_SpriteLine[pixel];
-    if (!(lcdc & LCDC_SPRITE_ON))
+    if (!m_Gb->draw_sprites || !(lcdc & LCDC_SPRITE_ON))
     {
         sprite.priority = Priority::kNull;
     }
-    if (m_Gb->draw_sprites && sprite.priority != Priority::kNull)
+    if (sprite.priority != Priority::kNull)
     {
         m_TextureData[line][pixel] = sprite.color;
     }
