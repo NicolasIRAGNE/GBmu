@@ -18,7 +18,7 @@
 uint64_t	freqs[] =
 {
 	TIMER_FREQ_0,
-	TIMER_FREQ_1,
+	TIMER_FREQ_0,
 	TIMER_FREQ_2,
 	TIMER_FREQ_3,
 };

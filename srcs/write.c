@@ -109,6 +109,29 @@ void	process_dma_transfer(struct gb_cpu_s* gb, uint8_t a8)
 	}
 }
 
+void process_hdma_transfer(struct gb_cpu_s* gb, uint8_t a8)
+{
+    uint16_t src;
+    src = read_8_force(gb, HDMA1_OFFSET) << 8;
+    src |= read_8_force(gb, HDMA2_OFFSET);
+    src &= 0xFFF0;
+    uint16_t dst;
+    dst = read_8_force(gb, HDMA3_OFFSET) << 8;
+    dst |= read_8_force(gb, HDMA4_OFFSET);
+    dst &= 0x1FF0;
+    dst += 0x8000;
+
+	uint8_t len = (a8 + 1) * 16;
+	uint8_t i = 0;
+	while (i < len)
+	{
+		uint8_t x = read_8_force(gb, src | i);
+		write_8_force(gb, dst + i, x);
+		i++;
+	}
+	write_8_force(gb, HDMA5_OFFSET, 0xff);
+}
+
 void	write_8(struct gb_cpu_s* gb, uint16_t a16, uint8_t x)
 {
 	write_8_internal(gb, a16, x, MEM_SYSTEM);

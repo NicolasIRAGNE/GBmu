@@ -27,6 +27,8 @@
 
 # define VRAM_TILE_BANK_SIZE 0x1800
 
+# define OAM_OFFSET 0xFE00
+
 # define IO_OFFSET			0xFF00
 # define JOYP_OFFSET			(IO_OFFSET | 0x00)
 # define SERIAL_DATA_OFFSET		(IO_OFFSET | 0x01)
@@ -52,6 +54,11 @@
 # define WY_OFFSET				(IO_OFFSET | 0x4A)
 # define WX_OFFSET				(IO_OFFSET | 0x4B)
 # define KEY1_OFFSET			(IO_OFFSET | 0x4D)
+# define HDMA1_OFFSET			(IO_OFFSET | 0x51)
+# define HDMA2_OFFSET			(IO_OFFSET | 0x52)
+# define HDMA3_OFFSET			(IO_OFFSET | 0x53)
+# define HDMA4_OFFSET			(IO_OFFSET | 0x54)
+# define HDMA5_OFFSET			(IO_OFFSET | 0x55)
 
 # define BCPS_OFFSET			(IO_OFFSET | 0x68)
 # define BCPD_OFFSET			(IO_OFFSET | 0x69)
@@ -267,6 +274,7 @@ struct	gb_cpu_s
 	uint64_t			cycle;
 	uint64_t			last_sleep;
 	uint64_t			last_dma;
+	uint64_t			last_hdma;
 	struct gbmu_debugger_s*	debugger;
 	enum gb_mode_e		mode;
 

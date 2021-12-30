@@ -74,6 +74,8 @@ void print_binary(unsigned char c)
 
 void	write_io(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, uint8_t lcdc, enum memory_mode_e mode)
 {
+	if (mode == MEM_FORCE)
+			goto _end;
 	if (addr == JOYP_OFFSET)
 	{
 		if (x == SELECT_BUTTON_KEYS)
@@ -91,6 +93,17 @@ void	write_io(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, uint8_t lcdc, enum 
 			process_dma_transfer(gb, x);
 		}
 		return ;
+	}
+	if (addr == HDMA5_OFFSET)
+	{
+		if (gb->mode != GB_MODE_CGB)
+			return;
+		if (gb->cycle - gb->last_hdma > 0) //FIXME: this should be *something else* than 0
+		{
+			gb->last_hdma = gb->cycle;
+			process_hdma_transfer(gb, x);
+		}
+		return;
 	}
 	if (addr == DIV_OFFSET)
 	{
@@ -144,24 +157,25 @@ void	write_io(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, uint8_t lcdc, enum 
 	if (addr == BCPS_OFFSET && gb->mode == GB_MODE_CGB)
 	{
 		gb->bcpd_auto_increment = (x & 0x80) != 0;
-		gb->bg_palette_index = x & 0b111;
+		gb->bg_palette_index = x & 0b111111;
 	}
 	if (addr == BCPD_OFFSET && gb->mode == GB_MODE_CGB)
 	{
 		gb->cgb_bg_palettes[gb->bg_palette_index] = x;
 		if (gb->bcpd_auto_increment)
-			gb->bg_palette_index = (gb->bg_palette_index + 1) & 0b111;
+			gb->bg_palette_index = (gb->bg_palette_index + 1) & 0b111111;
 	}
 	if (addr == OCPS_OFFSET && gb->mode == GB_MODE_CGB)
 	{
 		gb->ocpd_auto_increment = (x & 0x80) != 0;
-		gb->obj_palette_index = x & 0b111;
+		gb->obj_palette_index = x & 0b111111;
 	}
 	if (addr == OCPD_OFFSET && gb->mode == GB_MODE_CGB)
 	{
 		gb->cgb_obj_palettes[gb->obj_palette_index] = x;
 		if (gb->ocpd_auto_increment)
-			gb->obj_palette_index = (gb->obj_palette_index + 1) & 0b111;
+			gb->obj_palette_index = (gb->obj_palette_index + 1) & 0b111111;
 	}
+_end:
 	((uint8_t*)(gb->io_ports))[addr - 0xFF00] = x;
 }

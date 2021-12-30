@@ -294,6 +294,10 @@ void Renderer::ScanOAM(int line, int lcdc)
             {
                 int nPalette = oamCase.attributes & 0b111;
                 uint16_t* objPalette = reinterpret_cast<uint16_t*>(m_Gb->cgb_obj_palettes);
+                if (colorIndex == 1)
+                 colorIndex = 2;
+                else if (colorIndex == 2)
+                 colorIndex = 1;
                 color = objPalette[4 * nPalette + colorIndex];
             }
 
@@ -373,6 +377,10 @@ uint16_t Renderer::GetColor(Priority* priority, int offsetX, int offsetY, int lc
     {
         int paletteNumber = tileAttr & 0b111;
         uint16_t* palettes = reinterpret_cast<uint16_t*>(m_Gb->cgb_bg_palettes);
+                        if (colorIndex == 1)
+                 colorIndex = 2;
+                else if (colorIndex == 2)
+                 colorIndex = 1;
         return palettes[4 * paletteNumber + colorIndex];
     }
 
