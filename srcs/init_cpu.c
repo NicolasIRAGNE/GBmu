@@ -19,7 +19,7 @@
 #include "gb.h"
 #include "cpu.h"
 #include "mbc.h"
-
+#include "dmg_boot_rom.h"
 
 int		open_rom(char* name, struct rom_s* rom)
 {
@@ -62,6 +62,7 @@ int		open_rom(char* name, struct rom_s* rom)
 
 int		init_boot_rom(struct gb_cpu_s* gb)
 {
+#ifdef DMG_BOOT_ROM
     FILE* f = fopen(DMG_BOOT_ROM, "rb");
 
 	if (f == NULL)
@@ -87,6 +88,10 @@ int		init_boot_rom(struct gb_cpu_s* gb)
 		fprintf(stderr, "WARNING : read %zu bytes from boot rom (expected %d). boot behavior is unexpected.\n", rd, DMG_BOOT_ROM_SIZE);
 	fclose(f);
 	return (0);
+#else
+	gb->boot_rom = DMG_ROM;
+	return (0);
+#endif
 }
 
 void init_registers(struct registers_s* reg, int booted, enum gb_mode_e mode)
@@ -199,7 +204,7 @@ int		init_cpu(struct gb_cpu_s* gb, struct rom_s* rom, enum gb_mode_e mode)
 			mode = GB_MODE_DMG;
 	}
 	gb->mode = mode;
-	gb->booted = 1;
+	gb->booted = 0;
 	init_registers(&gb->reg, gb->booted, gb->mode);
 	if (gb->mode == GB_MODE_DMG)
 	{

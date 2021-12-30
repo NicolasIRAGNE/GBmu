@@ -147,7 +147,8 @@ set(HEADERS
 	includes/op.h
 	includes/registers.h
 	includes/renderer.h
-	includes/input_functions.c
+	includes/input_functions.h
+	includes/dmg_boot_rom.h
 	)
 
 if (WIN32)

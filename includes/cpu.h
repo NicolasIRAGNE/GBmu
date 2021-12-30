@@ -22,7 +22,6 @@
 # define EXTRA_RAM_SIZE 0x2000		// 8kiB
 # define IO_PORTS_SIZE 0x100		// 256B
 # define OAM_SIZE 0xa0				// 160B
-# define DMG_BOOT_ROM_SIZE 0x100	// 256B
 # define CRAM_SIZE	0x40			// 64B
 
 # define VRAM_TILE_BANK_SIZE 0x1800
