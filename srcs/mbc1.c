@@ -21,6 +21,32 @@
 # include "libyacc_wrapper.h"
 #endif
 
+/**
+ * @brief Dump the current MBC rom to a file. For debugging purposes.
+ * 
+ * @param gb 
+ */
+void	dump_mbc(struct gb_cpu_s* gb)
+{
+	FILE* f = fopen("clang.gb", "wb");
+	if (f == NULL)
+		return ;
+	for (size_t j = 0; j < 0x4000; j++)
+	{
+		uint8_t r = read_8_force(gb, j);
+		fwrite(&r, 1, 1, f);
+	}
+	for (gb->mbc.bank = 1; gb->mbc.bank < gb->mbc.max_rom_banks; gb->mbc.bank++)
+	{
+		for (size_t j = 0x4000; j < 0x8000; j++)
+		{
+			uint8_t r = read_8(gb, j);
+			fwrite(&r, 1, 1, f);
+		}
+	}
+	fclose(f);
+}
+
 uint8_t	read_mbc1(struct gb_cpu_s* gb, uint16_t addr, enum memory_mode_e mode)
 {
 	if (addr < 0x100 && !gb->booted)
@@ -49,7 +75,7 @@ uint8_t	read_mbc1(struct gb_cpu_s* gb, uint16_t addr, enum memory_mode_e mode)
 			return (((uint8_t*)(gb->rom_ptr->ptr))[tmp * 0x4000 + addr - 0x4000]);
 		}
 		else
-			return (((uint8_t*)(gb->rom_ptr->ptr))[addr]);
+			return (((uint8_t*)(gb->rom_ptr->ptr))[addr % 0x4000]);
 	}
 	else if (addr < 0xc000)
 	{
@@ -62,7 +88,7 @@ uint8_t	read_mbc1(struct gb_cpu_s* gb, uint16_t addr, enum memory_mode_e mode)
 		if (gb->mbc.mode == MBC_MODE_RAM)
 			index = addr - 0xa000 + gb->mbc.ram_bank * EXTRA_RAM_SIZE;
 		else
-			index = addr - 0xa000;		
+			index = addr - 0xa000;
 		if (index >= gb->mbc.ram_size)
 		{
 			printf("warning: attempting to read %x at invalid ram bank %x\n", addr, gb->mbc.ram_bank);				
@@ -80,14 +106,14 @@ void	write_mbc1(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, enum memory_mode_
 	{
 		if (x == 0x0a)
 		{
-			if (get_verbose(gb->debugger) >= 1)
-				printf("RAM ENABLED (%4x)\n", addr);
+			// if (get_verbose(gb->debugger) >= 1)
+				// printf("RAM ENABLED (%4x)\n", addr);
 			gb->ram_enabled = 1;
 		}
 		else
 		{
-			if (get_verbose(gb->debugger) >= 1)
-				printf("RAM DISABLED (%4x)\n", addr);
+			// if (get_verbose(gb->debugger) >= 1)
+			// 	printf("RAM DISABLED (%4x)\n", addr);
 			gb->ram_enabled = 0;
 		}
 		return ;

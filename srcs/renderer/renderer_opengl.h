@@ -30,18 +30,56 @@ public:
     void SetWindowSize(int width, int height);
 
 private:
+    enum Priority : int
+    {
+        kNull = 0,
+        kVeryLow = 1,
+        kLow = 2,
+        kMedium = 3,
+        kHigh = 4
+    };
+
+private:
     void InitTexture();
     void DestroyTexture();
 
-    int GetBackgroundIndex(int line, int pixel, int scx, int scy, int lcdc);
-    int GetMenuIndex(int line, int pixel, int wx, int wy, int lcdc);
-    int GetSpriteIndex(bool* isInFront, int line, int pixel, int lcdc);
+    void InitPbo();
+    void DestroyPbo();
+
+    uint16_t GetBackgroundColor(Priority* priority, int line, int pixel, int scx, int scy, int lcdc);
+    uint16_t GetMenuColor(Priority* priority, int line, int pixel, int wx, int wy, int lcdc);
+
+    void ScanOAM(int line, int lcdc);
+
+    uint16_t GetColor(Priority* priority, int offsetX, int offsetY, int lcdc, bool useBgmap2, const uint16_t* debugPalette);
+    int GetColorIndex(int tileIndex, int tileAttr, int x, int y);
+    int TransformColorIndex(int colorIndex, int paletteOffset);
 
 private:
-    gb_cpu_s* m_Gb {nullptr};
+    struct Pixel
+    {   
+        Priority priority = kNull;
+        uint16_t color = 0;
+    };
+
+    struct OAMCase
+    {
+        uint8_t y;
+        uint8_t x;
+        uint8_t tileIndex;
+        uint8_t attributes;
+    };
+
+private:
+    gb_cpu_s* m_Gb { nullptr };
 
     uint16_t m_TextureData[MAIN_SURFACE_HEIGHT][MAIN_SURFACE_WIDTH] {};
-    GLuint m_Texture {0};
+    GLuint m_Texture { 0 };
+    GLuint m_Pbo { 0 };
+    Pixel m_SpriteLine[MAIN_SURFACE_WIDTH] {};
+    int m_MenuXOffset { 0 };
+    int m_MenuYOffset { 0 };
+    uint8_t m_Low3bitsOfSCX { 0 };
 
     Rescale m_Rescale;
 };

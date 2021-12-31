@@ -92,7 +92,7 @@ void	write_mbc3(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, enum memory_mode_
 	}
 	else if (addr < 0x6000)
 	{
-		printf("mapping %x\n", x);
+		// printf("mapping %x\n", x);
 		if (x <= 0x03)
 		{
 			gb->mbc.ram_bank = x;

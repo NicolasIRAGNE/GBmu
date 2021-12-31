@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:26 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/15 16:49:18 by ldedier          ###   ########.fr       */
+/*   Updated: 2020/06/14 13:52:33 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ uint8_t	update_current_instruction(struct gb_cpu_s* gb)
 
 void	request_interrupt(struct gb_cpu_s* gb, uint8_t request)
 {
-	uint8_t interrupt_requests = read_8(gb, IF_OFFSET);
+	uint8_t interrupt_requests = read_8_force(gb, IF_OFFSET);
+	gb->halted = 0;
 	write_8(gb, IF_OFFSET, interrupt_requests | request);
 }
 
@@ -46,35 +47,35 @@ int		set_interrupt(struct gb_cpu_s* gb)
 {
 	int ret = 0;
 	uint8_t interrupt_requests = read_8(gb, IF_OFFSET);
-	if (interrupt_requests & INT_TIMER_REQUEST)
+	if (interrupt_requests & INT_TIMER_REQUEST && gb->interrupt_enable_register & INT_TIMER_REQUEST)
 	{
-		if (gb->interrupt_enable_register & INT_TIMER_REQUEST)
-		{
-			gb->interrupt = INT_TIMER_ADDR;
-			interrupt_requests &= ~INT_TIMER_REQUEST;
-			ret = INT_TIMER_ADDR;
-		}
+		gb->interrupt = INT_TIMER_ADDR;
+		interrupt_requests &= ~INT_TIMER_REQUEST;
+		ret = INT_TIMER_ADDR;
 	}
-	else if (interrupt_requests & INT_VBLANK_REQUEST)
+	else if (interrupt_requests & INT_VBLANK_REQUEST && gb->interrupt_enable_register & INT_VBLANK_REQUEST)
 	{
-		if (gb->interrupt_enable_register & INT_VBLANK_REQUEST)
-		{
-			gb->interrupt = INT_VBLANK_ADDR;
-			interrupt_requests &= ~INT_VBLANK_REQUEST;
-			ret = INT_VBLANK_ADDR;
-		}
+		gb->interrupt = INT_VBLANK_ADDR;
+		interrupt_requests &= ~INT_VBLANK_REQUEST;
+		ret = INT_VBLANK_ADDR;
 	}
-	else if (interrupt_requests & INT_STAT_REQUEST)
+	else if (interrupt_requests & INT_STAT_REQUEST && gb->interrupt_enable_register & INT_STAT_REQUEST)
 	{
-		if (gb->interrupt_enable_register & INT_STAT_REQUEST)
-		{
-			gb->interrupt = INT_STAT_ADDR;
-			interrupt_requests &= ~INT_STAT_REQUEST;
-			ret = INT_STAT_ADDR;
-		}
+		gb->interrupt = INT_STAT_ADDR;
+		interrupt_requests &= ~INT_STAT_REQUEST;
+		ret = INT_STAT_ADDR;
+	}
+	else if (interrupt_requests & INT_SERIAL_REQUEST && gb->interrupt_enable_register & INT_SERIAL_REQUEST)
+	{
+		gb->interrupt = INT_SERIAL_ADDR;
+		interrupt_requests &= ~INT_SERIAL_REQUEST;
+		ret = INT_SERIAL_ADDR;
 	}
 	if (ret)
-		write_8(gb, IF_OFFSET, interrupt_requests);
+	{
+		if (gb->ime)
+			write_8_force(gb, IF_OFFSET, interrupt_requests);
+	}
 	return (ret);
 }
 
@@ -86,13 +87,17 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 	uint8_t	last_line_drawn = 0;
 	uint8_t	last_pixel_drawn = 0;
     // SDL_Surface* tmp_surface = SDL_CreateRGBSurface(0, BGMAP_SIZE, BGMAP_SIZE, 32, 0, 0, 0, 0);
-	struct tile_s tiles[TILES_COUNT];
+	struct tile_s tiles[2][TILES_COUNT];
 	while (gb->running)
 	{
-		if (gb->ime && set_interrupt(gb))
+		if (set_interrupt(gb))
 		{
-			interrupt_a16(gb, gb->interrupt);
-			gb->interrupt = 0;
+			// gb->halted = 0;
+			if (gb->ime)
+			{
+				interrupt_a16(gb, gb->interrupt);
+				gb->interrupt = 0;
+			}
 		}
 		if (gb->paused)
 			execute_debugger(gb);
@@ -120,16 +125,16 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 			uint8_t lcdc = (read_8(gb, LCDC_OFFSET));
 			if (!(lcdc & LCDC_ON) && gb->booted)
 			{
-				renderer_clear(renderer);
+				// renderer_clear(renderer);
 			}
-			main_window_loop(wrapper, renderer);
 			if (wrapper->gb->vram_viewer_running)
 			{
 				update_palettes(wrapper->gb);
 				fill_tile_array(wrapper->gb, tiles);
 				vram_viewer_loop(wrapper, tiles);
 			}
-			renderer_render(renderer);
+			// if (!gb->halted)
+				renderer_render(renderer);
 			SDL_GL_SwapWindow(wrapper->main_context->win);
 			// renderer_clear(renderer);
 			last_line_drawn = 0;
@@ -137,6 +142,7 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 		if (gb->cycle - gb->last_sleep > (70224 / 4))
 		{
 			// usleep(128);
+			main_window_loop(wrapper, renderer);
 			gb->last_sleep = gb->cycle;
 		}
 		update_div_register(gb);

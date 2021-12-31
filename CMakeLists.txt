@@ -5,10 +5,13 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
   ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
-project(gbmu)
+project(gbmu LANGUAGES CXX C)
 
 add_library(gbmu_lib)
-add_executable(gbmu srcs/main.c)
+target_compile_definitions(gbmu_lib PRIVATE "SHADERS_LOCATION=\"${CMAKE_CURRENT_SOURCE_DIR}/srcs/renderer/shaders\"")
+target_compile_definitions(gbmu_lib PUBLIC "ASAN_OPTIONS=detect_leaks=0")
+add_executable(gbmu srcs/main.cpp)
+target_link_libraries(gbmu cxxopts::cxxopts)
 
 include(FetchContent)
 if (NOT MSVC)
@@ -17,7 +20,7 @@ endif()
 option(WITH_LIBYACC "Build libyacc" OFF)
 option(WITH_ASAN "Build with memory sanitizer" OFF)
 option(DEBUG_COLORS "Enable debug palette" ON)
-option(WITH_TESTS "Build tests" ON)
+option(WITH_TESTS "Build tests" OFF)
 
 FetchContent_Declare(
       SDL2
@@ -30,7 +33,13 @@ FetchContent_Declare(
         GIT_TAG glew-cmake-release
 )
 
-FetchContent_MakeAvailable(GLEW SDL2)
+FetchContent_Declare(
+	cxxopts
+	GIT_REPOSITORY "https://github.com/jarro2783/cxxopts"
+	GIT_TAG v3.0.0
+)
+
+FetchContent_MakeAvailable(GLEW SDL2 cxxopts)
 
 if(WIN32)
 	FetchContent_Declare(
@@ -78,7 +87,7 @@ set(SOURCES
 	srcs/gpu.c
 	srcs/cpu_toggle_flag.c
 	srcs/init_sdl.c
-	srcs/video_loop.c
+	# srcs/video_loop.c
 	srcs/vram_viewer.c
 	srcs/tools.c
 	srcs/tile.c
@@ -95,7 +104,7 @@ set(SOURCES
 	srcs/mbc3.c
 	srcs/mbc5.c
 	srcs/errors.c
-	srcs/userscreen.c
+	# srcs/userscreen.c
 	srcs/savestate.c
 	srcs/timer.c
 	srcs/write.c
@@ -139,7 +148,8 @@ set(HEADERS
 	includes/op.h
 	includes/registers.h
 	includes/renderer.h
-	includes/input_functions.c
+	includes/input_functions.h
+	includes/dmg_boot_rom.h
 	)
 
 if (WIN32)
@@ -440,6 +450,7 @@ set(DEBUGGER_SOURCES
 
 target_include_directories(gbmu_lib PUBLIC srcs)
 target_include_directories(gbmu_lib PUBLIC includes)
+target_include_directories(gbmu_lib PUBLIC srcs/renderer)
 	
 ################################################
 #                COMPILE FLAGS                 #
@@ -450,10 +461,10 @@ set(CMAKE_CXX_STANDARD 17)
 if (MSVC)
 	set(CMAKE_CXX_FLAGS         "${CMAKE_CXX_FLAGS}         ")
 	set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} ")
-	set(CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS_DEBUG}   /DEBUG")
+	set(CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS_DEBUG}   /Wall /DEBUG")
 	set(CMAKE_C_FLAGS           "${CMAKE_C_FLAGS}           ")
 	set(CMAKE_C_FLAGS_RELEASE   "${CMAKE_C_FLAGS_RELEASE}   ")
-	set(CMAKE_C_FLAGS_DEBUG     "${CMAKE_C_FLAGS_DEBUG}     /DEBUG")
+	set(CMAKE_C_FLAGS_DEBUG     "${CMAKE_C_FLAGS_DEBUG}     /Wall /DEBUG")
 else()
 	# set(CMAKE_CXX_FLAGS         "${CMAKE_CXX_FLAGS}         -Wall -Wextra")
 	# set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -g -Werror")

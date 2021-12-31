@@ -16,6 +16,28 @@
 #include "cpu.h"
 #include "mbc.h"
 
+/**
+ * @brief This function reads a byte from the gameboy RAM. It needs to be an interface for both the DMG and the CGB.
+ * On the DMG, there is only one RAM bank of size 0x2000 bytes. On the CGB, there are 8 banks of size 0x1000 bytes.
+ * The memory is mapped as follows:
+ * - 0xC000 - 0xCFFF is always mapped to the first bank of the RAM.
+ * - 0xD000 - 0xDFFF is dynamically mapped to an arbitrary bank of the RAM.
+ * @param gb The GB to read from
+ * @param a16 The absolute address to read from
+ * @return uint8_t Value read from the cpu.
+ */
+static uint8_t	read_from_ram(struct gb_cpu_s* gb, uint16_t a16)
+{
+	if (a16 < 0xD000)
+	{
+		return (gb->ram[0][a16 - 0xC000]);
+	}
+	else
+	{
+		return (gb->ram[gb->wram_bank][a16 - 0xD000]);
+	}
+}
+
 static uint8_t	read_8_internal(struct gb_cpu_s* gb, uint16_t a16, enum memory_mode_e mode)
 {
 	if (a16 < 0x8000)
@@ -26,7 +48,7 @@ static uint8_t	read_8_internal(struct gb_cpu_s* gb, uint16_t a16, enum memory_mo
 	{
 		uint8_t lcdc = read_8(gb, LCDC_OFFSET);
 		if (mode != MEM_SYSTEM || gb->gpu.mode != GPU_MODE_VRAM || !(lcdc & LCDC_ON))
-			return (((uint8_t*)(gb->vram))[a16 - 0x8000]);
+			return (((uint8_t*)(gb->vram[gb->vram_bank]))[a16 - 0x8000]);
 		else
 			return (0xff);
 	}
@@ -36,7 +58,7 @@ static uint8_t	read_8_internal(struct gb_cpu_s* gb, uint16_t a16, enum memory_mo
 	}
 	else if (a16 < 0xe000)
 	{
-		return (((uint8_t*)(gb->ram))[a16 - 0xc000]);		
+		read_from_ram(gb, a16);
 	}
 	else if (a16 == JOYP_OFFSET)
 	{
@@ -60,8 +82,8 @@ static uint8_t	read_8_internal(struct gb_cpu_s* gb, uint16_t a16, enum memory_mo
 	}
 	else if (a16 >= 0xFE00 && a16 < 0xFEA0)
 	{
-		uint8_t lcdc = read_8(gb, LCDC_OFFSET);
-		if (mode != MEM_SYSTEM || gb->gpu.mode == GPU_MODE_HBLANK || gb->gpu.mode == GPU_MODE_VBLANK || !(lcdc & LCDC_ON))
+		uint8_t lcdc = read_8_force(gb, LCDC_OFFSET);
+		if (mode != MEM_SYSTEM || (gb->gpu.mode == GPU_MODE_HBLANK || gb->gpu.mode == GPU_MODE_VBLANK || !(lcdc & LCDC_ON)))
 			return (((uint8_t*)(gb->oam))[a16 - 0xFE00]);
 		else
 			return (0xff);

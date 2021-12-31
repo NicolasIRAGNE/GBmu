@@ -139,7 +139,7 @@ int		command_next(struct gb_cpu_s* gb, char* s, uint16_t arg)
 	*/
 	(void)s;
 	(void)arg;
-	uint8_t ret = handle_instruction(gb);
+	uint8_t ret = (uint8_t)handle_instruction(gb);
 	gpu_tick(gb);
 
 	if (gb->debugger->verbose_level == 0)

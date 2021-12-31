@@ -6,12 +6,15 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/13 11:08:21 by niragne           #+#    #+#             */
-/*   Updated: 2021/06/04 12:21:06 by niragne          ###   ########.fr       */
+/*   Updated: 2020/06/11 13:31:02 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GB_H
 # define GB_H
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 # include <sys/stat.h>
 # include <sys/types.h>
@@ -36,7 +39,6 @@
 # define WHT	"\x1B[37m"
 # define EOC	"\x1B[0m"
 
-# define BOOT_ROM "../DMG_ROM.bin"
 # define SAVE_DIR "../saves/"
 # define SAVESTATE_DIR "../savestates/"
 
@@ -108,7 +110,7 @@ struct command_s
 	char*	desc;
 };
 
-int		init_cpu(struct gb_cpu_s* gb, struct rom_s* rom);
+int		init_cpu(struct gb_cpu_s* gb, struct rom_s* rom, enum gb_mode_e mode);
 int		init_mbc(struct gb_cpu_s* gb);
 int		handle_instruction(struct gb_cpu_s* gb);
 uint8_t	update_current_instruction(struct gb_cpu_s* gb);
@@ -140,7 +142,7 @@ void		write_16_debug(struct gb_cpu_s* gb, uint16_t a16, uint16_t x);
 void		write_16_force(struct gb_cpu_s* gb, uint16_t a16, uint16_t x);
 
 uint8_t		read_io(struct gb_cpu_s* gb, uint16_t addr);
-void		write_io(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, uint8_t lcdc);
+void		write_io(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, uint8_t lcdc, enum memory_mode_e mode);
 
 
 /*
@@ -168,7 +170,22 @@ void    cpu_toggle_flag(struct gb_cpu_s* gb, uint8_t flag, int cond);
 void    cpu_set_flag(struct gb_cpu_s* gb, uint8_t flag);
 void    cpu_unset_flag(struct gb_cpu_s* gb, uint8_t flag);
 void	memset_4(uint32_t* ptr, uint32_t c, size_t n);
+/**
+ * @brief Transfer data from memory to OAM with a fixed length.
+ * This function is available on both CGB and DMG.
+ * @param gb 
+ * @param a8 The address to start the transfer.
+ */
 void	process_dma_transfer(struct gb_cpu_s* gb, uint8_t a8);
+/**
+ * @brief Transfer data from memory to VRAM with an arbitrary length.
+ * This function is only available on CGB.
+ * 
+ * @param gb 
+ * @param a8 The first bit of a8 indicates the transfer mode (0: General, 1: H-Blank). The lower 7 bits of a8 are the length of the transfer.
+ * In case of General transfer, the data is transferred immediately. In case of H-Blank transfer, 0x10 bytes are transferred each time the H-Blank interrupt is triggered.
+ */
+void	initiate_hdma_transfer(struct gb_cpu_s* gb, uint8_t a8);
 int		clamp(int val, int min, int max);
 void	fatal(struct gb_cpu_s* gb);
 int		get_debugger_verbose(struct gb_cpu_s* gb);
@@ -189,5 +206,7 @@ int		savestate(struct gb_cpu_s* gb, int number);
 int		loadstate(struct gb_cpu_s* gb, int number);
 
 
-
+#ifdef __cplusplus
+}
+#endif
 #endif

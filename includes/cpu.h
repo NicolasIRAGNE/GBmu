@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 16:34:47 by niragne           #+#    #+#             */
-/*   Updated: 2020/08/17 14:40:02 by niragne          ###   ########.fr       */
+/*   Updated: 2020/06/14 17:03:49 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,18 @@
 # include <stdint.h>
 # include "mbc.h"
 
-# define VRAM_SIZE 0x2000		// 8kiB
-# define WRAM_SIZE 0x2000		// 8kiB
-# define HRAM_SIZE 0x100		// 256B
-# define RAM_SIZE 0x2000		// 8kiB
-# define EXTRA_RAM_SIZE 0x2000	// 8kiB
-# define IO_PORTS_SIZE 0x100	// 256B
-# define OAM_SIZE 0xa0			// 160B
-# define BOOT_ROM_SIZE 0x100	// 256B
+# define VRAM_SIZE 0x2000			// 8kiB
+# define WRAM_SIZE 0x2000			// 8kiB
+# define HRAM_SIZE 0x100			// 256B
+# define RAM_SIZE 0x1000			// 4kiB
+# define EXTRA_RAM_SIZE 0x2000		// 8kiB
+# define IO_PORTS_SIZE 0x100		// 256B
+# define OAM_SIZE 0xa0				// 160B
+# define CRAM_SIZE	0x40			// 64B
 
 # define VRAM_TILE_BANK_SIZE 0x1800
+
+# define OAM_OFFSET 0xFE00
 
 # define IO_OFFSET			0xFF00
 # define JOYP_OFFSET			(IO_OFFSET | 0x00)
@@ -48,8 +50,22 @@
 # define BGP_OFFSET				(IO_OFFSET | 0x47)
 # define OBP0_OFFSET			(IO_OFFSET | 0x48)
 # define OBP1_OFFSET			(IO_OFFSET | 0x49)
-# define WY_OFFSET				(IO_OFFSET | 0x4a)
-# define WX_OFFSET				(IO_OFFSET | 0x4b)
+# define WY_OFFSET				(IO_OFFSET | 0x4A)
+# define WX_OFFSET				(IO_OFFSET | 0x4B)
+# define KEY1_OFFSET			(IO_OFFSET | 0x4D)
+# define HDMA1_OFFSET			(IO_OFFSET | 0x51)
+# define HDMA2_OFFSET			(IO_OFFSET | 0x52)
+# define HDMA3_OFFSET			(IO_OFFSET | 0x53)
+# define HDMA4_OFFSET			(IO_OFFSET | 0x54)
+# define HDMA5_OFFSET			(IO_OFFSET | 0x55)
+
+# define BCPS_OFFSET			(IO_OFFSET | 0x68)
+# define BCPD_OFFSET			(IO_OFFSET | 0x69)
+# define OCPS_OFFSET			(IO_OFFSET | 0x6A)
+# define OCPD_OFFSET			(IO_OFFSET | 0x6B)
+
+# define VBK_OFFSET				(IO_OFFSET | 0x4F)
+# define SVBK_OFFSET			(IO_OFFSET | 0x70)
 
 # define IF_OFFSET				(IO_OFFSET | 0x0F)
 
@@ -82,6 +98,7 @@
 # define INT_VBLANK_ADDR		0x40
 # define INT_STAT_ADDR			0x48
 # define INT_TIMER_ADDR			0x50
+# define INT_SERIAL_ADDR		0x58
 
 // Joypad
 # define SELECT_NONE			0x30
@@ -116,6 +133,12 @@
 
 # define TAC_ENABLE				(1 << 2)
 # define TAC_FREQ				(0b11)
+
+# define NORMAL_SPEED_MODE		0
+# define DOUBLE_SPEED_MODE		1
+
+# define VRAM_BANKS				2
+# define WRAM_BANKS				8
 
 struct	gb_cpu_s;
 
@@ -226,6 +249,15 @@ struct Lcd {
     int32_t wx;
     int32_t wy;
 };
+    
+enum	gb_mode_e
+{
+	GB_MODE_DMG, //<! Original Gameboy mode.
+	GB_MODE_CGB, //<! Color Gameboy mode.
+	GB_MODE_GBA, //<! Gameboy Advance mode. Not supported.
+	GB_MODE_AUTO, //<! Auto-detect the gameboy mode. This is done by reading the ROM header.
+	GB_MODE_UNKNOWN //<! Unknown mode. I don't know what this is. Too bad!
+};
 
 struct	gb_cpu_s
 {
@@ -237,11 +269,16 @@ struct	gb_cpu_s
 	int					draw_background : 1;
 	int					draw_window : 1;
 	int					draw_sprites : 1;
+	int					hdma_in_progress : 1;
+	uint16_t			remaining_hdma_length;
+	uint8_t				hdma_index;
 	uint16_t			interrupt;
 	uint64_t			cycle;
 	uint64_t			last_sleep;
 	uint64_t			last_dma;
+	uint64_t			last_hdma;
 	struct gbmu_debugger_s*	debugger;
+	enum gb_mode_e		mode;
 
 	int					ime : 1; // Interrupt Master Enable Flag
 	int					ram_enabled : 1;
@@ -255,20 +292,29 @@ struct	gb_cpu_s
 	struct mbc_s		mbc;
 	struct tima_s		tima;
 	struct joypad_s		joypad;
-	uint8_t				boot_rom[BOOT_ROM_SIZE];
-	uint8_t				vram[VRAM_SIZE];
-	uint8_t				ram[RAM_SIZE];
+	uint8_t*			boot_rom;
+	uint8_t				vram[VRAM_BANKS][VRAM_SIZE];
+	int					vram_updated[VRAM_BANKS];
+	uint8_t				vram_bank;
+	uint8_t				ram[WRAM_BANKS][RAM_SIZE];
+	uint8_t				wram_bank;
 	uint8_t*			extra_ram;
-	uint8_t				wram[WRAM_SIZE];
 	uint8_t				hram[HRAM_SIZE];
 	uint8_t				io_ports[IO_PORTS_SIZE];
 	uint8_t				oam[OAM_SIZE];
+	uint8_t				cgb_bg_palettes[CRAM_SIZE];
+	uint8_t				cgb_obj_palettes[CRAM_SIZE];
+	uint8_t				bg_palette_index;
+	uint8_t				obj_palette_index;
+	uint8_t				bcpd_auto_increment : 1;
+	uint8_t				ocpd_auto_increment : 1;
 	uint8_t				interrupt_enable_register;
 	enum joypad_mode_e	joypad_mode;
 	uint32_t			bg_palettes[8][4];
 	uint32_t			obj_palettes[8][4];
 	uint32_t			div_freq;
 	uint64_t			last_div_increment;
+	uint8_t				current_speed_mode;
 };
 
 /*

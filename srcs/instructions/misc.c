@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 17:15:01 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/29 16:56:33 by niragne          ###   ########.fr       */
+/*   Updated: 2020/06/14 17:19:46 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,19 @@ void	stop(struct gb_cpu_s* gb)
 {
 	(void)gb;
 	gb->halted = 1;
+	gb->io_ports[0x04] = 0;
+	if (gb->mode == GB_MODE_CGB)
+	{
+		uint8_t key1 = read_8(gb, KEY1_OFFSET);
+		// if (key1 & 1)
+		// {
+			// if (!gb->current_speed_mode)
+				// gb->current_speed_mode = 1;
+			// else
+				// gb->current_speed_mode = 0;
+			// write_8(gb, KEY1_OFFSET, 0);
+		// }
+	}
 	//TODO
 }
 

@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/28 13:23:51 by niragne           #+#    #+#             */
-/*   Updated: 2020/05/04 14:02:41 by niragne          ###   ########.fr       */
+/*   Updated: 2020/06/14 13:52:59 by niragne          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ int		loadstate(struct gb_cpu_s* gb, int number)
 	if (rd != sizeof(*gb))
 	{
 		printf("fatal: save file appears to be corrupted\n");
+		gb->rom_ptr = ptr_save; // Restore so we can actually save
 		fatal(gb);
 		fclose(f);
 		return (1);

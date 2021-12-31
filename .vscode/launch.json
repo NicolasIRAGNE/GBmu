@@ -8,11 +8,16 @@
             // Resolved by CMake Tools:
             "program": "${command:cmake.launchTargetPath}",
             "args": [
-                // "${workspaceFolder}/rom/unit_tests/individual/02-interrupts.gb"
-                // "${workspaceFolder}/rom/unit_tests/cpu_instrs.gb"
-                // "${workspaceFolder}/rom/Legend_of_Zelda_link_Awaking.gb"
-                // "${workspaceFolder}/rom/batman.gb"
-                "~/Downloads/dmg-acid2.gb"
+                // "${workspaceFolder}/rom/unit_tests/individual/02-interrupts.gb",
+                // "${workspaceFolder}/rom/unit_tests/cpu_instrs.gb",
+                // "${workspaceFolder}/rom/Kirby_2.gb",
+                // "${workspaceFolder}/rom/Legend_of_Zelda_link_Awaking.gb",
+                "${workspaceFolder}/rom/Legend of Zelda, The - Oracle of Seasons.gbc",
+                // "${workspaceFolder}/rom/batman.gb",
+                // "${workspaceFolder}/rom/F-1_Race_World.gb",
+                // "~/Downloads/dmg-acid2.gb",
+
+                "--mode", "dmg"
             ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/build",
@@ -47,8 +52,23 @@
                 "trace": true
             },
             "args": [
-                "${workspaceFolder}/rom/Legend_of_Zelda_link_Awaking.gb"
-                // "${workspaceFolder}/rom/F-1_Race_World.gb"
+                // "C:/Users/nicor/Downloads/testroms/daid/ppu_scanline_bgp.gb",
+                // "C:/Users/nicor/Downloads/testroms/ax6/rtc3test-1.gb",
+                // "C:/Users/nicor/Downloads/testroms/mooneye/emulator-only/mbc2/bits_ramg.gb",
+                // "${workspaceFolder}/rom/Legend_of_Zelda_link_Awaking.gb",
+                // "${workspaceFolder}/rom/Legend of Zelda, The - Oracle of Seasons.gbc",
+                // "${workspaceFolder}/rom/unit_tests/individual/02-interrupts.gb",
+                // "${workspaceFolder}/rom/unit_tests/cpu_instrs.gb",
+                // "${workspaceFolder}/rom/Legend of Zelda, The - Link's Awakening DX.gbc",
+                // "${workspaceFolder}/rom/unit_tests/acid/cgb-acid2.gbc",
+                // "${workspaceFolder}/rom/unit_tests/dmg-acid2.gb",
+                // "${workspaceFolder}/rom/Pokemon_jaune.gb",
+                "C:/Users/nicor/Downloads/roms/Super Mario Land 2.gb",
+                // "C:/Users/nicor/Downloads/GBEmulatorShootout-main/testroms/mooneye/emulator-only/mbc5/rom_2MB.gb",
+                // "${workspaceFolder}/rom/mario.gbc",
+                // "C:/Users/nicor/Downloads/roms (1)/roms/Pokemon - Version Argent.gbc",
+            //    "${workspaceFolder}/rom/F-1_Race_World.gb",
+                "--mode", "auto"
             ],
             "visualizerFile": "${workspaceFolder}/my.natvis",
             "showDisplayString": true,

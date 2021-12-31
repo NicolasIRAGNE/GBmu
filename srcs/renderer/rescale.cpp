@@ -20,8 +20,8 @@ Rescale::Rescale()
     glBindVertexArray(m_Vao);
 
     m_Program = compileProgram(
-        "shaders/basic.vert",
-        "shaders/basic.frag");
+        "basic.vert",
+        "basic.frag");
 
     if (!m_Program) {
         throw std::runtime_error("Failed to compile program");
