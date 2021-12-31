@@ -25,7 +25,7 @@ void	debug_print_gb(struct gb_cpu_s* gb)
 	printf("-------------------\n");
 	debug_print_registers(gb->reg);
 	printf("\n");
-	printf("CYCLE: %ld\n", gb->cycle);
+	printf("CYCLE: %llu\n", gb->cycle);
 	if (get_verbose(gb->debugger) >= 2)
 	{
 		debug_print_gb_flags(gb);

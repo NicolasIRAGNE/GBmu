@@ -59,11 +59,12 @@
                 // "${workspaceFolder}/rom/Legend of Zelda, The - Oracle of Seasons.gbc",
                 // "${workspaceFolder}/rom/unit_tests/individual/02-interrupts.gb",
                 // "${workspaceFolder}/rom/unit_tests/cpu_instrs.gb",
+                "${workspaceFolder}/rom/Legend of Zelda, The - Link's Awakening DX.gbc",
                 // "${workspaceFolder}/rom/unit_tests/acid/cgb-acid2.gbc",
                 // "${workspaceFolder}/rom/unit_tests/dmg-acid2.gb",
                 // "C:/Users/nicor/Downloads/GBEmulatorShootout-main/testroms/mooneye/emulator-only/mbc5/rom_2MB.gb",
                 // "${workspaceFolder}/rom/mario.gbc",
-                "C:/Users/nicor/Downloads/roms (1)/roms/Pokemon - Version Argent.gbc",
+                // "C:/Users/nicor/Downloads/roms (1)/roms/Pokemon - Version Argent.gbc",
             //    "${workspaceFolder}/rom/F-1_Race_World.gb",
                 "--mode", "auto"
             ],

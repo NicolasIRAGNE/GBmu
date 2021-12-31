@@ -65,7 +65,7 @@ struct 	tile_s
 void	vram_viewer_loop(struct gbmu_wrapper_s* wrapper, struct tile_s** array);
 int     init_vram_viewer(struct sdl_context_s* context);
 int     init_main_window(struct sdl_context_s* context);
-int     init_sdl();
+int     init_sdl(void);
 void	destroy_context(struct sdl_context_s* context);
 void	renderer_loop(struct gbmu_wrapper_s* wrapper);
 struct tile_s	create_tile(struct gb_cpu_s* gb, uint16_t index, uint8_t bank);
