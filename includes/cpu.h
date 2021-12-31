@@ -269,6 +269,9 @@ struct	gb_cpu_s
 	int					draw_background : 1;
 	int					draw_window : 1;
 	int					draw_sprites : 1;
+	int					hdma_in_progress : 1;
+	uint16_t			remaining_hdma_length;
+	uint8_t				hdma_index;
 	uint16_t			interrupt;
 	uint64_t			cycle;
 	uint64_t			last_sleep;

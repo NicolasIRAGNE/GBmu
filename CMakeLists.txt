@@ -9,6 +9,7 @@ project(gbmu LANGUAGES CXX C)
 
 add_library(gbmu_lib)
 target_compile_definitions(gbmu_lib PRIVATE "SHADERS_LOCATION=\"${CMAKE_CURRENT_SOURCE_DIR}/srcs/renderer/shaders\"")
+target_compile_definitions(gbmu_lib PUBLIC "ASAN_OPTIONS=detect_leaks=0")
 add_executable(gbmu srcs/main.cpp)
 target_link_libraries(gbmu cxxopts::cxxopts)
 
@@ -474,10 +475,10 @@ else()
 endif()
 
 
-if (WITH_ASAN)
-	target_link_options(gbmu_lib PUBLIC "-fsanitize=address")
+if (dsad)
+	target_link_options(gbmu_lib PUBLIC "/fsanitize=address")
 	# target_link_options(gbmu_lib PUBLIC "/MD")
-	target_compile_options(gbmu_lib PUBLIC "-fsanitize=address")
+	target_compile_options(gbmu_lib PUBLIC "/fsanitize=address")
 endif()
 
 if (DEBUG_COLORS)

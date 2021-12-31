@@ -44,7 +44,7 @@ static void	write_to_ram(struct gb_cpu_s* gb, uint16_t a16, uint8_t x, enum memo
 
 static void	write_8_internal(struct gb_cpu_s* gb, uint16_t a16, uint8_t x, enum memory_mode_e mode)
 {
-	uint8_t lcdc = read_8(gb, LCDC_OFFSET);
+	uint8_t lcdc = read_8_force(gb, LCDC_OFFSET);
 	if (a16 < 0x8000)
 	{
 		gb->mbc.write(gb, a16, x, mode);
@@ -109,7 +109,28 @@ void	process_dma_transfer(struct gb_cpu_s* gb, uint8_t a8)
 	}
 }
 
-void process_hdma_transfer(struct gb_cpu_s* gb, uint8_t a8)
+void internal_hdma_transfer(struct gb_cpu_s* gb, uint16_t src, uint16_t dst, uint16_t length)
+{
+	uint16_t i = 0;
+	while (i < length)
+	{
+		uint8_t x = rand();
+		write_8_force(gb, dst, x);
+		src++;
+		dst++;
+		i++;
+	}
+}
+
+void hblank_hdma_transfer(struct gb_cpu_s* gb, uint8_t a8)
+{
+	printf("HDMA TRANSFER\n");
+	gb->hdma_in_progress = 1;
+	gb->hdma_index = 0;
+	gb->remaining_hdma_length = (a8 + 1) * 16;
+}
+
+void initiate_hdma_transfer(struct gb_cpu_s* gb, uint8_t a8)
 {
     uint16_t src;
     src = read_8_force(gb, HDMA1_OFFSET) << 8;
@@ -123,13 +144,52 @@ void process_hdma_transfer(struct gb_cpu_s* gb, uint8_t a8)
 
 	uint8_t len = (a8 + 1) * 16;
 	uint8_t i = 0;
-	while (i < len)
+	if (a8 & (1 << 7))
 	{
-		uint8_t x = read_8_force(gb, src | i);
-		write_8_force(gb, dst + i, x);
-		i++;
+		printf("Requesting HDMA transfer (mode 1) from %4x to %4x, length %d\n", src, dst, len);
+		hblank_hdma_transfer(gb, a8);
 	}
-	write_8_force(gb, HDMA5_OFFSET, 0xff);
+	else
+	{
+		printf("Requesting HDMA transfer (mode 0) from %4x to %4x, length %d\n", src, dst, len);
+		internal_hdma_transfer(gb, src, dst, len);
+		write_8_force(gb, HDMA5_OFFSET, 0);
+	}
+}
+
+void resume_hdma_transfer(struct gb_cpu_s* gb)
+{
+	uint8_t a8 = read_8_force(gb, HDMA5_OFFSET);
+	if (a8 == 0xff)
+		return ;
+	uint16_t src;
+    src = read_8_force(gb, HDMA1_OFFSET) << 8;
+    src |= read_8_force(gb, HDMA2_OFFSET);
+    src &= 0xFFF0;
+    uint16_t dst;
+    dst = read_8_force(gb, HDMA3_OFFSET) << 8;
+    dst |= read_8_force(gb, HDMA4_OFFSET);
+    dst &= 0x1FF0;
+    dst += 0x8000;
+
+	uint8_t len;
+	if (gb->remaining_hdma_length > 0x10)
+		len = 0x10;
+	else
+		len = gb->remaining_hdma_length;
+
+	internal_hdma_transfer(gb, src + gb->hdma_index, dst + gb->hdma_index, len);
+	gb->hdma_index += len;
+	gb->remaining_hdma_length -= len;
+	if (gb->remaining_hdma_length == 0)
+	{
+		write_8_force(gb, HDMA5_OFFSET, 0xff);
+		gb->hdma_in_progress = 0;
+	}
+	else
+	{
+		write_8_force(gb, HDMA5_OFFSET, len / 16 - 1);
+	}
 }
 
 void	write_8(struct gb_cpu_s* gb, uint16_t a16, uint8_t x)

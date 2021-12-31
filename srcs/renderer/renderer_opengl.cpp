@@ -77,7 +77,7 @@ void Renderer::DrawPixel(int line, int pixel)
     {
         sprite.priority = Priority::kNull;
     }
-    if (sprite.priority != Priority::kNull)
+    if (m_Gb->draw_sprites && sprite.priority != Priority::kNull)
     {
         m_TextureData[line][pixel] = sprite.color;
     }

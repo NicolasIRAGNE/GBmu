@@ -48,7 +48,7 @@ static uint8_t	read_8_internal(struct gb_cpu_s* gb, uint16_t a16, enum memory_mo
 	{
 		uint8_t lcdc = read_8(gb, LCDC_OFFSET);
 		if (mode != MEM_SYSTEM || gb->gpu.mode != GPU_MODE_VRAM || !(lcdc & LCDC_ON))
-			return (((uint8_t*)(gb->vram))[a16 - 0x8000]);
+			return (((uint8_t*)(gb->vram[gb->vram_bank]))[a16 - 0x8000]);
 		else
 			return (0xff);
 	}

@@ -19,24 +19,33 @@
 #include "cpu.h"
 #include "gb.h"
 
-int		display_vram(struct gbmu_wrapper_s* wrapper, struct tile_s* array)
+int display_vram(struct gbmu_wrapper_s* wrapper, struct tile_s array[2][TILES_COUNT])
 {
-	int i = 0;
-	int index = 0;
+    int i = 0;
+    int index = 0;
 
-	while (i < TILE_SIZE * TILES_COUNT)
-	{
-	SDL_Rect pos = (SDL_Rect) {(index * TILE_SURFACE_WIDTH) % (VRAM_SURFACE_WIDTH), (index / 16) * TILE_SURFACE_HEIGHT, TILE_SURFACE_WIDTH, TILE_SURFACE_HEIGHT};
+    uint8_t bank = 0;
+    while (bank < 2)
+    {
+        while (i < TILE_SIZE * TILES_COUNT)
+        {
+            // SDL_Rect pos = (SDL_Rect) { (index * TILE_SURFACE_WIDTH) % (VRAM_SURFACE_WIDTH / 2) + (bank * VRAM_SURFACE_WIDTH / 2), (index / 16) * TILE_SURFACE_HEIGHT, TILE_SURFACE_WIDTH, TILE_SURFACE_HEIGHT };
+			SDL_Rect pos = (SDL_Rect) { (index * TILE_SURFACE_WIDTH) % (VRAM_SURFACE_WIDTH / 2) + (bank * VRAM_SURFACE_WIDTH / 2), (index / 16) * TILE_SURFACE_HEIGHT, TILE_SURFACE_WIDTH, TILE_SURFACE_HEIGHT };
 
-		if (print_tile(wrapper->gb, wrapper->vram_viewer_context->surface, array + index, 0, pos, TILE_TYPE_BACKGROUND))
-			return (1);
-		i += TILE_SIZE;
-		index += 1;
-	}
-	return (0);
+            if (print_tile(wrapper->gb, wrapper->vram_viewer_context->surface, array[bank] + index, 0, pos, TILE_TYPE_BACKGROUND))
+                return (1);
+            i += TILE_SIZE;
+            index += 1;
+        }
+		bank += 1;
+		i = 0;
+		index = 0;
+    }
+
+    return (0);
 }
 
-void	vram_viewer_loop(struct gbmu_wrapper_s* wrapper, struct tile_s* array)
+void	vram_viewer_loop(struct gbmu_wrapper_s* wrapper, struct tile_s** array)
 {
    	// while (SDL_PollEvent(&event)) 
 	// {

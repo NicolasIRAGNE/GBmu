@@ -101,7 +101,7 @@ void	write_io(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, uint8_t lcdc, enum 
 		if (gb->cycle - gb->last_hdma > 0) //FIXME: this should be *something else* than 0
 		{
 			gb->last_hdma = gb->cycle;
-			process_hdma_transfer(gb, x);
+			initiate_hdma_transfer(gb, x);
 		}
 		return;
 	}
@@ -116,14 +116,14 @@ void	write_io(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, uint8_t lcdc, enum 
 	}
 	if (addr == VBK_OFFSET && gb->mode == GB_MODE_CGB)
 	{
-		printf("Switching to VRAM bank %d\n", x );
+		// printf("Switching to VRAM bank %d\n", x );
 		gb->vram_bank = x & 0x01;
 	}
 	if (addr == SVBK_OFFSET && gb->mode == GB_MODE_CGB)
 	{
 		if (x == 0)
 			x = 1;
-		printf("Switching to WRAM bank %d\n", x & 0b111);
+		// printf("Switching to WRAM bank %d\n", x & 0b111);
 		gb->wram_bank = x & 0b111;
 	}
 	if (addr == KEY1_OFFSET && gb->mode == GB_MODE_CGB)

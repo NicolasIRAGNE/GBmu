@@ -183,8 +183,9 @@ void	process_dma_transfer(struct gb_cpu_s* gb, uint8_t a8);
  * 
  * @param gb 
  * @param a8 The first bit of a8 indicates the transfer mode (0: General, 1: H-Blank). The lower 7 bits of a8 are the length of the transfer.
+ * In case of General transfer, the data is transferred immediately. In case of H-Blank transfer, 0x10 bytes are transferred each time the H-Blank interrupt is triggered.
  */
-void	process_hdma_transfer(struct gb_cpu_s* gb, uint8_t a8);
+void	initiate_hdma_transfer(struct gb_cpu_s* gb, uint8_t a8);
 int		clamp(int val, int min, int max);
 void	fatal(struct gb_cpu_s* gb);
 int		get_debugger_verbose(struct gb_cpu_s* gb);

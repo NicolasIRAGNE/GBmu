@@ -21,20 +21,7 @@
 #include "SDL_surface.h"
 #include "cpu.h"
 
-void	fill_tile_array(struct gb_cpu_s* gb, struct tile_s* array)
-{
-	int i = 0;
-	int index = 0; 
-
-	while (i < TILE_SIZE * TILES_COUNT)
-	{
-		array[index] = create_tile(gb, i);
-		i += TILE_SIZE;
-		index++;
-	}
-}
-
-struct tile_s	create_tile(struct gb_cpu_s* gb, uint16_t index)
+struct tile_s	create_tile(struct gb_cpu_s* gb, uint16_t index, uint8_t bank)
 {
 	struct tile_s ret;
 	
@@ -49,8 +36,8 @@ struct tile_s	create_tile(struct gb_cpu_s* gb, uint16_t index)
 
 	while (i < 8)
 	{
-		msb = read_8_force(gb, 0x8000 + index + offset + k);
-		lsb = read_8_force(gb, 0x8000 + index + offset + k + 1);
+		msb = gb->vram[bank][index + offset + k];
+		lsb = gb->vram[bank][index + offset + k + 1];
 
 		msb_tmp = ((msb & 0b00000001) << 1)
 				| ((msb & 0b00000010) << 2)
@@ -98,6 +85,28 @@ struct tile_s	create_tile(struct gb_cpu_s* gb, uint16_t index)
 		i++;
 	}
 	return (ret);
+}
+
+void	fill_tile_array(struct gb_cpu_s* gb, struct tile_s array[2][TILES_COUNT])
+{
+	int i = 0;
+	int index = 0; 
+
+	
+	uint8_t bank = 0;//i >= 0x1800 ? 1 : 0;
+	while (bank < 2)
+	{
+		while (i < (TILE_SIZE * TILES_COUNT))
+		{
+			array[bank][index] = create_tile(gb, i, bank);
+			i += TILE_SIZE;
+			index++;
+		}
+		i = 0;
+		index = 0;
+		bank++;
+	}
+	
 }
 
 // void	resize_tile(uint32_t* pixels, struct tile_s* tile, int x, int y)
