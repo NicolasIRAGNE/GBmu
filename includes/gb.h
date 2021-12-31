@@ -297,20 +297,105 @@ void	update_div_register(struct gb_cpu_s* gb);
 /*
 ** Memory
 */
+
+/**
+ * @brief Read an 8-bit word from the appropriate memory location.
+ * This is the safe way to access the gameboy memory. It will check the address range and read from
+ * the appropriate memory area.
+ * @note Using this functions to read from certain memory areas may not yield the expected result or trigger CPU functions. For example,
+ * reading from VRAM will return 0xFF if the PPU is currently rendering.
+ * @note To avoid this behavior, use the read_8_force() or read_8_debug() functions.
+ * @param gb 
+ * @param a16 The address to read from.
+ * @return uint8_t The value read from the address.
+ */
 uint8_t		read_8(struct gb_cpu_s* gb, uint16_t a16);
+
+/**
+ * Debugger version of read_8().
+ * @see read_8()
+ */
 uint8_t		read_8_debug(struct gb_cpu_s* gb, uint16_t a16);
+
+/**
+ * Generic force version of read_8().
+ * @see read_8()
+ */
 uint8_t		read_8_force(struct gb_cpu_s* gb, uint16_t a16);
 
+/**
+ * @brief Read a 16-bit word from the appropriate memory location.
+ * This is the safe way to access the gameboy memory. It will check the address range and read from
+ * the appropriate memory area.
+ * @note Using this functions to read from certain memory areas may not yield the expected result or trigger CPU functions. For example,
+ * reading from VRAM will return 0xFF if the PPU is currently rendering.
+ * @note To avoid this behavior, use the read_16_force() or read_16_debug() functions.
+ * @param gb 
+ * @param a16 The address to read from.
+ * @return uint16_t The value read from the address.
+ */
 uint16_t	read_16(struct gb_cpu_s* gb, uint16_t a16);
+
+/**
+ * Debugger version of read_16().
+ * @see read_16()
+ */
 uint16_t	read_16_debug(struct gb_cpu_s* gb, uint16_t a16);
+
+/**
+ * Generic force version of read_16().
+ * @see read_16()
+ */
 uint16_t	read_16_force(struct gb_cpu_s* gb, uint16_t a16);
 
+/**
+ * @brief Write an 8-bit word to the appropriate memory location.
+ * This is the safe way to access the gameboy memory. It will check the address range and write to
+ * the appropriate memory area.
+ * @note Using this functions to write to certain memory areas will trigger specific actions. For example,
+ * writing to the OAM will trigger the gpu to update the sprite data.
+ * @note To avoid this behavior, use the write_8_force() or write_8_debug() functions.
+ * @param gb 
+ * @param a16 The address to write to.
+ * @param x The byte to write.
+ */
 void		write_8(struct gb_cpu_s* gb, uint16_t a16, uint8_t x);
+
+/**
+ * Debugger version of write_8().
+ * @see write_8()
+ */
 void		write_8_debug(struct gb_cpu_s* gb, uint16_t a16, uint8_t x);
+
+/**
+ * Generic force version of write_8().
+ * @see write_8()
+ */
 void		write_8_force(struct gb_cpu_s* gb, uint16_t a16, uint8_t x);
 
+/**
+ * @brief Write a 16-bit word to the appropriate memory location.
+ * This is the safe way to access the gameboy memory. It will check the address range and write to
+ * the appropriate memory area.
+ * @note Using this functions to write to certain memory areas will trigger specific actions. For example,
+ * writing to the OAM will trigger the gpu to update the sprite data.
+ * @note To avoid this behavior, use the write_16_force() or write_16_debug() functions.
+ * @param gb 
+ * @param a16 The address to write to.
+ * @param x The bytes to write.
+ */
 void		write_16(struct gb_cpu_s* gb, uint16_t a16, uint16_t x);
+
+/**
+ * Debugger version of write_16().
+ * @see write_16()
+ */
 void		write_16_debug(struct gb_cpu_s* gb, uint16_t a16, uint16_t x);
+
+/**
+ * Generic force version of write_16().
+ * @see write_16()
+ */
 void		write_16_force(struct gb_cpu_s* gb, uint16_t a16, uint16_t x);
 
 uint8_t		read_io(struct gb_cpu_s* gb, uint16_t addr);
@@ -341,7 +426,12 @@ void	debug_print_flag_register(uint8_t reg);
 void    cpu_toggle_flag(struct gb_cpu_s* gb, uint8_t flag, int cond);
 void    cpu_set_flag(struct gb_cpu_s* gb, uint8_t flag);
 void    cpu_unset_flag(struct gb_cpu_s* gb, uint8_t flag);
+
+/**
+ * @brief Write c n times to ptr.
+ */
 void	memset_4(uint32_t* ptr, uint32_t c, size_t n);
+
 /**
  * @brief Transfer data from memory to OAM with a fixed length.
  * This function is available on both CGB and DMG.
@@ -366,10 +456,44 @@ int		open_rom(char* name, struct rom_s* rom);
 /*
 ** Saving & Loading
 */
+
+/**
+ * @brief Attempts to save the game.
+ * This is done by saving the current RAM to disk.
+ * The file is saved to "./saves/<name>.sav" where <name> is the name of the ROM.
+ * @return int 0 if the save was successful, non-zero otherwise.
+ */
 int		save_game(struct gb_cpu_s* gb);
+
+/**
+ * @brief Attempts to load a save file for the current game.
+ * This function looks for a file named "./saves/<name>.sav" where <name> is the name of the ROM.
+ * In case the file is found but the content is not what is expected, a warning is emitted but the data is still loaded.
+ * @return int 0 if the load was successful, non-zero otherwise.
+ */
 int		load_game(struct gb_cpu_s* gb);
+
+/**
+ * @brief Same as save_game(), except it saves the game to "./saves/<name>_CRASH.sav".
+ * 
+ * @param gb 
+ * @return int 
+ */
 int		save_game_crash(struct gb_cpu_s* gb);
+
+/**
+ * @brief Save the current GameBoy state to a file.
+ * This is a very straight forward function: it simply saves the gb_cpu_s structure to a file.
+ * The file is saved to "./savestates/<name>_<slot>.ss" where <name> is the name of the ROM and <slot> is the slot number.
+ * @return int 0 if the save was successful, non-zero otherwise.
+ */
 int		savestate(struct gb_cpu_s* gb, int number);
+
+/**
+ * @brief Load a savestate from a file.
+ * This function simply reads the file into the gb_cpu_s structure.
+ * @return int 0 if something was loaded, non-zero otherwise.
+ */
 int		loadstate(struct gb_cpu_s* gb, int number);
 
 
