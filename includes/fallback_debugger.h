@@ -13,6 +13,30 @@
 #endif
 #include "gb.h"
 
+struct breakpoint_s
+{
+	uint16_t	addr;
+	struct breakpoint_s* next;
+};
+
+/**
+ * @brief Struct used by the fallback_debugger. This debugger is very basic and should be used only if no other debugger is available.
+ */
+struct gbmu_debugger_s
+{
+	int						verbose_level; ///< Verbosity level.
+	struct breakpoint_s*	breakpoints; ///< List of breakpoints.
+	void*					instance; ///< Debugger context.
+};
+
+struct command_s
+{
+	char*	name;
+	int		(*f)(struct gb_cpu_s*, char*, uint16_t);
+	char*	desc;
+};
+
+void	fallback_execute(struct gb_cpu_s* gb, char* str);
 int     find_breakpoint(void *debugger, int pc);
 int		command_next(struct gb_cpu_s* gb, char* s, uint16_t arg);
 int		command_add_breakpoint(struct gb_cpu_s* gb, char* s, uint16_t arg);

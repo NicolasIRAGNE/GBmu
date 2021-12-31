@@ -16,6 +16,8 @@
 #include "op.h"
 #ifdef WITH_LIBYACC
 # include "libyacc_wrapper.h"
+#else
+# include "fallback_debugger.h"
 #endif
 #include <stdio.h>
 #include <stdint.h>

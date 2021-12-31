@@ -1,73 +1,70 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cpu.h                                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/30 16:34:47 by niragne           #+#    #+#             */
-/*   Updated: 2020/06/14 17:03:49 by niragne          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+/**
+ * @file cpu.h
+ * @author Nicolas IRAGNE (nicolas.iragne@alyce.fr)
+ * @brief Contains most of the internal functions and macros used by the CPU.
+ * @date 2021-12-31
+ * 
+ * @copyright Copyright Alyce (c) 2021
+ */
 
 #ifndef CPU_H
 # define CPU_H
 # include <stdint.h>
 # include "mbc.h"
 
-# define VRAM_SIZE 0x2000			// 8kiB
-# define WRAM_SIZE 0x2000			// 8kiB
-# define HRAM_SIZE 0x100			// 256B
-# define RAM_SIZE 0x1000			// 4kiB
-# define EXTRA_RAM_SIZE 0x2000		// 8kiB
-# define IO_PORTS_SIZE 0x100		// 256B
-# define OAM_SIZE 0xa0				// 160B
-# define CRAM_SIZE	0x40			// 64B
+# define VRAM_SIZE 0x2000			///< 8kiB
+# define WRAM_SIZE 0x2000			///< 8kiB
+# define HRAM_SIZE 0x100			///< 256B
+# define RAM_SIZE 0x1000			///< 4kiB
+# define EXTRA_RAM_SIZE 0x2000		///< 8kiB
+# define IO_PORTS_SIZE 0x100		///< 256B
+# define OAM_SIZE 0xa0				///< 160B
+# define CRAM_SIZE	0x40			///< 64B
 
-# define VRAM_TILE_BANK_SIZE 0x1800
+# define VRAM_TILE_BANK_SIZE 0x1800 ///< 96kiB
 
-# define OAM_OFFSET 0xFE00
+# define OAM_OFFSET 0xFE00 ///< 0xFE00 - 0xFE9F
 
-# define IO_OFFSET			0xFF00
-# define JOYP_OFFSET			(IO_OFFSET | 0x00)
-# define SERIAL_DATA_OFFSET		(IO_OFFSET | 0x01)
-# define SERIAL_CONTROL_OFFSET	(IO_OFFSET | 0x02)
+# define IO_OFFSET			0xFF00 ///< 0xFF00 - 0xFF7F
+# define JOYP_OFFSET			(IO_OFFSET | 0x00) ///< 0xFF00
+# define SERIAL_DATA_OFFSET		(IO_OFFSET | 0x01) ///< 0xFF01
+# define SERIAL_CONTROL_OFFSET	(IO_OFFSET | 0x02) ///< 0xFF02
 
 // TIMER
-# define DIV_OFFSET				(IO_OFFSET | 0x04)
-# define TIMA_OFFSET			(IO_OFFSET | 0x05)
-# define TMA_OFFSET				(IO_OFFSET | 0x06)
-# define TAC_OFFSET				(IO_OFFSET | 0x07)
+# define DIV_OFFSET				(IO_OFFSET | 0x04) ///< 0xFF04
+# define TIMA_OFFSET			(IO_OFFSET | 0x05) ///< 0xFF05
+# define TMA_OFFSET				(IO_OFFSET | 0x06) ///< 0xFF06
+# define TAC_OFFSET				(IO_OFFSET | 0x07) ///< 0xFF07
 
 // LCD SCREEN
-# define LCDC_OFFSET 			(IO_OFFSET | 0x40)
-# define STAT_OFFSET 			(IO_OFFSET | 0x41)
-# define SCY_OFFSET				(IO_OFFSET | 0x42)
-# define SCX_OFFSET				(IO_OFFSET | 0x43)
-# define LY_OFFSET				(IO_OFFSET | 0x44)
-# define LYC_OFFSET				(IO_OFFSET | 0x45)
-# define DMA_OFFSET				(IO_OFFSET | 0x46)
-# define BGP_OFFSET				(IO_OFFSET | 0x47)
-# define OBP0_OFFSET			(IO_OFFSET | 0x48)
-# define OBP1_OFFSET			(IO_OFFSET | 0x49)
-# define WY_OFFSET				(IO_OFFSET | 0x4A)
-# define WX_OFFSET				(IO_OFFSET | 0x4B)
-# define KEY1_OFFSET			(IO_OFFSET | 0x4D)
-# define HDMA1_OFFSET			(IO_OFFSET | 0x51)
-# define HDMA2_OFFSET			(IO_OFFSET | 0x52)
-# define HDMA3_OFFSET			(IO_OFFSET | 0x53)
-# define HDMA4_OFFSET			(IO_OFFSET | 0x54)
-# define HDMA5_OFFSET			(IO_OFFSET | 0x55)
+# define LCDC_OFFSET 			(IO_OFFSET | 0x40) ///< 0xFF40
+# define STAT_OFFSET 			(IO_OFFSET | 0x41) ///< 0xFF41
+# define SCY_OFFSET				(IO_OFFSET | 0x42) ///< 0xFF42
+# define SCX_OFFSET				(IO_OFFSET | 0x43) ///< 0xFF43
+# define LY_OFFSET				(IO_OFFSET | 0x44) ///< 0xFF44
+# define LYC_OFFSET				(IO_OFFSET | 0x45) ///< 0xFF45
+# define DMA_OFFSET				(IO_OFFSET | 0x46) ///< 0xFF46
+# define BGP_OFFSET				(IO_OFFSET | 0x47) ///< 0xFF47
+# define OBP0_OFFSET			(IO_OFFSET | 0x48) ///< 0xFF48
+# define OBP1_OFFSET			(IO_OFFSET | 0x49) ///< 0xFF49
+# define WY_OFFSET				(IO_OFFSET | 0x4A) ///< 0xFF4A
+# define WX_OFFSET				(IO_OFFSET | 0x4B) ///< 0xFF4B
+# define KEY1_OFFSET			(IO_OFFSET | 0x4D) ///< 0xFF4D
+# define HDMA1_OFFSET			(IO_OFFSET | 0x51) ///< 0xFF51
+# define HDMA2_OFFSET			(IO_OFFSET | 0x52) ///< 0xFF52
+# define HDMA3_OFFSET			(IO_OFFSET | 0x53) ///< 0xFF53
+# define HDMA4_OFFSET			(IO_OFFSET | 0x54) ///< 0xFF54
+# define HDMA5_OFFSET			(IO_OFFSET | 0x55) ///< 0xFF55
 
-# define BCPS_OFFSET			(IO_OFFSET | 0x68)
-# define BCPD_OFFSET			(IO_OFFSET | 0x69)
-# define OCPS_OFFSET			(IO_OFFSET | 0x6A)
-# define OCPD_OFFSET			(IO_OFFSET | 0x6B)
+# define BCPS_OFFSET			(IO_OFFSET | 0x68) ///< 0xFF68
+# define BCPD_OFFSET			(IO_OFFSET | 0x69) ///< 0xFF69
+# define OCPS_OFFSET			(IO_OFFSET | 0x6A) ///< 0xFF6A
+# define OCPD_OFFSET			(IO_OFFSET | 0x6B) ///< 0xFF6B
 
-# define VBK_OFFSET				(IO_OFFSET | 0x4F)
-# define SVBK_OFFSET			(IO_OFFSET | 0x70)
+# define VBK_OFFSET				(IO_OFFSET | 0x4F) ///< 0xFF4F
+# define SVBK_OFFSET			(IO_OFFSET | 0x70) ///< 0xFF70
 
-# define IF_OFFSET				(IO_OFFSET | 0x0F)
+# define IF_OFFSET				(IO_OFFSET | 0x0F) ///< 0xFF0F
 
 // LCDC
 # define LCDC_ON					(1 << 7)
@@ -89,11 +86,14 @@
 # define HALF_CARRY_FLAG	(1 << 5)
 # define CARRY_FLAG			(1 << 4)
 
-# define INT_VBLANK_REQUEST	(1 << 0)
-# define INT_STAT_REQUEST	(1 << 1)
-# define INT_TIMER_REQUEST	(1 << 2)
-# define INT_SERIAL_REQUEST	(1 << 3)
-# define INT_JOYPAD_REQUEST	(1 << 4) // useless i think ?
+enum gb_intr_e
+{
+    INT_VBLANK_REQUEST = (1 << 0), ///< Fired when the LCD screen finishes drawing the current frame.
+    INT_STAT_REQUEST = (1 << 1), ///< Generic interrupt fired when any of the events enabled by the stat register (#STAT_OFFSET) occur.
+    INT_TIMER_REQUEST = (1 << 2), ///< Fired whenever the timer (#TIMA_OFFSET) overflows.
+    INT_SERIAL_REQUEST = (1 << 3), ///< yeah i don't remember what this is for.
+    INT_JOYPAD_REQUEST = (1 << 4) ///< Fired whenever a button is pressed.
+};
 
 # define INT_VBLANK_ADDR		0x40
 # define INT_STAT_ADDR			0x48
@@ -248,15 +248,6 @@ struct Lcd {
     int32_t scy;
     int32_t wx;
     int32_t wy;
-};
-    
-enum	gb_mode_e
-{
-	GB_MODE_DMG, //<! Original Gameboy mode.
-	GB_MODE_CGB, //<! Color Gameboy mode.
-	GB_MODE_GBA, //<! Gameboy Advance mode. Not supported.
-	GB_MODE_AUTO, //<! Auto-detect the gameboy mode. This is done by reading the ROM header.
-	GB_MODE_UNKNOWN //<! Unknown mode. I don't know what this is. Too bad!
 };
 
 struct	gb_cpu_s

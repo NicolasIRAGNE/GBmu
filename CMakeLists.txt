@@ -7,9 +7,9 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
 
 project(gbmu LANGUAGES CXX C)
 
-add_library(gbmu_lib)
-target_compile_definitions(gbmu_lib PRIVATE "SHADERS_LOCATION=\"${CMAKE_CURRENT_SOURCE_DIR}/srcs/renderer/shaders\"")
-target_compile_definitions(gbmu_lib PUBLIC "ASAN_OPTIONS=detect_leaks=0")
+add_library(gb)
+target_compile_definitions(gb PRIVATE "SHADERS_LOCATION=\"${CMAKE_CURRENT_SOURCE_DIR}/srcs/renderer/shaders\"")
+target_compile_definitions(gb PUBLIC "ASAN_OPTIONS=detect_leaks=0")
 add_executable(gbmu srcs/main.cpp)
 target_link_libraries(gbmu cxxopts::cxxopts)
 
@@ -67,9 +67,9 @@ if (NOT WIN32)
 	add_compile_definitions(USE_READLINE_STATIC=1)
 	add_compile_definitions(READLINE_LIBRARY=1)
 	find_package(Readline REQUIRED)
-	target_include_directories(gbmu_lib PRIVATE ${Readline_INCLUDE_DIR})
-	target_link_libraries(gbmu_lib ${Readline_LIBRARY})
-	target_include_directories(gbmu_lib PUBLIC ${Readline_INCLUDE_DIR})
+	target_include_directories(gb PRIVATE ${Readline_INCLUDE_DIR})
+	target_link_libraries(gb ${Readline_LIBRARY})
+	target_include_directories(gb PUBLIC ${Readline_INCLUDE_DIR})
 endif()
 
 ################################################
@@ -448,41 +448,33 @@ set(DEBUGGER_SOURCES
 	includes/debugger/Commands/Continue.hpp
 	)
 
-target_include_directories(gbmu_lib PUBLIC srcs)
-target_include_directories(gbmu_lib PUBLIC includes)
-target_include_directories(gbmu_lib PUBLIC srcs/renderer)
-	
+target_include_directories(gb PUBLIC "${CMAKE_CURRENT_BINARY_DIR}")
+message(STATUS "Including gb headers from build directory : ${CMAKE_CURRENT_BINARY_DIR}")
+target_include_directories(gb PUBLIC srcs)
+target_include_directories(gb PUBLIC includes)
+target_include_directories(gb PUBLIC srcs/renderer)
+
 ################################################
 #                COMPILE FLAGS                 #
 ################################################
 
 set(CMAKE_CXX_STANDARD 17)
 
-if (MSVC)
-	set(CMAKE_CXX_FLAGS         "${CMAKE_CXX_FLAGS}         ")
-	set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} ")
-	set(CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS_DEBUG}   /Wall /DEBUG")
-	set(CMAKE_C_FLAGS           "${CMAKE_C_FLAGS}           ")
-	set(CMAKE_C_FLAGS_RELEASE   "${CMAKE_C_FLAGS_RELEASE}   ")
-	set(CMAKE_C_FLAGS_DEBUG     "${CMAKE_C_FLAGS_DEBUG}     /Wall /DEBUG")
-else()
-	# set(CMAKE_CXX_FLAGS         "${CMAKE_CXX_FLAGS}         -Wall -Wextra")
-	# set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -g -Werror")
-	set(CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS_DEBUG}   -O0 -g3")
-	# set(CMAKE_C_FLAGS           "${CMAKE_C_FLAGS}           -Wall -Wextra")
-	# set(CMAKE_C_FLAGS_RELEASE   "${CMAKE_C_FLAGS_RELEASE}   -O3 -g -Werror")
-	set(CMAKE_C_FLAGS_DEBUG     "${CMAKE_C_FLAGS_DEBUG}     -O0 -g3")
-endif()
-
+target_compile_options(gb PRIVATE
+  # Clang/GCC warnings:
+  "$<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:GNU>>:-Wall>"
+  # MSVC warnings:
+  "$<$<CXX_COMPILER_ID:MSVC>:/W4>"
+)
 
 if (WITH_ASAN)
-	target_link_options(gbmu_lib PUBLIC "-fsanitize=address")
-	# target_link_options(gbmu_lib PUBLIC "/MD")
-	target_compile_options(gbmu_lib PUBLIC "-fsanitize=address")
+	target_link_options(gb PUBLIC "-fsanitize=address")
+	# target_link_options(gb PUBLIC "/MD")
+	target_compile_options(gb PUBLIC "-fsanitize=address")
 endif()
 
 if (DEBUG_COLORS)
-	target_compile_definitions(gbmu_lib PRIVATE DEBUG_COLORS)
+	target_compile_definitions(gb PRIVATE DEBUG_COLORS)
 endif()
 
 
@@ -491,28 +483,28 @@ endif()
 ################################################
 
 if (WITH_LIBYACC)
-	target_sources(gbmu_lib PRIVATE ${GENERATED_LIBYACC_SOURCES} ${DEBUGGER_SOURCES})
+	target_sources(gb PRIVATE ${GENERATED_LIBYACC_SOURCES} ${DEBUGGER_SOURCES})
 	FILE(GLOB GENERATED_LIBYACC_SOURCES srcs/debugger/*.cpp)
 	FILE(GLOB GENERATED_LIBYACC_SOURCES srcs/debugger/Commands/*.cpp)
-	target_compile_definitions(gbmu_lib PUBLIC WITH_LIBYACC)
-	target_include_directories(gbmu_lib PUBLIC includes/debugger)
-	target_include_directories(gbmu_lib PUBLIC includes/debugger/Commands)
+	target_compile_definitions(gb PUBLIC WITH_LIBYACC)
+	target_include_directories(gb PUBLIC includes/debugger)
+	target_include_directories(gb PUBLIC includes/debugger/Commands)
 	include_directories(libyacc/includes)
 endif()
 
-target_sources(gbmu_lib PRIVATE ${SOURCES})
+target_sources(gb PRIVATE ${SOURCES} ${HEADERS})
 
-target_link_libraries(gbmu_lib SDL2main)
-target_link_libraries(gbmu_lib SDL2-static)
-target_link_libraries(gbmu_lib ${CMAKE_THREAD_LIBS_INIT})
-target_link_libraries(gbmu_lib ${OPENGL_LIBRARIES})
-target_link_libraries(gbmu_lib libglew_static)
+target_link_libraries(gb SDL2main)
+target_link_libraries(gb SDL2-static)
+target_link_libraries(gb ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(gb ${OPENGL_LIBRARIES})
+target_link_libraries(gb libglew_static)
 
 if (WIN32)
-	target_link_libraries(gbmu_lib edit_static)
+	target_link_libraries(gb edit_static)
 endif()
 
-# target_include_directories(gbmu_lib ${SDL2_INCLUDE_DIRS})
+# target_include_directories(gb ${SDL2_INCLUDE_DIRS})
 
 ################################################
 #                   INSTALL                    #
@@ -533,13 +525,13 @@ foreach(shader ${SHADERS})
 	# 	COMMENT "Copying shader ${filename} to ${CMAKE_CURRENT_BINARY_DIR}/shaders/"
 	# 	SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/${shader}
 	# )
-	# add_dependencies(gbmu_lib gbmu_shader_${filename})
+	# add_dependencies(gb gbmu_shader_${filename})
 endforeach()
 
-target_link_libraries(gbmu gbmu_lib)
+target_link_libraries(gbmu gb)
 add_custom_target(gbmu_shaders ALL DEPENDS ${GENERATED_SHADERS})
 
-add_dependencies(gbmu_lib gbmu_shaders)
+add_dependencies(gb gbmu_shaders)
 
 include(cmake/CopyDLLs.cmake)
 
