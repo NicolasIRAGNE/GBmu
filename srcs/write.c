@@ -114,7 +114,7 @@ void internal_hdma_transfer(struct gb_cpu_s* gb, uint16_t src, uint16_t dst, uin
 	uint16_t i = 0;
 	while (i < length)
 	{
-		uint8_t x = rand();
+		uint8_t x = read_8_force(gb, src);
 		write_8_force(gb, dst, x);
 		src++;
 		dst++;
@@ -122,7 +122,7 @@ void internal_hdma_transfer(struct gb_cpu_s* gb, uint16_t src, uint16_t dst, uin
 	}
 }
 
-void hblank_hdma_transfer(struct gb_cpu_s* gb, uint8_t a8)
+void hblank_hdma_transfer(struct gb_cpu_s* gb, uint16_t a8)
 {
 	printf("HDMA TRANSFER\n");
 	gb->hdma_in_progress = 1;
@@ -142,12 +142,12 @@ void initiate_hdma_transfer(struct gb_cpu_s* gb, uint8_t a8)
     dst &= 0x1FF0;
     dst += 0x8000;
 
-	uint8_t len = (a8 + 1) * 16;
-	uint8_t i = 0;
+	uint16_t len = (a8 + 1) * 16;
 	if (a8 & (1 << 7))
 	{
 		printf("Requesting HDMA transfer (mode 1) from %4x to %4x, length %d\n", src, dst, len);
-		hblank_hdma_transfer(gb, a8);
+		// hblank_hdma_transfer(gb, a8);
+		internal_hdma_transfer(gb, src, dst, len);
 	}
 	else
 	{

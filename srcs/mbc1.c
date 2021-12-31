@@ -21,6 +21,32 @@
 # include "libyacc_wrapper.h"
 #endif
 
+/**
+ * @brief Dump the current MBC rom to a file. For debugging purposes.
+ * 
+ * @param gb 
+ */
+void	dump_mbc(struct gb_cpu_s* gb)
+{
+	FILE* f = fopen("clang.gb", "wb");
+	if (f == NULL)
+		return ;
+	for (size_t j = 0; j < 0x4000; j++)
+	{
+		uint8_t r = read_8_force(gb, j);
+		fwrite(&r, 1, 1, f);
+	}
+	for (gb->mbc.bank = 1; gb->mbc.bank < gb->mbc.max_rom_banks; gb->mbc.bank++)
+	{
+		for (size_t j = 0x4000; j < 0x8000; j++)
+		{
+			uint8_t r = read_8(gb, j);
+			fwrite(&r, 1, 1, f);
+		}
+	}
+	fclose(f);
+}
+
 uint8_t	read_mbc1(struct gb_cpu_s* gb, uint16_t addr, enum memory_mode_e mode)
 {
 	if (addr < 0x100 && !gb->booted)
@@ -49,7 +75,7 @@ uint8_t	read_mbc1(struct gb_cpu_s* gb, uint16_t addr, enum memory_mode_e mode)
 			return (((uint8_t*)(gb->rom_ptr->ptr))[tmp * 0x4000 + addr - 0x4000]);
 		}
 		else
-			return (((uint8_t*)(gb->rom_ptr->ptr))[addr]);
+			return (((uint8_t*)(gb->rom_ptr->ptr))[addr % 0x4000]);
 	}
 	else if (addr < 0xc000)
 	{

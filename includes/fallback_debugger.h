@@ -24,5 +24,5 @@ int		command_print(struct gb_cpu_s* gb, char* s, uint16_t arg);
 int		command_run(struct gb_cpu_s* gb, char* s, uint16_t arg);
 int		command_del(struct gb_cpu_s* gb, char* s, uint16_t arg);
 int		command_help(struct gb_cpu_s* gb, char* s, uint16_t arg);
-int     get_verbose(void *debugger);
+int		get_verbose(struct gbmu_debugger_s* debugger);
 

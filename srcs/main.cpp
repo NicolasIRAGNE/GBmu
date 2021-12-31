@@ -149,6 +149,7 @@ int		main(int ac, char** av)
 	renderer_set_window_size(renderer, window_width, window_height);
 	struct gbmu_wrapper_s wrapper = {&gb, &vram_viewer_context, &main_window_context};
 	execute_loop(&wrapper, renderer);
+	// dump_mbc(&gb);
 	delete_renderer(renderer);
 	if (gb.mbc.ram_size > 0)
 		save_game(&gb);
