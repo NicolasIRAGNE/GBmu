@@ -25,6 +25,8 @@ extern "C" {
 #include "renderer/wrapper_c/wrapper.h"
 #ifdef WITH_LIBYACC
 # include "libyacc_wrapper.h"
+#else
+# include "fallback_debugger.h"
 #endif
 // #include <pthread.h>
 }

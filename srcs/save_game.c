@@ -52,6 +52,7 @@ int		save_game(struct gb_cpu_s* gb)
 	if (!f)
 	{
 		perror(save_file);
+		free(save_file);
 		return (1);
 	}
 	fwrite(gb->extra_ram, gb->mbc.ram_size, 1, f);
