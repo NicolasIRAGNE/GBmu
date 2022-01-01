@@ -36,7 +36,7 @@ struct	mbc_s
 {
 	char*			name;
 	enum mbc_mode_e	mode;
-	uint8_t			(*read)(struct gb_cpu_s*, uint16_t, enum memory_mode_e);	
+	uint8_t			(*read)(struct gb_cpu_s*, uint16_t, enum memory_mode_e);
 	void			(*write)(struct gb_cpu_s*, uint16_t, uint8_t, enum memory_mode_e);
 	uint16_t		bank;
 	uint16_t		ram_bank;

@@ -115,7 +115,7 @@ void	debug_print_instruction(struct inst_s* inst)
 void	debug_print_rom_hdr(struct rom_hdr_s* hdr)
 {
 	printf("NAME: %.11s\n", hdr->title);
-	printf("MANUFACTURER CODE: %x %x\n", hdr->manufacturer_code[0], hdr->manufacturer_code[1]);
+	printf("MANUFACTURER CODE: %x %x\n", hdr->licensee_code[0], hdr->licensee_code[1]);
 	printf("SGB FLAG: %x\n", hdr->sgb_flag);
 	printf("CARTRIDGE TYPE: %x\n", hdr->type);
 	printf("ROM SIZE: %x\n", hdr->rom_size);

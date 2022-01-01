@@ -198,9 +198,9 @@ enum	tile_type_e
 enum	gpu_mode_e
 {
 	GPU_MODE_HBLANK = 0,
-	GPU_MODE_VBLANK,
-	GPU_MODE_OAM,
-	GPU_MODE_VRAM,
+	GPU_MODE_VBLANK = 1,
+	GPU_MODE_OAM = 2,
+	GPU_MODE_VRAM = 3,
 };
 
 struct	gb_gpu_s

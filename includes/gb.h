@@ -199,6 +199,50 @@ struct gbmu_debugger_s
 };
 #endif
 
+/*
+#[derive(Debug, Default)]
+pub struct Registers {
+    pub control: Control,
+
+    // Status
+    pub mode: Mode,	// HBLANK
+    pub lyc_ly: bool,
+    pub hblank_interupt: bool,
+    pub vblank_interupt: bool,
+    pub oam_interupt: bool,
+    pub lyc_ly_interupt: bool,
+
+    //Lcd Coordinates
+    pub coordinates: Coordinates,
+    pub bgp: palette::Monochrome,
+    // objp0: palette::Monochrome,
+    // objp1: palette::Monochrome,
+    // bcps: palette::Index,
+    // bcpd: palette::Data,
+    // ocps: palette::Index,
+    // ocpd: palette::Data,
+
+    // dma_transfer: u8,
+
+    // hdma1: u8,
+    // hdma2: u8,
+    // hdma3: u8,
+    // hdma4: u8,
+    // hdma5: u8
+}
+*/
+
+struct ppu_info_s
+{
+	enum gpu_mode_e mode;
+	uint8_t lyc_int : 1;
+	uint8_t mode_2_int : 1;
+	uint8_t mode_1_int : 1;
+	uint8_t mode_0_int : 1;
+	uint8_t lyc_flag : 1;
+	
+};
+
 /**
  * @brief Initializes the gb struct. This should be called after opening a rom but before any other function.
  * This function will call the underlying functions appropriate to the Gameboy type.

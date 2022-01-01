@@ -39,3 +39,8 @@ int		clamp(int val, int min, int max)
 		return (max);
 	return (val);
 }
+
+void	copy_registers(struct registers_s* a, struct registers_s* b)
+{
+	memcpy(a, b, sizeof(struct registers_s));
+}
