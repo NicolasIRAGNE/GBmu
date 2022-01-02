@@ -116,11 +116,11 @@ enum gb_intr_e
 # define JOYP_INPUT_A			(1 << 0)
 
 // Stat register
-# define STAT_LYC_INT			(1 << 6)
-# define STAT_MODE_2_INT		(1 << 5)
-# define STAT_MODE_1_INT		(1 << 4)
-# define STAT_MODE_0_INT		(1 << 3)
-# define STAT_LYC_FLAG			(1 << 2)
+# define STAT_LYC_INT			(1 << 6) ///< Interrupt when the LY register (#LY_OFFSET) matches the LYC register (#LYC_OFFSET).
+# define STAT_MODE_2_INT		(1 << 5) ///< Interrupt when PPU switches to mode 2.
+# define STAT_MODE_1_INT		(1 << 4) ///< Interrupt when PPU switches to mode 1.
+# define STAT_MODE_0_INT		(1 << 3) ///< Interrupt when PPU switches to mode 0.
+# define STAT_LYC_FLAG			(1 << 2) ///< Set when the LY register (#LY_OFFSET) matches the LYC register (#LYC_OFFSET).
 
 # define DEFAULT_DIV_FREQ		16384
 # define SGB_DIV_FREQ			16779
@@ -195,12 +195,16 @@ enum	tile_type_e
 	TILE_TYPE_WINDOW,
 };
 
+/**
+ * @brief The current state of the PPU.
+ * These modes indicate what the PPU is currently doing and which memory areas are currently accessible.
+ */
 enum	gpu_mode_e
 {
-	GPU_MODE_HBLANK = 0,
-	GPU_MODE_VBLANK = 1,
-	GPU_MODE_OAM = 2,
-	GPU_MODE_VRAM = 3,
+	GPU_MODE_HBLANK = 0, ///< PPU is in HBLANK mode. All memory is accessible
+	GPU_MODE_VBLANK = 1, ///< PPU is in VBLANK mode. All memory is accessible. It's free real estate.
+	GPU_MODE_OAM = 2, ///< PPU is reading from OAM. Access to these memory areas is blocked: OAM
+	GPU_MODE_VRAM = 3, ///< PPU is reading from VRAM and OAM. Access to these memory areas is blocked: VRAM, OAM and palettes
 };
 
 struct	gb_gpu_s
