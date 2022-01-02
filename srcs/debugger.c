@@ -24,6 +24,8 @@
 #endif
 #ifdef WITH_LIBYACC
 # include "libyacc_wrapper.h"
+#else
+# include "fallback_debugger.h"
 #endif
 
 void	execute_debugger(struct gb_cpu_s* gb)

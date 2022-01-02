@@ -62,7 +62,7 @@ struct 	tile_s
 };
 
 
-void	vram_viewer_loop(struct gbmu_wrapper_s* wrapper, struct tile_s** array);
+void	vram_viewer_loop(struct gbmu_wrapper_s* wrapper, struct tile_s array[2][TILES_COUNT]);
 int     init_vram_viewer(struct sdl_context_s* context);
 int     init_main_window(struct sdl_context_s* context);
 int     init_sdl(void);

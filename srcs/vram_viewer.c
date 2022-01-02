@@ -45,7 +45,7 @@ int display_vram(struct gbmu_wrapper_s* wrapper, struct tile_s array[2][TILES_CO
     return (0);
 }
 
-void	vram_viewer_loop(struct gbmu_wrapper_s* wrapper, struct tile_s** array)
+void	vram_viewer_loop(struct gbmu_wrapper_s* wrapper, struct tile_s array[2][TILES_COUNT])
 {
    	// while (SDL_PollEvent(&event)) 
 	// {

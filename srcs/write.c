@@ -52,8 +52,10 @@ static void	write_8_internal(struct gb_cpu_s* gb, uint16_t a16, uint8_t x, enum 
 	}
 	else if (a16 < 0xa000)
 	{
-		if (!IGNORE_LOCKS && (mode == MEM_SYSTEM && gb->gpu.mode == GPU_MODE_VRAM && (lcdc & LCDC_ON)))
+		#ifndef IGNORE_LOCKS
+		if (mode == MEM_SYSTEM && gb->gpu.mode == GPU_MODE_VRAM && (lcdc & LCDC_ON))
 			return;
+		#endif
 		gb->vram_updated[gb->vram_bank] = 1;
 		gb->vram[gb->vram_bank][a16 - 0x8000] = x;
 		return ;
