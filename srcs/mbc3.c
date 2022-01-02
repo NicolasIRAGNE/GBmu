@@ -19,6 +19,8 @@
 #include "cpu.h"
 #ifdef WITH_LIBYACC
 # include "libyacc_wrapper.h"
+#else
+# include "fallback_debugger.h"
 #endif
 
 uint8_t	read_mbc3(struct gb_cpu_s* gb, uint16_t addr, enum memory_mode_e mode)

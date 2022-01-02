@@ -465,6 +465,9 @@ target_compile_options(gb PRIVATE
   "$<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:GNU>>:-Wall>"
   # MSVC warnings:
   "$<$<CXX_COMPILER_ID:MSVC>:/W4>"
+  "$<$<CXX_COMPILER_ID:MSVC>:/wd4201>" # nonstandard extension used: nameless struct/union
+  "$<$<CXX_COMPILER_ID:MSVC>:/wd4267>" # conversion from 'size_t' to 'unsigned int', possible loss of data
+  "$<$<CXX_COMPILER_ID:MSVC>:/wd4244>" # conversion from 'int' to 'unsigned short', possible loss of data
 )
 
 if (WITH_ASAN)
