@@ -96,3 +96,6 @@ out/
 
 # Doxygen
 doc/html
+doc/docbook
+doc/man
+doc/latex
