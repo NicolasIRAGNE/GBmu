@@ -238,7 +238,7 @@ pub struct Registers {
 struct ppu_info_s
 {
     enum gpu_mode_e mode; ///< @copydoc gpu_mode_e
-    uint8_t lyc_int : 1; ///< @copydoc #STAT_LYC_FLAG
+    uint8_t lyc_int : 1; ///< @copydoc #STAT_LYC_INT
     uint8_t mode_2_int : 1; ///< @copydoc #STAT_MODE_2_INT
     uint8_t mode_1_int : 1; ///< @copydoc #STAT_MODE_1_INT
     uint8_t mode_0_int : 1; ///< @copydoc #STAT_MODE_0_INT
