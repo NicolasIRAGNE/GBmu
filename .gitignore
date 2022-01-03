@@ -99,3 +99,7 @@ doc/html
 doc/docbook
 doc/man
 doc/latex
+
+# Added by cargo
+
+/target
