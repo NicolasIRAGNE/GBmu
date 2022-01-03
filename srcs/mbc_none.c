@@ -16,6 +16,7 @@
 #include "gb.h"
 #include "cpu.h"
 #include "mbc.h"
+#include "rom.h"
 
 uint8_t	read_no_mbc(struct gb_cpu_s* gb, uint16_t addr, enum memory_mode_e mode)
 {
@@ -33,7 +34,6 @@ uint8_t	read_no_mbc(struct gb_cpu_s* gb, uint16_t addr, enum memory_mode_e mode)
 			return (((uint8_t*)(gb->extra_ram))[addr - 0x8000]);
 		else
 			return (0xff);
-		return (0xff);
 	}
 	return (0xff);
 }

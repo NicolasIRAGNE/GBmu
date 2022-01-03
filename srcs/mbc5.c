@@ -17,6 +17,7 @@
 #include "gb.h"
 #include "mbc.h"
 #include "cpu.h"
+#include "rom.h"
 #ifdef WITH_LIBYACC
 # include "libyacc_wrapper.h"
 #endif

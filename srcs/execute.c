@@ -15,6 +15,7 @@
 #include "SDL_video.h"
 #include "cpu.h"
 #include "op.h"
+#include "debug.h"
 #include "renderer/wrapper_c/wrapper.h"
 #ifdef WITH_LIBYACC
 # include "libyacc_wrapper.h"

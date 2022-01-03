@@ -17,6 +17,7 @@
 #include "gb.h"
 #include "cpu.h"
 #include "mbc.h"
+#include "rom.h"
 
 #ifdef _WIN32
 #include "asprintf.h"

@@ -15,8 +15,9 @@
 #include <cxxopts.hpp>
 #include <functional>
 
-#include "gb.h"
 extern "C" {
+#include "gb.h"
+#include "debug.h"
 #include "renderer.h"
 #include "SDL.h"
 #include "SDL_video.h"

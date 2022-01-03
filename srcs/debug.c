@@ -14,6 +14,7 @@
 #include "cpu.h"
 #include "mbc.h"
 #include "op.h"
+#include "rom.h"
 #ifdef WITH_LIBYACC
 # include "libyacc_wrapper.h"
 #else
@@ -21,6 +22,8 @@
 #endif
 #include <stdio.h>
 #include <stdint.h>
+
+#include "debug.h"
 
 void	debug_print_gb(struct gb_cpu_s* gb)
 {

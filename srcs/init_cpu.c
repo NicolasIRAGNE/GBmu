@@ -20,6 +20,7 @@
 #include "cpu.h"
 #include "mbc.h"
 #include "dmg_boot_rom.h"
+#include "rom.h"
 
 int		open_rom(char* name, struct rom_s* rom)
 {

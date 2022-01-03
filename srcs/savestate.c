@@ -22,6 +22,7 @@
 #include "SDL_stdinc.h"
 #include "cpu.h"
 #include "mbc.h"
+#include "rom.h"
 #ifdef _WIN32
 # include "asprintf.h"
 #endif

@@ -14,6 +14,7 @@
 # define EXT_OP_H
 
 # include "gb.h"
+# include "cpu.h"
 
 struct ext_inst_s
 {

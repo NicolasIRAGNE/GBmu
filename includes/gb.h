@@ -18,12 +18,12 @@ extern "C" {
 # include <fcntl.h>
 // # include <sys/mman.h>
 # include <stdint.h>
-# include "op.h"
 # include "ext_op.h"
 # include <limits.h>
 # include "mbc.h"
 # include <stdio.h>
-# include "renderer/wrapper_c/wrapper.h"
+# include "memory.h"
+# include "rom.h"
 
 # define RED	"\x1B[31m"
 # define GRN	"\x1B[32m"
@@ -39,6 +39,18 @@ extern "C" {
 
 # define DEFAULT_VERBOSE 0
 
+/**
+ * @brief The current state of the PPU.
+ * These modes indicate what the PPU is currently doing and which memory areas are currently accessible.
+ */
+enum	gpu_mode_e
+{
+	GPU_MODE_HBLANK = 0, ///< PPU is in HBLANK mode. All memory is accessible
+	GPU_MODE_VBLANK = 1, ///< PPU is in VBLANK mode. All memory is accessible. It's free real estate.
+	GPU_MODE_OAM = 2, ///< PPU is reading from OAM. Access to these memory areas is blocked: OAM
+	GPU_MODE_VRAM = 3, ///< PPU is reading from VRAM and OAM. Access to these memory areas is blocked: VRAM, OAM and palettes
+};
+
 enum	gb_mode_e
 {
 	GB_MODE_DMG, ///< Original Gameboy mode.
@@ -46,134 +58,6 @@ enum	gb_mode_e
 	GB_MODE_GBA, ///< Gameboy Advance mode. Not supported.
 	GB_MODE_AUTO, ///< Auto-detect the gameboy mode. This is done by reading the ROM header.
 	GB_MODE_UNKNOWN ///< Unknown mode. This is not used but is here for completeness.
-};
-
-/**
- * @brief Info located at index 0x100 of the ROM.
- */
-struct rom_hdr_s
-{
-    /// Entry point of the ROM. This is usually a jump to the ROM's main function.
-    uint8_t entry[4];
-    /**
-     * @brief 48 bytes that correspond to the Nintendo logo.
-     * This also acts as a checksum and is verified by the DMG boot rom. In case of a discrepancy, the gameboy will not boot.
-     */
-    uint8_t logo[48];
-    /**
-     * @brief The title of the game.
-     * @warning
-     * This is not as simple as it seems. On older cartridges, the 16 bytes correspond to the title of the game.
-     * However, on newer cartridges (from the CGB onwards), the name is either 15 or 11 bytes long.
-     * On these cartridges:
-     * - bytes 12-15 contain a manufacturer code, that serves an unknown purpose.
-     * - upper bite of byte 16 indicates wheter the game is a GBC game or not.
-     */
-    uint8_t title[16];
-    /**
-     * @brief Two characters that indicate the game developer.
-     * @note This is on newer cartridges only, most cartridges use the rom_hdr_s::manufacturer_code_extend field instead.
-     */
-    uint8_t licensee_code[2];
-    /**
-     * @brief If this is set to 0x03, the game supports SGB functions, otherwise it does not.
-     */
-    uint8_t sgb_flag;
-    /**
-	 * 
-     * @brief One of the most important fields of the ROM header. This indicates the type of the cartridge.
-     *
-     * - 0x00: ROM ONLY                 
-     * - 0x01: MBC1                     
-     * - 0x02: MBC1+RAM                 
-     * - 0x03: MBC1+RAM+BATTERY         
-     * - 0x05: MBC2                     
-     * - 0x06: MBC2+BATTERY             
-     * - 0x08: ROM+RAM                  
-     * - 0x09: ROM+RAM+BATTERY          
-     * - 0x0B: MMM01						
-     * - 0x0C: MMM01+RAM					
-     * - 0x0D: MMM01+RAM+BATTERY			
-     * - 0x0F: MBC3+TIMER+BATTERY		
-     * - 0x10: MBC3+TIMER+RAM+BATTERY   
-     * - 0x11: MBC3                     
-     * - 0x12: MBC3+RAM                 
-     * - 0x13: MBC3+RAM+BATTERY         
-	 * - 0x19: MBC5
-	 * - 0x1A: MBC5+RAM
-	 * - 0x1B: MBC5+RAM+BATTERY
-	 * - 0x1C: MBC5+RUMBLE
-	 * - 0x1D: MBC5+RUMBLE+RAM
-	 * - 0x1E: MBC5+RUMBLE+RAM+BATTERY
-	 * - 0x20: MBC6
-	 * - 0x22: MBC7+SENSOR+RUMBLE+RAM+BATTERY
-	 * - 0xFC: POCKET CAMERA
-	 * - 0xFD: BANDAI TAMA5
-	 * - 0xFE: HuC3
-	 * - 0xFF: HuC1+RAM+BATTERY
-     * - See https://gbdev.gg8.se/wiki/articles/The_Cartridge_Header
-     */
-    uint8_t type;
-
-	/**
-	 * @brief Indicates the size of the ROM.
-	 * - 0x00: -  32KByte (no ROM banking)
-	 * - 0x01: -  64KByte (4 banks)
-	 * - 0x02: - 128KByte (8 banks)
-	 * - 0x03: - 256KByte (16 banks)
-	 * - 0x04: - 512KByte (32 banks)
-	 * - 0x05: -   1MByte (64 banks)  - only 63 banks used by MBC1
-	 * - 0x06: -   2MByte (128 banks) - only 125 banks used by MBC1
-	 * - 0x07: -   4MByte (256 banks)
-	 * - 0x08: -   8MByte (512 banks)
-	 * - 0x52: - 1.1MByte (72 banks)
-	 * - 0x53: - 1.2MByte (80 banks)
-	 * - 0x54: - 1.5MByte (96 banks)
-	*/
-    uint8_t rom_size;
-	/**
-	 * @brief Indicates the size of the external RAM.
-	 * - 0x00: - None
-	 * - 0x01: - 2 KBytes
-	 * - 0x02: - 8 Kbytes
-	 * - 0x03: - 32 KBytes (4 banks of 8KBytes each)
-	 * - 0x04: - 128 KBytes (16 banks of 8KBytes each)
-	 * - 0x05: - 64 KBytes (8 banks of 8KBytes each)
-	 */
-    uint8_t ram_size;
-	/**
-	 * @brief Indicates the destination code of the game.
-	 * - 0x00: Japanese
-	 * - 0x01: Non-Japanese
-	 */
-    uint8_t lang;
-	/**
-	 * @brief Specifies the games company/publisher code in range 00-FFh. 
-	 * A value of 33h signalizes that the New License Code in header bytes 0144-0145 is used instead. (Super GameBoy functions won't work if <> $33.) 
-	 */
-    uint8_t manufacturer_code_extend;
-	/**
-	 * @brief Specifies the version of the game. Usually 0.
-	 */
-    uint8_t version;
-	/**
-	 * @brief Contains a small checksum of the header.
-	 */
-    uint8_t complement_check;
-	/**
-	 * @brief Contains a checksum of the ROM. This is however not used by the gameboy.
-	 */
-    uint8_t checksum[2];
-};
-
-/**
- * @brief Contains ROM info.
- */
-struct rom_s
-{
-	struct stat			st; ///< Raw info about the ROM file.
-	struct rom_hdr_s*	header; ///< Pointer to the ROM header. @see rom_hdr_s
-	void*				ptr; ///< Pointer to the ROM data.
 };
 
 /**
@@ -198,67 +82,6 @@ struct gbmu_debugger_s
 	void					*instance;	///< c++ DebuggerContext instance
 };
 #endif
-
-/*
-#[derive(Debug, Default)]
-pub struct Registers {
-    pub control: Control,
-
-    // Status
-    pub mode: Mode,	// HBLANK
-    pub lyc_ly: bool,
-    pub hblank_interupt: bool,
-    pub vblank_interupt: bool,
-    pub oam_interupt: bool,
-    pub lyc_ly_interupt: bool,
-
-    //Lcd Coordinates
-    pub coordinates: Coordinates,
-    pub bgp: palette::Monochrome,
-    // objp0: palette::Monochrome,
-    // objp1: palette::Monochrome,
-    // bcps: palette::Index,
-    // bcpd: palette::Data,
-    // ocps: palette::Index,
-    // ocpd: palette::Data,
-
-    // dma_transfer: u8,
-
-    // hdma1: u8,
-    // hdma2: u8,
-    // hdma3: u8,
-    // hdma4: u8,
-    // hdma5: u8
-}
-*/
-
-/**
- * @brief Contains information about the current state of the PPU.
- */
-struct ppu_info_s
-{
-    enum gpu_mode_e mode; ///< @copydoc gpu_mode_e
-    uint8_t lyc_int : 1; ///< @copydoc #STAT_LYC_INT
-    uint8_t mode_2_int : 1; ///< @copydoc #STAT_MODE_2_INT
-    uint8_t mode_1_int : 1; ///< @copydoc #STAT_MODE_1_INT
-    uint8_t mode_0_int : 1; ///< @copydoc #STAT_MODE_0_INT
-    uint8_t lyc_flag : 1; ///< @copydoc #STAT_LYC_FLAG
-    uint8_t ly;
-    uint8_t lyc;
-    uint8_t scx;
-    uint8_t scy;
-    uint8_t wx;
-    uint8_t wy;
-    uint8_t bg_palette_index;
-    uint8_t obj_palette_index;
-    uint8_t cgb_bg_palettes[CRAM_SIZE];
-    uint8_t cgb_obj_palettes[CRAM_SIZE];
-    uint8_t hdma1;
-    uint8_t hdma2;
-    uint8_t hdma3;
-    uint8_t hdma4;
-    uint8_t hdma5;
-};
 
 /**
  * @brief Initializes the gb struct. This should be called after opening a rom but before any other function.
@@ -469,19 +292,6 @@ void		write_io(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, uint8_t lcdc, enum
 void		execute_debugger(struct gb_cpu_s* gb);
 
 /*
-** Debug
-*/
-void	debug_print_registers(struct registers_s reg);
-void	debug_print_gb(struct gb_cpu_s* gb);
-void	debug_print_instruction(struct inst_s* inst);
-void	debug_print_rom(struct rom_s* rom);
-void	debug_print_rom_hdr(struct rom_hdr_s* hdr);
-void	debug_print_gb_flags(struct gb_cpu_s* gb);
-void	debug_print_stack(struct gb_cpu_s* gb);
-void	debug_print_mbc(struct gb_cpu_s* gb);
-void	debug_print_flag_register(uint8_t reg);
-
-/*
 ** Misc
 */
 void    cpu_toggle_flag(struct gb_cpu_s* gb, uint8_t flag, int cond);
@@ -520,7 +330,6 @@ void    resume_hdma_transfer(struct gb_cpu_s* gb);
 int		clamp(int val, int min, int max);
 void	fatal(struct gb_cpu_s* gb);
 int		get_debugger_verbose(struct gb_cpu_s* gb);
-int		open_rom(char* name, struct rom_s* rom);
 
 /*
 ** Saving & Loading
