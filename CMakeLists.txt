@@ -152,6 +152,8 @@ set(HEADERS
 	includes/dmg_boot_rom.h
 	includes/debug.h
 	includes/memory.h
+	includes/rom.h
+	includes/ppu.h
 	)
 
 if (WIN32)
