@@ -1,0 +1,5 @@
+<map id="initiate_hdma_transfer" name="initiate_hdma_transfer">
+<area shape="rect" id="node1" title="Transfer data from memory to VRAM with an arbitrary length. This function is only available on CGB." alt="" coords="5,31,156,57"/>
+<area shape="rect" id="node2" href="$gb_8h.html#afa5c8e853cfac77001f009a81f3403be" title=" " alt="" coords="205,5,303,32"/>
+<area shape="rect" id="node3" href="$gb_8h.html#aa65b6428d3b64c9fe4583521982b647e" title=" " alt="" coords="204,56,304,83"/>
+</map>

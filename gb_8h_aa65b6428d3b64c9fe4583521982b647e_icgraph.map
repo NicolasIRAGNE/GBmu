@@ -1,0 +1,6 @@
+<map id="write_8_force" name="write_8_force">
+<area shape="rect" id="node1" title=" " alt="" coords="208,56,308,83"/>
+<area shape="rect" id="node2" href="$gb_8h.html#a8ea764b4703152373fe390fd4a8e3fa5" title="Transfer data from memory to VRAM with an arbitrary length. This function is only available on CGB." alt="" coords="7,5,158,32"/>
+<area shape="rect" id="node3" href="$gb_8h.html#a7c05ab846328c2543fcee3bbdf7b9334" title="Process the next 0x10 bytes of the ongoing HDMA transfer. This function should be called on HBLANK on..." alt="" coords="5,56,160,83"/>
+<area shape="rect" id="node4" href="$gb_8h.html#a5030392e1e47de325480e1d2d2efaf74" title=" " alt="" coords="29,107,136,133"/>
+</map>

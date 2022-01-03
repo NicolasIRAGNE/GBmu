@@ -1,0 +1,5 @@
+<map id="gpu_tick" name="gpu_tick">
+<area shape="rect" id="node1" title="Executes one gpu tick. This should be called every step." alt="" coords="5,31,76,57"/>
+<area shape="rect" id="node2" href="$gb_8h.html#a9ff752910cf109fcfec61e099d2fccbc" title="Read an 8&#45;bit word from the appropriate memory location. This is the safe way to access the gameboy m..." alt="" coords="125,5,187,32"/>
+<area shape="rect" id="node3" href="$gb_8h.html#addd27cb5c39083f9f25aec2de4759ddc" title="Write an 8&#45;bit word to the appropriate memory location. This is the safe way to access the gameboy me..." alt="" coords="124,56,188,83"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="update_timer_register" name="update_timer_register">
+<area shape="rect" id="node1" title="Updates the timer (TIMA_OFFSET) and requests an interrupt if needed." alt="" coords="5,5,152,32"/>
+<area shape="rect" id="node2" href="$gb_8h.html#a9ff752910cf109fcfec61e099d2fccbc" title="Read an 8&#45;bit word from the appropriate memory location. This is the safe way to access the gameboy m..." alt="" coords="200,5,261,32"/>
+</map>

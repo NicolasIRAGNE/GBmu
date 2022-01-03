@@ -1,0 +1,4 @@
+<map id="write_16" name="write_16">
+<area shape="rect" id="node1" title="Write a 16&#45;bit word to the appropriate memory location. This is the safe way to access the gameboy me..." alt="" coords="5,5,76,32"/>
+<area shape="rect" id="node2" href="$gb_8h.html#addd27cb5c39083f9f25aec2de4759ddc" title="Write an 8&#45;bit word to the appropriate memory location. This is the safe way to access the gameboy me..." alt="" coords="124,5,188,32"/>
+</map>

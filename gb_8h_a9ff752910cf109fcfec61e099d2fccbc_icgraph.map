@@ -1,0 +1,8 @@
+<map id="read_8" name="read_8">
+<area shape="rect" id="node1" title="Read an 8&#45;bit word from the appropriate memory location. This is the safe way to access the gameboy m..." alt="" coords="597,81,659,108"/>
+<area shape="rect" id="node2" href="$gb_8h.html#aa5bc80392e446c4a40198e337f59ba90" title="Executes one gpu tick. This should be called every step." alt="" coords="441,5,511,32"/>
+<area shape="rect" id="node3" href="$gb_8h.html#ae9412814e44fdf1354e4471b16914b45" title="Read a 16&#45;bit word from the appropriate memory location. This is the safe way to access the gameboy m..." alt="" coords="442,56,510,83"/>
+<area shape="rect" id="node4" href="$gb_8h.html#a5a919d32342038b24d05d91dd31550f2" title="Updates the gb struct. This should be called after each instruction. This sets the gb&#45;&gt;current_instru..." alt="" coords="180,81,355,108"/>
+<area shape="rect" id="node6" href="$gb_8h.html#a856acdaf9de870349a8f50eb2fb89d9d" title="Updates the timer (TIMA_OFFSET) and requests an interrupt if needed." alt="" coords="403,157,549,184"/>
+<area shape="rect" id="node5" href="$gb_8h.html#a62664ca8db705f6c53010a831980587c" title="Executes the next instruction currently pointed by the PC register." alt="" coords="5,81,132,108"/>
+</map>

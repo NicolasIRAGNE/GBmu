@@ -1,0 +1,4 @@
+<map id="process_dma_transfer" name="process_dma_transfer">
+<area shape="rect" id="node1" title="Transfer data from memory to OAM with a fixed length. This function is available on both CGB and DMG." alt="" coords="5,5,156,32"/>
+<area shape="rect" id="node2" href="$gb_8h.html#afa5c8e853cfac77001f009a81f3403be" title=" " alt="" coords="204,5,301,32"/>
+</map>
