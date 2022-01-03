@@ -9,5 +9,6 @@ var cpu_8h =
       [ "TILE_TYPE_BACKGROUND", "cpu_8h.html#af00f7c5e3bcd65dd2ad380eb0eb19562a5c4263a923277e6768e41e1543011a86", null ],
       [ "TILE_TYPE_SPRITE", "cpu_8h.html#af00f7c5e3bcd65dd2ad380eb0eb19562acf45026530d39d47b8430f89e9b4a460", null ],
       [ "TILE_TYPE_WINDOW", "cpu_8h.html#af00f7c5e3bcd65dd2ad380eb0eb19562a697a462a3e6c5efb4fea237471232157", null ]
-    ] ]
+    ] ],
+    [ "gb_global", "cpu_8h.html#a15c637328fceab4d23ae2ec99d5cd57c", null ]
 ];

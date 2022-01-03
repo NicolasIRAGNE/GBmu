@@ -50,7 +50,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"structgbmu__debugger__s.html#a157011924d875bc77ac71d97ae3f032f"
+"structgbmu__debugger__s.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

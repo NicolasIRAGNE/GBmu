@@ -4,6 +4,7 @@ var NAVTREEINDEX0 =
 "asprintf_8h_source.html":[1,0,0],
 "classes.html":[0,1],
 "cpu_8h.html":[1,0,1],
+"cpu_8h.html#a15c637328fceab4d23ae2ec99d5cd57c":[1,0,1,2],
 "cpu_8h.html#a3fedca3544c5d6272ada72a3a1464bd5":[1,0,1,0],
 "cpu_8h.html#a3fedca3544c5d6272ada72a3a1464bd5a2512b68fa794fe1803dfc8830410c266":[1,0,1,0,2],
 "cpu_8h.html#a3fedca3544c5d6272ada72a3a1464bd5abce2947e9feec2c129d3971d099b68aa":[1,0,1,0,0],
@@ -248,6 +249,5 @@ var NAVTREEINDEX0 =
 "renderer_8h_source.html":[1,0,17],
 "rom_8h.html":[1,0,18],
 "rom_8h.html#a8776b9b360bbff9f3ca05f55d8bcc25e":[1,0,18,2],
-"rom_8h_source.html":[1,0,18],
-"structgbmu__debugger__s.html":[0,0,0]
+"rom_8h_source.html":[1,0,18]
 };
