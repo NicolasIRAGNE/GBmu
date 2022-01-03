@@ -17,13 +17,16 @@
 
 void	update_div_register(struct gb_cpu_s* gb)
 {
-	if (gb->halted)
-		return ;
-	if (gb->cycle - gb->last_div_increment >= DEFAULT_DIV_FREQ)
+	uint64_t freq;
+	if (gb->current_speed_mode)
+		freq = 4194304 / DOUBLE_DIV_FREQ;
+	else
+		freq = 4194304 / DEFAULT_DIV_FREQ;
+	if (gb->cycle - gb->last_div_increment >= freq)
 	{
 		gb->last_div_increment = gb->cycle;
 		uint8_t div = read_8(gb, DIV_OFFSET);
 		div++;
-		gb->io_ports[0x04] = div;
+		write_8_force(gb, DIV_OFFSET, div);
 	}
 }

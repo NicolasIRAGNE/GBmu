@@ -146,6 +146,13 @@ void	write_io(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, uint8_t lcdc, enum 
 	if (addr == SERIAL_DATA_OFFSET)
 	{
 		printf("%c", x);
+		x = 0;
+	}
+	if (addr == SERIAL_CONTROL_OFFSET)
+	{
+		// printf("Wrote %d to serial control\n", x);
+		// request_interrupt(gb, INT_SERIAL_REQUEST);
+		return ;
 	}
 	if (addr == LCDC_OFFSET)
 	{

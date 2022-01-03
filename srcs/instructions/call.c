@@ -33,7 +33,7 @@ void	interrupt_a16(struct gb_cpu_s* gb, uint16_t addr)
 		write_16(gb, gb->reg.sp, gb->reg.pc);
 		gb->reg.pc = addr;
 		update_current_instruction(gb);
-		gb->cycle += 12;
+		gb->cycle += 3;
 	}
 }
 
@@ -46,7 +46,7 @@ void	call_z_a16(struct gb_cpu_s* gb)
 {
 	if ((gb->reg.f & ZERO_FLAG))
 	{
-		gb->cycle += 12;
+		gb->cycle += 3;
 		call(gb, gb->current_instruction->args);
 	}
 }
@@ -55,7 +55,7 @@ void	call_nz_a16(struct gb_cpu_s* gb)
 {
 	if (!(gb->reg.f & ZERO_FLAG))
 	{
-		gb->cycle += 12;
+		gb->cycle += 3;
 		call(gb, gb->current_instruction->args);
 	}
 }
@@ -64,7 +64,7 @@ void	call_c_a16(struct gb_cpu_s* gb)
 {
 	if ((gb->reg.f & CARRY_FLAG))
 	{
-		gb->cycle += 12;
+		gb->cycle += 3;
 		call(gb, gb->current_instruction->args);
 	}
 }
@@ -73,7 +73,7 @@ void	call_nc_a16(struct gb_cpu_s* gb)
 {
 	if (!(gb->reg.f & CARRY_FLAG))
 	{
-		gb->cycle += 12;
+		gb->cycle += 3;
 		call(gb, gb->current_instruction->args);
 	}
 }

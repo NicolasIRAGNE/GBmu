@@ -25,7 +25,7 @@ void	sra_reg8(struct gb_cpu_s* gb, uint8_t* reg)
 	cpu_toggle_flag(gb, ZERO_FLAG, !ret);
 	cpu_unset_flag(gb, SUBSTRACTION_FLAG | HALF_CARRY_FLAG);
 	*reg = (uint8_t)ret;
-	gb->cycle += 8;
+	gb->cycle += 2;
 }
 
 void	sra_mem8(struct gb_cpu_s* gb, uint16_t addr)
@@ -39,7 +39,7 @@ void	sra_mem8(struct gb_cpu_s* gb, uint16_t addr)
 	cpu_toggle_flag(gb, ZERO_FLAG, !ret);
 	cpu_unset_flag(gb, SUBSTRACTION_FLAG | HALF_CARRY_FLAG);
 	write_8(gb, addr, ret);
-	gb->cycle += 16;
+	gb->cycle += 4;
 }
 
 void	sra_a(struct gb_cpu_s* gb)

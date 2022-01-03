@@ -15,6 +15,7 @@
 #include "SDL_video.h"
 #include "cpu.h"
 #include "op.h"
+#include "debug.h"
 #include "renderer/wrapper_c/wrapper.h"
 #ifdef WITH_LIBYACC
 # include "libyacc_wrapper.h"
@@ -163,7 +164,7 @@ int		handle_instruction(struct gb_cpu_s* gb)
 	uint8_t op = update_current_instruction(gb);
 	if (gb->halted)
 	{
-		gb->cycle += 4;
+		gb->cycle += 1;
 
 		return (0);
 	}
@@ -193,6 +194,6 @@ int		handle_instruction(struct gb_cpu_s* gb)
 		gb->reg.pc += gb->current_instruction->size + 1;
 	else
 		gb->jmp = 0;
-	gb->cycle += gb->current_instruction->cycles ;
+	gb->cycle += gb->current_instruction->cycles;
 	return (0);
 }

@@ -150,6 +150,8 @@ set(HEADERS
 	includes/renderer.h
 	includes/input_functions.h
 	includes/dmg_boot_rom.h
+	includes/debug.h
+	includes/memory.h
 	)
 
 if (WIN32)

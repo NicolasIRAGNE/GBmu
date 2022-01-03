@@ -37,7 +37,7 @@ void	jp_z_a16(struct gb_cpu_s* gb)
 {
 	if ((gb->reg.f & ZERO_FLAG))
 	{
-		gb->cycle += 4;
+		gb->cycle += 1;
 		jump(gb, gb->current_instruction->args);
 	}
 }
@@ -46,7 +46,7 @@ void	jp_nz_a16(struct gb_cpu_s* gb)
 {
 	if (!(gb->reg.f & ZERO_FLAG))
 	{
-		gb->cycle += 4;
+		gb->cycle += 1;
 		jump(gb, gb->current_instruction->args);
 	}
 }
@@ -55,7 +55,7 @@ void	jp_c_a16(struct gb_cpu_s* gb)
 {
 	if ((gb->reg.f & CARRY_FLAG))
 	{
-		gb->cycle += 4;
+		gb->cycle += 1;
 		jump(gb, gb->current_instruction->args);
 	}
 }
@@ -64,7 +64,7 @@ void	jp_nc_a16(struct gb_cpu_s* gb)
 {
 	if (!(gb->reg.f & CARRY_FLAG))
 	{
-		gb->cycle += 4;	
+		gb->cycle += 1;	
 		jump(gb, gb->current_instruction->args);
 	}
 }
@@ -73,7 +73,7 @@ void	jr_nz_a8(struct gb_cpu_s* gb)
 {
 	if (!(gb->reg.f & ZERO_FLAG))
 	{
-		gb->cycle += 4;	
+		gb->cycle += 1;	
 		jump(gb, gb->reg.pc + (int8_t)gb->current_instruction->args + 2);
 	}
 }
@@ -82,7 +82,7 @@ void	jr_z_a8(struct gb_cpu_s* gb)
 {
 	if ((gb->reg.f & ZERO_FLAG))
 	{
-		gb->cycle += 4;	
+		gb->cycle += 1;	
 		jump(gb, gb->reg.pc + (int8_t)gb->current_instruction->args + 2);
 	}
 }
@@ -91,7 +91,7 @@ void	jr_c_a8(struct gb_cpu_s* gb)
 {
 	if ((gb->reg.f & CARRY_FLAG))
 	{
-		gb->cycle += 4;	
+		gb->cycle += 1;	
 		jump(gb, gb->reg.pc + (int8_t)gb->current_instruction->args + 2);
 	}
 }
@@ -100,7 +100,7 @@ void	jr_nc_a8(struct gb_cpu_s* gb)
 {
 	if (!(gb->reg.f & CARRY_FLAG))
 	{
-		gb->cycle += 4;	
+		gb->cycle += 1;	
 		jump(gb, gb->reg.pc + (int8_t)gb->current_instruction->args + 2);
 	}
 }
@@ -126,7 +126,7 @@ void	ret_nc(struct gb_cpu_s* gb)
 {
 	if (!(gb->reg.f & CARRY_FLAG))
 	{
-		gb->cycle += 12;
+		gb->cycle += 3;
 		ret(gb);
 	}
 }
@@ -135,7 +135,7 @@ void	ret_c(struct gb_cpu_s* gb)
 {
 	if (gb->reg.f & CARRY_FLAG)
 	{
-		gb->cycle += 12;
+		gb->cycle += 3;
 		ret(gb);
 	}
 }
@@ -144,7 +144,7 @@ void	ret_nz(struct gb_cpu_s* gb)
 {
 	if (!(gb->reg.f & ZERO_FLAG))
 	{
-		gb->cycle += 12;
+		gb->cycle += 3;
 		ret(gb);
 	}
 }
@@ -153,7 +153,7 @@ void	ret_z(struct gb_cpu_s* gb)
 {
 	if (gb->reg.f & ZERO_FLAG)
 	{
-		gb->cycle += 12;
+		gb->cycle += 3;
 		ret(gb);
 	}
 }

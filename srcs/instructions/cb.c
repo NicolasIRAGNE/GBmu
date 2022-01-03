@@ -17,6 +17,7 @@
 #include "cpu.h"
 #include "ext_op.h"
 #include "gb.h"
+#include "debug.h"
 
 void	cb_n(struct gb_cpu_s* gb)
 {

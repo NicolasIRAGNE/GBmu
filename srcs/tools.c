@@ -12,8 +12,10 @@
 
 #include <stddef.h>
 #include <stdint.h>
+#include <string.h>
 
 #include "gb.h"
+#include "cpu.h"
 
 uint32_t	get_color_from_palette(uint8_t index, uint32_t* palette)
 {

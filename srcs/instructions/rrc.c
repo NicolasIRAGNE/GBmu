@@ -28,7 +28,7 @@ void	rrc_reg8(struct gb_cpu_s* gb, uint8_t* reg)
 	cpu_toggle_flag(gb, ZERO_FLAG, !(uint8_t)ret);
 	cpu_unset_flag(gb, HALF_CARRY_FLAG | SUBSTRACTION_FLAG);
 	*reg = (uint8_t)ret;
-	gb->cycle += 8;
+	gb->cycle += 2;
 }
 
 void	rrc_mem8(struct gb_cpu_s* gb, uint16_t addr)
@@ -44,7 +44,7 @@ void	rrc_mem8(struct gb_cpu_s* gb, uint16_t addr)
 	cpu_toggle_flag(gb, ZERO_FLAG, !(uint8_t)ret);
 	cpu_unset_flag(gb, HALF_CARRY_FLAG | SUBSTRACTION_FLAG );
 	write_8(gb, addr, ret);
-	gb->cycle += 16;
+	gb->cycle += 4;
 }
 
 void	rrc_b(struct gb_cpu_s* gb)
@@ -97,5 +97,5 @@ void	rrca(struct gb_cpu_s* gb)
 	cpu_toggle_flag(gb, CARRY_FLAG, gb->reg.a & 1);
 	cpu_unset_flag(gb, ZERO_FLAG | HALF_CARRY_FLAG | SUBSTRACTION_FLAG);
 	gb->reg.a = (uint8_t)ret;
-	gb->cycle += 4;
+	gb->cycle += 1;
 }

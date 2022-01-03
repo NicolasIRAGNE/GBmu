@@ -18,6 +18,7 @@
 #include "gb.h"
 #include "fallback_debugger.h"
 #include "cpu.h"
+#include "debug.h"
 
 int		get_verbose(struct gbmu_debugger_s* debugger)
 {

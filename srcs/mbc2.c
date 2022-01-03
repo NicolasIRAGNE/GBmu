@@ -17,6 +17,7 @@
 #include "gb.h"
 #include "mbc.h"
 #include "cpu.h"
+#include "rom.h"
 #ifdef WITH_LIBYACC
 # include "libyacc_wrapper.h"
 #endif
@@ -50,7 +51,7 @@ uint8_t	read_mbc2(struct gb_cpu_s* gb, uint16_t addr, enum memory_mode_e mode)
 	{
 		if (!gb->ram_enabled)
 		{
-			// printf("warning: attempting to read from disabled RAM at %x\n", addr);
+			printf("warning: attempting to read from disabled RAM at %x\n", addr);
 			return (0xff);
 		}
 		uint32_t index = addr - 0xa000;
