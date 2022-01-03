@@ -1,0 +1,6 @@
+[workspace]
+members = [
+    "crates/gbmu",
+    "crates/bindings"
+]
+resolver = "2"
