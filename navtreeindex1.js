@@ -1,5 +1,7 @@
 var NAVTREEINDEX1 =
 {
+"structgbmu__debugger__s.html#a2a462e991a879658b8867bad32fe4385":[0,0,0,1],
+"structgbmu__debugger__s.html#a5c9446ecd08212c166df0b6157dc3f7b":[0,0,0,2],
 "structgbmu__wrapper__s.html":[0,0,1],
 "structgbmu__wrapper__s.html#a22b2c94d68b4fe3726d47d721ff7df97":[0,0,1,2],
 "structgbmu__wrapper__s.html#a29890945d11c9e64b42044b7d97f576c":[0,0,1,1],

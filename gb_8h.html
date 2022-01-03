@@ -85,7 +85,6 @@ $(document).ready(function(){initNavTree('gb_8h.html',''); initResizable(); });
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#define-members">Macros</a> &#124;
-<a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">gb.h File Reference</div>  </div>
@@ -105,6 +104,7 @@ $(document).ready(function(){initNavTree('gb_8h.html',''); initResizable(); });
 <code>#include &lt;stdio.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="memory_8h_source.html">memory.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="rom_8h_source.html">rom.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="mode_8h_source.html">mode.h</a>&quot;</code><br />
 </div>
 <p><a href="gb_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -150,29 +150,9 @@ Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>DEFAULT_VERBOSE</b>&#160;&#160;&#160;0</td></tr>
 <tr class="separator:a4ad8faebfc1723fec1090b84ec0f680e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
-Enumerations</h2></td></tr>
-<tr class="memitem:a35e21aed04f71f22f20ead04d745a937"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a35e21aed04f71f22f20ead04d745a937">gpu_mode_e</a> { <a class="el" href="gb_8h.html#a35e21aed04f71f22f20ead04d745a937a5240b871ed2052e7e624b596b25b29d4">GPU_MODE_HBLANK</a> = 0
-, <a class="el" href="gb_8h.html#a35e21aed04f71f22f20ead04d745a937a551b124b4dbe51c318d741b7a15b457b">GPU_MODE_VBLANK</a> = 1
-, <a class="el" href="gb_8h.html#a35e21aed04f71f22f20ead04d745a937afe4210eef1fb8cc6caab5ad160846b0b">GPU_MODE_OAM</a> = 2
-, <a class="el" href="gb_8h.html#a35e21aed04f71f22f20ead04d745a937a20bf6dc34f569f45cf18af693942d969">GPU_MODE_VRAM</a> = 3
- }</td></tr>
-<tr class="memdesc:a35e21aed04f71f22f20ead04d745a937"><td class="mdescLeft">&#160;</td><td class="mdescRight">The current state of the PPU. These modes indicate what the PPU is currently doing and which memory areas are currently accessible.  <a href="gb_8h.html#a35e21aed04f71f22f20ead04d745a937">More...</a><br /></td></tr>
-<tr class="separator:a35e21aed04f71f22f20ead04d745a937"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5aa6ffa03c5d33489b16a942fca59765"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a5aa6ffa03c5d33489b16a942fca59765">gb_mode_e</a> { <br />
-&#160;&#160;<a class="el" href="gb_8h.html#a5aa6ffa03c5d33489b16a942fca59765af7b17719162c44f991c8a2f5ec3b91fa">GB_MODE_DMG</a>
-, <a class="el" href="gb_8h.html#a5aa6ffa03c5d33489b16a942fca59765a4e938b7960bf62f6377db8f9cd81cc3b">GB_MODE_CGB</a>
-, <a class="el" href="gb_8h.html#a5aa6ffa03c5d33489b16a942fca59765af8274480e651e1635d8540f26c710991">GB_MODE_GBA</a>
-, <a class="el" href="gb_8h.html#a5aa6ffa03c5d33489b16a942fca59765a56b41f7ca9230391fe606b5708248a8c">GB_MODE_AUTO</a>
-, <br />
-&#160;&#160;<a class="el" href="gb_8h.html#a5aa6ffa03c5d33489b16a942fca59765a7663fc47feec71372d4b17a4ab845fff">GB_MODE_UNKNOWN</a>
-<br />
- }</td></tr>
-<tr class="separator:a5aa6ffa03c5d33489b16a942fca59765"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a7f3209e681e1f9186f1ee5d1d94da539"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a7f3209e681e1f9186f1ee5d1d94da539">init_cpu</a> (struct gb_cpu_s *gb, struct <a class="el" href="structrom__s.html">rom_s</a> *rom, enum <a class="el" href="gb_8h.html#a5aa6ffa03c5d33489b16a942fca59765">gb_mode_e</a> mode)</td></tr>
+<tr class="memitem:a7f3209e681e1f9186f1ee5d1d94da539"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a7f3209e681e1f9186f1ee5d1d94da539">init_cpu</a> (struct gb_cpu_s *gb, struct <a class="el" href="structrom__s.html">rom_s</a> *rom, enum <a class="el" href="mode_8h.html#a5aa6ffa03c5d33489b16a942fca59765">gb_mode_e</a> mode)</td></tr>
 <tr class="memdesc:a7f3209e681e1f9186f1ee5d1d94da539"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the gb struct. This should be called after opening a rom but before any other function. This function will call the underlying functions appropriate to the Gameboy type.  <a href="gb_8h.html#a7f3209e681e1f9186f1ee5d1d94da539">More...</a><br /></td></tr>
 <tr class="separator:a7f3209e681e1f9186f1ee5d1d94da539"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab695bb0feb0ee25e6fdc0060eb49ed1a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#ab695bb0feb0ee25e6fdc0060eb49ed1a">init_mbc</a> (struct gb_cpu_s *gb)</td></tr>
@@ -295,60 +275,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>get_debugger_verbose</
 <div class="textblock"><p>Contains most of the functions used by the emulator, and the internal gb struct. </p>
 <dl class="section author"><dt>Author</dt><dd>Nicolas IRAGNE (<a href="#" onclick="location.href='mai'+'lto:'+'nic'+'ol'+'as.'+'ir'+'agn'+'e@'+'aly'+'ce'+'.fr'; return false;">nicol<span style="display: none;">.nosp@m.</span>as.i<span style="display: none;">.nosp@m.</span>ragne<span style="display: none;">.nosp@m.</span>@aly<span style="display: none;">.nosp@m.</span>ce.fr</a>) </dd></dl>
 <dl class="section date"><dt>Date</dt><dd>2021-12-31 </dd></dl>
-</div><h2 class="groupheader">Enumeration Type Documentation</h2>
-<a id="a5aa6ffa03c5d33489b16a942fca59765"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5aa6ffa03c5d33489b16a942fca59765">&#9670;&nbsp;</a></span>gb_mode_e</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="gb_8h.html#a5aa6ffa03c5d33489b16a942fca59765">gb_mode_e</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a5aa6ffa03c5d33489b16a942fca59765af7b17719162c44f991c8a2f5ec3b91fa"></a>GB_MODE_DMG&#160;</td><td class="fielddoc"><p>Original Gameboy mode. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a5aa6ffa03c5d33489b16a942fca59765a4e938b7960bf62f6377db8f9cd81cc3b"></a>GB_MODE_CGB&#160;</td><td class="fielddoc"><p>Color Gameboy mode. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a5aa6ffa03c5d33489b16a942fca59765af8274480e651e1635d8540f26c710991"></a>GB_MODE_GBA&#160;</td><td class="fielddoc"><p>Gameboy Advance mode. Not supported. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a5aa6ffa03c5d33489b16a942fca59765a56b41f7ca9230391fe606b5708248a8c"></a>GB_MODE_AUTO&#160;</td><td class="fielddoc"><p>Auto-detect the gameboy mode. This is done by reading the ROM header. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a5aa6ffa03c5d33489b16a942fca59765a7663fc47feec71372d4b17a4ab845fff"></a>GB_MODE_UNKNOWN&#160;</td><td class="fielddoc"><p>Unknown mode. This is not used but is here for completeness. </p>
-</td></tr>
-</table>
-
-</div>
-</div>
-<a id="a35e21aed04f71f22f20ead04d745a937"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a35e21aed04f71f22f20ead04d745a937">&#9670;&nbsp;</a></span>gpu_mode_e</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="gb_8h.html#a35e21aed04f71f22f20ead04d745a937">gpu_mode_e</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>The current state of the PPU. These modes indicate what the PPU is currently doing and which memory areas are currently accessible. </p>
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a35e21aed04f71f22f20ead04d745a937a5240b871ed2052e7e624b596b25b29d4"></a>GPU_MODE_HBLANK&#160;</td><td class="fielddoc"><p>PPU is in HBLANK mode. All memory is accessible. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a35e21aed04f71f22f20ead04d745a937a551b124b4dbe51c318d741b7a15b457b"></a>GPU_MODE_VBLANK&#160;</td><td class="fielddoc"><p>PPU is in VBLANK mode. All memory is accessible. It's free real estate. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a35e21aed04f71f22f20ead04d745a937afe4210eef1fb8cc6caab5ad160846b0b"></a>GPU_MODE_OAM&#160;</td><td class="fielddoc"><p>PPU is reading from OAM. Access to these memory areas is blocked: OAM. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="a35e21aed04f71f22f20ead04d745a937a20bf6dc34f569f45cf18af693942d969"></a>GPU_MODE_VRAM&#160;</td><td class="fielddoc"><p>PPU is reading from VRAM and OAM. Access to these memory areas is blocked: VRAM, OAM and palettes. </p>
-</td></tr>
-</table>
-
-</div>
-</div>
-<h2 class="groupheader">Function Documentation</h2>
+</div><h2 class="groupheader">Function Documentation</h2>
 <a id="a3e043877c73039d93eaf0785ac74e080"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3e043877c73039d93eaf0785ac74e080">&#9670;&nbsp;</a></span>execute_loop()</h2>
 
@@ -474,7 +401,7 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">enum <a class="el" href="gb_8h.html#a5aa6ffa03c5d33489b16a942fca59765">gb_mode_e</a>&#160;</td>
+          <td class="paramtype">enum <a class="el" href="mode_8h.html#a5aa6ffa03c5d33489b16a942fca59765">gb_mode_e</a>&#160;</td>
           <td class="paramname"><em>mode</em>&#160;</td>
         </tr>
         <tr>

@@ -12,19 +12,6 @@ var gb_8h =
     [ "SAVESTATE_DIR", "gb_8h.html#a8ecfd10149263febd64bf0cdacc14c2c", null ],
     [ "WHT", "gb_8h.html#aeaf3a04d5bf63b204689a714718ea930", null ],
     [ "YEL", "gb_8h.html#a96fac03c4ab3363f06a0328e0e53a40c", null ],
-    [ "gb_mode_e", "gb_8h.html#a5aa6ffa03c5d33489b16a942fca59765", [
-      [ "GB_MODE_DMG", "gb_8h.html#a5aa6ffa03c5d33489b16a942fca59765af7b17719162c44f991c8a2f5ec3b91fa", null ],
-      [ "GB_MODE_CGB", "gb_8h.html#a5aa6ffa03c5d33489b16a942fca59765a4e938b7960bf62f6377db8f9cd81cc3b", null ],
-      [ "GB_MODE_GBA", "gb_8h.html#a5aa6ffa03c5d33489b16a942fca59765af8274480e651e1635d8540f26c710991", null ],
-      [ "GB_MODE_AUTO", "gb_8h.html#a5aa6ffa03c5d33489b16a942fca59765a56b41f7ca9230391fe606b5708248a8c", null ],
-      [ "GB_MODE_UNKNOWN", "gb_8h.html#a5aa6ffa03c5d33489b16a942fca59765a7663fc47feec71372d4b17a4ab845fff", null ]
-    ] ],
-    [ "gpu_mode_e", "gb_8h.html#a35e21aed04f71f22f20ead04d745a937", [
-      [ "GPU_MODE_HBLANK", "gb_8h.html#a35e21aed04f71f22f20ead04d745a937a5240b871ed2052e7e624b596b25b29d4", null ],
-      [ "GPU_MODE_VBLANK", "gb_8h.html#a35e21aed04f71f22f20ead04d745a937a551b124b4dbe51c318d741b7a15b457b", null ],
-      [ "GPU_MODE_OAM", "gb_8h.html#a35e21aed04f71f22f20ead04d745a937afe4210eef1fb8cc6caab5ad160846b0b", null ],
-      [ "GPU_MODE_VRAM", "gb_8h.html#a35e21aed04f71f22f20ead04d745a937a20bf6dc34f569f45cf18af693942d969", null ]
-    ] ],
     [ "clamp", "gb_8h.html#acf1b8aba42ea8488b62c36ec13f0b6b2", null ],
     [ "cpu_set_flag", "gb_8h.html#a2170f24cb95b231f1e9ee29befd5510a", null ],
     [ "cpu_toggle_flag", "gb_8h.html#a37fe514034bd52e257e0a89befa81c54", null ],

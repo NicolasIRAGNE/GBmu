@@ -13,10 +13,9 @@ var files_dup =
     [ "input_functions.h", "input__functions_8h.html", "input__functions_8h" ],
     [ "mbc.h", "mbc_8h_source.html", null ],
     [ "memory.h", "memory_8h.html", "memory_8h" ],
+    [ "mode.h", "mode_8h.html", "mode_8h" ],
     [ "op.h", "op_8h_source.html", null ],
-    [ "ppu.h", "ppu_8h.html", [
-      [ "ppu_info_s", "structppu__info__s.html", "structppu__info__s" ]
-    ] ],
+    [ "ppu.h", "ppu_8h.html", "ppu_8h" ],
     [ "registers.h", "registers_8h.html", null ],
     [ "renderer.h", "renderer_8h_source.html", null ],
     [ "rom.h", "rom_8h.html", "rom_8h" ]

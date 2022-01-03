@@ -83,7 +83,8 @@ $(document).ready(function(){initNavTree('ppu_8h.html',''); initResizable(); });
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a>  </div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#enum-members">Enumerations</a>  </div>
   <div class="headertitle">
 <div class="title">ppu.h File Reference</div>  </div>
 </div><!--header-->
@@ -101,13 +102,50 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structppu__info__s.html">ppu_info_s</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains information about the current state of the PPU.  <a href="structppu__info__s.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:a35e21aed04f71f22f20ead04d745a937"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ppu_8h.html#a35e21aed04f71f22f20ead04d745a937">gpu_mode_e</a> { <a class="el" href="ppu_8h.html#a35e21aed04f71f22f20ead04d745a937a5240b871ed2052e7e624b596b25b29d4">GPU_MODE_HBLANK</a> = 0
+, <a class="el" href="ppu_8h.html#a35e21aed04f71f22f20ead04d745a937a551b124b4dbe51c318d741b7a15b457b">GPU_MODE_VBLANK</a> = 1
+, <a class="el" href="ppu_8h.html#a35e21aed04f71f22f20ead04d745a937afe4210eef1fb8cc6caab5ad160846b0b">GPU_MODE_OAM</a> = 2
+, <a class="el" href="ppu_8h.html#a35e21aed04f71f22f20ead04d745a937a20bf6dc34f569f45cf18af693942d969">GPU_MODE_VRAM</a> = 3
+ }</td></tr>
+<tr class="memdesc:a35e21aed04f71f22f20ead04d745a937"><td class="mdescLeft">&#160;</td><td class="mdescRight">The current state of the PPU. These modes indicate what the PPU is currently doing and which memory areas are currently accessible.  <a href="ppu_8h.html#a35e21aed04f71f22f20ead04d745a937">More...</a><br /></td></tr>
+<tr class="separator:a35e21aed04f71f22f20ead04d745a937"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Information about the PPU. </p>
 <dl class="section author"><dt>Author</dt><dd>Nicolas IRAGNE (<a href="#" onclick="location.href='mai'+'lto:'+'nic'+'ol'+'as.'+'ir'+'agn'+'e@'+'aly'+'ce'+'.fr'; return false;">nicol<span style="display: none;">.nosp@m.</span>as.i<span style="display: none;">.nosp@m.</span>ragne<span style="display: none;">.nosp@m.</span>@aly<span style="display: none;">.nosp@m.</span>ce.fr</a>) </dd></dl>
 <dl class="section date"><dt>Date</dt><dd>2022-01-03</dd></dl>
 <dl class="section copyright"><dt>Copyright</dt><dd>Copyright Alyce (c) 2022 </dd></dl>
-</div></div><!-- contents -->
+</div><h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="a35e21aed04f71f22f20ead04d745a937"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a35e21aed04f71f22f20ead04d745a937">&#9670;&nbsp;</a></span>gpu_mode_e</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="ppu_8h.html#a35e21aed04f71f22f20ead04d745a937">gpu_mode_e</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The current state of the PPU. These modes indicate what the PPU is currently doing and which memory areas are currently accessible. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a35e21aed04f71f22f20ead04d745a937a5240b871ed2052e7e624b596b25b29d4"></a>GPU_MODE_HBLANK&#160;</td><td class="fielddoc"><p>PPU is in HBLANK mode. All memory is accessible. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a35e21aed04f71f22f20ead04d745a937a551b124b4dbe51c318d741b7a15b457b"></a>GPU_MODE_VBLANK&#160;</td><td class="fielddoc"><p>PPU is in VBLANK mode. All memory is accessible. It's free real estate. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a35e21aed04f71f22f20ead04d745a937afe4210eef1fb8cc6caab5ad160846b0b"></a>GPU_MODE_OAM&#160;</td><td class="fielddoc"><p>PPU is reading from OAM. Access to these memory areas is blocked: OAM. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a35e21aed04f71f22f20ead04d745a937a20bf6dc34f569f45cf18af693942d969"></a>GPU_MODE_VRAM&#160;</td><td class="fielddoc"><p>PPU is reading from VRAM and OAM. Access to these memory areas is blocked: VRAM, OAM and palettes. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
