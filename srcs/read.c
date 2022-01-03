@@ -60,7 +60,7 @@ static uint8_t	read_8_internal(struct gb_cpu_s* gb, uint16_t a16, enum memory_mo
 	{
 		return(read_from_ram(gb, a16));
 	}
-	else if (a16 <= 0xFE00)
+	else if (a16 < 0xFE00)
 	{
 		printf("warning: reading from echo RAM at address 0x%x\n", a16);
 		return(read_from_ram(gb, a16 - 0x2000));
