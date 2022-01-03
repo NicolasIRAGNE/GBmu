@@ -9,6 +9,8 @@
 
 #include <stdint.h>
 
+#pragma once
+
 struct registers_s {
 	struct {
 		union {
