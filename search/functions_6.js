@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['process_5fdma_5ftransfer_171',['process_dma_transfer',['../gb_8h.html#a2939f2f449cb6ca30d69285b28797fff',1,'write.c']]]
+  ['memset_5f4_172',['memset_4',['../gb_8h.html#a1690b79591ec2626ae0e4bab071370da',1,'tools.c']]]
 ];

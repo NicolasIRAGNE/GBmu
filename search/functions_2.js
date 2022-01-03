@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['handle_5finstruction_162',['handle_instruction',['../gb_8h.html#a62664ca8db705f6c53010a831980587c',1,'execute.c']]]
+  ['gpu_5ftick_163',['gpu_tick',['../gb_8h.html#aa5bc80392e446c4a40198e337f59ba90',1,'gpu.c']]]
 ];

@@ -13,6 +13,7 @@ var gb_8h =
     [ "WHT", "gb_8h.html#aeaf3a04d5bf63b204689a714718ea930", null ],
     [ "YEL", "gb_8h.html#a96fac03c4ab3363f06a0328e0e53a40c", null ],
     [ "clamp", "gb_8h.html#acf1b8aba42ea8488b62c36ec13f0b6b2", null ],
+    [ "copy_registers", "gb_8h.html#ae2c6def785aad0c982e2c33ff9770b55", null ],
     [ "cpu_set_flag", "gb_8h.html#a2170f24cb95b231f1e9ee29befd5510a", null ],
     [ "cpu_toggle_flag", "gb_8h.html#a37fe514034bd52e257e0a89befa81c54", null ],
     [ "cpu_unset_flag", "gb_8h.html#a8b0645f2962c0c5fe0c7f9ce16b581a7", null ],

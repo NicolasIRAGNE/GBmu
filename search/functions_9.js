@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['update_5fcurrent_5finstruction_183',['update_current_instruction',['../gb_8h.html#a5a919d32342038b24d05d91dd31550f2',1,'execute.c']]],
-  ['update_5fdiv_5fregister_184',['update_div_register',['../gb_8h.html#a07023bf48a582c98f5e8d58139548c34',1,'div.c']]],
-  ['update_5ftimer_5fregister_185',['update_timer_register',['../gb_8h.html#a856acdaf9de870349a8f50eb2fb89d9d',1,'timer.c']]]
+  ['save_5fgame_182',['save_game',['../gb_8h.html#a790380e09dfafbb0201c114e93b84197',1,'save_game.c']]],
+  ['save_5fgame_5fcrash_183',['save_game_crash',['../gb_8h.html#aaf01974d2e44271da20748ca0bdefb98',1,'save_game.c']]],
+  ['savestate_184',['savestate',['../gb_8h.html#a1c2c4d3b78812a30ad5cb1ef0441c9f0',1,'savestate.c']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['gpu_5ftick_161',['gpu_tick',['../gb_8h.html#aa5bc80392e446c4a40198e337f59ba90',1,'gpu.c']]]
+  ['execute_5floop_162',['execute_loop',['../gb_8h.html#a3e043877c73039d93eaf0785ac74e080',1,'execute.c']]]
 ];
