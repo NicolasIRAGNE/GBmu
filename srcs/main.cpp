@@ -32,23 +32,21 @@ extern "C" {
 // #include <pthread.h>
 }
 #include <signal.h>
-struct gb_cpu_s*	gb_global;
 
 void	sigint_handler(int foo)
 {
 	(void)foo;
 	printf("Received SIGINT\n");
-	gb_global->paused = 1;
+	gb_global.paused = 1;
 }
 
 int		main(int ac, char** av)
 {
 	struct rom_s rom;
-	struct gb_cpu_s gb;
 	struct gbmu_debugger_s debugger;
 	struct sdl_context_s vram_viewer_context;
 	struct sdl_context_s main_window_context;
-	gb_global = &gb;
+
 #ifndef WITH_LIBYACC
 	debugger.breakpoints = NULL;
 	debugger.verbose_level = DEFAULT_VERBOSE;
@@ -118,18 +116,18 @@ int		main(int ac, char** av)
 		return (1);
 	}
 
-	if (init_cpu(&gb, &rom, mode))
+	if (init_cpu(&gb_global, &rom, mode))
 		return (1);
 	
 #ifdef WITH_LIBYACC
-	if ((libyacc_init_debugger(&gb, &debugger)) == EXIT_FAILURE)
+	if ((libyacc_init_debugger(&gb_global, &debugger)) == EXIT_FAILURE)
 		return 1;
 #else
 	debugger.breakpoints = NULL;
 #endif	
 
-	gb.debugger = &debugger;
-	update_current_instruction(&gb);
+	gb_global.debugger = &debugger;
+	update_current_instruction(&gb_global);
 	init_op_tab();
 	init_ext_op_tab();
 	
@@ -142,22 +140,22 @@ int		main(int ac, char** av)
 		return (1);
 	if (init_main_window(&main_window_context))
 		return (1);
-	load_game(&gb);
+	load_game(&gb_global);
 	signal(SIGINT, sigint_handler);
 
-	void*	renderer = new_renderer(&gb);
+	void*	renderer = new_renderer(&gb_global);
 	int window_width;
 	int window_height;
 	SDL_GetWindowSize(main_window_context.win, &window_width, &window_height);
 	renderer_set_window_size(renderer, window_width, window_height);
-	struct gbmu_wrapper_s wrapper = {&gb, &vram_viewer_context, &main_window_context};
+	struct gbmu_wrapper_s wrapper = {&gb_global, &vram_viewer_context, &main_window_context};
 	execute_loop(&wrapper, renderer);
-	// dump_mbc(&gb);
+	// dump_mbc(&gb_global);
 	delete_renderer(renderer);
-	if (gb.mbc.ram_size > 0)
-		save_game(&gb);
+	if (gb_global.mbc.ram_size > 0)
+		save_game(&gb_global);
 	free(rom.ptr);
-	free(gb.extra_ram);
+	free(gb_global.extra_ram);
 
 	destroy_context(&main_window_context);
 	// SDL_Quit();

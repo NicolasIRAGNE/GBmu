@@ -22,6 +22,8 @@
 #include "dmg_boot_rom.h"
 #include "rom.h"
 
+struct gb_cpu_s	gb_global;
+
 int		open_rom(char* name, struct rom_s* rom)
 {
 	int ret;
