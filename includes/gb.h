@@ -509,6 +509,14 @@ void	process_dma_transfer(struct gb_cpu_s* gb, uint8_t a8);
  * In case of General transfer, the data is transferred immediately. In case of H-Blank transfer, 0x10 bytes are transferred each time the H-Blank interrupt is triggered.
  */
 void	initiate_hdma_transfer(struct gb_cpu_s* gb, uint8_t a8);
+
+/**
+ * @brief Process the next 0x10 bytes of the ongoing HDMA transfer. This function should be called on HBLANK only.
+ * 
+ * @param gb 
+ */
+void    resume_hdma_transfer(struct gb_cpu_s* gb);
+
 int		clamp(int val, int min, int max);
 void	fatal(struct gb_cpu_s* gb);
 int		get_debugger_verbose(struct gb_cpu_s* gb);

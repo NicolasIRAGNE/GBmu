@@ -101,6 +101,8 @@ void	gpu_tick(struct gb_cpu_s* gb)
 				if (stat & STAT_MODE_0_INT && (lcdc & LCDC_ON))
 					request_interrupt(gb, INT_STAT_REQUEST);
 				gb->gpu.tick -= VRAM_TIME;
+				if (gb->hdma_in_progress)
+					resume_hdma_transfer(gb);
 			}
 			break;
 		}

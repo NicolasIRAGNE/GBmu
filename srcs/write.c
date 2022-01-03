@@ -185,6 +185,7 @@ void resume_hdma_transfer(struct gb_cpu_s* gb)
 	else
 		len = gb->remaining_hdma_length;
 
+	printf("Resuming HDMA transfer (mode 1) from %4x to %4x, length %x (remaining bytes: %x)\n", src + gb->hdma_index, dst + gb->hdma_index, len, gb->remaining_hdma_length);
 	internal_hdma_transfer(gb, src + gb->hdma_index, dst + gb->hdma_index, len);
 	gb->hdma_index += len;
 	gb->remaining_hdma_length -= len;
