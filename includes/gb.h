@@ -355,9 +355,10 @@ int		savestate(struct gb_cpu_s* gb, int number);
 int		loadstate(struct gb_cpu_s* gb, int number);
 
 /**
- * @brief Copies the current cpu registers to dst.
+ * @brief sasa
+ * 
  */
-void	copy_registers(struct gb_cpu_s* gb, void* dst)
+void	copy_registers(struct gb_cpu_s* gb, void* dst);
 
 #ifdef __cplusplus
 }
