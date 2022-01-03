@@ -127,6 +127,9 @@ struct	gb_cpu_s
 	uint8_t				current_speed_mode;
 };
 
+extern struct gb_cpu_s	gb_global;
+
+
 /*
 This is, as far as I understand, the memory map of the gameboy:
 
