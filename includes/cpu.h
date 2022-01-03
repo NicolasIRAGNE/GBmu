@@ -13,6 +13,8 @@
 # include "mbc.h"
 # include "memory.h"
 # include "registers.h"
+# include "ppu.h"
+# include "mode.h"
 
 enum	tile_type_e
 {

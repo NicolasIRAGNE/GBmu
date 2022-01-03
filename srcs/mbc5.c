@@ -113,7 +113,7 @@ void	write_mbc5(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, enum memory_mode_
 	}
 	else if (addr < 0x6000)
 	{
-		gb->mbc.ram_bank = gb->mbc.ram_bank & 0xf0 | (x & 0xf);
+		gb->mbc.ram_bank = (gb->mbc.ram_bank & 0xf0) | (x & 0xf);
 		// gb->mbc.ram_bank &= (gb->mbc.ram_size / 0x2000) - 1;
 		printf("switching ram bank to %x\n", gb->mbc.ram_bank);
 		return ;

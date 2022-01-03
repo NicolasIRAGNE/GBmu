@@ -14,3 +14,5 @@
 #include "rom.h"
 #include "memory.h"
 #include "registers.h"
+#include "mode.h"
+#include "ppu.h"

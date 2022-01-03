@@ -24,6 +24,7 @@ extern "C" {
 # include <stdio.h>
 # include "memory.h"
 # include "rom.h"
+# include "mode.h"
 
 # define RED	"\x1B[31m"
 # define GRN	"\x1B[32m"
@@ -38,27 +39,6 @@ extern "C" {
 # define SAVESTATE_DIR "../savestates/"
 
 # define DEFAULT_VERBOSE 0
-
-/**
- * @brief The current state of the PPU.
- * These modes indicate what the PPU is currently doing and which memory areas are currently accessible.
- */
-enum	gpu_mode_e
-{
-	GPU_MODE_HBLANK = 0, ///< PPU is in HBLANK mode. All memory is accessible
-	GPU_MODE_VBLANK = 1, ///< PPU is in VBLANK mode. All memory is accessible. It's free real estate.
-	GPU_MODE_OAM = 2, ///< PPU is reading from OAM. Access to these memory areas is blocked: OAM
-	GPU_MODE_VRAM = 3, ///< PPU is reading from VRAM and OAM. Access to these memory areas is blocked: VRAM, OAM and palettes
-};
-
-enum	gb_mode_e
-{
-	GB_MODE_DMG, ///< Original Gameboy mode.
-	GB_MODE_CGB, ///< Color Gameboy mode.
-	GB_MODE_GBA, ///< Gameboy Advance mode. Not supported.
-	GB_MODE_AUTO, ///< Auto-detect the gameboy mode. This is done by reading the ROM header.
-	GB_MODE_UNKNOWN ///< Unknown mode. This is not used but is here for completeness.
-};
 
 /**
  * @brief Wrapper struct used for convenience. I hate C.

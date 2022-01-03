@@ -154,6 +154,7 @@ set(HEADERS
 	includes/memory.h
 	includes/rom.h
 	includes/ppu.h
+	includes/mode.h
 	)
 
 if (WIN32)
