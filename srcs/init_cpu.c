@@ -152,7 +152,6 @@ int		init_cpu_dmg(struct gb_cpu_s* gb, struct rom_s* rom)
 	gb->ime = 0;
 	gb->wram_bank = 1;
 	gb->paused = 0;
-	gb->div_freq = DEFAULT_DIV_FREQ;
 	// gb->interrupt_enable_register |= INT_VBLANK_REQUEST;
 	// gb->interrupt_enable_register |= INT_TIMER_REQUEST;
 	// gb->interrupt_enable_register |= INT_STAT_REQUEST;
@@ -160,7 +159,15 @@ int		init_cpu_dmg(struct gb_cpu_s* gb, struct rom_s* rom)
 	gb->mbc.bank = 1;
 	write_8_force(gb, LCDC_OFFSET, read_8_force(gb, LCDC_OFFSET) | LCDC_ON);
 	if (gb->mbc.ram_size)
+	{
 		gb->extra_ram = malloc(gb->mbc.ram_size);
+		if (!gb->extra_ram)
+		{
+			perror("malloc");
+			return (1);
+		}
+		memset(gb->extra_ram, 0, gb->mbc.ram_size);
+	}
 	return (0);
 }
 
@@ -181,15 +188,23 @@ static int		init_cpu_cgb(struct gb_cpu_s* gb, struct rom_s* rom)
 	gb->current_instruction = NULL;
 	gb->ime = 0;
 	gb->wram_bank = 1;
-	gb->div_freq = DEFAULT_DIV_FREQ;
 	// gb->interrupt_enable_register |= INT_VBLANK_REQUEST;
 	// gb->interrupt_enable_register |= INT_TIMER_REQUEST;
 	// gb->interrupt_enable_register |= INT_STAT_REQUEST;
 	init_mbc(gb);
 	gb->mbc.bank = 1;
+	gb->paused = 0;
 	write_8(gb, LCDC_OFFSET, read_8(gb, LCDC_OFFSET) | LCDC_ON);
 	if (gb->mbc.ram_size)
+	{
 		gb->extra_ram = malloc(gb->mbc.ram_size);
+		if (!gb->extra_ram)
+		{
+			perror("malloc");
+			return (1);
+		}
+		memset(gb->extra_ram, 0, gb->mbc.ram_size);
+	}
 	return (0);
 }
 

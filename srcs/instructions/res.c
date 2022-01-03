@@ -20,7 +20,7 @@ void	res_reg8(struct gb_cpu_s* gb, int bit, uint8_t* reg)
 {
 	(void)gb;
 	*reg &= ~(1 << bit);
-	gb->cycle += 8;
+	gb->cycle += 2;
 }
 
 void	res_mem8(struct gb_cpu_s* gb, int bit, uint16_t addr)
@@ -28,7 +28,7 @@ void	res_mem8(struct gb_cpu_s* gb, int bit, uint16_t addr)
 	uint8_t ret = read_8(gb, addr);
 	ret &= ~(1 << bit);
 	write_8(gb, addr, ret);
-	gb->cycle += 16;
+	gb->cycle += 4;
 }
 
 void	res0_ptr_hl(struct gb_cpu_s* gb)

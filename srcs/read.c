@@ -58,7 +58,12 @@ static uint8_t	read_8_internal(struct gb_cpu_s* gb, uint16_t a16, enum memory_mo
 	}
 	else if (a16 < 0xe000)
 	{
-		read_from_ram(gb, a16);
+		return(read_from_ram(gb, a16));
+	}
+	else if (a16 <= 0xFE00)
+	{
+		printf("warning: reading from echo RAM at address 0x%x\n", a16);
+		return(read_from_ram(gb, a16 - 0x2000));
 	}
 	else if (a16 == JOYP_OFFSET)
 	{
@@ -102,7 +107,7 @@ static uint8_t	read_8_internal(struct gb_cpu_s* gb, uint16_t a16, enum memory_mo
 	}
 	else
 	{
-		// printf("WARNING: READING FROM UNIMPLEMENTED ZONE %4x\n", a16);
+		printf("WARNING: READING FROM UNIMPLEMENTED ZONE %4x\n", a16);
 		return (0xff);
 	}
 }

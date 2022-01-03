@@ -44,8 +44,12 @@ void	gpu_tick(struct gb_cpu_s* gb)
 	uint8_t stat = read_8(gb, STAT_OFFSET);
 	uint8_t lyc = read_8(gb, LYC_OFFSET);
 	uint8_t lcdc = read_8(gb, LCDC_OFFSET);
-	gb->gpu.tick += (gb->cycle - gb->gpu.last_cycle) / 4;
-	gb->gpu.last_cycle = gb->cycle;
+	uint64_t increment = gb->cycle - gb->gpu.last_cycle;
+	if (gb->current_speed_mode)
+		increment /= 2;
+	gb->gpu.tick += increment;
+	if (increment != 0)
+		gb->gpu.last_cycle = gb->cycle;
 	// printf("gpu tick = %d\n", gb->gpu.tick);
 	switch (gb->gpu.mode)
 	{

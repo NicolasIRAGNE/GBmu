@@ -94,6 +94,7 @@ void	write_mbc5(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, enum memory_mode_
 		gb->mbc.bank &= ~0xFF;
 		gb->mbc.bank |= x;
 		// gb->mbc.bank = (gb->mbc.bank & 0x100) | (x & 0x0f);
+		printf("1. Switched to bank %x (wrote %x to %x)\n", gb->mbc.bank, x, addr);
 		return ;
 	}
 	else if (addr < 0x4000)
@@ -106,7 +107,7 @@ void	write_mbc5(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, enum memory_mode_
 		{
 			gb->mbc.bank &= ~0x100;
 		}
-		printf("Switched to bank %x\n", gb->mbc.bank);
+		printf("2. Switched to bank %x (wrote %x to %x)\n", gb->mbc.bank, x, addr);
 		return ;
 	}
 	else if (addr < 0x6000)

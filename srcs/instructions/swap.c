@@ -21,7 +21,7 @@ void	swap_reg8(struct gb_cpu_s* gb, uint8_t* x)
 	*x = ((*x & 0xf0) >> 4) | ((*x & 0x0f) << 4);
 	cpu_toggle_flag(gb, ZERO_FLAG, !*x);
 	cpu_unset_flag(gb, CARRY_FLAG | SUBSTRACTION_FLAG | HALF_CARRY_FLAG);
-	gb->cycle += 8;
+	gb->cycle += 2;
 }
 
 void	swap_mem8(struct gb_cpu_s* gb, uint16_t addr)
@@ -31,7 +31,7 @@ void	swap_mem8(struct gb_cpu_s* gb, uint16_t addr)
 	cpu_toggle_flag(gb, ZERO_FLAG, !x);
 	cpu_unset_flag(gb, CARRY_FLAG | SUBSTRACTION_FLAG | HALF_CARRY_FLAG);
 	write_8(gb, addr, x);
-	gb->cycle += 16;
+	gb->cycle += 4;
 }
 
 void	swap_a(struct gb_cpu_s* gb)

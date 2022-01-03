@@ -40,19 +40,20 @@ void	cpl(struct gb_cpu_s* gb)
 void	stop(struct gb_cpu_s* gb)
 {
 	(void)gb;
-	gb->halted = 1;
-	gb->io_ports[0x04] = 0;
+	// gb->halted = 1;
+	// gb->io_ports[0x04] = 0;
+	write_8_force(gb, DIV_OFFSET, 0);
 	if (gb->mode == GB_MODE_CGB)
 	{
 		uint8_t key1 = read_8(gb, KEY1_OFFSET);
-		// if (key1 & 1)
-		// {
-			// if (!gb->current_speed_mode)
-				// gb->current_speed_mode = 1;
-			// else
-				// gb->current_speed_mode = 0;
-			// write_8(gb, KEY1_OFFSET, 0);
-		// }
+		if (key1 & 1)
+		{
+			gb->current_speed_mode = !gb->current_speed_mode;
+			if (gb->current_speed_mode)
+				write_8_force(gb, KEY1_OFFSET, 0x80);
+			else
+				write_8_force(gb, KEY1_OFFSET, 0x00);
+		}
 	}
 	//TODO
 }

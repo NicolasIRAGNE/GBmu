@@ -307,7 +307,6 @@ struct	gb_cpu_s
 	enum joypad_mode_e	joypad_mode;
 	uint32_t			bg_palettes[8][4];
 	uint32_t			obj_palettes[8][4];
-	uint32_t			div_freq;
 	uint64_t			last_div_increment;
 	uint8_t				current_speed_mode;
 };

@@ -21,55 +21,55 @@ void	bit_reg8(struct gb_cpu_s* gb, int bit, uint8_t reg)
 	cpu_toggle_flag(gb, ZERO_FLAG, !(reg & (1 << bit)));
 	cpu_set_flag(gb, HALF_CARRY_FLAG);
 	cpu_unset_flag(gb, SUBSTRACTION_FLAG);
-	gb->cycle += 8;
+	gb->cycle += 2;
 }
 
 void	bit0_ptr_hl(struct gb_cpu_s* gb)
 {
 	bit_reg8(gb, 0, read_8(gb, gb->reg.hl));
-	gb->cycle += 4;
+	gb->cycle += 1;
 }
 
 void	bit1_ptr_hl(struct gb_cpu_s* gb)
 {
 	bit_reg8(gb, 1, read_8(gb, gb->reg.hl));
-	gb->cycle += 4;
+	gb->cycle += 1;
 }
 
 void	bit2_ptr_hl(struct gb_cpu_s* gb)
 {
 	bit_reg8(gb, 2, read_8(gb, gb->reg.hl));
-	gb->cycle += 4;
+	gb->cycle += 1;
 }
 
 void	bit3_ptr_hl(struct gb_cpu_s* gb)
 {
 	bit_reg8(gb, 3, read_8(gb, gb->reg.hl));
-	gb->cycle += 4;
+	gb->cycle += 1;
 }
 
 void	bit4_ptr_hl(struct gb_cpu_s* gb)
 {
 	bit_reg8(gb, 4, read_8(gb, gb->reg.hl));
-	gb->cycle += 4;
+	gb->cycle += 1;
 }
 
 void	bit5_ptr_hl(struct gb_cpu_s* gb)
 {
 	bit_reg8(gb, 5, read_8(gb, gb->reg.hl));
-	gb->cycle += 4;
+	gb->cycle += 1;
 }
 
 void	bit6_ptr_hl(struct gb_cpu_s* gb)
 {
 	bit_reg8(gb, 6, read_8(gb, gb->reg.hl));
-	gb->cycle += 4;
+	gb->cycle += 1;
 }
 
 void	bit7_ptr_hl(struct gb_cpu_s* gb)
 {
 	bit_reg8(gb, 7, read_8(gb, gb->reg.hl));
-	gb->cycle += 8;
+	gb->cycle += 2;
 }
 
 void	bit0_b(struct gb_cpu_s* gb)
