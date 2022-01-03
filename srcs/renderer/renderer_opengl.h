@@ -55,6 +55,8 @@ private:
     int GetColorIndex(int tileIndex, int tileAttr, int x, int y);
     int TransformColorIndex(int colorIndex, int paletteOffset);
 
+    void DrawPixel(int line, int pixel, uint16_t color);
+
 private:
     struct Pixel
     {   
@@ -73,7 +75,7 @@ private:
 private:
     gb_cpu_s* m_Gb { nullptr };
 
-    uint16_t m_TextureData[MAIN_SURFACE_HEIGHT][MAIN_SURFACE_WIDTH] {};
+    uint32_t m_TextureData[MAIN_SURFACE_HEIGHT][MAIN_SURFACE_WIDTH] {};
     GLuint m_Texture { 0 };
     GLuint m_Pbo { 0 };
     Pixel m_SpriteLine[MAIN_SURFACE_WIDTH] {};

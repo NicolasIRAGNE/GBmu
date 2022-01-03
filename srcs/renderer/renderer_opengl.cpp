@@ -70,7 +70,7 @@ void Renderer::DrawPixel(int line, int pixel)
 
     scx = (scx & ~0b111) | m_Low3bitsOfSCX;
 
-    m_TextureData[line][pixel] = 0;
+    DrawPixel(line, pixel, 0);
 
     auto& sprite = m_SpriteLine[pixel];
     if (!m_Gb->draw_sprites || !(lcdc & LCDC_SPRITE_ON))
@@ -79,7 +79,7 @@ void Renderer::DrawPixel(int line, int pixel)
     }
     if (m_Gb->draw_sprites && sprite.priority != Priority::kNull)
     {
-        m_TextureData[line][pixel] = sprite.color;
+        DrawPixel(line, pixel, sprite.color);
     }
 
     Priority menuPriority = Priority::kNull;
@@ -88,7 +88,7 @@ void Renderer::DrawPixel(int line, int pixel)
         uint16_t color = GetMenuColor(&menuPriority, line, pixel, m_MenuXOffset, m_MenuYOffset, lcdc);
         if (menuPriority > sprite.priority)
         {
-            m_TextureData[line][pixel] = color;
+            DrawPixel(line, pixel, color);
         }
     }
 
@@ -98,7 +98,7 @@ void Renderer::DrawPixel(int line, int pixel)
         uint16_t color = GetBackgroundColor(&backgroundPriority, line, pixel, scx, scy, lcdc);
         if (backgroundPriority > menuPriority && backgroundPriority > sprite.priority)
         {
-            m_TextureData[line][pixel] = color;
+            DrawPixel(line, pixel, color);
         }
     }
 }
@@ -119,7 +119,7 @@ void Renderer::Render()
         MAIN_SURFACE_HEIGHT,
         0,
         GL_RGBA,
-        GL_UNSIGNED_SHORT_1_5_5_5_REV,
+        GL_UNSIGNED_BYTE,
         0);
     glBindTexture(GL_TEXTURE_2D, 0);
     glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
@@ -149,7 +149,7 @@ void Renderer::InitTexture()
         MAIN_SURFACE_HEIGHT,
         0,
         GL_RGBA,
-        GL_UNSIGNED_SHORT_1_5_5_5_REV,
+        GL_UNSIGNED_BYTE,
         nullptr);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -162,7 +162,7 @@ void Renderer::DestroyTexture()
 
 void Renderer::InitPbo()
 {
-    int pboSize = MAIN_SURFACE_WIDTH * MAIN_SURFACE_HEIGHT * sizeof(uint16_t);
+    int pboSize = sizeof(m_TextureData);
 
     glGenBuffers(1, &m_Pbo);
     glBindBuffer(GL_PIXEL_UNPACK_BUFFER, m_Pbo);
@@ -418,6 +418,16 @@ int Renderer::TransformColorIndex(int colorIndex, int paletteOffset)
     colorIndex = (paletteOffset >> kObpOffsets[colorIndex]) & 0b11;
 
     return colorIndex;
+}
+
+void Renderer::DrawPixel(int line, int pixel, uint16_t color) 
+{
+    uint8_t r = ((color >> 10) & 0x1F) * 0xFF / 0x1F;
+    uint8_t g = ((color >> 5) & 0x1F) * 0xFF / 0x1F;
+    uint8_t b = ((color >> 0) & 0x1F) * 0xFF / 0x1F;
+    uint32_t pixelColor = (r << 16) | (g << 8) | b;
+
+    m_TextureData[line][pixel] = pixelColor;
 }
 
 } // namespace GBMU
