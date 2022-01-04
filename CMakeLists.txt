@@ -463,7 +463,7 @@ if (WITH_LIBYACC)
 	include_directories(libyacc/includes)
 endif()
 
-target_sources(gb PRIVATE ${SOURCES} ${HEADERS})
+target_sources(gb PRIVATE ${SOURCES} ${HEADERS} srcs/lib.c includes/lib.h)
 
 target_link_libraries(gb ${CMAKE_THREAD_LIBS_INIT})
 
