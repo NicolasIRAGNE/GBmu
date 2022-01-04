@@ -1,7 +1,9 @@
 extern crate bindgen;
+extern crate cmake;
 
 use std::env;
 use std::path::PathBuf;
+use cmake::Config;
 
 fn main() {
     // Tell cargo to tell rustc to link the system bzip2
@@ -33,5 +35,11 @@ fn main() {
     bindings
         .write_to_file(out_path.join("bindings.rs"))
         .expect("Couldn't write bindings!");
+
+    // Build libgb.a
+    let dst = Config::new("../../").build();
+    println!("dst result {}", dst.display());
+    println!("cargo:rustc-link-search=native={}/build", dst.display());
+    println!("cargo:rustc-link-lib=static=gb");
 }
 
