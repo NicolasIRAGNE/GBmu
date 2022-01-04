@@ -1,10 +1,12 @@
 #![allow(non_upper_case_globals)]
 #![allow(non_camel_case_types)]
 #![allow(non_snake_case)]
+#![allow(unused)]
 
+include!(concat!(env!("OUT_DIR"), "/bindings.rs"));
 
 #[repr(C)]
-pub struct CoolStruct {
+pub struct Registers {
     pub f: cty::c_uchar,
     pub a: cty::c_uchar,
     pub c: cty::c_uchar,
