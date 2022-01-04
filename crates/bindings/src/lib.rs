@@ -1,4 +1,4 @@
-mod gb;
+pub mod gb;
 #[cfg(test)]
 mod tests {
     #[test]

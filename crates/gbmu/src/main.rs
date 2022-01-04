@@ -1,3 +1,5 @@
+use bindings::gb::*;
+
 fn main() {
-    println!("Hello, world!");
+    unsafe { test_link(); }
 }
