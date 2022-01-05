@@ -1,12 +1,15 @@
 var NAVTREEINDEX1 =
 {
-"registers_8h_source.html":[1,0,20],
-"renderer_8h_source.html":[1,0,21],
-"renderer__opengl_8h_source.html":[1,0,22],
-"rescale_8h_source.html":[1,0,23],
-"rom_8h.html":[1,0,24],
-"rom_8h.html#a8776b9b360bbff9f3ca05f55d8bcc25e":[1,0,24,2],
-"rom_8h_source.html":[1,0,24],
+"ppu_8h.html#a35e21aed04f71f22f20ead04d745a937afe4210eef1fb8cc6caab5ad160846b0b":[1,0,20,1,2],
+"ppu_8h_source.html":[1,0,20],
+"registers_8h.html":[1,0,21],
+"registers_8h_source.html":[1,0,21],
+"renderer_8h_source.html":[1,0,22],
+"renderer__opengl_8h_source.html":[1,0,23],
+"rescale_8h_source.html":[1,0,24],
+"rom_8h.html":[1,0,25],
+"rom_8h.html#a8776b9b360bbff9f3ca05f55d8bcc25e":[1,0,25,2],
+"rom_8h_source.html":[1,0,25],
 "structgbmu__debugger__s.html":[0,0,0],
 "structgbmu__debugger__s.html#a157011924d875bc77ac71d97ae3f032f":[0,0,0,0],
 "structgbmu__debugger__s.html#a2a462e991a879658b8867bad32fe4385":[0,0,0,1],
@@ -55,5 +58,5 @@ var NAVTREEINDEX1 =
 "structrom__s.html#a5593b64ca3443e60b55611dc78448de3":[0,0,4,0],
 "structrom__s.html#a636d7e2f00b2851db55b1fdc5b5201d1":[0,0,4,2],
 "structrom__s.html#a74f6064d6a7a04b64b572e9e27bd8da2":[0,0,4,1],
-"wrapper_8h_source.html":[1,0,25]
+"wrapper_8h_source.html":[1,0,26]
 };

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['memset_5f4_174',['memset_4',['../gb_8h.html#a1690b79591ec2626ae0e4bab071370da',1,'tools.c']]]
+  ['memset_5f4_178',['memset_4',['../gb_8h.html#a1690b79591ec2626ae0e4bab071370da',1,'tools.c']]]
 ];

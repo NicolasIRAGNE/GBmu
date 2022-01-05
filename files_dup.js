@@ -10,6 +10,7 @@ var files_dup =
     [ "ext_op.h", "ext__op_8h_source.html", null ],
     [ "fallback_debugger.h", "fallback__debugger_8h.html", "fallback__debugger_8h" ],
     [ "gb.h", "gb_8h.html", "gb_8h" ],
+    [ "gbclodo.h", "gbclodo_8h.html", "gbclodo_8h" ],
     [ "gbmu.h", "gbmu_8h.html", null ],
     [ "glerr.h", "glerr_8h_source.html", null ],
     [ "input_functions.c", "input__functions_8c.html", "input__functions_8c" ],
