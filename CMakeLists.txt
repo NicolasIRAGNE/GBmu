@@ -8,48 +8,46 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
 project(gbmu LANGUAGES CXX C)
 
 add_library(gb)
-target_compile_definitions(gb PRIVATE "SHADERS_LOCATION=\"${CMAKE_CURRENT_SOURCE_DIR}/srcs/renderer/shaders\"")
 target_compile_definitions(gb PUBLIC "ASAN_OPTIONS=detect_leaks=0")
-add_executable(gbmu srcs/main.cpp)
-target_link_libraries(gbmu cxxopts::cxxopts)
 
 include(FetchContent)
-if (NOT MSVC)
-	include(cmake/ccache.cmake)
-endif()
 option(WITH_LIBYACC "Build libyacc" OFF)
 option(WITH_ASAN "Build with memory sanitizer" OFF)
+option(BUILD_GBCLODO "Build gbclodo executable" ON)
 option(DEBUG_COLORS "Enable debug palette" ON)
 option(WITH_TESTS "Build tests" OFF)
 
-FetchContent_Declare(
-      SDL2
-      URL            https://www.libsdl.org/release/SDL2-2.0.18.zip
-    )
-
-FetchContent_Declare(
-        GLEW
-        GIT_REPOSITORY "https://github.com/Perlmint/glew-cmake"
-        GIT_TAG glew-cmake-release
+FetchContent_Declare(ExtraModules
+	GIT_REPOSITORY https://github.com/NicolasIRAGNE/CMakeScripts
+	GIT_TAG main
+	BUILD_COMMAND ""
+	CONFIGURE_COMMAND ""
 )
 
-FetchContent_Declare(
-	cxxopts
-	GIT_REPOSITORY "https://github.com/jarro2783/cxxopts"
-	GIT_TAG v3.0.0
-)
+FetchContent_MakeAvailable(ExtraModules)
 
-FetchContent_MakeAvailable(GLEW SDL2 cxxopts)
+list(APPEND CMAKE_MODULE_PATH ${extramodules_SOURCE_DIR})
+
+if (NOT MSVC)
+	include(ccache)
+endif()
+
+include(FetchIfMissing)
 
 if(WIN32)
-	FetchContent_Declare(
+	FetchIfMissing(
 			WINEDITLINE
 			GIT_REPOSITORY "https://github.com/NicolasIRAGNE/wineditline"
 			GIT_TAG WinEditLine-2.207-Patch
 	)
-
-	FetchContent_MakeAvailable(WINEDITLINE)
+	FetchContent_MakeAvailable(
+		WINEDITLINE
+	)
 endif()
+
+
+
+set(FETCHED_TARGETS)
 
 ################################################
 #                  LIBRARIES                   #
@@ -57,10 +55,6 @@ endif()
 
 # pthread
 find_package(Threads)
-
-# OpenGL
-find_package(OpenGL REQUIRED)
-
 
 if (NOT WIN32)
 	#Readline
@@ -86,15 +80,8 @@ set(SOURCES
 	srcs/init_ext_op_tab.c
 	srcs/gpu.c
 	srcs/cpu_toggle_flag.c
-	srcs/init_sdl.c
-	# srcs/video_loop.c
-	srcs/vram_viewer.c
 	srcs/tools.c
-	srcs/tile.c
 	srcs/breakpoints.c
-	srcs/main_window_loop.c
-	srcs/input_functions.c
-	srcs/handle_joypad.c
 	srcs/save_game.c
 	srcs/palette.c
 	srcs/mbc.c
@@ -104,8 +91,6 @@ set(SOURCES
 	srcs/mbc3.c
 	srcs/mbc5.c
 	srcs/errors.c
-	# srcs/userscreen.c
-	srcs/savestate.c
 	srcs/timer.c
 	srcs/write.c
 	srcs/read.c
@@ -137,7 +122,8 @@ set(SOURCES
 	srcs/instructions/bit.c
 	srcs/instructions/res.c
 	srcs/instructions/set.c
-	srcs/instructions/swap.c)
+	srcs/instructions/swap.c
+	)
 
 set(HEADERS
 	includes/cpu.h
@@ -147,7 +133,6 @@ set(HEADERS
 	includes/mbc.h
 	includes/op.h
 	includes/registers.h
-	includes/renderer.h
 	includes/input_functions.h
 	includes/dmg_boot_rom.h
 	includes/debug.h
@@ -171,27 +156,6 @@ if (NOT WITH_LIBYACC)
 		srcs/fallback_debugger.c
 	)
 endif()
-
-# Renderer
-list(APPEND SOURCES
-	srcs/renderer/renderer_opengl.cpp
-	srcs/renderer/rescale.cpp
-	srcs/renderer/gl_utils/compile_program.cpp
-	srcs/renderer/wrapper_c/wrapper.cpp)
-
-list(APPEND HEADERS
-	srcs/renderer/renderer_opengl.h
-	srcs/renderer/rescale.h
-	srcs/renderer/gl_utils/compile_program.h
-	srcs/renderer/gl_utils/glerr.h
-	srcs/renderer/wrapper_c/wrapper.h)
-
-set(SHADERS
-	srcs/renderer/shaders/basic.vert
-	srcs/renderer/shaders/basic.frag
-	srcs/renderer/shaders/rain.frag)
-
-# Debugger
 
 set(DEBUGGER_SOURCES
 	srcs/debugger/DebuggerAddress.cpp
@@ -457,7 +421,6 @@ target_include_directories(gb PUBLIC "${CMAKE_CURRENT_BINARY_DIR}")
 message(STATUS "Including gb headers from build directory : ${CMAKE_CURRENT_BINARY_DIR}")
 target_include_directories(gb PUBLIC srcs)
 target_include_directories(gb PUBLIC includes)
-target_include_directories(gb PUBLIC srcs/renderer)
 
 ################################################
 #                COMPILE FLAGS                 #
@@ -502,14 +465,14 @@ endif()
 
 target_sources(gb PRIVATE ${SOURCES} ${HEADERS})
 
-target_link_libraries(gb SDL2main)
-target_link_libraries(gb SDL2-static)
 target_link_libraries(gb ${CMAKE_THREAD_LIBS_INIT})
-target_link_libraries(gb ${OPENGL_LIBRARIES})
-target_link_libraries(gb libglew_static)
 
 if (WIN32)
 	target_link_libraries(gb edit_static)
+endif()
+
+if (BUILD_GBCLODO)
+	add_subdirectory(srcs/gbclodo)
 endif()
 
 # target_include_directories(gb ${SDL2_INCLUDE_DIRS})
@@ -518,32 +481,7 @@ endif()
 #                   INSTALL                    #
 ################################################
 
-foreach(shader ${SHADERS})
-	get_filename_component(filename ${shader} NAME)
-	add_custom_command(
-		OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/shaders/${filename}
-		DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/${shader}
-		COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/${shader} ${CMAKE_CURRENT_BINARY_DIR}/shaders/${filename}
-		COMMENT "Copying shader ${filename} to ${CMAKE_CURRENT_BINARY_DIR}/shaders/"
-		)
-		set (GENERATED_SHADERS ${GENERATED_SHADERS} ${CMAKE_CURRENT_BINARY_DIR}/shaders/${filename})
-	# add_custom_target(gbmu_shader_${filename} ALL
-	# 	COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/${shader} ${CMAKE_CURRENT_BINARY_DIR}/shaders/${filename}
-	# 	DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/shaders/${filename}
-	# 	COMMENT "Copying shader ${filename} to ${CMAKE_CURRENT_BINARY_DIR}/shaders/"
-	# 	SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/${shader}
-	# )
-	# add_dependencies(gb gbmu_shader_${filename})
-endforeach()
-
-target_link_libraries(gbmu gb)
-add_custom_target(gbmu_shaders ALL DEPENDS ${GENERATED_SHADERS})
-
-add_dependencies(gb gbmu_shaders)
-
-include(cmake/CopyDLLs.cmake)
-
-# CopyDLLs(gbmu)
+include(CopyDLLs)
 
 if (WITH_TESTS)
 	enable_testing()

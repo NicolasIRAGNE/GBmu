@@ -11,12 +11,9 @@
 /* ************************************************************************** */
 
 #include "gb.h"
-#include "SDL_surface.h"
-#include "SDL_video.h"
 #include "cpu.h"
 #include "op.h"
 #include "debug.h"
-#include "renderer/wrapper_c/wrapper.h"
 #ifdef WITH_LIBYACC
 # include "libyacc_wrapper.h"
 #else
@@ -25,7 +22,6 @@
 #include <stdio.h>
 #include <stdint.h>
 
-#include "renderer.h"
 
 uint8_t	update_current_instruction(struct gb_cpu_s* gb)
 {
@@ -80,77 +76,6 @@ int		set_interrupt(struct gb_cpu_s* gb)
 			write_8_force(gb, IF_OFFSET, interrupt_requests);
 	}
 	return (ret);
-}
-
-void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
-{
-	int err = 0;
-	struct gb_cpu_s* gb = wrapper->gb;
-	uint8_t last_line = 0;
-	uint8_t	last_line_drawn = 0;
-	uint8_t	last_pixel_drawn = 0;
-    // SDL_Surface* tmp_surface = SDL_CreateRGBSurface(0, BGMAP_SIZE, BGMAP_SIZE, 32, 0, 0, 0, 0);
-	struct tile_s tiles[2][TILES_COUNT];
-	while (gb->running)
-	{
-		if (set_interrupt(gb))
-		{
-			// gb->halted = 0;
-			if (gb->ime)
-			{
-				interrupt_a16(gb, gb->interrupt);
-				gb->interrupt = 0;
-			}
-		}
-		if (gb->paused)
-			execute_debugger(gb);
-		else
-			err = handle_instruction(gb);
-		if (err)
-			gb->paused = 1;
-
-		if (gb->gpu.y_coord < 144 && (last_line_drawn != gb->gpu.y_coord || last_pixel_drawn != gb->gpu.x_coord))
-		{
-			uint8_t lcdc = (read_8(gb, LCDC_OFFSET));
-			if ((lcdc & LCDC_ON) || !gb->booted)
-			{
-				for (int i = last_pixel_drawn; i < gb->gpu.x_coord; i++) {
-					renderer_draw_pixel(renderer, gb->gpu.y_coord, i);
-				}
-			}
-			last_pixel_drawn = gb->gpu.x_coord;
-			last_line_drawn = gb->gpu.y_coord;
-		}
-		last_line = gb->gpu.y_coord;
-		gpu_tick(gb);
-		if (wrapper->gb->gpu.y_coord == 144 && last_line != 144)
-		{
-			uint8_t lcdc = (read_8(gb, LCDC_OFFSET));
-			if (!(lcdc & LCDC_ON) && gb->booted)
-			{
-				// renderer_clear(renderer);
-			}
-			if (wrapper->gb->vram_viewer_running)
-			{
-				update_palettes(wrapper->gb);
-				fill_tile_array(wrapper->gb, tiles);
-				vram_viewer_loop(wrapper, tiles);
-			}
-			// if (!gb->halted)
-				renderer_render(renderer);
-			SDL_GL_SwapWindow(wrapper->main_context->win);
-			// renderer_clear(renderer);
-			last_line_drawn = 0;
-		}
-		if (gb->cycle - gb->last_sleep > (70224 / 4))
-		{
-			// usleep(128);
-			main_window_loop(wrapper, renderer);
-			gb->last_sleep = gb->cycle;
-		}
-		update_div_register(gb);
-		update_timer_register(gb);
-	}
 }
 
 // void*	execute_thread_entry(void* user_data)
