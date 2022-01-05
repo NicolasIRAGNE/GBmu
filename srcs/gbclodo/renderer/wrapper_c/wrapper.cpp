@@ -18,7 +18,7 @@ extern "C"
 
 void* new_renderer(struct gb_cpu_s* gb)
 {
-    return(new GBMU::Renderer(gb));
+    return(new GBMU::Renderer());
 }
 
 void delete_renderer(void* renderer)
@@ -33,13 +33,7 @@ void renderer_clear(void* renderer)
     ptr->Clear();
 }
 
-void renderer_draw_pixel(void* renderer, int line, int pixel)
-{
-    auto ptr = reinterpret_cast<GBMU::Renderer*>(renderer);
-    ptr->DrawPixel(line, pixel);
-}
-
-void renderer_render(void* renderer)
+void renderer_render(void* renderer, uint32_t m_TextureData[MAIN_SURFACE_HEIGHT][MAIN_SURFACE_WIDTH])
 {
     auto ptr = reinterpret_cast<GBMU::Renderer*>(renderer);
     ptr->Render();

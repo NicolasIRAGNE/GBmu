@@ -8,11 +8,13 @@ FetchIfMissing(
     SDL2
     URL            https://www.libsdl.org/release/SDL2-2.0.18.zip
 )
+
 FetchIfMissing(
     GLEW
     GIT_REPOSITORY "https://github.com/Perlmint/glew-cmake"
     GIT_TAG glew-cmake-release
 )
+
 FetchIfMissing(
     cxxopts
     GIT_REPOSITORY "https://github.com/jarro2783/cxxopts"
@@ -57,7 +59,6 @@ target_sources(gbclodo
         renderer/gl_utils/compile_program.h
         renderer/gl_utils/glerr.h
         renderer/wrapper_c/wrapper.h)
-
         
 foreach(shader ${SHADERS})
 target_compile_definitions(gbclodo PRIVATE "SHADERS_LOCATION=\"${CMAKE_CURRENT_LIST_DIR}/renderer/shaders\"")

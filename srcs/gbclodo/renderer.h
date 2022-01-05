@@ -15,6 +15,7 @@
 # include "gb.h"
 # include "cpu.h"
 # include "SDL.h"
+# include "draw.h"
 
 # define VRAM_WINDOW_WIDTH (256 * 2)
 # define VRAM_WINDOW_HEIGHT 512
@@ -24,25 +25,13 @@
 # define MAIN_WINDOW_WIDTH (160 * 2)
 # define MAIN_WINDOW_HEIGHT (144 * 2)
 
-
 # define TILE_SURFACE_WIDTH		8
 # define TILE_SURFACE_HEIGHT	8
-
-# define MAIN_SURFACE_WIDTH		(160)
-# define MAIN_SURFACE_HEIGHT	(144)
-
 
 # define USERSCREEN_WIDTH		(160)
 # define USERSCREEN_HEIGHT		(144)
 
-# define TILE_SIZE				16
-# define TILES_COUNT ((VRAM_TILE_BANK_SIZE + 1) / TILE_SIZE)
 
-# define ATTR_PRIORITY	(1 << 7)
-# define ATTR_Y_FLIP	(1 << 6)
-# define ATTR_X_FLIP 	(1 << 5)
-# define ATTR_PALETTE 	(1 << 4)
-# define ATTR_BANK		(1 << 3)
 
 struct	sdl_context_s
 {

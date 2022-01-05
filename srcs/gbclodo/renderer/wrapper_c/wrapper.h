@@ -17,7 +17,6 @@ struct gb_cpu_s;
 void* new_renderer(struct gb_cpu_s* gb);
 void  delete_renderer(void* renderer);
 
-void renderer_draw_pixel(void* renderer, int line, int pixel);
 void renderer_render(void* renderer);
 void renderer_clear(void* renderer);
 
