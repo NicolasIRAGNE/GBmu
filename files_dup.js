@@ -14,6 +14,7 @@ var files_dup =
     [ "glerr.h", "glerr_8h_source.html", null ],
     [ "input_functions.c", "input__functions_8c.html", "input__functions_8c" ],
     [ "input_functions.h", "input__functions_8h.html", "input__functions_8h" ],
+    [ "lib.h", "lib_8h_source.html", null ],
     [ "mbc.h", "mbc_8h_source.html", null ],
     [ "memory.h", "memory_8h.html", "memory_8h" ],
     [ "mode.h", "mode_8h.html", "mode_8h" ],
