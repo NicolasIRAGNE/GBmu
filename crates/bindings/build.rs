@@ -6,10 +6,6 @@ use std::path::PathBuf;
 use cmake::Config;
 
 fn main() {
-    // Tell cargo to tell rustc to link the system bzip2
-    // shared library.
-    //println!("cargo:rustc-link-lib=bz2");
-
     // Tell cargo to invalidate the built crate whenever the wrapper changes
     println!("cargo:rerun-if-changed=../../includes/lib.h");
     println!("current dir: {:?}", env::current_dir());
@@ -24,6 +20,7 @@ fn main() {
         // Tell cargo to invalidate the built crate whenever any of the
         // included header files changed.
         .parse_callbacks(Box::new(bindgen::CargoCallbacks))
+        // use cty to prefix c types
         .ctypes_prefix("cty")
         // Finish the builder and generate the bindings.
         .generate()
@@ -38,8 +35,11 @@ fn main() {
 
     // Build libgb.a
     let dst = Config::new("../../").build();
-    println!("dst result {}", dst.display());
+
+    // Search lib in the correct folder, build
     println!("cargo:rustc-link-search=native={}/build", dst.display());
+
+    // Finally link the cmake build library
     println!("cargo:rustc-link-lib=static=gb");
 }
 
