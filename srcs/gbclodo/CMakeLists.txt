@@ -50,6 +50,7 @@ target_sources(gbclodo
         renderer/rescale.cpp
         renderer/gl_utils/compile_program.cpp
 	    renderer/wrapper_c/wrapper.cpp
+        gbclodo.h
         renderer.h
         renderer/renderer_opengl.h
         renderer/rescale.h

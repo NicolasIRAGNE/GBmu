@@ -123,14 +123,6 @@ void	init_ext_op_tab(void);
 void	gpu_tick(struct gb_cpu_s* gb);
 
 /**
- * @brief The current execution loop used by the program. This function is not a good piece of code and should be rewritten.
- * 
- * @param wrapper @copydoc struct gbmu_wrapper_s* wrapper
- * @param renderer @copydoc struct gbmu_renderer_s* renderer
- */
-void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer);
-
-/**
  * @brief Requests an interrupt by writing the corresponding value to the IF register.
  * 
  * @param gb 
@@ -359,6 +351,13 @@ int		loadstate(struct gb_cpu_s* gb, int number);
  * 
  */
 void	copy_registers(struct gb_cpu_s* gb, void* dst);
+
+/**
+ * @brief One full step of the CPU.
+ * @return 1 if a frame is ready to be drawn, 0 otherwise, or a negative value if an error occurred.
+ */
+int cpu_step();
+
 
 #ifdef __cplusplus
 }

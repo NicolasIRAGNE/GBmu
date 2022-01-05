@@ -122,3 +122,38 @@ int		handle_instruction(struct gb_cpu_s* gb)
 	gb->cycle += gb->current_instruction->cycles;
 	return (0);
 }
+
+int cpu_step()
+{
+    struct gb_cpu_s* gb = &gb_global;
+
+	int err = 0;
+	int res = 0;
+	uint8_t y_coord_save = gb->gpu.y_coord;
+	uint8_t x_coord_save = gb->gpu.x_coord;
+    if (set_interrupt(gb))
+    {
+        // gb->halted = 0;
+        if (gb->ime)
+        {
+            interrupt_a16(gb, gb->interrupt);
+            gb->interrupt = 0;
+        }
+    }
+    err = handle_instruction(gb);
+    if (err)
+	{
+        gb->paused = 1;
+		return (-1);
+	}
+    gpu_tick(gb);
+    if (gb->gpu.y_coord == 144 && y_coord_save != 144)
+    {
+		// Frame is ready to be drawn.
+		res = 1;
+    }
+    update_div_register(gb);
+    update_timer_register(gb);
+	debug_print_gb(gb);
+	return (res);
+}
