@@ -1,4 +1,6 @@
 pub mod gb;
+pub(crate) mod bindings;
+
 #[cfg(test)]
 mod tests {
     #[test]
