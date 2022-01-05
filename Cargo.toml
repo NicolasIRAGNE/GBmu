@@ -1,6 +1,7 @@
 [workspace]
 members = [
     "crates/gbmu",
+    "crates/shared",
     "crates/bindings"
 ]
 resolver = "2"
