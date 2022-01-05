@@ -45,8 +45,6 @@ if(WIN32)
 	)
 endif()
 
-
-
 set(FETCHED_TARGETS)
 
 ################################################
@@ -73,6 +71,8 @@ endif()
 # Core
 set(SOURCES
 	srcs/debug.c
+	srcs/draw.c
+	srcs/draw.h
 	srcs/debugger.c
 	srcs/execute.c
 	srcs/init_cpu.c

@@ -13,6 +13,8 @@
 #include "renderer.h"
 #include "gb.h"
 
+extern uint32_t m_TextureData[MAIN_SURFACE_HEIGHT][MAIN_SURFACE_WIDTH];
+
 void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 {
 	int err = 0;
@@ -46,7 +48,7 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 			if ((lcdc & LCDC_ON) || !gb->booted)
 			{
 				for (int i = last_pixel_drawn; i < gb->gpu.x_coord; i++) {
-					renderer_draw_pixel(renderer, gb->gpu.y_coord, i);
+					DrawPixel(gb->gpu.y_coord, i);
 				}
 			}
 			last_pixel_drawn = gb->gpu.x_coord;
