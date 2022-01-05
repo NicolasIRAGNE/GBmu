@@ -7,6 +7,8 @@ var files_dup =
     [ "debug.h", "debug_8h.html", "debug_8h" ],
     [ "display.h", "display_8h_source.html", null ],
     [ "dmg_boot_rom.h", "dmg__boot__rom_8h.html", "dmg__boot__rom_8h" ],
+    [ "draw.c", "draw_8c.html", "draw_8c" ],
+    [ "draw.h", "draw_8h.html", "draw_8h" ],
     [ "ext_op.h", "ext__op_8h_source.html", null ],
     [ "fallback_debugger.h", "fallback__debugger_8h.html", "fallback__debugger_8h" ],
     [ "gb.h", "gb_8h.html", "gb_8h" ],
