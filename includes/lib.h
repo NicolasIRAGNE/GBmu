@@ -3,8 +3,8 @@
 
 #include "gbmu.h"
 
-extern struct gb_cpu_s	gb_global;
-
 void test_link();
+
+int init_gb(const char* rom);
 
 #endif

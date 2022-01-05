@@ -3,11 +3,13 @@
  * @author Nicolas IRAGNE (nicolas.iragne@alyce.fr)
  * @brief Contains definitions regarding cartridges.
  * @date 2022-01-03
- * 
+ *
  * @copyright Copyright Alyce (c) 2022
  */
 
 #pragma once
+
+#include <stdint.h>
 
 /**
  * @brief Info located at index 0x100 of the ROM.
@@ -41,25 +43,25 @@ struct rom_hdr_s
      */
     uint8_t sgb_flag;
     /**
-	 * 
+	 *
      * @brief One of the most important fields of the ROM header. This indicates the type of the cartridge.
      *
-     * - 0x00: ROM ONLY                 
-     * - 0x01: MBC1                     
-     * - 0x02: MBC1+RAM                 
-     * - 0x03: MBC1+RAM+BATTERY         
-     * - 0x05: MBC2                     
-     * - 0x06: MBC2+BATTERY             
-     * - 0x08: ROM+RAM                  
-     * - 0x09: ROM+RAM+BATTERY          
-     * - 0x0B: MMM01						
-     * - 0x0C: MMM01+RAM					
-     * - 0x0D: MMM01+RAM+BATTERY			
-     * - 0x0F: MBC3+TIMER+BATTERY		
-     * - 0x10: MBC3+TIMER+RAM+BATTERY   
-     * - 0x11: MBC3                     
-     * - 0x12: MBC3+RAM                 
-     * - 0x13: MBC3+RAM+BATTERY         
+     * - 0x00: ROM ONLY
+     * - 0x01: MBC1
+     * - 0x02: MBC1+RAM
+     * - 0x03: MBC1+RAM+BATTERY
+     * - 0x05: MBC2
+     * - 0x06: MBC2+BATTERY
+     * - 0x08: ROM+RAM
+     * - 0x09: ROM+RAM+BATTERY
+     * - 0x0B: MMM01
+     * - 0x0C: MMM01+RAM
+     * - 0x0D: MMM01+RAM+BATTERY
+     * - 0x0F: MBC3+TIMER+BATTERY
+     * - 0x10: MBC3+TIMER+RAM+BATTERY
+     * - 0x11: MBC3
+     * - 0x12: MBC3+RAM
+     * - 0x13: MBC3+RAM+BATTERY
 	 * - 0x19: MBC5
 	 * - 0x1A: MBC5+RAM
 	 * - 0x1B: MBC5+RAM+BATTERY
@@ -109,8 +111,8 @@ struct rom_hdr_s
 	 */
     uint8_t lang;
 	/**
-	 * @brief Specifies the games company/publisher code in range 00-FFh. 
-	 * A value of 33h signalizes that the New License Code in header bytes 0144-0145 is used instead. (Super GameBoy functions won't work if <> $33.) 
+	 * @brief Specifies the games company/publisher code in range 00-FFh.
+	 * A value of 33h signalizes that the New License Code in header bytes 0144-0145 is used instead. (Super GameBoy functions won't work if <> $33.)
 	 */
     uint8_t manufacturer_code_extend;
 	/**
@@ -137,4 +139,4 @@ struct rom_s
 	void*				ptr; ///< Pointer to the ROM data.
 };
 
-int		open_rom(char* name, struct rom_s* rom);
+int		open_rom(const char* name, struct rom_s* rom);
