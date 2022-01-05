@@ -1,9 +1,4 @@
-#![allow(non_upper_case_globals)]
-#![allow(non_camel_case_types)]
-#![allow(non_snake_case)]
-#![allow(unused)]
-
-include!(concat!(env!("OUT_DIR"), "/bindings.rs"));
+use crate::bindings;
 
 #[repr(C)]
 pub struct Registers {
@@ -17,4 +12,8 @@ pub struct Registers {
     pub h: cty::c_uchar,
     pub sp: cty::c_uint,
     pub pc: cty::c_uint,
+}
+
+pub fn test_link() {
+    unsafe { bindings::test_link();};
 }
