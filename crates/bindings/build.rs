@@ -1,9 +1,9 @@
 extern crate bindgen;
 extern crate cmake;
 
+use cmake::Config;
 use std::env;
 use std::path::PathBuf;
-use cmake::Config;
 
 fn main() {
     // Tell cargo to invalidate the built crate whenever the wrapper changes
@@ -34,7 +34,7 @@ fn main() {
         .expect("Couldn't write bindings!");
 
     // Build libgb.a
-    let dst = Config::new("../../").build();
+    let dst = Config::new("../../").define("BUILD_GBCLODO", "OFF").build_target("gb").build();
 
     // Search lib in the correct folder, build
     println!("cargo:rustc-link-search=native={}/build", dst.display());
@@ -42,4 +42,3 @@ fn main() {
     // Finally link the cmake build library
     println!("cargo:rustc-link-lib=static=gb");
 }
-
