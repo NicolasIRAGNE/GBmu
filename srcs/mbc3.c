@@ -82,7 +82,7 @@ uint8_t	read_mbc3(struct gb_cpu_s* gb, uint16_t addr)
 		tmp = gb->mbc.bank + (1 * (gb->mbc.bank == 0));
 		if (tmp * 0x4000 + addr - 0x4000 > gb->rom_ptr->st.st_size)
 		{
-			dprintf(2, "fatal: attempting to read outside the cartridge at %x in bank %x. aborting...\n", addr, tmp);
+			printf("fatal: attempting to read outside the cartridge at %x in bank %x. aborting...\n", addr, tmp);
 			fatal(gb);
 			return (0);
 		}
@@ -157,7 +157,7 @@ void	write_mbc3(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, enum memory_mode_
 	{
 		if (!gb->ram_enabled)
 		{
-			dprintf(2, "warning: attempting to write to disabled RAM / RTC\n");
+			printf("warning: attempting to write to disabled RAM / RTC\n");
 			return ;
 		}
 		if (gb->mbc.mode == MBC_MODE_RTC)
@@ -167,7 +167,7 @@ void	write_mbc3(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, enum memory_mode_
 		else 
 		{
 			if ((uint16_t)(addr - 0xa000 + gb->mbc.ram_bank * EXTRA_RAM_SIZE) >= gb->mbc.ram_size)
-				dprintf(2, "warning: attempting to write at %x in invalid ram bank %x\n", addr, gb->mbc.ram_bank);
+				printf("warning: attempting to write at %x in invalid ram bank %x\n", addr, gb->mbc.ram_bank);
 			else
 				((uint8_t*)(gb->extra_ram))[addr - 0xa000 + gb->mbc.ram_bank * EXTRA_RAM_SIZE] = x;
 		}
