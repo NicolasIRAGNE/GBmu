@@ -85,6 +85,8 @@ int     init_main_window(struct sdl_context_s* context)
 		context->controller = NULL;
 		printf("No joystick detected.\n");
 	}
+	context->renderer = SDL_CreateRenderer(context->win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	context->texture = SDL_CreateTexture(context->renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STREAMING, MAIN_SURFACE_WIDTH, MAIN_SURFACE_HEIGHT);
 	return (0);
 }
 
