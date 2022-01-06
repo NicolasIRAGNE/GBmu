@@ -44,7 +44,7 @@ uint8_t	read_mbc5(struct gb_cpu_s* gb, uint16_t addr, enum memory_mode_e mode)
 				printf("fatal: cartridge size is %x\n", gb->rom_ptr->st.st_size);
 				printf("banks: %x\n", gb->mbc.max_rom_banks);
 
-				// fatal(gb);
+				fatal(gb);
 				return (0);
 			}
 			return (((uint8_t*)(gb->rom_ptr->ptr))[tmp * 0x4000 + addr - 0x4000]);
@@ -95,7 +95,7 @@ void	write_mbc5(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, enum memory_mode_
 		gb->mbc.bank &= ~0xFF;
 		gb->mbc.bank |= x;
 		// gb->mbc.bank = (gb->mbc.bank & 0x100) | (x & 0x0f);
-		printf("1. Switched to bank %x (wrote %x to %x)\n", gb->mbc.bank, x, addr);
+		// printf("1. Switched to bank %x (wrote %x to %x)\n", gb->mbc.bank, x, addr);
 		return ;
 	}
 	else if (addr < 0x4000)
@@ -108,7 +108,7 @@ void	write_mbc5(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, enum memory_mode_
 		{
 			gb->mbc.bank &= ~0x100;
 		}
-		printf("2. Switched to bank %x (wrote %x to %x)\n", gb->mbc.bank, x, addr);
+		// printf("2. Switched to bank %x (wrote %x to %x)\n", gb->mbc.bank, x, addr);
 		return ;
 	}
 	else if (addr < 0x6000)

@@ -108,16 +108,16 @@ void    quicksort_oam(struct OAMCase* oam, int size)
 
     while (i <= j)
     {
-        while (oam[i].x <= pivot)
+        while (oam[i].x <= pivot && i < size)
         {
             i++;
         }
 
-        while (oam[j].x > pivot)
+        while (oam[j].x > pivot && j >= 0)
         {
             j--;
         }
-
+        
         if (i <= j)
         {
             struct OAMCase tmp = oam[i];

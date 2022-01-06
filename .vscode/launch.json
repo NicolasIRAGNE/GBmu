@@ -55,7 +55,7 @@
                 // "C:/Users/nicor/Downloads/testroms/daid/ppu_scanline_bgp.gb",
                 // "C:/Users/nicor/Downloads/testroms/ax6/rtc3test-1.gb",
                 // "C:/Users/nicor/Downloads/testroms/mooneye/emulator-only/mbc2/bits_ramg.gb",
-                "${workspaceFolder}/rom/Legend_of_Zelda_link_Awaking.gb",
+                // "${workspaceFolder}/rom/Legend_of_Zelda_link_Awaking.gb",
                 // "${workspaceFolder}/rom/Legend of Zelda, The - Oracle of Seasons.gbc",
                 // "${workspaceFolder}/rom/Legend of Zelda, The - Oracle of Ages.gbc",
                 // "${workspaceFolder}/rom/unit_tests/individual/02-interrupts.gb",
@@ -68,6 +68,9 @@
                 // "C:/Users/nicor/Downloads/GBEmulatorShootout-main/testroms/mooneye/emulator-only/mbc5/rom_2MB.gb",
                 // "${workspaceFolder}/rom/mario.gbc",
                 // "C:/Users/nicor/Downloads/roms (1)/roms/Pokemon - Version Argent.gbc",
+                // "C:/Users/nicor/Downloads/GBEmulatorShootout-main/testroms/cpp/ramg-mbc3-test.gb",
+                // "C:/Users/nicor/Downloads/roms/Super Mario Land.gb",
+                "C:/Users/nicor/Downloads/game-boy-romset-ultra-us/Diablo (USA) (Proto).gb",
             //    "${workspaceFolder}/rom/F-1_Race_World.gb",
                 "--mode", "auto"
             ],

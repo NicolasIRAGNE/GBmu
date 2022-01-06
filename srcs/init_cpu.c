@@ -270,7 +270,7 @@ int		init_mbc(struct gb_cpu_s* gb)
 		switch (gb->rom_ptr->header->rom_size)
 		{
 		case 0:
-			gb->mbc.max_rom_banks = 0;
+			gb->mbc.max_rom_banks = 2;
 			gb->mbc.rom_size = 0x8000;
 			break;
 		case 1:

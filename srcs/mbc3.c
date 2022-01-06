@@ -79,14 +79,22 @@ uint8_t	read_mbc3(struct gb_cpu_s* gb, uint16_t addr)
 	else if (addr < 0x8000)
 	{
 		uint8_t tmp;
-		tmp = gb->mbc.bank + (1 * (gb->mbc.bank == 0));
-		if (tmp * 0x4000 + addr - 0x4000 > gb->rom_ptr->st.st_size)
+		tmp = gb->mbc.bank % gb->mbc.max_rom_banks;
+		if (tmp)
 		{
-			printf("fatal: attempting to read outside the cartridge at %x in bank %x. aborting...\n", addr, tmp);
-			fatal(gb);
-			return (0);
+			if (tmp * 0x4000 + addr - 0x4000 >= gb->rom_ptr->st.st_size)
+			{
+				printf("fatal: attempting to read outside the cartridge at %x in bank %x. aborting...\n", tmp * 0x4000 + addr - 0x4000, tmp);
+				printf("fatal: cartridge size is %x\n", gb->rom_ptr->st.st_size);
+				printf("banks: %x\n", gb->mbc.max_rom_banks);
+
+				fatal(gb);
+				return (0);
+			}
+			return (((uint8_t*)(gb->rom_ptr->ptr))[tmp * 0x4000 + addr - 0x4000]);
 		}
-		return (((uint8_t*)(gb->rom_ptr->ptr))[tmp * 0x4000 + addr - 0x4000]);
+		else
+			return (((uint8_t*)(gb->rom_ptr->ptr))[addr % 0x4000]);
 	}
 	else if (addr < 0xc000)
 	{
@@ -109,7 +117,7 @@ void	write_mbc3(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, enum memory_mode_
 				printf("RAM ENABLED (%4x)\n", addr);
 			gb->ram_enabled = 1;
 		}
-		else
+		else if (x == 0x00)
 		{
 			if (get_verbose(gb->debugger) >= 1)
 				printf("RAM DISABLED (%4x)\n", addr);
@@ -119,10 +127,11 @@ void	write_mbc3(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, enum memory_mode_
 	}
 	else if (addr < 0x4000)
 	{
-		if (x == 0)
+		if ((x & 0b1111111) == 0)
 			gb->mbc.bank = 1;
 		else
 			gb->mbc.bank = x & 0b1111111;
+		printf("MBC BANK SELECTED: %x\n", gb->mbc.bank);
 		return ;
 	}
 	else if (addr < 0x6000)
@@ -130,6 +139,7 @@ void	write_mbc3(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, enum memory_mode_
 		// printf("mapping %x\n", x);
 		if (x <= 0x03)
 		{
+			printf("MBC RAM BANK SELECTED: %x\n", x);
 			gb->mbc.ram_bank = x;
 			gb->mbc.mode = MBC_MODE_RAM;
 		}		
