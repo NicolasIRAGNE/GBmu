@@ -31,8 +31,12 @@ void reset_left();
 void set_right();
 void reset_right();
 
+void debug_palette_toogle();
+
 extern uint32_t m_TextureData[160][144];
 
 int init_gb(const char* rom);
+
+void destroy_gb();
 
 #endif

@@ -7,13 +7,23 @@ use crate::emulator;
 
 pub struct System {}
 
+struct Marker {}
+impl Drop for Marker {
+    fn drop(&mut self) {
+        println!("Successfuly cleaning!");
+        cpu::cleanup();
+    }
+}
+
 impl System {
     pub fn run() {
         let event_loop = EventLoop::new();
+        let marker = Marker {};
 
         //let mut debugger = debugger::Debugger::new(&event_loop, &instance, soc.clone());
         let mut emulator = emulator::Emulator::new(&event_loop);
         event_loop.run(move |event, _, flow| {
+            let _mark = &marker;
             // Handle Events
             match event {
                 Event::NewEvents(StartCause::Init) => {}
@@ -28,6 +38,7 @@ impl System {
                     if cpu::frame() {
                         emulator.request_redraw();
                     } else {
+                    
                         *flow = ControlFlow::Exit;
                     }
                 }
