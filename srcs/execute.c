@@ -21,7 +21,7 @@
 #endif
 #include <stdio.h>
 #include <stdint.h>
-
+#include "draw.h"
 
 uint8_t	update_current_instruction(struct gb_cpu_s* gb)
 {
@@ -146,6 +146,18 @@ int cpu_step()
         gb->paused = 1;
 		return (-1);
 	}
+	if (gb->gpu.y_coord < 144 && (gb->last_y != gb->gpu.y_coord || gb->last_x != gb->gpu.x_coord))
+	{
+		uint8_t lcdc = (read_8(gb, LCDC_OFFSET));
+		if ((lcdc & LCDC_ON) || !gb->booted)
+		{
+			for (int i = gb->last_x; i < gb->gpu.x_coord; i++) {
+				DrawPixel(gb->gpu.y_coord, i);
+			}
+		}
+		gb->last_x = gb->gpu.x_coord;
+		gb->last_y = gb->gpu.y_coord;
+	}
     gpu_tick(gb);
     if (gb->gpu.y_coord == 144 && y_coord_save != 144)
     {
@@ -154,6 +166,6 @@ int cpu_step()
     }
     update_div_register(gb);
     update_timer_register(gb);
-	debug_print_gb(gb);
+	// debug_print_gb(gb);
 	return (res);
 }

@@ -125,6 +125,9 @@ struct	gb_cpu_s
 	uint32_t			obj_palettes[8][4];
 	uint64_t			last_div_increment;
 	uint8_t				current_speed_mode;
+
+	uint8_t				last_x;
+	uint8_t				last_y;
 };
 
 extern struct gb_cpu_s	gb_global;

@@ -356,7 +356,7 @@ void	copy_registers(struct gb_cpu_s* gb, void* dst);
  * @brief One full step of the CPU.
  * @return 1 if a frame is ready to be drawn, 0 otherwise, or a negative value if an error occurred.
  */
-int cpu_step();
+int		cpu_step();
 
 
 #ifdef __cplusplus
