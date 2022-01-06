@@ -6,4 +6,6 @@ pub type Result<T> = std::result::Result<T, GbmuError>;
 pub enum GbmuError {
     #[error("Rom loading failed")]
     RomLoad,
+    #[error("cpu_step failed")]
+    CpuStep,
 }
