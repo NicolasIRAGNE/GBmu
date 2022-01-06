@@ -75,9 +75,9 @@ uint16_t GetMenuColor(enum Priority* priority, int line, int pixel, int wx, int 
 
 /**
  * @brief Sort OAM using bubble sort
- * 
- * @param oam 
- * @param size 
+ *
+ * @param oam
+ * @param size
  */
 void    sort_oam(struct OAMCase* oam, int size)
 {
@@ -117,7 +117,7 @@ void    quicksort_oam(struct OAMCase* oam, int size)
         {
             j--;
         }
-        
+
         if (i <= j)
         {
             struct OAMCase tmp = oam[i];
@@ -158,10 +158,10 @@ void ScanOAM(int line, int lcdc)
         }
     }
 
-    if (gb_global.mode == GB_MODE_DMG)
-    {
-        quicksort_oam(oamCases, count);
-    }
+    // if (gb_global.mode == GB_MODE_DMG)
+    // {
+    //     quicksort_oam(oamCases, count);
+    // }
 
     for (int i = count - 1; i >= 0; i--)
     {
