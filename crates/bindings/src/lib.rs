@@ -1,3 +1,4 @@
 pub mod gb;
-pub mod rom;
+pub mod cpu;
+pub mod joypad;
 pub(crate) mod bindings;

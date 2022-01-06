@@ -1,14 +1,19 @@
 use iced_wgpu::wgpu::util::StagingBelt;
 
+use bindings::cpu;
+use bindings::joypad::Joypad;
 use gilrs::Gilrs;
+use log::error;
 use pixels::SurfaceTexture;
 
 use iced_winit::{
-    conversion::{mouse_interaction, window_event},
-    futures::{executor::LocalPool, task::SpawnExt},
+    futures::executor::LocalPool,
     winit::{
         dpi::LogicalSize,
-        event::{ModifiersState, WindowEvent},
+        event::{
+            ElementState::{self, Pressed, Released},
+            ModifiersState, VirtualKeyCode, WindowEvent,
+        },
         event_loop::{ControlFlow, EventLoop},
         window::{Window, WindowBuilder, WindowId},
     },
@@ -89,16 +94,39 @@ impl Emulator {
             WindowEvent::ModifiersChanged(new_modifiers) => {
                 self.modifiers = new_modifiers;
             }
+            WindowEvent::KeyboardInput {
+                device_id: _,
+                input,
+                is_synthetic: _,
+            } => {
+                if let Some(key) = input.virtual_keycode {
+                    Emulator::handle_input(key, input.state);
+                }
+            }
             _ => (),
         };
-
-        if let Some(event) = window_event(&event, self.window.scale_factor(), self.modifiers) {
-            // self.state.state.queue_event(event);
-        }
     }
 
-    pub fn update(&mut self) {
-        //self.state.update();
+    pub fn handle_input(key: VirtualKeyCode, state: ElementState) {
+        match (key, state) {
+            (VirtualKeyCode::Space, Pressed) => Joypad::Select.handle_input(true),
+            (VirtualKeyCode::Space, Released) => Joypad::Select.handle_input(false),
+            (VirtualKeyCode::Return, Pressed) => Joypad::Start.handle_input(true),
+            (VirtualKeyCode::Return, Released) => Joypad::Start.handle_input(false),
+            (VirtualKeyCode::A, Pressed) => Joypad::A.handle_input(true),
+            (VirtualKeyCode::A, Released) => Joypad::A.handle_input(false),
+            (VirtualKeyCode::B, Pressed) => Joypad::B.handle_input(true),
+            (VirtualKeyCode::B, Released) => Joypad::B.handle_input(false),
+            (VirtualKeyCode::Up, Pressed) => Joypad::Up.handle_input(true),
+            (VirtualKeyCode::Up, Released) => Joypad::Up.handle_input(false),
+            (VirtualKeyCode::Down, Pressed) => Joypad::Down.handle_input(true),
+            (VirtualKeyCode::Down, Released) => Joypad::Down.handle_input(false),
+            (VirtualKeyCode::Left, Pressed) => Joypad::Left.handle_input(true),
+            (VirtualKeyCode::Left, Released) => Joypad::Left.handle_input(false),
+            (VirtualKeyCode::Right, Pressed) => Joypad::Right.handle_input(true),
+            (VirtualKeyCode::Right, Released) => Joypad::Right.handle_input(false),
+            _ => (),
+        }
     }
 
     pub fn request_redraw(&mut self) {
@@ -108,36 +136,13 @@ impl Emulator {
     }
 
     pub fn redraw(&mut self, control_flow: &mut ControlFlow) {
-        //       println!("[WINDOW][Emulator] Redrawing");
-        //let ppu = self.soc.borrow().get_ppu();
         let frame = self.pixels.get_frame();
-        //ppu.borrow_mut().render(frame);
 
-        let render_result = self.pixels.render_with(|encoder, view, context| {
-            let device = &context.device;
+        cpu::render(frame);
 
-            context.scaling_renderer.render(encoder, view);
-
-            // let interaction = self
-            //     .state
-            //     .draw(encoder, view, device, &mut self.staging_belt);
-            self.staging_belt.finish();
-
-            // Update the mouse cursor
-            //self.window.set_cursor_icon(mouse_interaction(interaction));
-
-            Ok(())
-        });
-        // Recall staging buffers
-        self.format_pool
-            .spawner()
-            .spawn(self.staging_belt.recall())
-            .expect("Recall staging buffers");
-
-        self.format_pool.run_until_stalled();
-        if render_result.is_err() {
-            println!("I quited from here!!");
+        if let Err(e) = self.pixels.render() {
             *control_flow = ControlFlow::Exit;
+            error!("unable to render: {}", e);
         }
     }
 }
