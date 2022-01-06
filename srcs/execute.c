@@ -112,8 +112,8 @@ int		handle_instruction(struct gb_cpu_s* gb)
 	{
 		debug_print_gb(gb);
 		printf("fatal: illegal hardware instruction %x. aborting...\n", op);
-		// fatal(gb);
-		// return (1);
+		fatal(gb);
+		return (1);
 	}
 	if (!gb->jmp)
 		gb->reg.pc += gb->current_instruction->size + 1;
@@ -166,6 +166,8 @@ int cpu_step()
     }
     update_div_register(gb);
     update_timer_register(gb);
+	if (gb->mbc.attr & MBC_ATTR_TIMER)
+		update_rtc(gb);
 	// debug_print_gb(gb);
 	return (res);
 }
