@@ -54,6 +54,10 @@ void destroy_gb()
     free(gb_global.extra_ram);
 }
 
+void debug_palette_toogle() {
+    gb_global.debug_palette = !gb_global.debug_palette;
+}
+
 void set_a()
 {
     gb_global.joypad.a = 1;

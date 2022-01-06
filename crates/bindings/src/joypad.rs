@@ -1,6 +1,7 @@
 use crate::bindings::{
     reset_a, reset_b, reset_down, reset_left, reset_right, reset_select, reset_start, reset_up,
     set_a, set_b, set_down, set_left, set_right, set_select, set_start, set_up,
+    debug_palette_toogle
 };
 
 pub enum Joypad {
@@ -34,6 +35,20 @@ impl Joypad {
                 (Joypad::Left, false) => reset_left(),
                 (Joypad::Right, true) => set_right(),
                 (Joypad::Right, false) => reset_right(),
+            }
+        }
+    }
+}
+
+pub enum Control {
+    DebugPalette
+}
+
+impl Control {
+    pub fn handle_control(&self) {
+        unsafe {
+            match self {
+                Control::DebugPalette => debug_palette_toogle(),
             }
         }
     }

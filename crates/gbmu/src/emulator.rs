@@ -1,7 +1,7 @@
 use iced_wgpu::wgpu::util::StagingBelt;
 
 use bindings::cpu;
-use bindings::joypad::Joypad;
+use bindings::joypad::{Joypad, Control};
 use gilrs::Gilrs;
 use log::error;
 use pixels::SurfaceTexture;
@@ -112,8 +112,8 @@ impl Emulator {
             (VirtualKeyCode::Return, Released) => Joypad::Start.handle_input(false),
             (VirtualKeyCode::A, Pressed) => Joypad::A.handle_input(true),
             (VirtualKeyCode::A, Released) => Joypad::A.handle_input(false),
-            (VirtualKeyCode::B, Pressed) => Joypad::B.handle_input(true),
-            (VirtualKeyCode::B, Released) => Joypad::B.handle_input(false),
+            (VirtualKeyCode::S, Pressed) => Joypad::B.handle_input(true),
+            (VirtualKeyCode::S, Released) => Joypad::B.handle_input(false),
             (VirtualKeyCode::Up, Pressed) => Joypad::Up.handle_input(true),
             (VirtualKeyCode::Up, Released) => Joypad::Up.handle_input(false),
             (VirtualKeyCode::Down, Pressed) => Joypad::Down.handle_input(true),
@@ -122,6 +122,7 @@ impl Emulator {
             (VirtualKeyCode::Left, Released) => Joypad::Left.handle_input(false),
             (VirtualKeyCode::Right, Pressed) => Joypad::Right.handle_input(true),
             (VirtualKeyCode::Right, Released) => Joypad::Right.handle_input(false),
+            (VirtualKeyCode::C, Pressed) => Control::DebugPalette.handle_control(),
             _ => (),
         }
     }
