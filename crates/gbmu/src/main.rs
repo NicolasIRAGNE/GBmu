@@ -22,14 +22,8 @@ struct Opt {
 }
 
 fn run(opt: Opt) -> Result<()> {
-    //let mut builder = Emulator::builder();
-
-    //let mut emulator = builder.build();
-
-
     info!("loading ROM from file '{}'", opt.rom.display());
     let rom = opt.rom.into_os_string().into_string().unwrap();
-    //emulator.load_rom(&rom).context("could not load ROM")?;
 
     System::init(rom)?;
     System::run();
@@ -42,11 +36,6 @@ fn main() {
 
     if let Err(e) = run(opt) {
         eprintln!("fatal error: {:?}", e);
-
-        // if let Some(pixels::Error::AdapterNotFound) = e.downcast_ref() {
-        //     eprintln!("help: ensure your graphics adapter supports Vulkan");
-        // }
-
         process::exit(1);
     }
 }

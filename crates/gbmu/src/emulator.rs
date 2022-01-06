@@ -64,8 +64,6 @@ impl Emulator {
         let staging_belt = StagingBelt::new(5 * 1024);
         let format_pool = LocalPool::new();
 
-        //let state = ui::Emulator::new(&window, &pixels);
-
         Self {
             id,
             window,
@@ -83,7 +81,6 @@ impl Emulator {
     pub fn process_event(&mut self, event: WindowEvent, control_flow: &mut ControlFlow) {
         match event {
             WindowEvent::Resized(size) => {
-                //      self.state.resize(size, self.window.scale_factor());
                 self.pixels.resize_surface(size.width, size.height);
                 self.window.request_redraw();
             }
@@ -130,9 +127,7 @@ impl Emulator {
     }
 
     pub fn request_redraw(&mut self) {
-        //self.state.update();
         self.window.request_redraw();
-        //        println!("[WINDOW][Emulator] Redraw requested");
     }
 
     pub fn redraw(&mut self, control_flow: &mut ControlFlow) {
