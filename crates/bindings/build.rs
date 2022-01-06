@@ -8,7 +8,7 @@ use std::path::PathBuf;
 fn main() {
     // Tell cargo to invalidate the built crate whenever the wrapper changes
     println!("cargo:rerun-if-changed=../../includes/lib.h");
-    println!("cargo:rerun-if-changed=../../srcs/lib.c");
+    println!("cargo:rerun-if-changed=../../srcs");
     println!("current dir: {:?}", env::current_dir());
 
     // The bindgen::Builder is the main entry point
