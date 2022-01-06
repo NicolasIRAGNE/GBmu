@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   debugger.c                                         :+:      :+:    :+:   */
+/*   fallback_debugger.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 14:05:57 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/09 18:03:35 by niragne          ###   ########.fr       */
+/*   Updated: 2022/01/06 03:55:33 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 
 int		get_verbose(struct gbmu_debugger_s* debugger)
 {
+    if (debugger == NULL)
+        return(0);
 	return (debugger->verbose_level);
 }
 struct breakpoint_s*	new_breakpoint(uint16_t addr)
@@ -63,7 +65,7 @@ int		add_breakpoint(struct breakpoint_s** lst, uint16_t addr)
 	struct breakpoint_s* new = new_breakpoint(addr);
 	if (new == NULL)
 		return (1);
-	
+
 	if (breakpoint_pushback(lst, new))
 		free(new);
 	return (0);
@@ -81,6 +83,8 @@ int		print_breakpoints(struct breakpoint_s* lst)
 
 int		find_breakpoint(void* debugger, int pc)
 {
+    if (debugger == NULL)
+        return (0);
 	struct gbmu_debugger_s* dbg = (struct gbmu_debugger_s*)debugger;
 	struct breakpoint_s* lst = dbg->breakpoints;
 	while (lst)
@@ -178,8 +182,8 @@ int		command_info(struct gb_cpu_s* gb, char* s, uint16_t arg)
 int		command_not_found(struct gb_cpu_s* gb, char* s, uint16_t arg)
 {
 	(void)gb;
-	(void)arg;	
-	
+	(void)arg;
+
 	printf("undefined command: \"%s\"\n", s);
 	return (0);
 }
@@ -203,8 +207,8 @@ int		command_run(struct gb_cpu_s* gb, char* s, uint16_t arg)
 int		command_print(struct gb_cpu_s* gb, char* s, uint16_t arg)
 {
 	(void)s;
-	printf("%x: %x\n", arg, read_8(gb, arg));	
-	printf("%x: %x\n", arg, read_16(gb, arg));	
+	printf("%x: %x\n", arg, read_8(gb, arg));
+	printf("%x: %x\n", arg, read_16(gb, arg));
 	return (0);
 }
 
