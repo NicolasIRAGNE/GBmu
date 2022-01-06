@@ -4,7 +4,7 @@ use std::ffi::CString;
 use shared::{error::Result, GbmuError};
 
 use crate::bindings::init_gb;
-use crate::bindings::{cpu_step, m_TextureData};
+use crate::bindings::{destroy_gb, cpu_step, m_TextureData};
 
 pub enum Frame {
     Processing,
@@ -44,6 +44,12 @@ pub fn render(frame: &mut [u8]) {
             data.to_be_bytes()
         };
         pixel.copy_from_slice(&data);
+    }
+}
+
+pub fn cleanup() {
+    unsafe {
+        destroy_gb()
     }
 }
 

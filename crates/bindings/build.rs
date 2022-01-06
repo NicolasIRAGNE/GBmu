@@ -45,5 +45,6 @@ fn main() {
     println!("cargo:rustc-link-search=native={}/build", dst.display());
 
     // Finally link the cmake build library
+    println!("cargo:rustc-link-lib=asan");
     println!("cargo:rustc-link-lib=static=gb");
 }

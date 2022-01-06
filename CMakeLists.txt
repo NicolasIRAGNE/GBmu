@@ -12,7 +12,7 @@ target_compile_definitions(gb PUBLIC "ASAN_OPTIONS=detect_leaks=0")
 
 include(FetchContent)
 option(WITH_LIBYACC "Build libyacc" OFF)
-option(WITH_ASAN "Build with memory sanitizer" OFF)
+option(WITH_ASAN "Build with memory sanitizer" ON)
 option(BUILD_GBCLODO "Build gbclodo executable" ON)
 option(DEBUG_COLORS "Enable debug palette" ON)
 option(WITH_TESTS "Build tests" OFF)
