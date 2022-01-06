@@ -42,8 +42,6 @@ int init_gb(const char* rom)
         fprintf(stderr, "fatal : unrecognized hardware type\n");
         return (1);
     }
-
-    return (0);
 }
 
 void destroy_gb()
