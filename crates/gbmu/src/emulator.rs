@@ -3,6 +3,7 @@ use iced_wgpu::wgpu::util::StagingBelt;
 use bindings::cpu;
 use bindings::joypad::{Joypad, Control};
 use gilrs::Gilrs;
+use iced_winit::winit::dpi::PhysicalSize;
 use log::error;
 use pixels::SurfaceTexture;
 
@@ -27,6 +28,7 @@ pub struct Emulator {
     pub id: WindowId,
     pub window: Window,
     //pub state: ui::Emulator,
+    pub size: PhysicalSize<u32>,
     pub modifiers: ModifiersState,
     pub resized: bool,
     pub factor: f64,
@@ -68,6 +70,7 @@ impl Emulator {
             id,
             window,
             modifiers,
+            size,
             //   state,
             resized,
             factor,
@@ -81,8 +84,9 @@ impl Emulator {
     pub fn process_event(&mut self, event: WindowEvent, control_flow: &mut ControlFlow) {
         match event {
             WindowEvent::Resized(size) => {
-                self.pixels.resize_surface(size.width, size.height);
-                self.window.request_redraw();
+                //      self.state.resize(size, self.window.scale_factor());
+                self.size = size;
+                self.resized = true;
             }
             WindowEvent::CloseRequested => {
                 println!("Request to close on Emulator");
@@ -127,11 +131,20 @@ impl Emulator {
         }
     }
 
+    pub fn resize(&mut self) {
+        if self.resized {
+            self.pixels
+                .resize_surface(self.size.width, self.size.height);
+            self.resized = false;
+        }
+    }
+
     pub fn request_redraw(&mut self) {
         self.window.request_redraw();
     }
 
     pub fn redraw(&mut self, control_flow: &mut ControlFlow) {
+        self.resize();
         let frame = self.pixels.get_frame();
 
         cpu::render(frame);

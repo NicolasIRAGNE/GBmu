@@ -2,6 +2,7 @@
 members = [
     "crates/gbmu",
     "crates/shared",
+    "crates/ui",
     "crates/bindings"
 ]
 resolver = "2"

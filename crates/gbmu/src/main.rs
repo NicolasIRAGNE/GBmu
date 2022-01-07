@@ -1,5 +1,6 @@
 mod system;
 mod emulator;
+mod debugger;
 
 use std::path::PathBuf;
 use std::process;
