@@ -1,5 +1,10 @@
 var NAVTREEINDEX1 =
 {
+"memory_8h.html#aa6fcf2cd07a5737dd6d18a7a9d270e70":[1,0,19,81],
+"memory_8h.html#aaae27af682ed46507641f1c08e82b976":[1,0,19,23],
+"memory_8h.html#ab2bc2d9dd6ec92e8d1df2c79d470b5ed":[1,0,19,9],
+"memory_8h.html#ab734d86bf74b7959285b2667ad742fdd":[1,0,19,25],
+"memory_8h.html#ab82dd208a7e716e09a3f8c229bfe78d7":[1,0,19,56],
 "memory_8h.html#ab84bd16229dbf7b7ed5628f0a19c8bcc":[1,0,19,24],
 "memory_8h.html#aba030f3d59051bede725cf83b33e6c93":[1,0,19,65],
 "memory_8h.html#abaa936b5d48f83a5f8b6c87b3f1f77a5":[1,0,19,2],
@@ -57,7 +62,7 @@ var NAVTREEINDEX1 =
 "renderer__opengl_8h_source.html":[1,0,25],
 "rescale_8h_source.html":[1,0,26],
 "rom_8h.html":[1,0,27],
-"rom_8h.html#a8776b9b360bbff9f3ca05f55d8bcc25e":[1,0,27,2],
+"rom_8h.html#a997273365b6f3d4cb6ec867bdd0a1aba":[1,0,27,2],
 "rom_8h_source.html":[1,0,27],
 "structgbmu__debugger__s.html":[0,0,0],
 "structgbmu__debugger__s.html#a157011924d875bc77ac71d97ae3f032f":[0,0,0,0],

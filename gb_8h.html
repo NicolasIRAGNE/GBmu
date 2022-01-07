@@ -155,6 +155,18 @@ Functions</h2></td></tr>
 <tr class="memitem:a7f3209e681e1f9186f1ee5d1d94da539"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a7f3209e681e1f9186f1ee5d1d94da539">init_cpu</a> (struct gb_cpu_s *gb, struct <a class="el" href="structrom__s.html">rom_s</a> *rom, enum <a class="el" href="mode_8h.html#a5aa6ffa03c5d33489b16a942fca59765">gb_mode_e</a> mode)</td></tr>
 <tr class="memdesc:a7f3209e681e1f9186f1ee5d1d94da539"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the gb struct. This should be called after opening a rom but before any other function. This function will call the underlying functions appropriate to the Gameboy type.  <a href="gb_8h.html#a7f3209e681e1f9186f1ee5d1d94da539">More...</a><br /></td></tr>
 <tr class="separator:a7f3209e681e1f9186f1ee5d1d94da539"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2fc673e19fdf722b9f46bec8eca05084"><td class="memItemLeft" align="right" valign="top"><a id="a2fc673e19fdf722b9f46bec8eca05084"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>init_registers</b> (struct registers_s *reg, int booted, enum <a class="el" href="mode_8h.html#a5aa6ffa03c5d33489b16a942fca59765">gb_mode_e</a> mode)</td></tr>
+<tr class="separator:a2fc673e19fdf722b9f46bec8eca05084"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d5bb05b011502ec29dea89afe523784"><td class="memItemLeft" align="right" valign="top"><a id="a0d5bb05b011502ec29dea89afe523784"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>init_cpu_dmg</b> (struct gb_cpu_s *gb, struct <a class="el" href="structrom__s.html">rom_s</a> *rom)</td></tr>
+<tr class="separator:a0d5bb05b011502ec29dea89afe523784"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a549214b79c9177a687e6d5325af91887"><td class="memItemLeft" align="right" valign="top"><a id="a549214b79c9177a687e6d5325af91887"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>init_cpu_cgb</b> (struct gb_cpu_s *gb, struct <a class="el" href="structrom__s.html">rom_s</a> *rom)</td></tr>
+<tr class="separator:a549214b79c9177a687e6d5325af91887"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b527c56ed133ee6815bfbc625e757af"><td class="memItemLeft" align="right" valign="top"><a id="a3b527c56ed133ee6815bfbc625e757af"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>signal_handler</b> (int signal)</td></tr>
+<tr class="separator:a3b527c56ed133ee6815bfbc625e757af"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab695bb0feb0ee25e6fdc0060eb49ed1a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#ab695bb0feb0ee25e6fdc0060eb49ed1a">init_mbc</a> (struct gb_cpu_s *gb)</td></tr>
 <tr class="memdesc:ab695bb0feb0ee25e6fdc0060eb49ed1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the underlying mbc_s struct. This should not be called directly as it is handled in <a class="el" href="gb_8h.html#a7f3209e681e1f9186f1ee5d1d94da539" title="Initializes the gb struct. This should be called after opening a rom but before any other function....">init_cpu()</a>.  <a href="gb_8h.html#ab695bb0feb0ee25e6fdc0060eb49ed1a">More...</a><br /></td></tr>
 <tr class="separator:ab695bb0feb0ee25e6fdc0060eb49ed1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -175,6 +187,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8
 <tr class="memitem:aa5bc80392e446c4a40198e337f59ba90"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#aa5bc80392e446c4a40198e337f59ba90">gpu_tick</a> (struct gb_cpu_s *gb)</td></tr>
 <tr class="memdesc:aa5bc80392e446c4a40198e337f59ba90"><td class="mdescLeft">&#160;</td><td class="mdescRight">Executes one gpu tick. This should be called every step.  <a href="gb_8h.html#aa5bc80392e446c4a40198e337f59ba90">More...</a><br /></td></tr>
 <tr class="separator:aa5bc80392e446c4a40198e337f59ba90"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e043877c73039d93eaf0785ac74e080"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a3e043877c73039d93eaf0785ac74e080">execute_loop</a> (struct <a class="el" href="structgbmu__wrapper__s.html">gbmu_wrapper_s</a> *wrapper, void *renderer)</td></tr>
+<tr class="memdesc:a3e043877c73039d93eaf0785ac74e080"><td class="mdescLeft">&#160;</td><td class="mdescRight">The current execution loop used by the program. This function is not a good piece of code and should be rewritten.  <a href="gb_8h.html#a3e043877c73039d93eaf0785ac74e080">More...</a><br /></td></tr>
+<tr class="separator:a3e043877c73039d93eaf0785ac74e080"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5cb8f3247967b362794183007d8941e0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a5cb8f3247967b362794183007d8941e0">request_interrupt</a> (struct gb_cpu_s *gb, uint8_t request)</td></tr>
 <tr class="memdesc:a5cb8f3247967b362794183007d8941e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Requests an interrupt by writing the corresponding value to the IF register.  <a href="gb_8h.html#a5cb8f3247967b362794183007d8941e0">More...</a><br /></td></tr>
 <tr class="separator:a5cb8f3247967b362794183007d8941e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -300,6 +315,43 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8
 
 </div>
 </div>
+<a id="a3e043877c73039d93eaf0785ac74e080"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3e043877c73039d93eaf0785ac74e080">&#9670;&nbsp;</a></span>execute_loop()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void execute_loop </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structgbmu__wrapper__s.html">gbmu_wrapper_s</a> *&#160;</td>
+          <td class="paramname"><em>wrapper</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>renderer</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>The current execution loop used by the program. This function is not a good piece of code and should be rewritten. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">wrapper</td><td>gbmu_wrapper_s* wrapper gbmu_wrapper_s* wrapper </td></tr>
+    <tr><td class="paramname">renderer</td><td>gbmu_renderer_s* renderer gbmu_renderer_s* renderer </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="aa5bc80392e446c4a40198e337f59ba90"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa5bc80392e446c4a40198e337f59ba90">&#9670;&nbsp;</a></span>gpu_tick()</h2>
 
@@ -349,7 +401,7 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Executes the next instruction currently pointed by the PC register. </p>
-<dl class="section note"><dt>Note</dt><dd>This is NOT equivalent to a step! This is called inside the <a class="el" href="clodo__loop_8c.html#a3e043877c73039d93eaf0785ac74e080" title="The current execution loop used by the program. This function is not a good piece of code and should ...">execute_loop()</a> function.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This is NOT equivalent to a step! This is called inside the <a class="el" href="gb_8h.html#a3e043877c73039d93eaf0785ac74e080" title="The current execution loop used by the program. This function is not a good piece of code and should ...">execute_loop()</a> function.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">gb</td><td></td></tr>
