@@ -16,6 +16,9 @@
 #include "cpu.h"
 #include "mbc.h"
 
+#define IGNORE_LOCKS 1
+
+
 /**
  * @brief This function reads a byte from the gameboy RAM. It needs to be an interface for both the DMG and the CGB.
  * On the DMG, there is only one RAM bank of size 0x2000 bytes. On the CGB, there are 8 banks of size 0x1000 bytes.
@@ -46,11 +49,12 @@ static uint8_t	read_8_internal(struct gb_cpu_s* gb, uint16_t a16, enum memory_mo
 	}
 	else if (a16 < 0xa000)
 	{
-		uint8_t lcdc = read_8(gb, LCDC_OFFSET);
-		if (mode != MEM_SYSTEM || gb->gpu.mode != GPU_MODE_VRAM || !(lcdc & LCDC_ON))
-			return (((uint8_t*)(gb->vram[gb->vram_bank]))[a16 - 0x8000]);
-		else
+		uint8_t lcdc = read_8_force(gb, LCDC_OFFSET);
+		#ifndef IGNORE_LOCKS
+		if (mode == MEM_SYSTEM && gb->gpu.mode == GPU_MODE_VRAM && (lcdc & LCDC_ON))
 			return (0xff);
+		#endif
+		return (((uint8_t*)(gb->vram[gb->vram_bank]))[a16 - 0x8000]);
 	}
 	else if (a16 < 0xc000)
 	{
@@ -88,10 +92,11 @@ static uint8_t	read_8_internal(struct gb_cpu_s* gb, uint16_t a16, enum memory_mo
 	else if (a16 >= 0xFE00 && a16 < 0xFEA0)
 	{
 		uint8_t lcdc = read_8_force(gb, LCDC_OFFSET);
-		if (mode != MEM_SYSTEM || (gb->gpu.mode == GPU_MODE_HBLANK || gb->gpu.mode == GPU_MODE_VBLANK || !(lcdc & LCDC_ON)))
+		#ifndef IGNORE_LOCKS
+		if (mode != MEM_SYSTEM || gb->gpu.mode == GPU_MODE_HBLANK || gb->gpu.mode == GPU_MODE_VBLANK || !(lcdc & LCDC_ON))
+		#endif
 			return (((uint8_t*)(gb->oam))[a16 - 0xFE00]);
-		else
-			return (0xff);
+		return (0xff);
 	}
 	else if (a16 >= 0xFF00 && a16 < 0xFF80)
 	{

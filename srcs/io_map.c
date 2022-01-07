@@ -14,18 +14,18 @@
 
 #include "gb.h"
 #include "cpu.h"
+#include <string.h>
 
 static void	request_lcd_on(struct gb_cpu_s* gb)
 {
-	gb->gpu.mode = 1;
-	gb->gpu.y_coord = 0;
-	gb->gpu.tick = 0;
+	gb->gpu.mode = 0;
 	gb->gpu.lyc_requested = 0;
 }
 
 static void	request_lcd_off(struct gb_cpu_s* gb)
 {
-	(void)gb;
+	write_8(gb, LY_OFFSET, 0);
+	// memset(&gb->gpu, 0, sizeof(gb->gpu));
 }
 
 uint8_t		read_io(struct gb_cpu_s* gb, uint16_t addr)
@@ -56,10 +56,14 @@ uint8_t		read_io(struct gb_cpu_s* gb, uint16_t addr)
 	}
 	if (addr == BCPD_OFFSET && gb->mode == GB_MODE_CGB)
 	{
+		if (gb->gpu.mode == 3)
+			return (0);
 		return (gb->cgb_bg_palettes[gb->bg_palette_index]);
 	}
 	if (addr == OCPD_OFFSET && gb->mode == GB_MODE_CGB)
 	{
+				if (gb->gpu.mode == 3)
+			return (0);
 		return (gb->cgb_obj_palettes[gb->obj_palette_index]);
 	}
 	return (((uint8_t*)(gb->io_ports))[addr - 0xFF00]);	
@@ -136,12 +140,13 @@ void	write_io(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, uint8_t lcdc, enum 
 	}
 	if (addr == LCDC_OFFSET && (x & LCDC_ON) && !(lcdc & LCDC_ON))
 	{
+		printf("Request LCD ON\n");
 		request_lcd_on(gb);
 	}
-	if (addr == LCDC_OFFSET && !(x & LCDC_ON) && gb->gpu.mode != GPU_MODE_VBLANK)
+	if (addr == LCDC_OFFSET && !(x & LCDC_ON) && lcdc & LCDC_ON)
 	{
+		printf("Request LCD OFF\n");
 		request_lcd_off(gb);
-		// return ;
 	}
 	if (addr == SERIAL_DATA_OFFSET)
 	{
@@ -169,7 +174,8 @@ void	write_io(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, uint8_t lcdc, enum 
 	}
 	if (addr == BCPD_OFFSET && gb->mode == GB_MODE_CGB)
 	{
-		gb->cgb_bg_palettes[gb->bg_palette_index] = x;
+		if (gb->gpu.mode != 3)
+			gb->cgb_bg_palettes[gb->bg_palette_index] = x;
 		if (gb->bcpd_auto_increment)
 			gb->bg_palette_index = (gb->bg_palette_index + 1) & 0b111111;
 	}
@@ -180,7 +186,8 @@ void	write_io(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, uint8_t lcdc, enum 
 	}
 	if (addr == OCPD_OFFSET && gb->mode == GB_MODE_CGB)
 	{
-		gb->cgb_obj_palettes[gb->obj_palette_index] = x;
+		if (gb->gpu.mode != 3)
+			gb->cgb_obj_palettes[gb->obj_palette_index] = x;
 		if (gb->ocpd_auto_increment)
 			gb->obj_palette_index = (gb->obj_palette_index + 1) & 0b111111;
 	}

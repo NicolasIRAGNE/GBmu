@@ -22,8 +22,11 @@ void	update_palettes(struct gb_cpu_s* gb)
 	{
 		0xccccccff, 0x888888ff, 0x555555ff, 0x111111ff
 	};	
-	
-	uint8_t bgp = read_8(gb, BGP_OFFSET);
+	uint8_t bgp;
+	if (gb->mode == GB_MODE_DMG)
+		bgp = read_8(gb, BGP_OFFSET);
+	else
+		bgp = 0xdc;
 	gb->bg_palettes[0][0] = monochrome_palette[(bgp & 0b00000011) >> 0];
 	gb->bg_palettes[0][2] = monochrome_palette[(bgp & 0b00001100) >> 2];
 	gb->bg_palettes[0][1] = monochrome_palette[(bgp & 0b00110000) >> 4];
@@ -40,6 +43,4 @@ void	update_palettes(struct gb_cpu_s* gb)
 	gb->obj_palettes[1][2] = monochrome_palette[(obp1 & 0b00001100) >> 2];
 	gb->obj_palettes[1][1] = monochrome_palette[(obp1 & 0b00110000) >> 4];
 	gb->obj_palettes[1][3] = monochrome_palette[(obp1 & 0b11000000) >> 6];
-
-
 }

@@ -357,6 +357,11 @@ void DrawPixel(int line, int pixel)
     int scx = read_8(&gb_global, SCX_OFFSET);
     int scy = read_8(&gb_global, SCY_OFFSET);
 
+    if (!(pixel < 160 && line < 144))
+    {
+        return;
+    }
+
     if (pixel == 0)
     {
         ScanOAM(line, lcdc);
@@ -411,4 +416,15 @@ void DrawPixelToTextureData(int line, int pixel, uint16_t color)
     uint32_t pixelColor = (r << 16) | (g << 8) | b;
 
     m_TextureData[line][pixel] = pixelColor;
+}
+
+void DrawRange(int start_x, int start_y, int end_x, int end_y)
+{
+    for (int line = start_y; line <= end_y; line++)
+    {
+        for (int pixel = start_x; pixel < end_x; pixel++)
+        {
+            DrawPixel(line, pixel);
+        }
+    }
 }

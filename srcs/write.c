@@ -76,10 +76,10 @@ static void	write_8_internal(struct gb_cpu_s* gb, uint16_t a16, uint8_t x, enum 
 	}
 	else if (a16 >= 0xFE00 && a16 < 0xFEA0)
 	{
-		if (IGNORE_LOCKS || mode != MEM_SYSTEM || gb->gpu.mode == GPU_MODE_HBLANK || gb->gpu.mode == GPU_MODE_VBLANK || !(lcdc & LCDC_ON))
-		{
+		#ifndef IGNORE_LOCKS
+		if (mode != MEM_SYSTEM || gb->gpu.mode == GPU_MODE_HBLANK || gb->gpu.mode == GPU_MODE_VBLANK || !(lcdc & LCDC_ON))
+		#endif
 			((uint8_t*)(gb->oam))[a16 - 0xFE00] = x;
-		}
 		return ;
 	}
 	else if (a16 >= 0xFF00 && a16 < 0xFF80)

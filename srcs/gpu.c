@@ -14,6 +14,7 @@
 
 #include "gb.h"
 #include "cpu.h"
+#include "draw.h"
 
 # define HBLANK_TIME	(204 * 1) //204
 # define OAM_TIME		(80 * 1)
@@ -44,6 +45,8 @@ void	gpu_tick(struct gb_cpu_s* gb)
 	uint8_t stat = read_8(gb, STAT_OFFSET);
 	uint8_t lyc = read_8(gb, LYC_OFFSET);
 	uint8_t lcdc = read_8(gb, LCDC_OFFSET);
+	uint8_t x_coord_save = gb->gpu.x_coord;
+	uint8_t y_coord_save = gb->gpu.y_coord;
 	uint64_t increment = gb->cycle - gb->gpu.last_cycle;
 	if (gb->current_speed_mode)
 		increment /= 2;
@@ -129,6 +132,10 @@ void	gpu_tick(struct gb_cpu_s* gb)
 
 		default:
 			break;
+	}
+	if (gb->gpu.x_coord != x_coord_save || gb->gpu.y_coord != y_coord_save)
+	{
+		DrawRange(x_coord_save, y_coord_save, gb->gpu.x_coord, gb->gpu.y_coord);
 	}
 	compare_ly(gb, lyc, &stat, lcdc);
 	stat = (stat & 0b11111100) | gb->gpu.mode;

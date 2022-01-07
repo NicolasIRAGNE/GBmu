@@ -56,3 +56,4 @@ int GetColorIndex(int tileIndex, int tileAttr, int x, int y);
 int TransformColorIndex(int colorIndex, int paletteOffset);
 void DrawPixel(int line, int pixel);
 void DrawPixelToTextureData(int line, int pixel, uint16_t color);
+void DrawRange(int start_x, int start_y, int end_x, int end_y);

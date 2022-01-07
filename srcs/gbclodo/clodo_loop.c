@@ -45,18 +45,34 @@ void	handle_input(struct gbmu_wrapper_s* wrapper, void* renderer)
 void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 {
 	int frame = 0;
+	int ctr = 0;
+	struct tile_s tiles[2][TILES_COUNT];
+
 	while (gb_global.running)
 	{
 		SDL_Event event;
 
-		frame = cpu_step();
+		if (!gb_global.paused)
+			frame = cpu_step();
 		if (frame == 1)
 		{
 			SDL_UpdateTexture(wrapper->main_context->texture, NULL, m_TextureData, MAIN_SURFACE_WIDTH * sizeof(uint32_t));
 			SDL_RenderClear(wrapper->main_context->renderer);
 			SDL_RenderCopy(wrapper->main_context->renderer, wrapper->main_context->texture, NULL, NULL);
 			SDL_RenderPresent(wrapper->main_context->renderer);
-			handle_input(wrapper, renderer);
+			if (wrapper->gb->vram_viewer_running)
+			{
+				update_palettes(wrapper->gb);
+				fill_tile_array(wrapper->gb, tiles);
+				vram_viewer_loop(wrapper, tiles);
+			}
 		}
+		if (ctr == 70000)
+		{
+			ctr = 0;
+			handle_input(wrapper, renderer);
+			// SDL_Delay(1);
+		}
+		ctr++;
 	}
 }
