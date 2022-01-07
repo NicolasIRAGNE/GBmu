@@ -19,6 +19,7 @@ var draw_8h =
     ] ],
     [ "DrawPixel", "draw_8h.html#a4f0925d30ceff34a979f260e4d3a5b76", null ],
     [ "DrawPixelToTextureData", "draw_8h.html#a6476d30323e97f82bfee59c1b37dba93", null ],
+    [ "DrawRange", "draw_8h.html#a9694d5614e6a32b5cb763f3cb4b3a048", null ],
     [ "GetBackgroundColor", "draw_8h.html#ad84ec8a20926d717a19fcdb7a7e3a1a4", null ],
     [ "GetColor", "draw_8h.html#a632b811e3b02869a3c6a2a6a932a92fb", null ],
     [ "GetColorIndex", "draw_8h.html#aa671346e5ea1ccd89d7a8c05be4e2d6b", null ],
