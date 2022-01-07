@@ -1,14 +1,10 @@
 [package]
-name = "bindings"
+name = "ui"
 version = "0.1.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-cty = "0.2.2"
-shared = { path = "../shared" }
-
-[build-dependencies]
-bindgen = "0.59.2"
-cmake = "0.1"
+iced_winit = { git = "https://github.com/hecrj/iced" }
+iced_wgpu = { git = "https://github.com/hecrj/iced" }

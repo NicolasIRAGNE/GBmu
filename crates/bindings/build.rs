@@ -8,6 +8,7 @@ use std::path::PathBuf;
 fn main() {
     // Tell cargo to invalidate the built crate whenever the wrapper changes
     println!("cargo:rerun-if-changed=../../includes/lib.h");
+    println!("cargo:rerun-if-changed=../../srcs");
     println!("current dir: {:?}", env::current_dir());
 
     // The bindgen::Builder is the main entry point
@@ -34,11 +35,16 @@ fn main() {
         .expect("Couldn't write bindings!");
 
     // Build libgb.a
-    let dst = Config::new("../../").define("BUILD_GBCLODO", "OFF").build_target("gb").build();
+    let dst = Config::new("../../")
+        .define("BUILD_GBCLODO", "OFF")
+        .define("CMAKE_EXPORT_COMPILE_COMMANDS", "ON")
+        .build_target("gb")
+        .build();
 
     // Search lib in the correct folder, build
     println!("cargo:rustc-link-search=native={}/build", dst.display());
 
     // Finally link the cmake build library
+    println!("cargo:rustc-link-lib=asan");
     println!("cargo:rustc-link-lib=static=gb");
 }

@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:26 by niragne           #+#    #+#             */
-/*   Updated: 2020/06/14 13:52:33 by niragne          ###   ########.fr       */
+/*   Updated: 2022/01/07 08:22:17 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int		handle_instruction(struct gb_cpu_s* gb)
 
 	if (get_verbose(gb->debugger) >= 1)
 			debug_print_gb(gb);
-	
+
 	if (find_breakpoint(gb->debugger, gb->reg.pc) && !gb->paused)
 	{
 		gb->paused = 1;

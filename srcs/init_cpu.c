@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:30:05 by niragne           #+#    #+#             */
-/*   Updated: 2020/06/14 17:27:18 by niragne          ###   ########.fr       */
+/*   Updated: 2022/01/05 03:52:25 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 
 struct gb_cpu_s	gb_global;
 
-int		open_rom(char* name, struct rom_s* rom)
+int		open_rom(const char* name, struct rom_s* rom)
 {
 	int ret;
 
@@ -34,14 +34,14 @@ int		open_rom(char* name, struct rom_s* rom)
 		perror(name);
 		return (ret);
 	}
-	
+
 	FILE* f = fopen(name, "rb");
 	if (f == NULL)
 	{
 		perror(name);
 		return (1);
 	}
-	
+
 	uint8_t* buf = malloc(rom->st.st_size);
 	if (!buf)
 	{
@@ -121,7 +121,7 @@ void init_registers(struct registers_s* reg, int booted, enum gb_mode_e mode)
             reg->sp = 0x0000;
         }
         break;
-	
+
 	case GB_MODE_CGB:
 		reg->af = 0x1180;
 		reg->bc = 0x0000;
@@ -174,7 +174,7 @@ int		init_cpu_dmg(struct gb_cpu_s* gb, struct rom_s* rom)
 	return (0);
 }
 
-static int		init_cpu_cgb(struct gb_cpu_s* gb, struct rom_s* rom)
+int		init_cpu_cgb(struct gb_cpu_s* gb, struct rom_s* rom)
 {
 	if (gb->booted == 0)
 	{
@@ -255,7 +255,7 @@ int		init_mbc(struct gb_cpu_s* gb)
 	mbc_array[0x11] = 3;
 	mbc_array[0x12] = 3;
 	mbc_array[0x13] = 3;
-	
+
 	mbc_array[0x19] = 5;
 	mbc_array[0x1a] = 5;
 	mbc_array[0x1b] = 5;
@@ -311,8 +311,8 @@ int		init_mbc(struct gb_cpu_s* gb)
 			break;
 
 		}
-		
-		
+
+
 	}
 
 	if (gb->mbc.ram_size != 0)

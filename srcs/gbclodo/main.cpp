@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 11:37:03 by niragne           #+#    #+#             */
-/*   Updated: 2020/06/11 14:52:22 by niragne          ###   ########.fr       */
+/*   Updated: 2022/01/05 03:57:27 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdio.h>
@@ -34,11 +34,13 @@ extern "C" {
 }
 #include <signal.h>
 
-void	sigint_handler(int foo)
+void	signal_handler(int signal)
 {
-	(void)foo;
-	printf("Received SIGINT\n");
-	gb_global.paused = 1;
+    if (signal == SIGINT)
+    {
+	    printf("Received SIGINT\n");
+	    gb_global.paused = 1;
+    }
 }
 
 int		main(int ac, char** av)

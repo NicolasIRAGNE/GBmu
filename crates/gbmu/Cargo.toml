@@ -2,8 +2,21 @@
 name = "gbmu"
 version = "0.1.0"
 edition = "2021"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+authors = [
+    "Nicolas Iragne <niragne@student.42.fr>",
+    "Cedric M'Passi <cempassi@student.42.fr>",
+]
+description = "Fusion Emulator for the Nintendo Game Boy"
 
 [dependencies]
 bindings = { path = "../bindings"}
+shared = { path = "../shared" }
+ui = { path = "../ui" }
+structopt = { version = "0.3"}
+anyhow = "1.0.52"
+log = "0.4.14"
+pretty_env_logger = "0.4.0"
+pixels = "0.9.0"
+gilrs = "0.8.1"
+iced_wgpu = {git = "https://github.com/hecrj/iced" }
+iced_winit = {git = "https://github.com/hecrj/iced" }

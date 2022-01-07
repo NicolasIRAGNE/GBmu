@@ -1,9 +1,9 @@
 /**
  * @file clodo_loop.c
  * @author Nicolas IRAGNE (nicolas.iragne@alyce.fr)
- * @brief 
+ * @brief
  * @date 2022-01-05
- * 
+ *
  * @copyright Copyright Alyce (c) 2022
  */
 
