@@ -1,11 +1,11 @@
 use iced_wgpu::wgpu::util::StagingBelt;
 
-use bindings::cpu;
+use bindings::gb;
 use bindings::joypad::{Joypad, Control};
 use gilrs::Gilrs;
 use iced_winit::winit::dpi::PhysicalSize;
 use log::error;
-use pixels::SurfaceTexture;
+use pixels::{PixelsBuilder, SurfaceTexture};
 
 use iced_winit::{
     futures::executor::LocalPool,
@@ -57,7 +57,7 @@ impl Emulator {
         let id = window.id();
         let resized = false;
 
-        // Initialize wgpu
+        // Initialize pixels
         let size = window.inner_size();
         let surface_texture = SurfaceTexture::new(size.width, size.height, &window);
         let pixels = Pixels::new(WIDTH, HEIGHT, surface_texture).unwrap();
@@ -147,7 +147,7 @@ impl Emulator {
         self.resize();
         let frame = self.pixels.get_frame();
 
-        cpu::render(frame);
+        gb::render(frame);
 
         if let Err(e) = self.pixels.render() {
             *control_flow = ControlFlow::Exit;

@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/27 10:37:00 by niragne           #+#    #+#             */
-/*   Updated: 2020/08/17 15:05:33 by niragne          ###   ########.fr       */
+/*   Updated: 2022/01/07 08:52:40 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	write_mbc2(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, enum memory_mode_
 uint8_t	read_mbc2(struct gb_cpu_s* gb, uint16_t addr, enum memory_mode_e mode);
 
 void	update_rtc(struct gb_cpu_s* gb);
-void	write_mbc3(struct gb_cpu_s* gb, uint16_t addr, uint8_t x);
+void	write_mbc3(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, enum memory_mode_e mode);
 uint8_t	read_mbc3(struct gb_cpu_s* gb, uint16_t addr);
 
 void	write_mbc5(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, enum memory_mode_e mode);

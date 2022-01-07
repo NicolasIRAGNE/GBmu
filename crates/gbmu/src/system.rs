@@ -1,5 +1,5 @@
 use anyhow::Result;
-use bindings::cpu;
+use bindings::gb;
 use iced_wgpu::wgpu::Instance;
 use iced_winit::winit::event::{Event, StartCause};
 use iced_winit::winit::event_loop::{ControlFlow, EventLoop};
@@ -12,7 +12,7 @@ struct Marker {}
 impl Drop for Marker {
     fn drop(&mut self) {
         println!("Successfuly cleaning!");
-        cpu::cleanup();
+        gb::cleanup();
     }
 }
 
@@ -38,7 +38,8 @@ impl System {
                 }
                 Event::MainEventsCleared => {
                     // Run Emulator here
-                    if cpu::frame() {
+                    if gb::frame() {
+                        debugger.refresh();
                         emulator.request_redraw();
                     } else {
                         *flow = ControlFlow::Exit;
@@ -57,6 +58,6 @@ impl System {
     }
 
     pub fn init(rom: String) -> Result<()> {
-        Ok(cpu::init(rom)?)
+        Ok(gb::init(rom)?)
     }
 }
