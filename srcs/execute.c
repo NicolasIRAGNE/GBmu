@@ -26,12 +26,12 @@
 uint8_t	update_current_instruction(struct gb_cpu_s* gb)
 {
 	uint16_t pc = gb->reg.pc;
-	uint8_t op = read_8(gb, pc);
+	uint8_t op = read_8_force(gb, pc);
 	gb->current_instruction = op_tab + op;
 	if (gb->current_instruction->size == 1)
-		gb->current_instruction->args = read_8(gb, pc + 1);
+		gb->current_instruction->args = read_8_force(gb, pc + 1);
 	else if (gb->current_instruction->size == 2)
-		gb->current_instruction->args = read_16(gb, pc + 1);
+		gb->current_instruction->args = read_16_force(gb, pc + 1);
 	return (op);
 }
 
@@ -46,29 +46,37 @@ int		set_interrupt(struct gb_cpu_s* gb)
 {
 	int ret = 0;
 	uint8_t interrupt_requests = read_8(gb, IF_OFFSET);
-	if (interrupt_requests & INT_TIMER_REQUEST && gb->interrupt_enable_register & INT_TIMER_REQUEST)
-	{
-		gb->interrupt = INT_TIMER_ADDR;
-		interrupt_requests &= ~INT_TIMER_REQUEST;
-		ret = INT_TIMER_ADDR;
-	}
-	else if (interrupt_requests & INT_VBLANK_REQUEST && gb->interrupt_enable_register & INT_VBLANK_REQUEST)
+	
+	if (interrupt_requests & INT_VBLANK_REQUEST && gb->interrupt_enable_register & INT_VBLANK_REQUEST)
 	{
 		gb->interrupt = INT_VBLANK_ADDR;
 		interrupt_requests &= ~INT_VBLANK_REQUEST;
 		ret = INT_VBLANK_ADDR;
 	}
+
 	else if (interrupt_requests & INT_STAT_REQUEST && gb->interrupt_enable_register & INT_STAT_REQUEST)
 	{
 		gb->interrupt = INT_STAT_ADDR;
 		interrupt_requests &= ~INT_STAT_REQUEST;
 		ret = INT_STAT_ADDR;
 	}
+	else if (interrupt_requests & INT_TIMER_REQUEST && gb->interrupt_enable_register & INT_TIMER_REQUEST)
+	{
+		gb->interrupt = INT_TIMER_ADDR;
+		interrupt_requests &= ~INT_TIMER_REQUEST;
+		ret = INT_TIMER_ADDR;
+	}
 	else if (interrupt_requests & INT_SERIAL_REQUEST && gb->interrupt_enable_register & INT_SERIAL_REQUEST)
 	{
 		gb->interrupt = INT_SERIAL_ADDR;
 		interrupt_requests &= ~INT_SERIAL_REQUEST;
 		ret = INT_SERIAL_ADDR;
+	}
+	else if (interrupt_requests & INT_JOYPAD_REQUEST && gb->interrupt_enable_register & INT_JOYPAD_REQUEST)
+	{
+		gb->interrupt = INT_JOYPAD_ADDR;
+		interrupt_requests &= ~INT_JOYPAD_REQUEST;
+		ret = INT_JOYPAD_ADDR;
 	}
 	if (ret)
 	{
@@ -90,7 +98,6 @@ int		handle_instruction(struct gb_cpu_s* gb)
 	if (gb->halted)
 	{
 		gb->cycle += 1;
-
 		return (0);
 	}
 

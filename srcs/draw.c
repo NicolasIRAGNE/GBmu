@@ -158,10 +158,10 @@ void ScanOAM(int line, int lcdc)
         }
     }
 
-    // if (gb_global.mode == GB_MODE_DMG)
-    // {
-    //     quicksort_oam(oamCases, count);
-    // }
+    if (gb_global.mode == GB_MODE_DMG)
+    {
+        quicksort_oam(oamCases, count);
+    }
 
     for (int i = count - 1; i >= 0; i--)
     {
@@ -364,7 +364,6 @@ void DrawPixel(int line, int pixel)
 
     if (pixel == 0)
     {
-        ScanOAM(line, lcdc);
         m_MenuXOffset = read_8(&gb_global, WX_OFFSET) - 7;
         m_Low3bitsOfSCX = scx & 0b111;
         if (line == 0)

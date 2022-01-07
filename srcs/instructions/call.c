@@ -33,7 +33,7 @@ void	interrupt_a16(struct gb_cpu_s* gb, uint16_t addr)
 		write_16(gb, gb->reg.sp, gb->reg.pc);
 		gb->reg.pc = addr;
 		update_current_instruction(gb);
-		gb->cycle += 3;
+		gb->cycle += 5;
 	}
 }
 
