@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 13:47:25 by niragne           #+#    #+#             */
-/*   Updated: 2020/04/26 13:43:22 by niragne          ###   ########.fr       */
+/*   Updated: 2022/01/07 14:51:46 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int		clamp(int val, int min, int max)
 	return (val);
 }
 
-void	copy_registers(struct gb_cpu_s* gb, void* dst)
+void	copy_registers(void* dst)
 {
-	memcpy(&gb->reg, dst, sizeof(struct registers_s));
+	memcpy(dst, &gb_global.reg, sizeof(struct registers_s));
 }

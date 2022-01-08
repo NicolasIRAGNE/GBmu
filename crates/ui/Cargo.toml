@@ -6,5 +6,9 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+enum-iterator = "0.7.0"
+itertools = "0.10.1"
+bindings = { path = "../bindings"}
 iced_winit = { git = "https://github.com/hecrj/iced" }
 iced_wgpu = { git = "https://github.com/hecrj/iced" }
+iced = { git = "https://github.com/hecrj/iced"  }

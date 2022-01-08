@@ -363,7 +363,7 @@ int		loadstate(struct gb_cpu_s* gb, int number);
  * @brief Copies the current cpu registers to dst.
  *
  */
-void	copy_registers(struct gb_cpu_s* gb, void* dst);
+void	copy_registers(void* dst);
 
 /**
  * @brief One full step of the CPU.

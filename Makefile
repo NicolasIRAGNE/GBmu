@@ -6,273 +6,99 @@
 #    By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/01 16:38:32 by ldedier           #+#    #+#              #
-#    Updated: 2020/05/04 20:39:18 by ldedier          ###   ########.fr        #
+#    Updated: 2022/01/08 14:19:19 by cempassi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+RESSOURCES_PATH := ressources
 
-NAME			=	debuggerTest
+BIOS_URL := "https://gbdev.gg8.se/files/roms/bootroms/"
 
-CC				=	g++ -std=c++11 -O3
+BIOS_PATH += $(RESSOURCES_PATH)/bios
 
-ECHO			=	echo
-MKDIR			=	mkdir
+BIOS += "dmg_boot.bin"
 
-DEBUG ?= 0
+ROMS_URL := "https://projects.intra.42.fr/uploads/document/document/4986/roms.zip"
 
-SRCDIR			=	srcs/parser/
-OBJDIR			=	objs/
-BINDIR			=	./
-INCLUDESDIR		=	includes/parser/
+# Fonts
+FONT_PATH := $(RESSOURCES_PATH)/fonts
 
-INCLUDES		=	DebuggerGrammar.hpp \
-					SymbolTerminalInterruptStat.hpp \
-					SymbolTerminalSet.hpp \
-					SymbolTerminalGreaterOrEqual.hpp \
-					SymbolTerminalRightShift.hpp \
-					SymbolTerminalRegisterAF.hpp \
-					SymbolTerminalOr.hpp \
-					SymbolTerminalLesserOrEqual.hpp \
-					SymbolTerminalInterruptVBlank.hpp \
-					SymbolTerminalRegisters.hpp \
-					SymbolTerminalRegisterHL.hpp \
-					SymbolTerminalExpansion.hpp \
-					SymbolTerminalNotEqual.hpp \
-					SymbolTerminalHelp.hpp \
-					SymbolTerminalQuit.hpp \
-					SymbolTerminalModulo.hpp \
-					SymbolTerminalBinaryAnd.hpp \
-					SymbolTerminalClosedParenthesis.hpp \
-					SymbolTerminalOpenParenthesis.hpp \
-					SymbolTerminalPlus.hpp \
-					SymbolTerminalMultiply.hpp \
-					SymbolTerminalMinus.hpp \
-					SymbolTerminalDivide.hpp \
-					SymbolTerminalNext.hpp \
-					SymbolTerminalProgramCounter.hpp \
-					SymbolTerminalPrint.hpp \
-					SymbolTerminalInteger.hpp \
-					SymbolTerminalDivOffset.hpp \
-					SymbolTerminalAssign.hpp \
-					SymbolTerminalLesser.hpp \
-					SymbolTerminalGreater.hpp \
-					SymbolTerminalInfo.hpp \
-					SymbolTerminalRegisterBC.hpp \
-					SymbolTerminalEqual.hpp \
-					SymbolTerminalInterruptJoypad.hpp \
-					SymbolTerminalRegisterDE.hpp \
-					SymbolTerminalWatch.hpp \
-					SymbolTerminalInterruptTimer.hpp \
-					SymbolTerminalHalfWordFormat.hpp \
-					SymbolTerminalWordFormat.hpp \
-					SymbolTerminalAnd.hpp \
-					SymbolTerminalTimaOffset.hpp \
-					SymbolTerminalBreakpoint.hpp \
-					SymbolTerminalStep.hpp \
-					SymbolTerminalVerbose.hpp \
-					SymbolTerminalInterruptSerial.hpp \
-					SymbolTerminalLeftShift.hpp \
-					SymbolTerminalRegisterA.hpp \
-					SymbolTerminalUnwatch.hpp \
-					SymbolTerminalRegisterC.hpp \
-					SymbolTerminalRegisterB.hpp \
-					SymbolTerminalRegisterE.hpp \
-					SymbolTerminalRegisterD.hpp \
-					SymbolTerminalRegisterF.hpp \
-					SymbolTerminalInstruction.hpp \
-					SymbolTerminalRegisterH.hpp \
-					SymbolTerminalDecimal.hpp \
-					SymbolTerminalStackPointer.hpp \
-					SymbolTerminalRegisterL.hpp \
-					SymbolTerminalOctal.hpp \
-					SymbolTerminalReadMode.hpp \
-					SymbolTerminalWriteMode.hpp \
-					SymbolTerminalHexadecimal.hpp \
-					SymbolTerminalBinaryOr.hpp \
-					SymbolTerminalBinary.hpp \
-					SymbolTerminalDelete.hpp \
-					SymbolTerminalPrintCommandParams.hpp \
-					SymbolTerminalX.hpp \
-					SymbolNonTerminalPrintCommand.hpp \
-					SymbolNonTerminalWatchMode.hpp \
-					SymbolNonTerminalQuitCommand.hpp \
-					SymbolNonTerminalVerboseCommand.hpp \
-					SymbolNonTerminalRegistersCommand.hpp \
-					SymbolNonTerminalRegisterName.hpp \
-					SymbolNonTerminalUnit.hpp \
-					SymbolNonTerminalIntegerList.hpp \
-					SymbolNonTerminalIoPort.hpp \
-					SymbolNonTerminalCommandName.hpp \
-					SymbolNonTerminalUnwatchCommand.hpp \
-					SymbolNonTerminalComparison.hpp \
-					SymbolNonTerminalFactor.hpp \
-					SymbolNonTerminalWatchModeList.hpp \
-					SymbolNonTerminalStepCommand.hpp \
-					SymbolNonTerminalFormat.hpp \
-					SymbolNonTerminalInfoCommand.hpp \
-					SymbolNonTerminalNextCommand.hpp \
-					SymbolNonTerminalXCommand.hpp \
-					SymbolNonTerminalVariable.hpp \
-					SymbolNonTerminalSetCommand.hpp \
-					SymbolNonTerminalHelpCommand.hpp \
-					SymbolNonTerminalAssignable.hpp \
-					SymbolNonTerminalTerm.hpp \
-					SymbolNonTerminalWatchCommand.hpp \
-					SymbolNonTerminalAndOr.hpp \
-					SymbolNonTerminalExpr.hpp \
-					SymbolNonTerminalValue.hpp \
-					SymbolNonTerminalVector.hpp \
-					SymbolNonTerminalCommand.hpp \
-					SymbolNonTerminalDeleteCommand.hpp \
-					SymbolNonTerminalBreakpointCommand.hpp \
-					SymbolNonTerminalPrintCommandSuffix.hpp \
-					SymbolTerminalCommand.hpp \
-					SymbolTerminalVariable.hpp\
-					SymbolTerminalPrintingCommand.hpp \
-					DebuggerContext.hpp \
-					TokenPrintCommandSuffix.hpp \
+## Hasklig
+HASKLIG_URL := "https://github.com/i-tu/Hasklig/releases/download/v1.2/Hasklig-1.2.zip"
+HASKLIG_PATH := $(FONT_PATH)/hasklig
+HASKLIG_ZIP := "Hasklig-1.2.zip"
 
-SRCS			=	DebuggerGrammar.cpp \
-					SymbolTerminalInterruptStat.cpp \
-					SymbolTerminalSet.cpp \
-					SymbolTerminalGreaterOrEqual.cpp \
-					SymbolTerminalRightShift.cpp \
-					SymbolTerminalRegisterAF.cpp \
-					SymbolTerminalOr.cpp \
-					SymbolTerminalLesserOrEqual.cpp \
-					SymbolTerminalInterruptVBlank.cpp \
-					SymbolTerminalRegisters.cpp \
-					SymbolTerminalDecimal.cpp \
-					SymbolTerminalRegisterHL.cpp \
-					SymbolTerminalExpansion.cpp \
-					SymbolTerminalNotEqual.cpp \
-					SymbolTerminalHelp.cpp \
-					SymbolTerminalQuit.cpp \
-					SymbolTerminalModulo.cpp \
-					SymbolTerminalBinaryAnd.cpp \
-					SymbolTerminalClosedParenthesis.cpp \
-					SymbolTerminalOpenParenthesis.cpp \
-					SymbolTerminalPlus.cpp \
-					SymbolTerminalMultiply.cpp \
-					SymbolTerminalMinus.cpp \
-					SymbolTerminalDivide.cpp \
-					SymbolTerminalNext.cpp \
-					SymbolTerminalProgramCounter.cpp \
-					SymbolTerminalPrint.cpp \
-					SymbolTerminalInteger.cpp \
-					SymbolTerminalDivOffset.cpp \
-					SymbolTerminalAssign.cpp \
-					SymbolTerminalLesser.cpp \
-					SymbolTerminalGreater.cpp \
-					SymbolTerminalInfo.cpp \
-					SymbolTerminalRegisterBC.cpp \
-					SymbolTerminalEqual.cpp \
-					SymbolTerminalInterruptJoypad.cpp \
-					SymbolTerminalRegisterDE.cpp \
-					SymbolTerminalWatch.cpp \
-					SymbolTerminalInterruptTimer.cpp \
-					SymbolTerminalHalfWordFormat.cpp \
-					SymbolTerminalWordFormat.cpp \
-					SymbolTerminalTimaOffset.cpp \
-					SymbolTerminalAnd.cpp \
-					SymbolTerminalBreakpoint.cpp \
-					SymbolTerminalStep.cpp \
-					SymbolTerminalVerbose.cpp \
-					SymbolTerminalInterruptSerial.cpp \
-					SymbolTerminalLeftShift.cpp \
-					SymbolTerminalRegisterA.cpp \
-					SymbolTerminalUnwatch.cpp \
-					SymbolTerminalRegisterC.cpp \
-					SymbolTerminalRegisterB.cpp \
-					SymbolTerminalRegisterE.cpp \
-					SymbolTerminalRegisterD.cpp \
-					SymbolTerminalRegisterF.cpp \
-					SymbolTerminalInstruction.cpp \
-					SymbolTerminalRegisterH.cpp \
-					SymbolTerminalStackPointer.cpp \
-					SymbolTerminalRegisterL.cpp \
-					SymbolTerminalOctal.cpp \
-					SymbolTerminalReadMode.cpp \
-					SymbolTerminalWriteMode.cpp \
-					SymbolTerminalHexadecimal.cpp \
-					SymbolTerminalBinaryOr.cpp \
-					SymbolTerminalBinary.cpp \
-					SymbolTerminalDelete.cpp \
-					SymbolTerminalVariable.cpp \
-					SymbolTerminalCommand.cpp \
-					SymbolTerminalPrintingCommand.cpp \
-					SymbolTerminalX.cpp \
-					SymbolTerminalPrintCommandParams.cpp \
-					SymbolNonTerminalPrintCommand.cpp \
-					SymbolNonTerminalWatchMode.cpp \
-					SymbolNonTerminalQuitCommand.cpp \
-					SymbolNonTerminalVerboseCommand.cpp \
-					SymbolNonTerminalRegistersCommand.cpp \
-					SymbolNonTerminalRegisterName.cpp \
-					SymbolNonTerminalUnit.cpp \
-					SymbolNonTerminalIntegerList.cpp \
-					SymbolNonTerminalIoPort.cpp \
-					SymbolNonTerminalCommandName.cpp \
-					SymbolNonTerminalUnwatchCommand.cpp \
-					SymbolNonTerminalComparison.cpp \
-					SymbolNonTerminalFactor.cpp \
-					SymbolNonTerminalWatchModeList.cpp \
-					SymbolNonTerminalStepCommand.cpp \
-					SymbolNonTerminalFormat.cpp \
-					SymbolNonTerminalInfoCommand.cpp \
-					SymbolNonTerminalNextCommand.cpp \
-					SymbolNonTerminalXCommand.cpp \
-					SymbolNonTerminalVariable.cpp \
-					SymbolNonTerminalSetCommand.cpp \
-					SymbolNonTerminalHelpCommand.cpp \
-					SymbolNonTerminalAssignable.cpp \
-					SymbolNonTerminalTerm.cpp \
-					SymbolNonTerminalWatchCommand.cpp \
-					SymbolNonTerminalAndOr.cpp \
-					SymbolNonTerminalExpr.cpp \
-					SymbolNonTerminalValue.cpp \
-					SymbolNonTerminalVector.cpp \
-					SymbolNonTerminalCommand.cpp \
-					SymbolNonTerminalDeleteCommand.cpp \
-					SymbolNonTerminalBreakpointCommand.cpp \
-					SymbolNonTerminalPrintCommandSuffix.cpp \
-					TokenPrintCommandSuffix.cpp \
-					main.cpp \
-					DebuggerContext.cpp \
+ROMS_PATH := roms
 
-VPATH				=	$(INCLUDESDIR) \
-					=	$(SRCDIR)
+ROMS := $(ROMS_PATH)/$(_ROMS)
 
-OBJECTS			=	$(addprefix $(OBJDIR), $(SRCS:.cpp=.o))
-CFLAGS			=	-I $(INCLUDESDIR) -Wall -Wextra -Werror -I includes -I libyacc/includes
+### Base ###
 
-OK_COLOR			=	\x1b[32;01m
-EOC					=	\033[0m
+all: requirements clean
 
-ifeq ($(DEBUG), 1)
-	CFLAGS += -fsanitize=address
-	CC += -g3
-endif
+ci: roms fonts $(BIOS)
 
-all: $(NAME)
+requirements: roms blarg fonts $(BIOS)
 
-debug:
-	@$(MAKE) all DEBUG=1
+### Fonts ###
 
-$(BINDIR)$(NAME): $(OBJDIR) $(OBJECTS)
-	$(CC) -o $@ $(OBJECTS)
-	@$(ECHO) "$(OK_COLOR)$(NAME) linked with success ! $(EOC)"
+fonts: hasklig
 
-$(OBJDIR):
-	@$(MKDIR) $@
+### Hasklig ###
 
-$(OBJDIR)%.o: $(SRCDIR)%.cpp $(INCLUDES)
-	$(CC) -c $< -o $@ $(CFLAGS)
+hasklig: $(HASKLIG_ZIP)
+	unzip -o $<
+	rm -rf ./__MACOSX OTF
+	mv TTF/* $(HASKLIG_PATH)
+	rm -rf TTF
+
+$(HASKLIG_ZIP): $(HASKLIG_PATH)
+	curl -L $(HASKLIG_URL) > $@
+
+$(HASKLIG_PATH):
+	mkdir -p $@
+
+### Bios ###
+
+$(BIOS): $(BIOS_PATH)
+	curl -k $(BIOS_URL)/$@ > $</$@
+
+$(BIOS_PATH):
+	mkdir -p $@
+
+### Roms ###
+
+roms: roms.zip
+	unzip -o $< 'roms/*' -x '*/.DS_Store'
+
+roms.zip:
+	curl -L $(ROMS_URL) > $@
+
+blarg:
+	git clone git@github.com:retrio/gb-test-roms.git ./ressources/test_roms
+
+### utils ###
+
+check: format.all format lint test
+
+lint:
+	cargo clippy --workspace --verbose -- -D warnings
+
+format.all:
+	cargo fmt --all
+
+format:
+	cargo fmt --verbose -- --check
+
+test:
+	cargo test
 
 clean:
-	@$(RM) -rf $(OBJDIR)
+	rm -rf roms.zip  $(HASKLIG_ZIP)
+
 fclean: clean
-	@$(RM) -f $(BINDIR)$(NAME)
+	cargo clean
+	cargo cache -a
+	rm -rf roms ressources
 
-re: fclean all
+.PHONY: requirement roms hasklig check lint format.all format clean fclean
 
-.PHONY: all clean fclean re debug
