@@ -94,7 +94,7 @@ $(document).ready(function(){initNavTree('mbc_8h_source.html',''); initResizable
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">/*   By: niragne &lt;niragne@student.42.fr&gt;            +#+  +:+       +#+        */</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">/*                                                +#+#+#+#+#+   +#+           */</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">/*   Created: 2020/04/27 10:37:00 by niragne           #+#    #+#             */</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment">/*   Updated: 2020/08/17 15:05:33 by niragne          ###   ########.fr       */</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment">/*   Updated: 2022/01/07 08:52:40 by cempassi         ###   ########.fr       */</span></div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">/*                                                                            */</span></div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">/* ************************************************************************** */</span></div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
@@ -154,7 +154,7 @@ $(document).ready(function(){initNavTree('mbc_8h_source.html',''); initResizable
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;uint8_t read_mbc2(<span class="keyword">struct</span> gb_cpu_s* gb, uint16_t addr, <span class="keyword">enum</span> memory_mode_e mode);</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="keywordtype">void</span>    update_rtc(<span class="keyword">struct</span> gb_cpu_s* gb);</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="keywordtype">void</span>    write_mbc3(<span class="keyword">struct</span> gb_cpu_s* gb, uint16_t addr, uint8_t x);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="keywordtype">void</span>    write_mbc3(<span class="keyword">struct</span> gb_cpu_s* gb, uint16_t addr, uint8_t x, <span class="keyword">enum</span> memory_mode_e mode);</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;uint8_t read_mbc3(<span class="keyword">struct</span> gb_cpu_s* gb, uint16_t addr);</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="keywordtype">void</span>    write_mbc5(<span class="keyword">struct</span> gb_cpu_s* gb, uint16_t addr, uint8_t x, <span class="keyword">enum</span> memory_mode_e mode);</div>
