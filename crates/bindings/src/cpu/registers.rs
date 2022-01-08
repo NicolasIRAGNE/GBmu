@@ -3,6 +3,7 @@ use enum_iterator::IntoEnumIterator;
 use std::{ffi::c_void, fmt::Debug};
 use std::ptr::addr_of_mut;
 
+
 #[repr(C)]
 #[derive(Default, Debug)]
 pub struct Registers {
@@ -26,6 +27,45 @@ impl Registers {
             copy_registers(raw as *mut c_void);
         }
     }
+}
+
+pub trait Bus<T, O>: Debug {
+    fn get(&self, _: T) -> O;
+}
+
+impl Bus<Bits8, u8> for Registers {
+    fn get(&self, area: Bits8) -> u8 {
+        match area {
+            Bits8::A => self.a,
+            Bits8::F => 0,
+            Bits8::B => self.b,
+            Bits8::C => self.c,
+            Bits8::D => self.d,
+            Bits8::E => self.e,
+            Bits8::H => self.h,
+            Bits8::L => self.l,
+        }
+    }
+}
+
+impl Bus<Flag, bool> for Registers {
+    fn get(&self, area: Flag) -> bool {
+        self.f & area as u8 != 0
+    }
+}
+
+impl Bus<Bits16, u16> for Registers {
+    fn get(&self, area: Bits16) -> u16 {
+        match area {
+            Bits16::SP => self.sp,
+            Bits16::PC => self.pc,
+            Bits16::AF => ((self.a as u16) << 8) ,
+            Bits16::BC => ((self.b as u16) << 8) | self.c as u16,
+            Bits16::DE => ((self.d as u16) << 8) | self.e as u16,
+            Bits16::HL => ((self.h as u16) << 8) | self.l as u16,
+        }
+    }
+
 }
 
 #[derive(Debug, IntoEnumIterator, PartialEq, Clone, Copy)]
@@ -56,55 +96,22 @@ pub enum Flag {
     /// This flag is set when :
     /// - the result of a math op is zero
     /// - `Cmp` OP match 2 values
-    Z,
+    Z = 0x80,
 
     /// Substract Flag
     /// This flag is set when the last math instruction was a substraction
-    N,
+    N = 0x40,
 
     /// Half Carry Flag
     /// This flag is set when a carry occurred in the lower nibble of the last math OP
-    H,
+    H = 0x20,
 
     /// Carry Flag
     /// This flag is set when :
     /// - a carry occurred in the last math OP
     /// - Reg A is the smaller value when doing a `Cmp` OP
-    C,
+    C = 0x10,
 }
 
 
-pub trait Bus<T, O>: Debug {
-    fn get(&self, _: T) -> O;
 
-}
-
-impl Bus<Bits8, u8> for Registers {
-    fn get(&self, area: Bits8) -> u8 {
-        match area {
-            Bits8::A => self.a,
-            Bits8::F => 0,
-            Bits8::B => self.b,
-            Bits8::C => self.c,
-            Bits8::D => self.d,
-            Bits8::E => self.e,
-            Bits8::H => self.h,
-            Bits8::L => self.l,
-        }
-    }
-
-}
-
-impl Bus<Bits16, u16> for Registers {
-    fn get(&self, area: Bits16) -> u16 {
-        match area {
-            Bits16::SP => self.sp,
-            Bits16::PC => self.pc,
-            Bits16::AF => ((self.a as u16) << 8) ,
-            Bits16::BC => ((self.b as u16) << 8) | self.c as u16,
-            Bits16::DE => ((self.d as u16) << 8) | self.e as u16,
-            Bits16::HL => ((self.h as u16) << 8) | self.l as u16,
-        }
-    }
-
-}

@@ -1,10 +1,13 @@
 mod registers;
+mod flags;
 
 use enum_iterator::IntoEnumIterator;
 use iced::{Alignment, Column, Element};
 use itertools::Itertools;
 use bindings::cpu::{self, Bits16, Bits8};
+
 use registers::Registers;
+use flags::Flags;
 
 use crate::{style::theme::Theme, widgets::Text};
 
@@ -24,7 +27,8 @@ pub enum CpuMsg {
 #[derive(Default)]
 pub struct Cpu {
     data: cpu::Registers,
-    registers: Vec<Registers>
+    registers: Vec<Registers>,
+    flags: Flags,
 }
 
 impl Cpu {
