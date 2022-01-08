@@ -44,9 +44,11 @@ impl Cpu {
         });
         registers.push(Registers::NoSplit(Bits16::SP));
         registers.push(Registers::NoSplit(Bits16::PC));
+        let flags = Flags::new();
         Self {
             data,
-            registers
+            registers,
+            flags
         }
     }
 
