@@ -33,6 +33,7 @@ var gb_8h =
     [ "init_registers", "gb_8h.html#a2fc673e19fdf722b9f46bec8eca05084", null ],
     [ "initiate_hdma_transfer", "gb_8h.html#a8ea764b4703152373fe390fd4a8e3fa5", null ],
     [ "load_game", "gb_8h.html#af2e0c433cb45cebf3042abf21e0c05b6", null ],
+    [ "load_game_from_file", "gb_8h.html#a0c72cd251f8722eafabef9abeea64431", null ],
     [ "loadstate", "gb_8h.html#a0c706368e9eb8cdccbe565d37e404eca", null ],
     [ "memset_4", "gb_8h.html#a1690b79591ec2626ae0e4bab071370da", null ],
     [ "process_dma_transfer", "gb_8h.html#a2939f2f449cb6ca30d69285b28797fff", null ],

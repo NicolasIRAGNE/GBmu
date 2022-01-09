@@ -270,8 +270,11 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>get_debugger_verbose</
 <tr class="memitem:a790380e09dfafbb0201c114e93b84197"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a790380e09dfafbb0201c114e93b84197">save_game</a> (struct gb_cpu_s *gb)</td></tr>
 <tr class="memdesc:a790380e09dfafbb0201c114e93b84197"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempts to save the game. This is done by saving the current RAM to disk. The file is saved to "./saves/&lt;name&gt;.sav" where &lt;name&gt; is the name of the ROM.  <a href="gb_8h.html#a790380e09dfafbb0201c114e93b84197">More...</a><br /></td></tr>
 <tr class="separator:a790380e09dfafbb0201c114e93b84197"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c72cd251f8722eafabef9abeea64431"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a0c72cd251f8722eafabef9abeea64431">load_game_from_file</a> (struct gb_cpu_s *gb, const char *save_file)</td></tr>
+<tr class="memdesc:a0c72cd251f8722eafabef9abeea64431"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempts to load a save file for the current game. In case the file is found but the content is not what is expected, a warning is emitted but the data is still loaded.  <a href="gb_8h.html#a0c72cd251f8722eafabef9abeea64431">More...</a><br /></td></tr>
+<tr class="separator:a0c72cd251f8722eafabef9abeea64431"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af2e0c433cb45cebf3042abf21e0c05b6"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#af2e0c433cb45cebf3042abf21e0c05b6">load_game</a> (struct gb_cpu_s *gb)</td></tr>
-<tr class="memdesc:af2e0c433cb45cebf3042abf21e0c05b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempts to load a save file for the current game. This function looks for a file named "./saves/&lt;name&gt;.sav" where &lt;name&gt; is the name of the ROM. In case the file is found but the content is not what is expected, a warning is emitted but the data is still loaded.  <a href="gb_8h.html#af2e0c433cb45cebf3042abf21e0c05b6">More...</a><br /></td></tr>
+<tr class="memdesc:af2e0c433cb45cebf3042abf21e0c05b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function attempts to load the following save file: "./saves/&lt;name&gt;.sav" where &lt;name&gt; is the name of the ROM.  <a href="gb_8h.html#af2e0c433cb45cebf3042abf21e0c05b6">More...</a><br /></td></tr>
 <tr class="separator:af2e0c433cb45cebf3042abf21e0c05b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaf01974d2e44271da20748ca0bdefb98"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#aaf01974d2e44271da20748ca0bdefb98">save_game_crash</a> (struct gb_cpu_s *gb)</td></tr>
 <tr class="memdesc:aaf01974d2e44271da20748ca0bdefb98"><td class="mdescLeft">&#160;</td><td class="mdescRight">Same as <a class="el" href="gb_8h.html#a790380e09dfafbb0201c114e93b84197" title="Attempts to save the game. This is done by saving the current RAM to disk. The file is saved to &quot;....">save_game()</a>, except it saves the game to "./saves/&lt;name&gt;_CRASH.sav".  <a href="gb_8h.html#aaf01974d2e44271da20748ca0bdefb98">More...</a><br /></td></tr>
@@ -560,7 +563,38 @@ Here is the call graph for this function:</div>
       </table>
 </div><div class="memdoc">
 
-<p>Attempts to load a save file for the current game. This function looks for a file named "./saves/&lt;name&gt;.sav" where &lt;name&gt; is the name of the ROM. In case the file is found but the content is not what is expected, a warning is emitted but the data is still loaded. </p>
+<p>This function attempts to load the following save file: "./saves/&lt;name&gt;.sav" where &lt;name&gt; is the name of the ROM. </p>
+<p>Attempts to load a save file for the current game. In case the file is found but the content is not what is expected, a warning is emitted but the data is still loaded. </p><dl class="section return"><dt>Returns</dt><dd>int 0 if the load was successful, non-zero otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="a0c72cd251f8722eafabef9abeea64431"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0c72cd251f8722eafabef9abeea64431">&#9670;&nbsp;</a></span>load_game_from_file()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int load_game_from_file </td>
+          <td>(</td>
+          <td class="paramtype">struct gb_cpu_s *&#160;</td>
+          <td class="paramname"><em>gb</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>save_file</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Attempts to load a save file for the current game. In case the file is found but the content is not what is expected, a warning is emitted but the data is still loaded. </p>
 <dl class="section return"><dt>Returns</dt><dd>int 0 if the load was successful, non-zero otherwise. </dd></dl>
 
 </div>
