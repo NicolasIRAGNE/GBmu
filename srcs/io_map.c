@@ -30,40 +30,16 @@ static void	request_lcd_off(struct gb_cpu_s* gb)
 
 uint8_t		read_io(struct gb_cpu_s* gb, uint16_t addr)
 {
-	if (addr == JOYP_OFFSET)
-	{
-		uint8_t ret = 0;
-		if (gb->joypad_mode == JOYPAD_MODE_BUTTONS)
-		{
-			ret |= ((gb->joypad.a) != 0) << 0;
-			ret |= ((gb->joypad.b) != 0) << 1;
-			ret |= ((gb->joypad.select) != 0) << 2;
-			ret |= ((gb->joypad.start) != 0) << 3;
-		}
-		else if (gb->joypad_mode == JOYPAD_MODE_DIRECTIONS)
-		{
-			ret |= ((gb->joypad.right) != 0) << 0;
-			ret |= ((gb->joypad.left) != 0) << 1;
-			ret |= ((gb->joypad.up) != 0) << 2;
-			ret |= ((gb->joypad.down) != 0) << 3;
-		}
-		ret = ~ret;
-		return (ret);
-	}
 	if (addr == VBK_OFFSET && gb->mode == GB_MODE_CGB)
 	{
 		return (gb->vram_bank & 0xfe);
 	}
 	if (addr == BCPD_OFFSET && gb->mode == GB_MODE_CGB)
 	{
-		if (gb->gpu.mode == 3)
-			return (0);
 		return (gb->cgb_bg_palettes[gb->bg_palette_index]);
 	}
 	if (addr == OCPD_OFFSET && gb->mode == GB_MODE_CGB)
 	{
-				if (gb->gpu.mode == 3)
-			return (0);
 		return (gb->cgb_obj_palettes[gb->obj_palette_index]);
 	}
 	return (((uint8_t*)(gb->io_ports))[addr - 0xFF00]);	
@@ -88,6 +64,11 @@ void	write_io(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, uint8_t lcdc, enum 
 			gb->joypad_mode = JOYPAD_MODE_DIRECTIONS;
 		else if (x == SELECT_NONE)
 			gb->joypad_mode = JOYPAD_MODE_NONE;
+		// Check for interrupt
+		uint8_t current_joyp = read_8(gb, JOYP_OFFSET);
+		// if any of the bits went from 0 to 1 then interrupt
+		if ((current_joyp & x) != 0)
+			request_interrupt(gb, INT_JOYPAD_REQUEST);
 	}
 	if (addr == DMA_OFFSET)
 	{
@@ -174,8 +155,7 @@ void	write_io(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, uint8_t lcdc, enum 
 	}
 	if (addr == BCPD_OFFSET && gb->mode == GB_MODE_CGB)
 	{
-		if (gb->gpu.mode != 3)
-			gb->cgb_bg_palettes[gb->bg_palette_index] = x;
+		gb->cgb_bg_palettes[gb->bg_palette_index] = x;
 		if (gb->bcpd_auto_increment)
 			gb->bg_palette_index = (gb->bg_palette_index + 1) & 0b111111;
 	}
@@ -186,8 +166,7 @@ void	write_io(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, uint8_t lcdc, enum 
 	}
 	if (addr == OCPD_OFFSET && gb->mode == GB_MODE_CGB)
 	{
-		if (gb->gpu.mode != 3)
-			gb->cgb_obj_palettes[gb->obj_palette_index] = x;
+		gb->cgb_obj_palettes[gb->obj_palette_index] = x;
 		if (gb->ocpd_auto_increment)
 			gb->obj_palette_index = (gb->obj_palette_index + 1) & 0b111111;
 	}

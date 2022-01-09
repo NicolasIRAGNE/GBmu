@@ -96,6 +96,7 @@ enum gb_intr_e
 # define INT_STAT_ADDR			0x48
 # define INT_TIMER_ADDR			0x50
 # define INT_SERIAL_ADDR		0x58
+# define INT_JOYPAD_ADDR		0x60
 
 // Joypad
 # define SELECT_NONE			0x30

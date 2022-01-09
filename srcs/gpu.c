@@ -78,7 +78,7 @@ void	gpu_tick(struct gb_cpu_s* gb)
 					if (stat & STAT_MODE_2_INT && (lcdc & LCDC_ON))
 						request_interrupt(gb, INT_STAT_REQUEST);
 				}
-				gb->gpu.tick -= HBLANK_TIME;
+				gb->gpu.tick = 0 ;
 			}
 			break;
 		}
@@ -87,8 +87,9 @@ void	gpu_tick(struct gb_cpu_s* gb)
 		{
 			if (gb->gpu.tick >= OAM_TIME)
 			{
+        		ScanOAM(gb->gpu.y_coord, lcdc);
 				gb->gpu.mode = GPU_MODE_VRAM;
-				gb->gpu.tick -= OAM_TIME;
+				gb->gpu.tick = 0;
 			}
 			break;
 		}
@@ -103,7 +104,7 @@ void	gpu_tick(struct gb_cpu_s* gb)
 				gb->gpu.mode = GPU_MODE_HBLANK;
 				if (stat & STAT_MODE_0_INT && (lcdc & LCDC_ON))
 					request_interrupt(gb, INT_STAT_REQUEST);
-				gb->gpu.tick -= VRAM_TIME;
+				gb->gpu.tick = 0;
 				if (gb->hdma_in_progress)
 					resume_hdma_transfer(gb);
 			}
@@ -125,7 +126,7 @@ void	gpu_tick(struct gb_cpu_s* gb)
 					if (stat & STAT_MODE_2_INT && (lcdc & LCDC_ON))
 						request_interrupt(gb, INT_STAT_REQUEST);
 				}
-				gb->gpu.tick -= VBLANK_TIME;
+				gb->gpu.tick = 0;
 			}
 			break;
 		}
