@@ -55,9 +55,5 @@ void handle_joypad(struct gb_cpu_s* gb, SDL_GameController* controller, const Ui
         ret |= ((gb->joypad.down) != 0) << 3;
     }
     ret = ~ret;
-	uint8_t current_joyp = read_8(gb, JOYP_OFFSET);
-	// if any of the bits went from 0 to 1 then interrupt
-	if ((current_joyp & ret) != 0)
-		request_interrupt(gb, INT_JOYPAD_REQUEST);
     write_8(gb, JOYP_OFFSET, ret);
 }

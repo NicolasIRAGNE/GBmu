@@ -64,6 +64,11 @@ void	write_io(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, uint8_t lcdc, enum 
 			gb->joypad_mode = JOYPAD_MODE_DIRECTIONS;
 		else if (x == SELECT_NONE)
 			gb->joypad_mode = JOYPAD_MODE_NONE;
+		// Check for interrupt
+		uint8_t current_joyp = read_8(gb, JOYP_OFFSET);
+		// if any of the bits went from 0 to 1 then interrupt
+		if ((current_joyp & x) != 0)
+			request_interrupt(gb, INT_JOYPAD_REQUEST);
 	}
 	if (addr == DMA_OFFSET)
 	{
