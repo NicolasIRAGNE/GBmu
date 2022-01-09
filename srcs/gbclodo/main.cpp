@@ -144,7 +144,7 @@ int		main(int ac, char** av)
 	if (init_main_window(&main_window_context))
 		return (1);
 	load_game(&gb_global);
-	signal(SIGINT, sigint_handler);
+	signal(SIGINT, signal_handler);
 
 	void*	renderer = new_renderer(&gb_global);
 	int window_width;

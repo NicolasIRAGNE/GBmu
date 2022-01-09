@@ -330,11 +330,17 @@ int		save_game(struct gb_cpu_s* gb);
 
 /**
  * @brief Attempts to load a save file for the current game.
- * This function looks for a file named "./saves/<name>.sav" where <name> is the name of the ROM.
- * In case the file is found but the content is not what is expected, a warning is emitted but the data is still loaded.
+ * In case the file is found but the content is not what is expected, a warning is emitted but the data is still loaded. 
  * @return int 0 if the load was successful, non-zero otherwise.
  */
+int		load_game_from_file(struct gb_cpu_s* gb, const char* save_file);
+
+/**
+ * @brief This function attempts to load the following save file: "./saves/<name>.sav" where <name> is the name of the ROM.
+ * @copydoc load_game_from_file
+ */
 int		load_game(struct gb_cpu_s* gb);
+
 
 /**
  * @brief Same as save_game(), except it saves the game to "./saves/<name>_CRASH.sav".

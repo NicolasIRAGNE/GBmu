@@ -37,14 +37,15 @@ fn main() {
     // Build libgb.a
     let dst = Config::new("../../")
         .define("BUILD_GBCLODO", "OFF")
+        .define("WITH_ASAN", "OFF")
         .define("CMAKE_EXPORT_COMPILE_COMMANDS", "ON")
-        .build_target("gb")
+        .build_target("install")
         .build();
 
     // Search lib in the correct folder, build
-    println!("cargo:rustc-link-search=native={}/build", dst.display());
+    println!("cargo:rustc-link-search=native={}/bin", dst.display());
 
     // Finally link the cmake build library
-    println!("cargo:rustc-link-lib=asan");
+    // println!("cargo:rustc-link-lib=asan");
     println!("cargo:rustc-link-lib=static=gb");
 }
