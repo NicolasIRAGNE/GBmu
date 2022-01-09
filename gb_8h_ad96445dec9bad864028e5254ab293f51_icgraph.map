@@ -1,5 +1,5 @@
-<map id="read_16" name="read_16">
-<area shape="rect" id="node1" title="Read a 16&#45;bit word from the appropriate memory location. This is the safe way to access the gameboy m..." alt="" coords="403,5,471,32"/>
+<map id="read_16_force" name="read_16_force">
+<area shape="rect" id="node1" title=" " alt="" coords="403,5,507,32"/>
 <area shape="rect" id="node2" href="$gb_8h.html#a5a919d32342038b24d05d91dd31550f2" title="Updates the gb struct. This should be called after each instruction. This sets the gb&#45;&gt;current_instru..." alt="" coords="180,5,355,32"/>
 <area shape="rect" id="node3" href="$gb_8h.html#a62664ca8db705f6c53010a831980587c" title="Executes the next instruction currently pointed by the PC register." alt="" coords="5,5,132,32"/>
 </map>

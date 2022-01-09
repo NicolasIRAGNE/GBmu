@@ -22,6 +22,7 @@ var memory_8h =
     [ "HDMA5_OFFSET", "memory_8h.html#a9e0b8c97f721cc71ef9cfa4a17760ae7", null ],
     [ "HRAM_SIZE", "memory_8h.html#a675b0feaea8c35c79f72d25cdd361136", null ],
     [ "IF_OFFSET", "memory_8h.html#ac096fcc2ba7502eb52cf55a3a210f7ba", null ],
+    [ "INT_JOYPAD_ADDR", "memory_8h.html#affa563cd6aea9005d7d92b37c71609a2", null ],
     [ "INT_SERIAL_ADDR", "memory_8h.html#abf6301bb3c7c2dd56db2e79be0279303", null ],
     [ "INT_STAT_ADDR", "memory_8h.html#aaae27af682ed46507641f1c08e82b976", null ],
     [ "INT_TIMER_ADDR", "memory_8h.html#ab84bd16229dbf7b7ed5628f0a19c8bcc", null ],

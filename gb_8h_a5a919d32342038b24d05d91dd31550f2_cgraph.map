@@ -1,5 +1,5 @@
 <map id="update_current_instruction" name="update_current_instruction">
 <area shape="rect" id="node1" title="Updates the gb struct. This should be called after each instruction. This sets the gb&#45;&gt;current_instru..." alt="" coords="5,31,180,57"/>
-<area shape="rect" id="node2" href="$gb_8h.html#ae9412814e44fdf1354e4471b16914b45" title="Read a 16&#45;bit word from the appropriate memory location. This is the safe way to access the gameboy m..." alt="" coords="228,5,296,32"/>
-<area shape="rect" id="node3" href="$gb_8h.html#a9ff752910cf109fcfec61e099d2fccbc" title="Read an 8&#45;bit word from the appropriate memory location. This is the safe way to access the gameboy m..." alt="" coords="344,31,405,57"/>
+<area shape="rect" id="node2" href="$gb_8h.html#ad96445dec9bad864028e5254ab293f51" title=" " alt="" coords="228,5,332,32"/>
+<area shape="rect" id="node3" href="$gb_8h.html#afa5c8e853cfac77001f009a81f3403be" title=" " alt="" coords="380,31,477,57"/>
 </map>

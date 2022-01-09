@@ -176,46 +176,47 @@ $(document).ready(function(){initNavTree('memory_8h_source.html',''); initResiza
 <div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="preprocessor"># define INT_STAT_ADDR          0x48</span></div>
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="preprocessor"># define INT_TIMER_ADDR         0x50</span></div>
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="preprocessor"># define INT_SERIAL_ADDR        0x58</span></div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160; </div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="comment">// Joypad</span></div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="preprocessor"># define SELECT_NONE            0x30</span></div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="preprocessor"># define SELECT_DIRECTION_KEYS  0x20</span></div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="preprocessor"># define SELECT_BUTTON_KEYS     0x10</span></div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="preprocessor"># define JOYP_INPUT_DOWN        (1 &lt;&lt; 3)</span></div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="preprocessor"># define JOYP_INPUT_UP          (1 &lt;&lt; 2)</span></div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="preprocessor"># define JOYP_INPUT_LEFT        (1 &lt;&lt; 1)</span></div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="preprocessor"># define JOYP_INPUT_RIGHT       (1 &lt;&lt; 0)</span></div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160; </div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<span class="preprocessor"># define JOYP_INPUT_START       (1 &lt;&lt; 3)</span></div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;<span class="preprocessor"># define JOYP_INPUT_SELECT      (1 &lt;&lt; 2)</span></div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;<span class="preprocessor"># define JOYP_INPUT_B           (1 &lt;&lt; 1)</span></div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;<span class="preprocessor"># define JOYP_INPUT_A           (1 &lt;&lt; 0)</span></div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160; </div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;<span class="comment">// Stat register</span></div>
-<div class="line"><a name="l00116"></a><span class="lineno"><a class="line" href="memory_8h.html#a2ad6e5901c5f0504e9ede78bf13fadf2">  116</a></span>&#160;<span class="preprocessor"># define STAT_LYC_INT           (1 &lt;&lt; 6) </span></div>
-<div class="line"><a name="l00117"></a><span class="lineno"><a class="line" href="memory_8h.html#a3dd954034be7560888c841da2f11a68a">  117</a></span>&#160;<span class="preprocessor"># define STAT_MODE_2_INT        (1 &lt;&lt; 5) </span></div>
-<div class="line"><a name="l00118"></a><span class="lineno"><a class="line" href="memory_8h.html#aff294cbc827cb8c4525e41f55829a92a">  118</a></span>&#160;<span class="preprocessor"># define STAT_MODE_1_INT        (1 &lt;&lt; 4) </span></div>
-<div class="line"><a name="l00119"></a><span class="lineno"><a class="line" href="memory_8h.html#a9602173567f356612f0aefb7341dff1a">  119</a></span>&#160;<span class="preprocessor"># define STAT_MODE_0_INT        (1 &lt;&lt; 3) </span></div>
-<div class="line"><a name="l00120"></a><span class="lineno"><a class="line" href="memory_8h.html#aba030f3d59051bede725cf83b33e6c93">  120</a></span>&#160;<span class="preprocessor"># define STAT_LYC_FLAG          (1 &lt;&lt; 2) </span></div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160; </div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;<span class="preprocessor"># define DEFAULT_DIV_FREQ       16384</span></div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;<span class="preprocessor"># define SGB_DIV_FREQ           16779</span></div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;<span class="preprocessor"># define DOUBLE_DIV_FREQ        (DEFAULT_DIV_FREQ * 2)</span></div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160; </div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;<span class="preprocessor"># define TIMER_FREQ_0           4096</span></div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;<span class="preprocessor"># define TIMER_FREQ_1           262144</span></div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;<span class="preprocessor"># define TIMER_FREQ_2           65536</span></div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;<span class="preprocessor"># define TIMER_FREQ_3           16384</span></div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160; </div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;<span class="preprocessor"># define TAC_ENABLE             (1 &lt;&lt; 2)</span></div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;<span class="preprocessor"># define TAC_FREQ               (0b11)</span></div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160; </div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;<span class="preprocessor"># define NORMAL_SPEED_MODE      0</span></div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;<span class="preprocessor"># define DOUBLE_SPEED_MODE      1</span></div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160; </div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;<span class="preprocessor"># define VRAM_BANKS             2</span></div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;<span class="preprocessor"># define WRAM_BANKS             8</span></div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="preprocessor"># define INT_JOYPAD_ADDR        0x60</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; </div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="comment">// Joypad</span></div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="preprocessor"># define SELECT_NONE            0x30</span></div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="preprocessor"># define SELECT_DIRECTION_KEYS  0x20</span></div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;<span class="preprocessor"># define SELECT_BUTTON_KEYS     0x10</span></div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160; </div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="preprocessor"># define JOYP_INPUT_DOWN        (1 &lt;&lt; 3)</span></div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="preprocessor"># define JOYP_INPUT_UP          (1 &lt;&lt; 2)</span></div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="preprocessor"># define JOYP_INPUT_LEFT        (1 &lt;&lt; 1)</span></div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;<span class="preprocessor"># define JOYP_INPUT_RIGHT       (1 &lt;&lt; 0)</span></div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160; </div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;<span class="preprocessor"># define JOYP_INPUT_START       (1 &lt;&lt; 3)</span></div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;<span class="preprocessor"># define JOYP_INPUT_SELECT      (1 &lt;&lt; 2)</span></div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;<span class="preprocessor"># define JOYP_INPUT_B           (1 &lt;&lt; 1)</span></div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="preprocessor"># define JOYP_INPUT_A           (1 &lt;&lt; 0)</span></div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160; </div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="comment">// Stat register</span></div>
+<div class="line"><a name="l00117"></a><span class="lineno"><a class="line" href="memory_8h.html#a2ad6e5901c5f0504e9ede78bf13fadf2">  117</a></span>&#160;<span class="preprocessor"># define STAT_LYC_INT           (1 &lt;&lt; 6) </span></div>
+<div class="line"><a name="l00118"></a><span class="lineno"><a class="line" href="memory_8h.html#a3dd954034be7560888c841da2f11a68a">  118</a></span>&#160;<span class="preprocessor"># define STAT_MODE_2_INT        (1 &lt;&lt; 5) </span></div>
+<div class="line"><a name="l00119"></a><span class="lineno"><a class="line" href="memory_8h.html#aff294cbc827cb8c4525e41f55829a92a">  119</a></span>&#160;<span class="preprocessor"># define STAT_MODE_1_INT        (1 &lt;&lt; 4) </span></div>
+<div class="line"><a name="l00120"></a><span class="lineno"><a class="line" href="memory_8h.html#a9602173567f356612f0aefb7341dff1a">  120</a></span>&#160;<span class="preprocessor"># define STAT_MODE_0_INT        (1 &lt;&lt; 3) </span></div>
+<div class="line"><a name="l00121"></a><span class="lineno"><a class="line" href="memory_8h.html#aba030f3d59051bede725cf83b33e6c93">  121</a></span>&#160;<span class="preprocessor"># define STAT_LYC_FLAG          (1 &lt;&lt; 2) </span></div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160; </div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;<span class="preprocessor"># define DEFAULT_DIV_FREQ       16384</span></div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;<span class="preprocessor"># define SGB_DIV_FREQ           16779</span></div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;<span class="preprocessor"># define DOUBLE_DIV_FREQ        (DEFAULT_DIV_FREQ * 2)</span></div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160; </div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;<span class="preprocessor"># define TIMER_FREQ_0           4096</span></div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;<span class="preprocessor"># define TIMER_FREQ_1           262144</span></div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;<span class="preprocessor"># define TIMER_FREQ_2           65536</span></div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;<span class="preprocessor"># define TIMER_FREQ_3           16384</span></div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160; </div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;<span class="preprocessor"># define TAC_ENABLE             (1 &lt;&lt; 2)</span></div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;<span class="preprocessor"># define TAC_FREQ               (0b11)</span></div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160; </div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;<span class="preprocessor"># define NORMAL_SPEED_MODE      0</span></div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;<span class="preprocessor"># define DOUBLE_SPEED_MODE      1</span></div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160; </div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;<span class="preprocessor"># define VRAM_BANKS             2</span></div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;<span class="preprocessor"># define WRAM_BANKS             8</span></div>
 <div class="ttc" id="amemory_8h_html_ae2e999f706efaf02c82f88bb22f57dc1"><div class="ttname"><a href="memory_8h.html#ae2e999f706efaf02c82f88bb22f57dc1">gb_intr_e</a></div><div class="ttdeci">gb_intr_e</div><div class="ttdef"><b>Definition:</b> memory.h:87</div></div>
 <div class="ttc" id="amemory_8h_html_ae2e999f706efaf02c82f88bb22f57dc1a584e7c56fbd88edd1bca4c1a143c143e"><div class="ttname"><a href="memory_8h.html#ae2e999f706efaf02c82f88bb22f57dc1a584e7c56fbd88edd1bca4c1a143c143e">INT_TIMER_REQUEST</a></div><div class="ttdeci">@ INT_TIMER_REQUEST</div><div class="ttdoc">Fired whenever the timer (TIMA_OFFSET) overflows.</div><div class="ttdef"><b>Definition:</b> memory.h:90</div></div>
 <div class="ttc" id="amemory_8h_html_ae2e999f706efaf02c82f88bb22f57dc1a665941dcff281a04bf3c6d7b7d068f76"><div class="ttname"><a href="memory_8h.html#ae2e999f706efaf02c82f88bb22f57dc1a665941dcff281a04bf3c6d7b7d068f76">INT_STAT_REQUEST</a></div><div class="ttdeci">@ INT_STAT_REQUEST</div><div class="ttdoc">Generic interrupt fired when any of the events enabled by the stat register (STAT_OFFSET) occur.</div><div class="ttdef"><b>Definition:</b> memory.h:89</div></div>
