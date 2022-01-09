@@ -62,10 +62,8 @@ int		save_game(struct gb_cpu_s* gb)
 	return(0);
 }
 
-int		load_game(struct gb_cpu_s* gb)
+int		load_game_from_file(struct gb_cpu_s* gb, const char* save_file)
 {
-	char* save_file;
-	asprintf(&save_file, SAVE_DIR"%.11s.sav", gb->rom_ptr->header->title);
 	printf("loading save data from %s\n", save_file);	
 	FILE* f = fopen(save_file, "rb");
 
@@ -88,5 +86,12 @@ int		load_game(struct gb_cpu_s* gb)
 	fclose(f);
 	free(save_file);
 	return(0);
+}
+
+int		load_game(struct gb_cpu_s* gb)
+{
+	char* save_file;
+	asprintf(&save_file, SAVE_DIR"%.11s.sav", gb->rom_ptr->header->title);
+	return (load_game_from_file(gb, save_file));
 }
 

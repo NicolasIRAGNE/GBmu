@@ -77,6 +77,28 @@
             ],
             "visualizerFile": "${workspaceFolder}/my.natvis",
             "showDisplayString": true,
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug executable 'gbmu'",
+            "cargo": {
+                "args": [
+                    "run",
+                    "--release",
+                    "--",
+                    "--rom",
+                    "C:/Users/nicor/Downloads/GameboyColorRomCollectionByGhostware/Harry Potter and the Chamber of Secrets (USA, Europe) (En,Fr,De,Es,It,Nl,Pt,Sv,Da)/Harry Potter and the Chamber of Secrets (USA, Europe) (En,Fr,De,Es,It,Nl,Pt,Sv,Da).gbc"
+                
+                ],
+                "filter": {
+                    "name": "gbmu",
+                    "kind": "bin"
+                }
+            },
+            "args": [
+            ],
+            "cwd": "${workspaceFolder}"
         }
     ]
 }
