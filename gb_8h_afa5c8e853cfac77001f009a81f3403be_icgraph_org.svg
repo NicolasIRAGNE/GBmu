@@ -21,7 +21,7 @@
 <!-- Node2 -->
 <g id="node2" class="node">
 <title>Node2</title>
-<g id="a_node2"><a xlink:href="gb_8h.html#a8ea764b4703152373fe390fd4a8e3fa5" target="_top" xlink:title="Transfer data from memory to VRAM with an arbitrary length. This function is only available on CGB.">
+<g id="a_node2"><a xlink:href="gb_8h.html#ae1a3aa8db6bfe1d4283907804b20bc6a" target="_top" xlink:title="Transfer data from memory to VRAM with an arbitrary length. This function is only available on CGB.">
 <polygon fill="white" stroke="black" points="299.5,-190.5 299.5,-209.5 412.5,-209.5 412.5,-190.5 299.5,-190.5"/>
 <text text-anchor="middle" x="356" y="-197.5" font-family="Helvetica,sans-Serif" font-size="10.00">initiate_hdma_transfer</text>
 </a>

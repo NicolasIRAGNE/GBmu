@@ -1,6 +1,6 @@
 <map id="read_8_force" name="read_8_force">
 <area shape="rect" id="node1" title=" " alt="" coords="605,132,703,159"/>
-<area shape="rect" id="node2" href="$gb_8h.html#a8ea764b4703152373fe390fd4a8e3fa5" title="Transfer data from memory to VRAM with an arbitrary length. This function is only available on CGB." alt="" coords="405,5,555,32"/>
+<area shape="rect" id="node2" href="$gb_8h.html#ae1a3aa8db6bfe1d4283907804b20bc6a" title="Transfer data from memory to VRAM with an arbitrary length. This function is only available on CGB." alt="" coords="405,5,555,32"/>
 <area shape="rect" id="node3" href="$gb_8h.html#a2939f2f449cb6ca30d69285b28797fff" title="Transfer data from memory to OAM with a fixed length. This function is available on both CGB and DMG." alt="" coords="405,56,555,83"/>
 <area shape="rect" id="node4" href="$gb_8h.html#ad96445dec9bad864028e5254ab293f51" title=" " alt="" coords="428,107,532,133"/>
 <area shape="rect" id="node5" href="$gb_8h.html#a5a919d32342038b24d05d91dd31550f2" title="Updates the gb struct. This should be called after each instruction. This sets the gb&#45;&gt;current_instru..." alt="" coords="180,132,355,159"/>

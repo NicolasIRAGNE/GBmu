@@ -31,7 +31,7 @@ var gb_8h =
     [ "init_mbc", "gb_8h.html#ab695bb0feb0ee25e6fdc0060eb49ed1a", null ],
     [ "init_op_tab", "gb_8h.html#a13113c11971b22bea31927550aed00bb", null ],
     [ "init_registers", "gb_8h.html#a2fc673e19fdf722b9f46bec8eca05084", null ],
-    [ "initiate_hdma_transfer", "gb_8h.html#a8ea764b4703152373fe390fd4a8e3fa5", null ],
+    [ "initiate_hdma_transfer", "gb_8h.html#ae1a3aa8db6bfe1d4283907804b20bc6a", null ],
     [ "load_game", "gb_8h.html#af2e0c433cb45cebf3042abf21e0c05b6", null ],
     [ "load_game_from_file", "gb_8h.html#a0c72cd251f8722eafabef9abeea64431", null ],
     [ "loadstate", "gb_8h.html#a0c706368e9eb8cdccbe565d37e404eca", null ],
