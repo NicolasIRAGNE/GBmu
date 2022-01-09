@@ -96,7 +96,7 @@ struct	gb_cpu_s
 	int					draw_sprites : 1;
 	int					hdma_in_progress : 1;
 	uint16_t			remaining_hdma_length;
-	uint8_t				hdma_index;
+	uint16_t			hdma_index;
 	int					has_rtc : 1;
 	uint16_t			interrupt;
 	uint64_t			cycle;

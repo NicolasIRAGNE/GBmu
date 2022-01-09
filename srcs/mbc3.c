@@ -131,7 +131,7 @@ void	write_mbc3(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, enum memory_mode_
 			gb->mbc.bank = 1;
 		else
 			gb->mbc.bank = x & 0b1111111;
-		printf("MBC BANK SELECTED: %x\n", gb->mbc.bank);
+		// printf("MBC BANK SELECTED: %x\n", gb->mbc.bank);
 		return ;
 	}
 	else if (addr < 0x6000)
@@ -139,7 +139,7 @@ void	write_mbc3(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, enum memory_mode_
 		// printf("mapping %x\n", x);
 		if (x <= 0x03)
 		{
-			printf("MBC RAM BANK SELECTED: %x\n", x);
+			// printf("MBC RAM BANK SELECTED: %x\n", x);
 			gb->mbc.ram_bank = x;
 			gb->mbc.mode = MBC_MODE_RAM;
 		}		
@@ -165,7 +165,7 @@ void	write_mbc3(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, enum memory_mode_
 	}
 	else if (addr < 0xc000)
 	{
-		if (!gb->ram_enabled)
+		if (!gb->ram_enabled && mode == MEM_SYSTEM)
 		{
 			printf("warning: attempting to write to disabled RAM / RTC\n");
 			return ;

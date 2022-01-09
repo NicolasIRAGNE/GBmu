@@ -83,12 +83,11 @@ void	write_io(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, uint8_t lcdc, enum 
 	{
 		if (gb->mode != GB_MODE_CGB)
 			return;
-		if (gb->cycle - gb->last_hdma > 0) //FIXME: this should be *something else* than 0
+		if (gb->cycle - gb->last_hdma > 0 && mode == MEM_SYSTEM) //FIXME: this should be *something else* than 0
 		{
 			gb->last_hdma = gb->cycle;
-			initiate_hdma_transfer(gb, x);
+			initiate_hdma_transfer(gb, x & 0x7f, ((x & 0x80) != 0));
 		}
-		return;
 	}
 	if (addr == DIV_OFFSET)
 	{

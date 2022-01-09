@@ -129,15 +129,14 @@ void internal_hdma_transfer(struct gb_cpu_s* gb, uint16_t src, uint16_t dst, uin
 	}
 }
 
-void hblank_hdma_transfer(struct gb_cpu_s* gb, uint16_t a8)
+void hblank_hdma_transfer(struct gb_cpu_s* gb, uint16_t len)
 {
-	printf("HDMA TRANSFER\n");
 	gb->hdma_in_progress = 1;
 	gb->hdma_index = 0;
-	gb->remaining_hdma_length = (a8 + 1) * 16;
+	gb->remaining_hdma_length = len;
 }
 
-void initiate_hdma_transfer(struct gb_cpu_s* gb, uint8_t a8)
+void initiate_hdma_transfer(struct gb_cpu_s* gb, uint8_t a8, uint8_t mode)
 {
     uint16_t src;
     src = read_8_force(gb, HDMA1_OFFSET) << 8;
@@ -150,17 +149,22 @@ void initiate_hdma_transfer(struct gb_cpu_s* gb, uint8_t a8)
     dst += 0x8000;
 
 	uint16_t len = (a8 + 1) * 16;
-	if (a8 & (1 << 7))
+	if (mode == 1)
 	{
 		printf("Requesting HDMA transfer (mode 1) from %4x to %4x, length %d\n", src, dst, len);
-		// hblank_hdma_transfer(gb, a8);
-		internal_hdma_transfer(gb, src, dst, len);
+		hblank_hdma_transfer(gb, len);
+		// internal_hdma_transfer(gb, src, dst, len);
 	}
-	else
+	else if (mode == 0)
 	{
 		printf("Requesting HDMA transfer (mode 0) from %4x to %4x, length %d\n", src, dst, len);
 		internal_hdma_transfer(gb, src, dst, len);
 		write_8_force(gb, HDMA5_OFFSET, 0);
+		gb->hdma_in_progress = 0;
+	}
+	else
+	{
+		printf("WARNING: HDMA TRANSFER MODE %d NOT IMPLEMENTED\n", mode);
 	}
 }
 
@@ -179,13 +183,13 @@ void resume_hdma_transfer(struct gb_cpu_s* gb)
     dst &= 0x1FF0;
     dst += 0x8000;
 
-	uint8_t len;
+	uint16_t len;
 	if (gb->remaining_hdma_length > 0x10)
 		len = 0x10;
 	else
 		len = gb->remaining_hdma_length;
 
-	printf("Resuming HDMA transfer (mode 1) from %4x to %4x, length %x (remaining bytes: %x)\n", src + gb->hdma_index, dst + gb->hdma_index, len, gb->remaining_hdma_length);
+	printf("Resuming HDMA transfer (mode 1) from %4x to %4x, length %d (remaining bytes: %d)\n", src + gb->hdma_index, dst + gb->hdma_index, len, gb->remaining_hdma_length);
 	internal_hdma_transfer(gb, src + gb->hdma_index, dst + gb->hdma_index, len);
 	gb->hdma_index += len;
 	gb->remaining_hdma_length -= len;

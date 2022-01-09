@@ -300,10 +300,12 @@ void	process_dma_transfer(struct gb_cpu_s* gb, uint8_t a8);
  * This function is only available on CGB.
  *
  * @param gb
- * @param a8 The first bit of a8 indicates the transfer mode (0: General, 1: H-Blank). The lower 7 bits of a8 are the length of the transfer.
+ * @param a8 The lower 7 bits of a8 are the length of the transfer.
  * In case of General transfer, the data is transferred immediately. In case of H-Blank transfer, 0x10 bytes are transferred each time the H-Blank interrupt is triggered.
+ * @param mode 0 for general transfer, 1 for H-Blank transfer.
+ * @note Starting a general transfer will interrupt any ongoing H-Blank transfer.
  */
-void	initiate_hdma_transfer(struct gb_cpu_s* gb, uint8_t a8);
+void	initiate_hdma_transfer(struct gb_cpu_s* gb, uint8_t a8, uint8_t mode);
 
 /**
  * @brief Process the next 0x10 bytes of the ongoing HDMA transfer. This function should be called on HBLANK only.
