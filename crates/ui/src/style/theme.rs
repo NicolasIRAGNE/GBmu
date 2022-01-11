@@ -1,7 +1,7 @@
 mod dark;
 mod light;
 
-use iced::{button, checkbox, container};
+use iced::{button, checkbox, container, Color};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Theme {
@@ -12,6 +12,22 @@ pub enum Theme {
 impl Default for Theme {
     fn default() -> Theme {
         Theme::Light
+    }
+}
+
+impl Theme {
+    pub fn boolean(&self, value: bool) -> Color {
+        match self {
+            Theme::Light => light::boolean(value),
+            Theme::Dark => dark::boolean(value),
+        }
+    }
+
+    pub fn background_color(&self) -> Color {
+        match self {
+            Theme::Light => light::background_color(),
+            Theme::Dark => dark::background_color(),
+        }
     }
 }
 

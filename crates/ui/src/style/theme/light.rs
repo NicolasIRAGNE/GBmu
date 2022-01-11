@@ -36,6 +36,29 @@ const CONTAINER_BORDER: Color = Color::from_rgb(
     0xA5 as f32 / 255.0,
 );
 
+const TRUE: Color = Color::from_rgb(
+    0x6C as f32 / 255.0,
+    0xAE as f32 / 255.0,
+    0x75 as f32 / 255.0,
+);
+
+const FALSE: Color = Color::from_rgb(
+    0xEB as f32 / 255.0,
+    0x30 as f32 / 255.0,
+    0x01 as f32 / 255.0,
+);
+
+pub fn boolean(value: bool) -> Color {
+    match value{
+        true => TRUE,
+        false => FALSE,
+    } 
+}
+
+pub fn background_color() -> Color {
+    Color::WHITE
+}
+
 pub struct Container;
 
 impl container::StyleSheet for Container {
