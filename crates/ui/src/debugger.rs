@@ -2,7 +2,7 @@ mod cpu;
 
 use iced::Column;
 use iced_wgpu::Renderer;
-use iced_winit::{Alignment, Color, Command, Element, Length, Program};
+use iced_winit::{Color, Command, Element,  Program};
 
 use cpu::{Cpu, CpuMsg};
 
@@ -11,13 +11,11 @@ use crate::style::Theme;
 pub struct Debugger {
     theme: Theme,
     cpu: Cpu,
-    background_color: Color,
 }
 
 #[derive(Debug, Clone)]
 pub enum Message {
     Cpu(CpuMsg),
-    BackgroundColorChanged(Color),
     Refresh,
 }
 
@@ -26,12 +24,11 @@ impl Debugger {
         Self {
             theme: Theme::Light,
             cpu: Cpu::new(),
-            background_color: Color::WHITE,
         }
     }
 
     pub fn background_color(&self) -> Color {
-        self.background_color
+        self.theme.background_color()
     }
 
     pub fn refresh(&mut self) {
@@ -51,9 +48,6 @@ impl Program for Debugger {
 
     fn update(&mut self, message: Message) -> Command<Message> {
         match message {
-            Message::BackgroundColorChanged(color) => {
-                self.background_color = color;
-            }
             Message::Cpu(message) => self.cpu.update(message),
             Message::Refresh => self.refresh(),
         }
