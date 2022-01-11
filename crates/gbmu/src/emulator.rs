@@ -5,7 +5,7 @@ use bindings::joypad::{Joypad, Control};
 use gilrs::Gilrs;
 use iced_winit::winit::dpi::PhysicalSize;
 use log::error;
-use pixels::{PixelsBuilder, SurfaceTexture};
+use pixels::SurfaceTexture;
 
 use iced_winit::{
     futures::executor::LocalPool,
