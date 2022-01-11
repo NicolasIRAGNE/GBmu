@@ -45,10 +45,10 @@ impl View<CpuMsg> for cpu::Flag {
         format!("{:?}", *self)
     }
 
-    fn view(&self, registers: &cpu::Registers, _theme: Theme) -> Element<CpuMsg> {
-        let builder = Flag::new(20, 1, 5);
+    fn view(&self, registers: &cpu::Registers, theme: Theme) -> Element<CpuMsg> {
+        let builder = Flag::new(20, 1, 5, theme);
         builder
-            .render(self.get_name(), self.get_data(registers))
+            .render(self.get_name(), self.get_data(registers), registers.get(*self))
             .into()
     }
 }

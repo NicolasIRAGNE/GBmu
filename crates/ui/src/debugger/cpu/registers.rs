@@ -1,4 +1,4 @@
-use bindings::cpu::{self, Bits8, Bits16, Bus, Flag};
+use bindings::cpu::{self, Bits8, Bits16, Bus};
 use iced::{Alignment, Checkbox, Container, Element, Length, Row, Space, Text, alignment::{Horizontal, Vertical}};
 use crate::style::{Register, Style, Theme, fonts};
 
