@@ -22,7 +22,6 @@ pub struct Registers {
 impl Registers {
     pub fn refresh(&mut self) {
         let raw = addr_of_mut!(*self);
-        println!("Reaching cpu update");
         unsafe {
             copy_registers(raw as *mut c_void);
         }
