@@ -8,6 +8,7 @@ edition = "2021"
 [dependencies]
 cty = "0.2.2"
 enum-iterator = "0.7.0"
+num_enum = "0.5.3"
 shared = { path = "../shared" }
 
 [build-dependencies]
