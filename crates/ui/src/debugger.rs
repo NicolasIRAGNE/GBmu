@@ -1,21 +1,25 @@
 mod cpu;
+mod disassembler;
 
-use iced::Column;
+use iced::Row;
 use iced_wgpu::Renderer;
 use iced_winit::{Color, Command, Element,  Program};
 
 use cpu::{Cpu, CpuMsg};
+use disassembler::{Disassembler, DisassMsg};
 
 use crate::style::Theme;
 
 pub struct Debugger {
     theme: Theme,
     cpu: Cpu,
+    disassembler: Disassembler
 }
 
 #[derive(Debug, Clone)]
 pub enum Message {
     Cpu(CpuMsg),
+    Disassembler(DisassMsg),
     Refresh,
 }
 
@@ -24,6 +28,7 @@ impl Debugger {
         Self {
             theme: Theme::Light,
             cpu: Cpu::new(),
+            disassembler: Disassembler::new()
         }
     }
 
@@ -49,6 +54,9 @@ impl Program for Debugger {
     fn update(&mut self, message: Message) -> Command<Message> {
         match message {
             Message::Cpu(message) => self.cpu.update(message),
+            Message::Disassembler(message) => {
+                let _ = self.disassembler.update(message);
+            },
             Message::Refresh => self.refresh(),
         }
 
@@ -60,6 +68,7 @@ impl Program for Debugger {
             .cpu
             .view(self.theme)
             .map(Message::Cpu);
-        Column::new().push(cpu).into()
+        let disassembler = self.disassembler.view().map(Message::Disassembler);
+        Row::new().push(cpu).push(disassembler).into()
     }
 }

@@ -1,20 +1,13 @@
 mod registers;
-<<<<<<< HEAD
 mod flags;
-=======
->>>>>>> Add cpu register in debugger
 
 use enum_iterator::IntoEnumIterator;
 use iced::{Alignment, Column, Element};
 use itertools::Itertools;
 use bindings::cpu::{self, Bits16, Bits8};
-<<<<<<< HEAD
 
 use registers::Registers;
 use flags::Flags;
-=======
-use registers::Registers;
->>>>>>> Add cpu register in debugger
 
 use crate::{style::theme::Theme, widgets::Text};
 
