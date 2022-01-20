@@ -38,6 +38,7 @@ impl Debugger {
 
     pub fn refresh(&mut self) {
         self.cpu.refresh();
+        self.disassembler.refresh();
     }
 }
 

@@ -7,6 +7,7 @@ mod disass;
 mod header;
 mod instruction;
 
+use bindings::cpu::pc::get_pc;
 use header::Header;
 use instruction::Instruction;
 
@@ -42,7 +43,7 @@ impl Disassembler {
     }
 
     fn check_pc(&mut self, message: DisassMsg) -> Result<u16, GbmuError> {
-        let pc = 0x42; //Get PC Here 
+        let pc = get_pc(); //Get PC Here 
         if self.is_jump {
             self.is_jump = false;
             Ok(pc)
@@ -53,6 +54,10 @@ impl Disassembler {
         } else {
             Ok(self.next)
         }
+    }
+
+    pub fn refresh(&mut self) {
+        let _ = self.update(DisassMsg::Refresh);
     }
 
     pub fn update(&mut self, message: DisassMsg) -> Result<(), GbmuError> {

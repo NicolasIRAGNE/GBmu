@@ -12,7 +12,6 @@ pub enum Registers {
 }
 
 impl Registers {
-
     fn view_register(&self, registers: &cpu::Registers, theme: Theme) -> Element<RegisterMsg> {
         let space = Space::new(Length::Units(10), Length::Units(5));
         match self {

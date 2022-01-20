@@ -18,6 +18,7 @@ use bindings::opcodes::Rotate;
 use bindings::opcodes::Shift;
 use bindings::opcodes::Test;
 use shared::GbmuError;
+use bindings::cpu::pc;
 
 pub struct Instruction {
     breakpoint: button::State,
@@ -71,12 +72,12 @@ impl Instruction {
     }
 
     pub fn try_new(address: u16, _is_next: bool) -> Result<Self, GbmuError> {
-        let opcode = 0x43; //Get opcode
+        let opcode = pc::get_u8(address); //Get opcode
         let mut is_jump = false;
 
         let mut disass: Cycles = {
             if opcode == 0xCB {
-                let opcode = 0x42; // Get opcode;
+                let opcode = pc::get_u8(address + 1); // Get opcode;
                 Self::from_cb(opcode)
             } else if let Ok(opcode) = Jump::try_from_primitive(opcode) {
                 is_jump = true;

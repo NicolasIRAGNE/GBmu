@@ -3,6 +3,7 @@ use iced::{Element, Row};
 use super::DisassMsg;
 use crate::widgets::Cell;
 use shared::GbmuError;
+use bindings::cpu::pc::{get_u8, get_u16};
 
 pub(super) struct Disass<T> {
     pub(super) name: String,
@@ -92,8 +93,8 @@ impl Data {
     pub fn set(&mut self, address: u16) -> Result<(), GbmuError> {
         match self {
             Data::None | Data::Cb => (),
-            Data::Bits8(ref mut data) => *data = 0,
-            Data::Bits16(ref mut data) => *data = 0,
+            Data::Bits8(ref mut data) => *data = get_u8(address + 1),
+            Data::Bits16(ref mut data) => *data = get_u16(address + 1),
         };
         Ok(())
     }
