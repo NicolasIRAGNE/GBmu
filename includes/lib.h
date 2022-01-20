@@ -5,6 +5,9 @@
 #include "op.h"
 #include "debug.h"
 
+uint8_t get_data_8(uint16_t address);
+uint16_t get_data_16(uint16_t address);
+
 void test_link();
 
 void set_a();

@@ -44,6 +44,16 @@ int init_gb(const char* rom)
     }
 }
 
+uint8_t get_data_8(uint16_t address)
+{
+    return read_8_debug(&gb_global, address);
+}
+
+uint16_t get_data_16(uint16_t address)
+{
+    return read_16_debug(&gb_global, address);
+}
+
 void destroy_gb()
 {
     if (gb_global.mbc.ram_size > 0)
