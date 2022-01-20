@@ -24,9 +24,8 @@ FetchIfMissing(
 find_package(OpenGL REQUIRED)
 
 FetchContent_MakeAvailable(
-	SDL2 GLEW cxxopts
+    ${FETCHED_TARGETS}
 )
-set(FETCHED_TARGETS)
 
 set(SHADERS
 	renderer/shaders/basic.vert
