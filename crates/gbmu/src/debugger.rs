@@ -2,19 +2,18 @@ use ui::debugger::Message;
 
 use iced_wgpu::{
     wgpu::{
-        self, util::StagingBelt, CommandEncoderDescriptor, Device, DeviceDescriptor, Features,
+        self, util::StagingBelt,  Device, DeviceDescriptor, Features,
         Instance, Limits, PowerPreference, PresentMode, Queue, RequestAdapterOptions, Surface,
-        SurfaceConfiguration, SurfaceError, TextureFormat, TextureUsages, TextureViewDescriptor,
+         TextureFormat, TextureUsages 
     },
     Backend, Color, Renderer, Settings, Viewport,
 };
 
 use iced_winit::{
-    conversion::mouse_interaction,
     futures::{self, executor::LocalPool, task::SpawnExt},
     program,
     winit::{
-        dpi::{PhysicalPosition, PhysicalSize, Size},
+        dpi::{PhysicalPosition, PhysicalSize},
         event::{ModifiersState, WindowEvent},
         event_loop::{ControlFlow, EventLoop},
         window::{Window, WindowBuilder, WindowId},

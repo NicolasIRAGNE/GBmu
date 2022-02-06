@@ -3,7 +3,6 @@ use enum_iterator::IntoEnumIterator;
 use std::{ffi::c_void, fmt::Debug};
 use std::ptr::addr_of_mut;
 
-
 #[repr(C)]
 #[derive(Default, Debug)]
 pub struct Registers {
@@ -22,7 +21,6 @@ pub struct Registers {
 impl Registers {
     pub fn refresh(&mut self) {
         let raw = addr_of_mut!(*self);
-        println!("Reaching cpu update");
         unsafe {
             copy_registers(raw as *mut c_void);
         }

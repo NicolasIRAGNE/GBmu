@@ -8,4 +8,8 @@ pub enum GbmuError {
     RomLoad,
     #[error("cpu_step failed")]
     CpuStep,
+    #[error("Unimplemented opcode")]
+    Unimplemented(u8),
+    #[error("No update in pc")]
+    NoUpdate,
 }

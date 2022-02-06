@@ -8,7 +8,9 @@ edition = "2021"
 [dependencies]
 enum-iterator = "0.7.0"
 itertools = "0.10.1"
+num_enum = "0.5.3"
 bindings = { path = "../bindings"}
+shared = { path = "../shared" }
 iced_winit = { git = "https://github.com/hecrj/iced" }
 iced_wgpu = { git = "https://github.com/hecrj/iced" }
 iced = { git = "https://github.com/hecrj/iced"  }

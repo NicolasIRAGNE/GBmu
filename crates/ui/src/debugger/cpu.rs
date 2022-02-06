@@ -76,7 +76,7 @@ impl Cpu {
                 column.push(element.map(move |_message| CpuMsg::Merge(index)))
             },
         );
-        //let flags = self.flags.view(&self.data, theme);
-        cpu.push(registers).into()
+        let flags = self.flags.view(&self.data, theme);
+        cpu.push(registers).push(flags).into()
     }
 }

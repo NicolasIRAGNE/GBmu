@@ -1,4 +1,4 @@
-use bindings::cpu::{self, Bits8, Bits16, Bus, Flag};
+use bindings::cpu::{self, Bits8, Bits16, Bus};
 use iced::{Alignment, Checkbox, Container, Element, Length, Row, Space, Text, alignment::{Horizontal, Vertical}};
 use crate::style::{Register, Style, Theme, fonts};
 
@@ -12,7 +12,6 @@ pub enum Registers {
 }
 
 impl Registers {
-
     fn view_register(&self, registers: &cpu::Registers, theme: Theme) -> Element<RegisterMsg> {
         let space = Space::new(Length::Units(10), Length::Units(5));
         match self {
