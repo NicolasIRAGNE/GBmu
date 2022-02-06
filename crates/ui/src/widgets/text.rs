@@ -21,9 +21,6 @@ where
         T::new(self.text).font(fonts::HASKLIG_LIGHT).size(size)
     }
 
-    pub fn medium(self, size: u16) -> T {
-        T::new(self.text).font(fonts::HASKLIG_MEDIUM).size(size)
-    }
     pub fn medium_it(self, size: u16) -> T {
         T::new(self.text).font(fonts::HASKLIG_MEDIUM_IT).size(size)
     }
