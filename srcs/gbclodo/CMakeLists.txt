@@ -4,10 +4,20 @@ add_executable(gbclodo)
 
 include(FetchIfMissing)
 
-FetchIfMissing(
+find_package(
     SDL2
-    URL            https://www.libsdl.org/release/SDL2-2.0.18.zip
 )
+
+if (NOT SDL2_FOUND)
+    include(FetchContent)
+    FetchContent_Declare(
+        SDL2
+        URL            https://www.libsdl.org/release/SDL2-2.0.18.zip
+    )
+    list(APPEND FETCHED_TARGETS
+        SDL2
+    )
+endif()
 
 FetchIfMissing(
     GLEW
@@ -34,6 +44,13 @@ set(SHADERS
 
 target_include_directories(gbclodo PUBLIC renderer)
 target_include_directories(gbclodo PUBLIC ${CMAKE_CURRENT_LIST_DIR})
+if (NOT "SDL2" IN_LIST "${FETCHED_TARGETS}")
+    target_include_directories(gbclodo PUBLIC ${SDL2_INCLUDE_DIRS})
+    target_link_libraries(gbclodo ${SDL2_LIBRARIES})
+else()
+    target_link_libraries(gbclodo SDL2-static)
+    target_link_libraries(gbclodo SDL2main)
+endif()
 
 target_sources(gbclodo
     PRIVATE
@@ -82,8 +99,7 @@ add_custom_target(gbmu_shaders ALL DEPENDS ${GENERATED_SHADERS})
 
 add_dependencies(gbclodo gbmu_shaders)
 target_link_libraries(gbclodo gb)
-target_link_libraries(gbclodo SDL2-static)
-target_link_libraries(gbclodo SDL2main)
+
 target_link_libraries(gb ${OPENGL_LIBRARIES})
 target_link_libraries(gbclodo cxxopts::cxxopts)
 target_link_libraries(gbclodo libglew_static)
