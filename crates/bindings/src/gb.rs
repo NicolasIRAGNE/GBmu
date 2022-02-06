@@ -1,9 +1,12 @@
-use std::{thread, time::{Duration, Instant}};
 use std::ffi::CString;
+use std::{
+    thread,
+    time::{Duration, Instant},
+};
 
 use shared::{error::Result, GbmuError};
 
-use crate::bindings::{cpu_step, destroy_gb, init_gb, m_TextureData};
+use crate::bindings::{cpu_step, destroy_gb, gb_global, init_gb, load_game, m_TextureData};
 
 pub enum Frame {
     Processing,
@@ -18,6 +21,7 @@ pub fn init(rom: String) -> Result<()> {
             Err(GbmuError::RomLoad)
         } else {
             println!("Cpu Init succeeded");
+            load_game(&mut gb_global);
             Ok(())
         }
     }
@@ -48,9 +52,7 @@ pub fn render(frame: &mut [u8]) {
 }
 
 pub fn cleanup() {
-    unsafe {
-        destroy_gb()
-    }
+    unsafe { destroy_gb() }
 }
 
 pub fn frame() -> bool {

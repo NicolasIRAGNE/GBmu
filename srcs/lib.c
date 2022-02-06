@@ -26,9 +26,6 @@ int init_gb(const char* rom)
     init_op_tab();
     init_ext_op_tab();
 
-    // Load save
-    load_game(&gb_global);
-
     if (gb_global.mode == GB_MODE_DMG)
     {
         return (init_cpu_dmg(&gb_global, gb_global.rom_ptr));
@@ -43,6 +40,7 @@ int init_gb(const char* rom)
         return (1);
     }
 }
+
 
 uint8_t get_data_8(uint16_t address)
 {
