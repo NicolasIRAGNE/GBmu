@@ -1,4 +1,4 @@
 <map id="update_current_instruction" name="update_current_instruction">
 <area shape="rect" id="node1" title="Updates the gb struct. This should be called after each instruction. This sets the gb&#45;&gt;current_instru..." alt="" coords="180,5,355,32"/>
-<area shape="rect" id="node2" href="$gb_8h.html#a62664ca8db705f6c53010a831980587c" title="Executes the next instruction currently pointed by the PC register." alt="" coords="5,5,132,32"/>
+<area shape="rect" id="node2" href="$execute_8c.html#a62664ca8db705f6c53010a831980587c" title="Executes the next instruction currently pointed by the PC register." alt="" coords="5,5,132,32"/>
 </map>

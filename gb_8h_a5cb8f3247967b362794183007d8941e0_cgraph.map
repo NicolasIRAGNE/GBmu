@@ -1,5 +1,5 @@
 <map id="request_interrupt" name="request_interrupt">
 <area shape="rect" id="node1" title="Requests an interrupt by writing the corresponding value to the IF register." alt="" coords="5,31,124,57"/>
-<area shape="rect" id="node2" href="$gb_8h.html#afa5c8e853cfac77001f009a81f3403be" title=" " alt="" coords="172,5,269,32"/>
-<area shape="rect" id="node3" href="$gb_8h.html#addd27cb5c39083f9f25aec2de4759ddc" title="Write an 8&#45;bit word to the appropriate memory location. This is the safe way to access the gameboy me..." alt="" coords="189,56,253,83"/>
+<area shape="rect" id="node2" href="$read_8c.html#afa5c8e853cfac77001f009a81f3403be" title=" " alt="" coords="172,5,269,32"/>
+<area shape="rect" id="node3" href="$write_8c.html#addd27cb5c39083f9f25aec2de4759ddc" title="Write an 8&#45;bit word to the appropriate memory location. This is the safe way to access the gameboy me..." alt="" coords="189,56,253,83"/>
 </map>

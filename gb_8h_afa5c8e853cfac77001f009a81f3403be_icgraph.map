@@ -1,10 +1,10 @@
 <map id="read_8_force" name="read_8_force">
 <area shape="rect" id="node1" title=" " alt="" coords="605,132,703,159"/>
-<area shape="rect" id="node2" href="$gb_8h.html#ae1a3aa8db6bfe1d4283907804b20bc6a" title="Transfer data from memory to VRAM with an arbitrary length. This function is only available on CGB." alt="" coords="405,5,555,32"/>
-<area shape="rect" id="node3" href="$gb_8h.html#a2939f2f449cb6ca30d69285b28797fff" title="Transfer data from memory to OAM with a fixed length. This function is available on both CGB and DMG." alt="" coords="405,56,555,83"/>
-<area shape="rect" id="node4" href="$gb_8h.html#ad96445dec9bad864028e5254ab293f51" title=" " alt="" coords="428,107,532,133"/>
-<area shape="rect" id="node5" href="$gb_8h.html#a5a919d32342038b24d05d91dd31550f2" title="Updates the gb struct. This should be called after each instruction. This sets the gb&#45;&gt;current_instru..." alt="" coords="180,132,355,159"/>
-<area shape="rect" id="node7" href="$gb_8h.html#a5cb8f3247967b362794183007d8941e0" title="Requests an interrupt by writing the corresponding value to the IF register." alt="" coords="421,208,539,235"/>
-<area shape="rect" id="node8" href="$gb_8h.html#a7c05ab846328c2543fcee3bbdf7b9334" title="Process the next 0x10 bytes of the ongoing HDMA transfer. This function should be called on HBLANK on..." alt="" coords="403,259,557,285"/>
-<area shape="rect" id="node6" href="$gb_8h.html#a62664ca8db705f6c53010a831980587c" title="Executes the next instruction currently pointed by the PC register." alt="" coords="5,132,132,159"/>
+<area shape="rect" id="node2" href="$write_8c.html#ae1a3aa8db6bfe1d4283907804b20bc6a" title="Transfer data from memory to VRAM with an arbitrary length. This function is only available on CGB." alt="" coords="405,5,555,32"/>
+<area shape="rect" id="node3" href="$write_8c.html#a2939f2f449cb6ca30d69285b28797fff" title="Transfer data from memory to OAM with a fixed length. This function is available on both CGB and DMG." alt="" coords="405,56,555,83"/>
+<area shape="rect" id="node4" href="$read_8c.html#ad96445dec9bad864028e5254ab293f51" title=" " alt="" coords="428,107,532,133"/>
+<area shape="rect" id="node5" href="$execute_8c.html#a5a919d32342038b24d05d91dd31550f2" title="Updates the gb struct. This should be called after each instruction. This sets the gb&#45;&gt;current_instru..." alt="" coords="180,132,355,159"/>
+<area shape="rect" id="node7" href="$execute_8c.html#a5cb8f3247967b362794183007d8941e0" title="Requests an interrupt by writing the corresponding value to the IF register." alt="" coords="421,208,539,235"/>
+<area shape="rect" id="node8" href="$write_8c.html#a7c05ab846328c2543fcee3bbdf7b9334" title="Process the next 0x10 bytes of the ongoing HDMA transfer. This function should be called on HBLANK on..." alt="" coords="403,259,557,285"/>
+<area shape="rect" id="node6" href="$execute_8c.html#a62664ca8db705f6c53010a831980587c" title="Executes the next instruction currently pointed by the PC register." alt="" coords="5,132,132,159"/>
 </map>

@@ -1,6 +1,6 @@
 <map id="write_8" name="write_8">
 <area shape="rect" id="node1" title="Write an 8&#45;bit word to the appropriate memory location. This is the safe way to access the gameboy me..." alt="" coords="172,56,236,83"/>
-<area shape="rect" id="node2" href="$gb_8h.html#aa5bc80392e446c4a40198e337f59ba90" title="Executes one gpu tick. This should be called every step." alt="" coords="29,5,100,32"/>
-<area shape="rect" id="node3" href="$gb_8h.html#a5cb8f3247967b362794183007d8941e0" title="Requests an interrupt by writing the corresponding value to the IF register." alt="" coords="5,56,124,83"/>
-<area shape="rect" id="node4" href="$gb_8h.html#a739233ba346fceb805b02e8fe19b6067" title="Write a 16&#45;bit word to the appropriate memory location. This is the safe way to access the gameboy me..." alt="" coords="29,107,100,133"/>
+<area shape="rect" id="node2" href="$gpu_8c.html#aa5bc80392e446c4a40198e337f59ba90" title="Executes one gpu tick. This should be called every step." alt="" coords="29,5,100,32"/>
+<area shape="rect" id="node3" href="$execute_8c.html#a5cb8f3247967b362794183007d8941e0" title="Requests an interrupt by writing the corresponding value to the IF register." alt="" coords="5,56,124,83"/>
+<area shape="rect" id="node4" href="$write_8c.html#a739233ba346fceb805b02e8fe19b6067" title="Write a 16&#45;bit word to the appropriate memory location. This is the safe way to access the gameboy me..." alt="" coords="29,107,100,133"/>
 </map>

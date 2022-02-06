@@ -1,6 +1,6 @@
 <map id="read_8" name="read_8">
 <area shape="rect" id="node1" title="Read an 8&#45;bit word from the appropriate memory location. This is the safe way to access the gameboy m..." alt="" coords="200,56,261,83"/>
-<area shape="rect" id="node2" href="$gb_8h.html#aa5bc80392e446c4a40198e337f59ba90" title="Executes one gpu tick. This should be called every step." alt="" coords="43,5,114,32"/>
-<area shape="rect" id="node3" href="$gb_8h.html#ae9412814e44fdf1354e4471b16914b45" title="Read a 16&#45;bit word from the appropriate memory location. This is the safe way to access the gameboy m..." alt="" coords="45,56,113,83"/>
-<area shape="rect" id="node4" href="$gb_8h.html#a856acdaf9de870349a8f50eb2fb89d9d" title="Updates the timer (TIMA_OFFSET) and requests an interrupt if needed." alt="" coords="5,107,152,133"/>
+<area shape="rect" id="node2" href="$gpu_8c.html#aa5bc80392e446c4a40198e337f59ba90" title="Executes one gpu tick. This should be called every step." alt="" coords="43,5,114,32"/>
+<area shape="rect" id="node3" href="$read_8c.html#ae9412814e44fdf1354e4471b16914b45" title="Read a 16&#45;bit word from the appropriate memory location. This is the safe way to access the gameboy m..." alt="" coords="45,56,113,83"/>
+<area shape="rect" id="node4" href="$timer_8c.html#a856acdaf9de870349a8f50eb2fb89d9d" title="Updates the timer (TIMA_OFFSET) and requests an interrupt if needed." alt="" coords="5,107,152,133"/>
 </map>

@@ -1,5 +1,5 @@
 <map id="resume_hdma_transfer" name="resume_hdma_transfer">
 <area shape="rect" id="node1" title="Process the next 0x10 bytes of the ongoing HDMA transfer. This function should be called on HBLANK on..." alt="" coords="5,31,160,57"/>
-<area shape="rect" id="node2" href="$gb_8h.html#afa5c8e853cfac77001f009a81f3403be" title=" " alt="" coords="209,5,307,32"/>
-<area shape="rect" id="node3" href="$gb_8h.html#aa65b6428d3b64c9fe4583521982b647e" title=" " alt="" coords="208,56,308,83"/>
+<area shape="rect" id="node2" href="$read_8c.html#afa5c8e853cfac77001f009a81f3403be" title=" " alt="" coords="209,5,307,32"/>
+<area shape="rect" id="node3" href="$write_8c.html#aa65b6428d3b64c9fe4583521982b647e" title=" " alt="" coords="208,56,308,83"/>
 </map>
