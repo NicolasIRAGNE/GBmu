@@ -35,6 +35,28 @@ impl Button {
                 *self.mode.borrow_mut() = Mode::Pause;
             }
         }
+        //match self.message {
+            // MenuMsg::Tick => {
+            //     status.mode(Mode::Tick);
+            // }
+            // MenuMsg::Line => {
+            //     status.mode(Mode::Line);
+            // }
+            // MenuMsg::Frame => {
+            //     println!("Mode Frame pressed");
+            //     status.mode(Mode::Frame);
+            // }
+            // MenuMsg::Instruction => {
+            //     status.mode(Mode::Instruction);
+            // }
+            // MenuMsg::Second => {
+            //     status.second();
+            // }
+            // MenuMsg::Run => {
+            //     status.run();
+            // }
+            // MenuMsg::Breakpoint => {}
+        //}
     }
 
     pub fn is_button(&self, message: MenuMsg) -> bool {
