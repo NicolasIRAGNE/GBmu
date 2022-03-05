@@ -1,4 +1,6 @@
 use ui::debugger::Message;
+use std::{cell::RefCell, rc::Rc};
+use bindings::system::Mode;
 
 use iced_wgpu::{
     wgpu::{
@@ -88,7 +90,7 @@ fn init_device(
 }
 
 impl Debugger {
-    pub fn new(event_loop: &EventLoop<()>, instance: &Instance) -> Self {
+    pub fn new(event_loop: &EventLoop<()>, instance: &Instance, mode: Rc<RefCell<Mode>>) -> Self {
         let title = "Debugger";
         let size = iced_winit::winit::dpi::Size::Physical(PhysicalSize::new(1340, 768));
         let window = WindowBuilder::new()
@@ -118,7 +120,7 @@ impl Debugger {
         let staging_belt = StagingBelt::new(5 * 1024);
         let format_pool = LocalPool::new();
 
-        let debugger = ui::debugger::Debugger::new();
+        let debugger = ui::debugger::Debugger::new(mode);
         let mut debug = Debug::new();
         let mut renderer = Renderer::new(Backend::new(&device, Settings::default(), format));
         let state =

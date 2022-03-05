@@ -26,8 +26,8 @@ fn run(opt: Opt) -> Result<()> {
     info!("loading ROM from file '{}'", opt.rom.display());
     let rom = opt.rom.into_os_string().into_string().unwrap();
 
-    System::init(rom)?;
-    System::run();
+    let system = System::try_new(rom)?;
+    system.run();
     Ok(())
 }
 
