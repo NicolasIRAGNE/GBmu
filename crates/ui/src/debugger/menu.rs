@@ -34,16 +34,12 @@ impl Menu {
     }
 
     pub fn update(&mut self, message: MenuMsg) {
-        match message {
-            _ => {
-                if let Some(button) = self.left.iter().find(|&button| button.is_button(message)) {
-                    button.update()
-                };
-                if let Some(button) = self.right.iter().find(|&button| button.is_button(message)) {
-                    button.update()
-                };
-            }
-        }
+        if let Some(button) = self.left.iter().find(|&button| button.is_button(message)) {
+            button.update()
+        };
+        if let Some(button) = self.right.iter().find(|&button| button.is_button(message)) {
+            button.update()
+        };
     }
 
     pub fn view(&mut self, theme: Theme) -> Element<MenuMsg> {

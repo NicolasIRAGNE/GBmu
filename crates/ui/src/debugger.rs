@@ -2,7 +2,7 @@ mod cpu;
 mod disassembler;
 mod menu;
 
-use iced::Row;
+use iced::{Column, Row};
 use iced_wgpu::Renderer;
 use iced_winit::{Color, Command, Element,  Program};
 
@@ -76,6 +76,9 @@ impl Program for Debugger {
             .view(self.theme)
             .map(Message::Cpu);
         let disassembler = self.disassembler.view().map(Message::Disassembler);
-        Row::new().push(cpu).push(disassembler).into()
+        let menu = self.menu.view(self.theme).map(Message::Menu);
+        let middle = Row::new().push(cpu).push(disassembler);
+        Column::new().push(menu).push(middle).into()
+        
     }
 }
