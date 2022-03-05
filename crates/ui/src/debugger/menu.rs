@@ -1,6 +1,8 @@
 mod button;
 
+use std::{cell::RefCell, rc::Rc};
 use crate::style::Theme;
+use bindings::system::Mode;
 use button::Button;
 use iced::{Element, Length, Row, Space};
 
@@ -15,6 +17,7 @@ pub struct Menu {
 pub enum MenuMsg {
     Frame,
     Run,
+    Pause,
     //Tick,
     //Line,
     //Instruction,
@@ -22,14 +25,15 @@ pub enum MenuMsg {
     //Breakpoint,
 }
 impl Menu {
-    pub fn new() -> Self {
-        let frame = Button::new(MenuMsg::Frame);
+    pub fn new(mode: Rc<RefCell<Mode>>) -> Self {
+        let frame = Button::new(MenuMsg::Frame, mode.clone());
         //let second = Button::new(MenuMsg::Second);
-        let run = Button::new(MenuMsg::Run);
+        let run = Button::new(MenuMsg::Run, mode.clone());
+        let pause =  Button::new(MenuMsg::Pause, mode);
 
         Self {
             left: vec![],
-            right: vec![run, frame],
+            right: vec![run, pause, frame],
         }
     }
 

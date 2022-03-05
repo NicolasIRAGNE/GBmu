@@ -2,6 +2,8 @@ mod cpu;
 mod disassembler;
 mod menu;
 
+use std::{cell::RefCell, rc::Rc};
+use bindings::system::Mode;
 use iced::{Column, Row};
 use iced_wgpu::Renderer;
 use iced_winit::{Color, Command, Element,  Program};
@@ -28,12 +30,12 @@ pub enum Message {
 }
 
 impl Debugger {
-    pub fn new() -> Self {
+    pub fn new(mode: Rc<RefCell<Mode>>) -> Self {
         Self {
             theme: Theme::Light,
             cpu: Cpu::new(),
             disassembler: Disassembler::new(),
-            menu: Menu::new()
+            menu: Menu::new(mode)
         }
     }
 
@@ -44,12 +46,6 @@ impl Debugger {
     pub fn refresh(&mut self) {
         self.cpu.refresh();
         self.disassembler.refresh();
-    }
-}
-
-impl Default for Debugger {
-    fn default() -> Self {
-        Self::new()
     }
 }
 
@@ -79,6 +75,5 @@ impl Program for Debugger {
         let menu = self.menu.view(self.theme).map(Message::Menu);
         let middle = Row::new().push(cpu).push(disassembler);
         Column::new().push(menu).push(middle).into()
-        
     }
 }
