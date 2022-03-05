@@ -78,13 +78,13 @@ void	write_mbc5(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, enum memory_mode_
 	{
 		if (x == 0x0a)
 		{
-			// if (get_verbose(gb->debugger) >= 1)
+			if (get_verbose(gb->debugger) >= 1)
 				printf("RAM ENABLED (%4x)\n", addr);
 			gb->ram_enabled = 1;
 		}
 		else
 		{
-			// if (get_verbose(gb->debugger) >= 1)
+			if (get_verbose(gb->debugger) >= 1)
 				printf("RAM DISABLED (%4x)\n", addr);
 			gb->ram_enabled = 0;
 		}
@@ -115,7 +115,8 @@ void	write_mbc5(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, enum memory_mode_
 	{
 		gb->mbc.ram_bank = (gb->mbc.ram_bank & 0xf0) | (x & 0xf);
 		// gb->mbc.ram_bank &= (gb->mbc.ram_size / 0x2000) - 1;
-		printf("switching ram bank to %x\n", gb->mbc.ram_bank);
+		if (get_verbose(gb->debugger) >= 1)
+			printf("RAM bank %x selected\n", gb->mbc.ram_bank);
 		return ;
 	}
 	else if (addr < 0xa000)

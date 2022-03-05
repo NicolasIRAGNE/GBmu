@@ -120,12 +120,14 @@ void	write_io(struct gb_cpu_s* gb, uint16_t addr, uint8_t x, uint8_t lcdc, enum 
 	}
 	if (addr == LCDC_OFFSET && (x & LCDC_ON) && !(lcdc & LCDC_ON))
 	{
-		printf("Request LCD ON\n");
+		if (get_verbose(gb->debugger) >= 1)
+			printf("Request LCD ON\n");
 		request_lcd_on(gb);
 	}
 	if (addr == LCDC_OFFSET && !(x & LCDC_ON) && lcdc & LCDC_ON)
 	{
-		printf("Request LCD OFF\n");
+		if (get_verbose(gb->debugger) >= 1)
+			printf("Request LCD OFF\n");
 		request_lcd_off(gb);
 	}
 	if (addr == SERIAL_DATA_OFFSET)

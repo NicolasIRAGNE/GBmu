@@ -16,8 +16,8 @@
                 // "${workspaceFolder}/rom/batman.gb",
                 // "${workspaceFolder}/rom/F-1_Race_World.gb",
                 // "~/Downloads/dmg-acid2.gb",
-
-                "--mode", "dmg"
+                "--mode",
+                "dmg"
             ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/build",
@@ -73,8 +73,9 @@
                 // "C:/Users/nicor/Downloads/GameboyColorRomCollectionByGhostware/Harry Potter and the Chamber of Secrets (USA, Europe) (En,Fr,De,Es,It,Nl,Pt,Sv,Da)/Harry Potter and the Chamber of Secrets (USA, Europe) (En,Fr,De,Es,It,Nl,Pt,Sv,Da).gbc",
                 // "C:/Users/nicor/Downloads/roms/Super Mario Land 2.gb",
                 // "C:/Users/nicor/Downloads/game-boy-romset-ultra-us/Diablo (USA) (Proto).gb",
-            //    "${workspaceFolder}/rom/F-1_Race_World.gb",
-                "--mode", "auto"
+                //    "${workspaceFolder}/rom/F-1_Race_World.gb",
+                "--mode",
+                "auto"
             ],
             "visualizerFile": "${workspaceFolder}/my.natvis",
             "showDisplayString": true,
@@ -85,12 +86,9 @@
             "name": "Debug executable 'gbmu'",
             "cargo": {
                 "args": [
-                    "run",
-                    "--release",
+                    "build",
+                    "--bin=gbmu",
                     "--",
-                    "--rom",
-                    "C:/Users/nicor/Downloads/GameboyColorRomCollectionByGhostware/Harry Potter and the Chamber of Secrets (USA, Europe) (En,Fr,De,Es,It,Nl,Pt,Sv,Da)/Harry Potter and the Chamber of Secrets (USA, Europe) (En,Fr,De,Es,It,Nl,Pt,Sv,Da).gbc"
-                
                 ],
                 "filter": {
                     "name": "gbmu",
@@ -98,8 +96,47 @@
                 }
             },
             "args": [
+                "--rom",
+                "/mnt/nfs/homes/niragne/GBmu/rom/Legend of Zelda, The - Link's Awakening DX.gbc",
             ],
-            "cwd": "${workspaceFolder}"
-        }
+            "program": "${workspaceFolder}/target/debug/gbmu",
+            "cwd": "${workspaceFolder}/target/debug/",
+            "sourceLanguages": [
+                "rust"
+            ],
+            "env": {
+                "RUST_BACKTRACE": "1",
+            },
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Launch executable 'gbmu'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=gbmu",
+                    "--release",
+                    "--",
+                ],
+                "filter": {
+                    "name": "gbmu",
+                    "kind": "bin"
+                }
+            },
+            "args": [
+                "--rom",
+                "/mnt/nfs/homes/niragne/GBmu/rom/Legend of Zelda, The - Link's Awakening DX.gbc",
+            ],
+            "program": "${workspaceFolder}/target/debug/gbmu",
+            "cwd": "${workspaceFolder}/target/debug/",
+            "sourceLanguages": [
+                "rust"
+            ],
+            "env": {
+                "RUST_BACKTRACE": "1",
+            },
+        },
+        
     ]
 }
