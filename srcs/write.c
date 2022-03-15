@@ -99,7 +99,7 @@ static void	write_8_internal(struct gb_cpu_s* gb, uint16_t a16, uint8_t x, enum 
 	}
 	else
 	{
-		printf("WARNING: WRITING TO UNIMPLEMENTED ZONE %4x\n", a16);
+		// printf("WARNING: WRITING TO UNIMPLEMENTED ZONE %4x\n", a16);
 		return ;
 	}	
 }

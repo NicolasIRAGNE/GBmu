@@ -98,7 +98,7 @@ impl checkbox::StyleSheet for Checkbox {
             border_radius: 10.0,
             border_width: 5.0,
             border_color: Color::BLACK,
-            text_color: Some(Color::BLACK),
+            text_color: Color::BLACK,
         }
     }
 

@@ -181,7 +181,7 @@ void	update_div_register(struct gb_cpu_s* gb);
 uint8_t		read_8(struct gb_cpu_s* gb, uint16_t a16);
 
 /**
- * Debugger version of read_8().
+ * @brief Debugger version of read_8().
  * @see read_8()
  */
 uint8_t		read_8_debug(struct gb_cpu_s* gb, uint16_t a16);

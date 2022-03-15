@@ -11,6 +11,6 @@ itertools = "0.10.1"
 num_enum = "0.5.3"
 bindings = { path = "../bindings"}
 shared = { path = "../shared" }
-iced_winit = { git = "https://github.com/hecrj/iced" }
-iced_wgpu = { git = "https://github.com/hecrj/iced" }
-iced = { git = "https://github.com/hecrj/iced"  }
+iced_winit = { git = "https://github.com/hecrj/iced", branch = "0.4"}
+iced_wgpu = { git = "https://github.com/hecrj/iced", branch = "0.4"}
+iced = { git = "https://github.com/hecrj/iced" , branch = "0.4"}
