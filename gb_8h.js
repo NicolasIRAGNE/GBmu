@@ -4,6 +4,7 @@ var gb_8h =
     [ "copy_registers", "gb_8h.html#a3991637d455233538c9e1d6e6c000d1a", null ],
     [ "cpu_step", "gb_8h.html#a0e14335d2c8d58e92871ca99229cf3cb", null ],
     [ "execute_loop", "gb_8h.html#a3e043877c73039d93eaf0785ac74e080", null ],
+    [ "get_user_data_dir", "gb_8h.html#abfd7d543ab09de28ac13f7e1960d971b", null ],
     [ "gpu_tick", "gb_8h.html#aa5bc80392e446c4a40198e337f59ba90", null ],
     [ "handle_instruction", "gb_8h.html#a62664ca8db705f6c53010a831980587c", null ],
     [ "init_cpu", "gb_8h.html#a7f3209e681e1f9186f1ee5d1d94da539", null ],

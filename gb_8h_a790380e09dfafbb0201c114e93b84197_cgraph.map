@@ -1,0 +1,4 @@
+<map id="save_game" name="save_game">
+<area shape="rect" id="node1" title="Attempts to save the game. This is done by saving the current RAM to disk. The file is saved to &quot;...." alt="" coords="5,5,95,32"/>
+<area shape="rect" id="node2" href="$tools_8c.html#abfd7d543ab09de28ac13f7e1960d971b" title="Get the user data directory. On Windows, this equals to C:\Users\&lt;username&gt;\AppDatasave_gameBmu...." alt="" coords="143,5,268,32"/>
+</map>

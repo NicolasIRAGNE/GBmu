@@ -1,0 +1,4 @@
+<map id="load_game_from_file" name="load_game_from_file">
+<area shape="rect" id="node1" title="Attempts to load a save file for the current game. In case the file is found but the content is not w..." alt="" coords="139,5,280,32"/>
+<area shape="rect" id="node2" href="$save__game_8c.html#af2e0c433cb45cebf3042abf21e0c05b6" title="This function attempts to load the following save file: &quot;./saves/&lt;name&gt;.sav&quot; where &lt;name&gt; is the name..." alt="" coords="5,5,91,32"/>
+</map>

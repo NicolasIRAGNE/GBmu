@@ -1,0 +1,5 @@
+<map id="load_game" name="load_game">
+<area shape="rect" id="node1" title="This function attempts to load the following save file: &quot;./saves/&lt;name&gt;.sav&quot; where &lt;name&gt; is the name..." alt="" coords="5,31,91,57"/>
+<area shape="rect" id="node2" href="$tools_8c.html#abfd7d543ab09de28ac13f7e1960d971b" title="Get the user data directory. On Windows, this equals to C:\Users\&lt;username&gt;\AppDataload_gameBmu...." alt="" coords="147,5,272,32"/>
+<area shape="rect" id="node3" href="$save__game_8c.html#a0c72cd251f8722eafabef9abeea64431" title="Attempts to load a save file for the current game. In case the file is found but the content is not w..." alt="" coords="139,56,280,83"/>
+</map>

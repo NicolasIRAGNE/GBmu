@@ -12,10 +12,11 @@ var searchData=
   ['gbmu_2eh_9',['gbmu.h',['../gbmu_8h.html',1,'']]],
   ['gbmu_5fdebugger_5fs_10',['gbmu_debugger_s',['../structgbmu__debugger__s.html',1,'']]],
   ['gbmu_5fwrapper_5fs_11',['gbmu_wrapper_s',['../structgbmu__wrapper__s.html',1,'']]],
-  ['gpu_5fmode_5fe_12',['gpu_mode_e',['../ppu_8h.html#a35e21aed04f71f22f20ead04d745a937',1,'ppu.h']]],
-  ['gpu_5fmode_5fhblank_13',['GPU_MODE_HBLANK',['../ppu_8h.html#a35e21aed04f71f22f20ead04d745a937a5240b871ed2052e7e624b596b25b29d4',1,'ppu.h']]],
-  ['gpu_5fmode_5foam_14',['GPU_MODE_OAM',['../ppu_8h.html#a35e21aed04f71f22f20ead04d745a937afe4210eef1fb8cc6caab5ad160846b0b',1,'ppu.h']]],
-  ['gpu_5fmode_5fvblank_15',['GPU_MODE_VBLANK',['../ppu_8h.html#a35e21aed04f71f22f20ead04d745a937a551b124b4dbe51c318d741b7a15b457b',1,'ppu.h']]],
-  ['gpu_5fmode_5fvram_16',['GPU_MODE_VRAM',['../ppu_8h.html#a35e21aed04f71f22f20ead04d745a937a20bf6dc34f569f45cf18af693942d969',1,'ppu.h']]],
-  ['gpu_5ftick_17',['gpu_tick',['../gb_8h.html#aa5bc80392e446c4a40198e337f59ba90',1,'gpu.c']]]
+  ['get_5fuser_5fdata_5fdir_12',['get_user_data_dir',['../gb_8h.html#abfd7d543ab09de28ac13f7e1960d971b',1,'tools.c']]],
+  ['gpu_5fmode_5fe_13',['gpu_mode_e',['../ppu_8h.html#a35e21aed04f71f22f20ead04d745a937',1,'ppu.h']]],
+  ['gpu_5fmode_5fhblank_14',['GPU_MODE_HBLANK',['../ppu_8h.html#a35e21aed04f71f22f20ead04d745a937a5240b871ed2052e7e624b596b25b29d4',1,'ppu.h']]],
+  ['gpu_5fmode_5foam_15',['GPU_MODE_OAM',['../ppu_8h.html#a35e21aed04f71f22f20ead04d745a937afe4210eef1fb8cc6caab5ad160846b0b',1,'ppu.h']]],
+  ['gpu_5fmode_5fvblank_16',['GPU_MODE_VBLANK',['../ppu_8h.html#a35e21aed04f71f22f20ead04d745a937a551b124b4dbe51c318d741b7a15b457b',1,'ppu.h']]],
+  ['gpu_5fmode_5fvram_17',['GPU_MODE_VRAM',['../ppu_8h.html#a35e21aed04f71f22f20ead04d745a937a20bf6dc34f569f45cf18af693942d969',1,'ppu.h']]],
+  ['gpu_5ftick_18',['gpu_tick',['../gb_8h.html#aa5bc80392e446c4a40198e337f59ba90',1,'gpu.c']]]
 ];

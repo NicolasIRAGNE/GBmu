@@ -1,0 +1,5 @@
+<map id="get_user_data_dir" name="get_user_data_dir">
+<area shape="rect" id="node1" title="Get the user data directory. On Windows, this equals to C:\Users\&lt;username&gt;\AppDataget_user_data_dirBmu...." alt="" coords="143,31,268,57"/>
+<area shape="rect" id="node2" href="$save__game_8c.html#af2e0c433cb45cebf3042abf21e0c05b6" title="This function attempts to load the following save file: &quot;./saves/&lt;name&gt;.sav&quot; where &lt;name&gt; is the name..." alt="" coords="7,5,93,32"/>
+<area shape="rect" id="node3" href="$save__game_8c.html#a790380e09dfafbb0201c114e93b84197" title="Attempts to save the game. This is done by saving the current RAM to disk. The file is saved to &quot;...." alt="" coords="5,56,95,83"/>
+</map>

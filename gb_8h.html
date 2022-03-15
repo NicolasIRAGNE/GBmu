@@ -203,6 +203,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>init_ext_op_tab</b> (
 <tr class="memdesc:a9ff752910cf109fcfec61e099d2fccbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read an 8-bit word from the appropriate memory location. This is the safe way to access the gameboy memory. It will check the address range and read from the appropriate memory area.  <a href="gb_8h.html#a9ff752910cf109fcfec61e099d2fccbc">More...</a><br /></td></tr>
 <tr class="separator:a9ff752910cf109fcfec61e099d2fccbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2e9b1bc5da78ba9f7f5ad15565e43d02"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a2e9b1bc5da78ba9f7f5ad15565e43d02">read_8_debug</a> (struct gb_cpu_s *gb, uint16_t a16)</td></tr>
+<tr class="memdesc:a2e9b1bc5da78ba9f7f5ad15565e43d02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Debugger version of <a class="el" href="gb_8h.html#a9ff752910cf109fcfec61e099d2fccbc" title="Read an 8-bit word from the appropriate memory location. This is the safe way to access the gameboy m...">read_8()</a>.  <a href="gb_8h.html#a2e9b1bc5da78ba9f7f5ad15565e43d02">More...</a><br /></td></tr>
 <tr class="separator:a2e9b1bc5da78ba9f7f5ad15565e43d02"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afa5c8e853cfac77001f009a81f3403be"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#afa5c8e853cfac77001f009a81f3403be">read_8_force</a> (struct gb_cpu_s *gb, uint16_t a16)</td></tr>
 <tr class="separator:afa5c8e853cfac77001f009a81f3403be"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -292,6 +293,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>copy_registers</b> (v
 <tr class="memitem:a0e14335d2c8d58e92871ca99229cf3cb"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#a0e14335d2c8d58e92871ca99229cf3cb">cpu_step</a> ()</td></tr>
 <tr class="memdesc:a0e14335d2c8d58e92871ca99229cf3cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">One full step of the CPU.  <a href="gb_8h.html#a0e14335d2c8d58e92871ca99229cf3cb">More...</a><br /></td></tr>
 <tr class="separator:a0e14335d2c8d58e92871ca99229cf3cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abfd7d543ab09de28ac13f7e1960d971b"><td class="memItemLeft" align="right" valign="top">char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gb_8h.html#abfd7d543ab09de28ac13f7e1960d971b">get_user_data_dir</a> (void)</td></tr>
+<tr class="memdesc:abfd7d543ab09de28ac13f7e1960d971b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the user data directory. On Windows, this equals to C:\Users\&lt;username&gt;\AppData\GBmu. On Linux, this equals to $HOME/.gbmu.  <a href="gb_8h.html#abfd7d543ab09de28ac13f7e1960d971b">More...</a><br /></td></tr>
+<tr class="separator:abfd7d543ab09de28ac13f7e1960d971b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Contains most of the functions used by the emulator, and the internal gb struct. </p>
@@ -358,6 +362,33 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>copy_registers</b> (v
   </dd>
 </dl>
 <p>gbmu_renderer_s* renderer </p>
+
+</div>
+</div>
+<a id="abfd7d543ab09de28ac13f7e1960d971b" name="abfd7d543ab09de28ac13f7e1960d971b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abfd7d543ab09de28ac13f7e1960d971b">&#9670;&nbsp;</a></span>get_user_data_dir()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">char * get_user_data_dir </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the user data directory. On Windows, this equals to C:\Users\&lt;username&gt;\AppData\GBmu. On Linux, this equals to $HOME/.gbmu. </p>
+<dl class="section return"><dt>Returns</dt><dd>char* A newly allocated string containing the path. </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="gb_8h_abfd7d543ab09de28ac13f7e1960d971b_icgraph.svg" width="274" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+</div>
 
 </div>
 </div>
@@ -588,6 +619,12 @@ Here is the call graph for this function:</div>
 <p>This function attempts to load the following save file: "./saves/&lt;name&gt;.sav" where &lt;name&gt; is the name of the ROM. </p>
 <p >Attempts to load a save file for the current game. In case the file is found but the content is not what is expected, a warning is emitted but the data is still loaded.</p>
 <dl class="section return"><dt>Returns</dt><dd>int 0 if the load was successful, non-zero otherwise. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="gb_8h_af2e0c433cb45cebf3042abf21e0c05b6_cgraph.svg" width="286" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+</div>
 
 </div>
 </div>
@@ -619,6 +656,12 @@ Here is the call graph for this function:</div>
 
 <p>Attempts to load a save file for the current game. In case the file is found but the content is not what is expected, a warning is emitted but the data is still loaded. </p>
 <dl class="section return"><dt>Returns</dt><dd>int 0 if the load was successful, non-zero otherwise. </dd></dl>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="gb_8h_a0c72cd251f8722eafabef9abeea64431_icgraph.svg" width="286" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+</div>
 
 </div>
 </div>
@@ -848,7 +891,7 @@ Here is the caller graph for this function:</div>
 <p>Read an 8-bit word from the appropriate memory location. This is the safe way to access the gameboy memory. It will check the address range and read from the appropriate memory area. </p>
 <dl class="section note"><dt>Note</dt><dd>Using this functions to read from certain memory areas may not yield the expected result or trigger CPU functions. For example, reading from VRAM will return 0xFF if the PPU is currently rendering. </dd>
 <dd>
-To avoid this behavior, use the <a class="el" href="gb_8h.html#afa5c8e853cfac77001f009a81f3403be">read_8_force()</a> or <a class="el" href="gb_8h.html#a2e9b1bc5da78ba9f7f5ad15565e43d02">read_8_debug()</a> functions. </dd></dl>
+To avoid this behavior, use the <a class="el" href="gb_8h.html#afa5c8e853cfac77001f009a81f3403be">read_8_force()</a> or <a class="el" href="gb_8h.html#a2e9b1bc5da78ba9f7f5ad15565e43d02" title="Debugger version of read_8().">read_8_debug()</a> functions. </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">gb</td><td></td></tr>
@@ -891,7 +934,9 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
-<p >Debugger version of <a class="el" href="gb_8h.html#a9ff752910cf109fcfec61e099d2fccbc" title="Read an 8-bit word from the appropriate memory location. This is the safe way to access the gameboy m...">read_8()</a>. </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a9ff752910cf109fcfec61e099d2fccbc" title="Read an 8-bit word from the appropriate memory location. This is the safe way to access the gameboy m...">read_8()</a> </dd></dl>
+
+<p>Debugger version of <a class="el" href="gb_8h.html#a9ff752910cf109fcfec61e099d2fccbc" title="Read an 8-bit word from the appropriate memory location. This is the safe way to access the gameboy m...">read_8()</a>. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="gb_8h.html#a9ff752910cf109fcfec61e099d2fccbc" title="Read an 8-bit word from the appropriate memory location. This is the safe way to access the gameboy m...">read_8()</a> </dd></dl>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -1044,6 +1089,12 @@ Here is the call graph for this function:</div>
 
 <p>Attempts to save the game. This is done by saving the current RAM to disk. The file is saved to "./saves/&lt;name&gt;.sav" where &lt;name&gt; is the name of the ROM. </p>
 <dl class="section return"><dt>Returns</dt><dd>int 0 if the save was successful, non-zero otherwise. </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="gb_8h_a790380e09dfafbb0201c114e93b84197_cgraph.svg" width="274" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+</div>
 
 </div>
 </div>
