@@ -88,11 +88,12 @@ $(document).ready(function(){initNavTree('input__functions_8h_source.html',''); 
 <div class="contents">
 <a href="input__functions_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#pragma once</span></div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keywordtype">void</span>    init_input_functions(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="keyword">extern</span> void (*input_functions[SDL_NUM_SCANCODES])(<span class="keyword">struct </span><a class="code hl_struct" href="structgbmu__wrapper__s.html">gbmu_wrapper_s</a>* wrapper);</div>
-<div class="ttc" id="astructgbmu__wrapper__s_html"><div class="ttname"><a href="structgbmu__wrapper__s.html">gbmu_wrapper_s</a></div><div class="ttdoc">Wrapper struct used for convenience. I hate C.</div><div class="ttdef"><b>Definition:</b> gb.h:47</div></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;SDL_scancode.h&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keywordtype">void</span>    init_input_functions(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="keyword">extern</span> void (*input_functions[SDL_NUM_SCANCODES])(<span class="keyword">struct </span><a class="code hl_struct" href="structgbmu__wrapper__s.html">gbmu_wrapper_s</a>* wrapper);</div>
+<div class="ttc" id="astructgbmu__wrapper__s_html"><div class="ttname"><a href="structgbmu__wrapper__s.html">gbmu_wrapper_s</a></div><div class="ttdoc">Wrapper struct used for convenience. I hate C.</div><div class="ttdef"><b>Definition:</b> gb.h:49</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

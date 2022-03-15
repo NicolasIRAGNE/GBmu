@@ -1,7 +1,7 @@
 var dir_09e761304027c904456130627fd4dcf5 =
 [
     [ "asprintf.h", "asprintf_8h_source.html", null ],
-    [ "cpu.h", "cpu_8h.html", null ],
+    [ "cpu.h", "cpu_8h.html", "cpu_8h" ],
     [ "debug.h", "debug_8h.html", null ],
     [ "display.h", "display_8h_source.html", null ],
     [ "dmg_boot_rom.h", "dmg__boot__rom_8h.html", "dmg__boot__rom_8h" ],
