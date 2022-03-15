@@ -46,7 +46,9 @@ int		save_game_crash(struct gb_cpu_s* gb)
 int		save_game(struct gb_cpu_s* gb)
 {
 	char* save_file;
-	asprintf(&save_file, SAVE_DIR"%.11s.sav", gb->rom_ptr->header->title);
+	char* user_dir = get_user_data_dir();
+	asprintf(&save_file, "%s/%.11s.sav", user_dir, gb->rom_ptr->header->title);
+	free(user_dir);
 	printf("saving current data to %s\n", save_file);	
 
 	FILE* f = fopen(save_file, "wb");
@@ -91,7 +93,9 @@ int		load_game_from_file(struct gb_cpu_s* gb, const char* save_file)
 int		load_game(struct gb_cpu_s* gb)
 {
 	char* save_file;
-	asprintf(&save_file, SAVE_DIR"%.11s.sav", gb->rom_ptr->header->title);
+	char* user_dir = get_user_data_dir();
+	asprintf(&save_file, "%s/%.11s.sav", user_dir, gb->rom_ptr->header->title);
+	free(user_dir);
 	return (load_game_from_file(gb, save_file));
 }
 

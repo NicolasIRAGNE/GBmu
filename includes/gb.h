@@ -379,6 +379,13 @@ void	copy_registers(void* dst);
  */
 int		cpu_step();
 
+/**
+ * @brief Get the user data directory.
+ * On Windows, this equals to C:\\Users\\<username>\\AppData\\GBmu.
+ * On Linux, this equals to $HOME/.gbmu.
+ * @return char* A newly allocated string containing the path.
+ */
+char*	get_user_data_dir(void);
 
 #ifdef __cplusplus
 }
