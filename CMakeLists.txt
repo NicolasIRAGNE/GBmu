@@ -489,3 +489,25 @@ if (WITH_TESTS)
 endif()
 
 install(TARGETS gb DESTINATION bin)
+
+install(
+	FILES
+		ressources/fonts/hasklig/Hasklig-BlackIt.ttf
+		ressources/fonts/hasklig/Hasklig-Black.ttf
+		ressources/fonts/hasklig/Hasklig-BoldIt.ttf
+		ressources/fonts/hasklig/Hasklig-Bold.ttf
+		ressources/fonts/hasklig/Hasklig-ExtraLightIt.ttf
+		ressources/fonts/hasklig/Hasklig-ExtraLight.ttf
+		ressources/fonts/hasklig/Hasklig-It.ttf
+		ressources/fonts/hasklig/Hasklig-LightIt.ttf
+		ressources/fonts/hasklig/Hasklig-Light.ttf
+		ressources/fonts/hasklig/Hasklig-MediumIt.ttf
+		ressources/fonts/hasklig/Hasklig-Medium.ttf
+		ressources/fonts/hasklig/Hasklig-Regular.ttf
+		ressources/fonts/hasklig/Hasklig-SemiboldIt.ttf
+		ressources/fonts/hasklig/Hasklig-Semibold.ttf
+	DESTINATION
+		"."
+	)
+
+install(FILES DMG_ROM.bin DESTINATION ".")
