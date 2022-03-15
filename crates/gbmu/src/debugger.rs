@@ -49,7 +49,11 @@ fn init_device(
 ) -> (TextureFormat, Device, Queue) {
     let (format, (device, queue)) = futures::executor::block_on(async {
         let adapter = instance
-            .request_adapter(&wgpu::RequestAdapterOptions::default())
+            .request_adapter(&RequestAdapterOptions {
+                power_preference: PowerPreference::HighPerformance,
+                compatible_surface: Some(surface),
+                force_fallback_adapter: false,
+            })
             .await
             .expect("Request adapter");
 
