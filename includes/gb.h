@@ -40,6 +40,8 @@ extern "C" {
 
 # define DEFAULT_VERBOSE 0
 
+struct registers_s;
+
 /**
  * @brief Wrapper struct used for convenience. I hate C.
  */

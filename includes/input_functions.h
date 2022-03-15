@@ -5,6 +5,7 @@
  */
 
 #pragma once
+#include <SDL_scancode.h>
 
 void	init_input_functions(void);
 

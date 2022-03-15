@@ -13,11 +13,12 @@ pub enum Frame {
     Ready,
 }
 
-pub fn init(rom: String) -> Result<()> {
+pub fn init(rom: String, mode: String) -> Result<()> {
     let rom = CString::new(rom).expect("Cstring allocation failed");
+    let mode_cstring = CString::new(mode).expect("Cstring allocation failed");
 
     unsafe {
-        if init_gb(rom.as_ptr()) != 0 {
+        if init_gb(rom.as_ptr(), mode_cstring.as_ptr()) != 0 {
             Err(GbmuError::RomLoad)
         } else {
             println!("Cpu Init succeeded");

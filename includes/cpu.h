@@ -43,6 +43,9 @@ enum	joypad_mode_e
 	JOYPAD_MODE_DIRECTIONS,
 };
 
+/**
+ * @brief A simple struct holding 8 bits of data representing each button
+ */
 struct	joypad_s
 {
 	uint8_t		start : 1;
@@ -54,7 +57,6 @@ struct	joypad_s
 	uint8_t		left : 1;
 	uint8_t		right : 1;
 };
-
 struct	rtcs_s
 {
 	uint8_t		rtc[5];
@@ -75,14 +77,6 @@ struct tima_s
 	uint64_t	freq;
 	uint64_t	clocks;
 	uint64_t	last_cycle;
-};
-
-struct Lcd {
-    uint32_t lcdc;
-    int32_t scx;
-    int32_t scy;
-    int32_t wx;
-    int32_t wy;
 };
 
 struct	gb_cpu_s

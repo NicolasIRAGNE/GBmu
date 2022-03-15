@@ -52,7 +52,7 @@ fn init_device(
             .request_adapter(&RequestAdapterOptions {
                 power_preference: PowerPreference::HighPerformance,
                 compatible_surface: Some(surface),
-                force_fallback_adapter: false,
+                force_fallback_adapter: true,
             })
             .await
             .expect("Request adapter");

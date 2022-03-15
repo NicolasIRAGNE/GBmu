@@ -27,9 +27,9 @@ impl Drop for Marker {
 }
 
 impl System {
-    pub fn try_new(rom: String) -> Result<Self> {
+    pub fn try_new(rom: String, mode: String) -> Result<Self> {
         let system = Self::default();
-        gb::init(rom)?;
+        gb::init(rom, mode)?;
         Ok(system)
     }
 

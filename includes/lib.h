@@ -38,7 +38,7 @@ void debug_palette_toogle();
 
 extern uint32_t m_TextureData[160][144];
 
-int init_gb(const char* rom);
+int init_gb(const char* rom, const char* mode);
 
 void destroy_gb();
 

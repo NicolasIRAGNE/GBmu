@@ -1,44 +1,32 @@
 #include "lib.h"
 #include <stdlib.h>
 #include <signal.h>
+#include <string.h>
+#include "gb.h"
 
 void test_link()
 {
     printf("Called!");
 }
 
-int init_gb(const char* rom)
+int init_gb(const char* rom_name, const char* mode)
 {
-    // Init cpu global state
-	memset(&gb_global, 0, sizeof(gb_global));
-    if ((gb_global.rom_ptr = malloc(sizeof(struct rom_s))) == NULL)
-        return (1);
-    if (open_rom(rom, gb_global.rom_ptr))
-        return (1);
-    if (gb_global.rom_ptr->header->title[15] == 0x80 || gb_global.rom_ptr->header->title[15] == 0xC0)
-        gb_global.mode = GB_MODE_CGB;
+    enum gb_mode_e m;
+    // Convert mode string to gb_mode_e
+    if (strcmp(mode, "dmg") == 0)
+        m = GB_MODE_DMG;
+    else if (strcmp(mode, "cgb") == 0)
+        m = GB_MODE_CGB;
+    else if (strcmp(mode, "auto") == 0)
+        m = GB_MODE_AUTO;
     else
-        gb_global.mode = GB_MODE_DMG;
-    debug_print_rom(gb_global.rom_ptr);
-    gb_global.booted = 1;
-    init_registers(&gb_global.reg, gb_global.booted, gb_global.mode);
-    // Init Cpu instructions
+        m = GB_MODE_UNKNOWN;
     init_op_tab();
     init_ext_op_tab();
-
-    if (gb_global.mode == GB_MODE_DMG)
-    {
-        return (init_cpu_dmg(&gb_global, gb_global.rom_ptr));
-    }
-    else if (gb_global.mode == GB_MODE_CGB)
-    {
-        return (init_cpu_cgb(&gb_global, gb_global.rom_ptr));
-    }
-    else
-    {
-        fprintf(stderr, "fatal : unrecognized hardware type\n");
+    struct rom_s* rom = malloc(sizeof(struct rom_s));
+    if (open_rom(rom_name, rom))
         return (1);
-    }
+    return (init_cpu(&gb_global, rom, m));
 }
 
 

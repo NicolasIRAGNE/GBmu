@@ -97,7 +97,8 @@
             },
             "args": [
                 "--rom",
-                "/mnt/nfs/homes/niragne/GBmu/rom/Legend of Zelda, The - Link's Awakening DX.gbc",
+                "${workspaceFolder}/rom/Legend_of_Zelda_link_Awaking.gb",
+                // "/mnt/nfs/homes/niragne/GBmu/rom/Legend of Zelda, The - Link's Awakening DX.gbc",
             ],
             "program": "${workspaceFolder}/target/debug/gbmu",
             "cwd": "${workspaceFolder}/target/debug/",

@@ -49,8 +49,8 @@ static uint8_t	read_8_internal(struct gb_cpu_s* gb, uint16_t a16, enum memory_mo
 	}
 	else if (a16 < 0xa000)
 	{
-		uint8_t lcdc = read_8_force(gb, LCDC_OFFSET);
 		#ifndef IGNORE_LOCKS
+		uint8_t lcdc = read_8_force(gb, LCDC_OFFSET);
 		if (mode == MEM_SYSTEM && gb->gpu.mode == GPU_MODE_VRAM && (lcdc & LCDC_ON))
 			return (0xff);
 		#endif
@@ -89,10 +89,10 @@ static uint8_t	read_8_internal(struct gb_cpu_s* gb, uint16_t a16, enum memory_mo
 		ret = ~ret;
 		return (ret);
 	}
-	else if (a16 >= 0xFE00 && a16 < 0xFEA0)
+	else if (a16 < 0xFEA0)
 	{
-		uint8_t lcdc = read_8_force(gb, LCDC_OFFSET);
 		#ifndef IGNORE_LOCKS
+		uint8_t lcdc = read_8_force(gb, LCDC_OFFSET);
 		if (mode != MEM_SYSTEM || gb->gpu.mode == GPU_MODE_HBLANK || gb->gpu.mode == GPU_MODE_VBLANK || !(lcdc & LCDC_ON))
 		#endif
 			return (((uint8_t*)(gb->oam))[a16 - 0xFE00]);

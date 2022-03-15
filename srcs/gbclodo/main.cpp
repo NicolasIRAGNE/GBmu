@@ -31,8 +31,8 @@ extern "C" {
 # include "fallback_debugger.h"
 #endif
 // #include <pthread.h>
-}
 #include <signal.h>
+}
 
 void	signal_handler(int signal)
 {

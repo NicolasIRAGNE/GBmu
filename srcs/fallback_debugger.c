@@ -20,12 +20,13 @@
 #include "cpu.h"
 #include "debug.h"
 
-int		get_verbose(struct gbmu_debugger_s* debugger)
+int get_verbose(struct gbmu_debugger_s* debugger)
 {
     if (debugger == NULL)
-        return(0);
-	return (debugger->verbose_level);
+        return (0);
+    return (debugger->verbose_level);
 }
+
 struct breakpoint_s*	new_breakpoint(uint16_t addr)
 {
 	struct breakpoint_s* ret;
@@ -83,8 +84,8 @@ int		print_breakpoints(struct breakpoint_s* lst)
 
 int		find_breakpoint(void* debugger, int pc)
 {
-    if (debugger == NULL)
-        return (0);
+	if (debugger == NULL)
+		return (0);
 	struct gbmu_debugger_s* dbg = (struct gbmu_debugger_s*)debugger;
 	struct breakpoint_s* lst = dbg->breakpoints;
 	while (lst)

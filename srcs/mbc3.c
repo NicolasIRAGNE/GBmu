@@ -85,7 +85,7 @@ uint8_t	read_mbc3(struct gb_cpu_s* gb, uint16_t addr)
 			if (tmp * 0x4000 + addr - 0x4000 >= gb->rom_ptr->st.st_size)
 			{
 				printf("fatal: attempting to read outside the cartridge at %x in bank %x. aborting...\n", tmp * 0x4000 + addr - 0x4000, tmp);
-				printf("fatal: cartridge size is %x\n", gb->rom_ptr->st.st_size);
+				printf("fatal: cartridge size is %lx\n", gb->rom_ptr->st.st_size);
 				printf("banks: %x\n", gb->mbc.max_rom_banks);
 
 				fatal(gb);
