@@ -56,7 +56,7 @@ char* get_user_data_dir(void)
 #elif _WIN32
     char* base = getenv("APPDATA");
 	char* dir_name = "GBmu";
-else
+#else
 	char* base = ".";
 	char* dir_name = "GBmu";
 #endif
