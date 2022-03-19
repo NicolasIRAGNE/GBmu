@@ -14,6 +14,7 @@ pub struct System {
 
 pub enum Process {
     Refresh,
+    Pause,
     Idle,
     Exit,
 }
@@ -56,13 +57,15 @@ impl System {
                     // Run Emulator here
                     match self.process() {
                         Process::Refresh => {
-                            debugger.refresh();
                             emulator.request_redraw();
                         }
                         Process::Idle => {}
                         Process::Exit => {
                             *flow = ControlFlow::Exit;
                         }
+                        Process::Pause => {
+                            debugger.refresh();
+                        },
                     }
                     debugger.update();
                 }
@@ -87,7 +90,10 @@ impl System {
                     Process::Exit
                 }
             }
-            Mode::Pause => Process::Idle,
+            Mode::Pause => {
+                *self.mode.borrow_mut() = Mode::Idle;
+                Process::Pause
+            },
             Mode::Frame => {
                 *self.mode.borrow_mut() = Mode::Pause;
                 if gb::frame() {
@@ -96,6 +102,9 @@ impl System {
                     Process::Exit
                 }
             }
+            Mode::Idle => {
+                Process::Idle
+            },
         }
     }
 }

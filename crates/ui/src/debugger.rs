@@ -2,19 +2,21 @@ mod cpu;
 mod disassembler;
 mod menu;
 pub mod memory;
+use std::slice;
+use bindings::gb_global;
 
 use std::{cell::RefCell, rc::Rc};
 use bindings::system::Mode;
 use iced::{Column, Row};
 use iced_wgpu::Renderer;
-use iced_winit::{Color, Command, Element,  Program};
+use iced_winit::{Color, Command, Element, Program, widget::scrollable};
 
 use cpu::{Cpu, CpuMsg};
 use disassembler::{Disassembler, DisassMsg};
 use menu::{Menu, MenuMsg};
-use memory::{Memory, MemoryMsg};
+use memory::{Memory, MemoryBuilder, MemoryMsg};
 
-use crate::style::Theme;
+use crate::{style::Theme, widgets::Hexdump};
 
 pub struct Debugger {
     theme: Theme,
@@ -35,10 +37,25 @@ pub enum Message {
 
 impl Debugger {
     pub fn new(mode: Rc<RefCell<Mode>>) -> Self {
+        let rom: &[u8] = unsafe {
+            let ptr = (*gb_global.rom_ptr).ptr as *const _ as *const u8;
+            slice::from_raw_parts(
+                ptr,
+                (*gb_global.rom_ptr).st.st_size as usize,
+            )
+        };
+
+        let memory = MemoryBuilder {
+            state: scrollable::State::default(),
+            rom_builder: |st: &mut scrollable::State| Hexdump::new("rom".to_string(), rom, st),
+        }.build();
+
+
+
         Self {
             theme: Theme::Light,
             cpu: Cpu::new(),
-            memory: Memory::default(),
+            memory,
             disassembler: Disassembler::new(),
             menu: Menu::new(mode)
         }

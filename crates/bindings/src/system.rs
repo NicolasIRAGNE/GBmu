@@ -2,6 +2,7 @@
 pub enum Mode {
     Run,
     Pause,
+    Idle,
     Frame
 }
 

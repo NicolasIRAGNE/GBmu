@@ -5,45 +5,57 @@ use iced::{scrollable, Column, Length, Row, Scrollable};
 
 const TEXT_SIZE: u16 = 20;
 
-pub struct Hexdump {
+pub struct Hexdump<'a> {
     name: String,
-    state: scrollable::State,
-    data: &'static [u8],
+    data: Scrollable<'a, MemoryMsg>,
+    header: Header
 }
 
-impl Hexdump {
-    pub fn new(name: String, data: &'static [u8]) -> Self {
-        let state = scrollable::State::default();
-        Self { name, state, data }
+struct Header {
+    address: String,
+    bytes: String,
+    ascii: String
+}
+
+impl Header {
+    pub fn new() -> Self {
+        let address = " ".repeat(8);
+        let bytes = " ".to_string() + &"FF ".repeat(16);
+        let ascii = "0123456789ABCDEF".to_string();
+        Self {
+            address,
+            bytes,
+            ascii
+        }
+    }
+
+    pub fn view(&self) -> Row<MemoryMsg> {
+        let address = Text::new(&self.address).bold(TEXT_SIZE);
+        let bytes = Text::new(&self.bytes).bold(TEXT_SIZE);
+
+        // Ascii representation layout
+        let ascii = Text::new(&self.ascii).bold(TEXT_SIZE);
+        Row::new().push(address).push(bytes).push(ascii)
+    }
+}
+
+impl<'a> Hexdump<'a> {
+    pub fn new(name: String, data: &'static [u8], state: &'a mut scrollable::State) -> Self {
+        let header = Header::new();
+        let data = Self::generate(data, state);
+        Self { name, data, header }
     }
 
     pub fn title(&self) -> iced_wgpu::Text {
         Text::new(self.name.clone()).bold(10)
     }
 
-    pub fn _name(&self) -> String {
-        self.name.clone()
-    }
-
-    pub fn render(&mut self) -> Column<MemoryMsg> {
-        // Address layout
-        let addresses = Text::new(" ".repeat(8)).bold(TEXT_SIZE);
-
-        // Vector data layout
-        let byte_header = " ".to_string() + &"FF ".repeat(16);
-        let bytes = Text::new(&byte_header).bold(TEXT_SIZE);
-
-        // Ascii representation layout
-        let ascii_template = "0123456789ABCDEF".to_string();
-        let ascii = Text::new(&ascii_template).bold(TEXT_SIZE);
-
-        let title = Row::new().push(addresses).push(bytes).push(ascii);
-
-        let mut hexdump = Scrollable::new(&mut self.state)
+    fn generate(data: &'static [u8], state: &'a mut scrollable::State) -> Scrollable<'a, MemoryMsg> {
+        let mut hexdump = Scrollable::new(state)
             .width(Length::Shrink)
             .height(Length::Shrink);
 
-        for (i, line) in self.data.chunks(16).enumerate() {
+        for (i, line) in data.chunks(16).enumerate() {
             let mut byte_str = " ".to_string();
             let mut ascii_str: AsciiString = AsciiString::with_capacity(16);
             let mut row = Row::new();
@@ -54,15 +66,19 @@ impl Hexdump {
                     _ => ascii_str.push(AsciiChar::Dot),
                 }
             }
-            let line = format!("{:#08X}", i * 0x10) + &byte_str + &ascii_str.to_string();
-            row = row.push(Text::new(line).light(TEXT_SIZE));
+            row = row.push(Text::new(format!("{:#08X}", i * 0x10) + &byte_str + &ascii_str.to_string()).light(TEXT_SIZE));
             hexdump = hexdump.push(row);
-            if i == 16 {
-                break;
-            }
-        }
 
-        Column::new().push(title).push(hexdump)
+        }
+        hexdump
+    }
+
+    pub fn _name(&self) -> String {
+        self.name.clone()
+    }
+
+    pub fn render(&mut self) -> Column<MemoryMsg> {
+        Column::new().push(self.header.view()).push(&self.data)
     }
 
 }
