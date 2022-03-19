@@ -1,6 +1,7 @@
 mod cpu;
 mod disassembler;
 mod menu;
+pub mod memory;
 
 use std::{cell::RefCell, rc::Rc};
 use bindings::system::Mode;
@@ -11,6 +12,7 @@ use iced_winit::{Color, Command, Element,  Program};
 use cpu::{Cpu, CpuMsg};
 use disassembler::{Disassembler, DisassMsg};
 use menu::{Menu, MenuMsg};
+use memory::{Memory, MemoryMsg};
 
 use crate::style::Theme;
 
@@ -18,6 +20,7 @@ pub struct Debugger {
     theme: Theme,
     cpu: Cpu,
     disassembler: Disassembler,
+    memory: Memory,
     menu: Menu
 }
 
@@ -26,6 +29,7 @@ pub enum Message {
     Cpu(CpuMsg),
     Disassembler(DisassMsg),
     Menu(MenuMsg),
+    Memory(MemoryMsg),
     Refresh,
 }
 
@@ -34,6 +38,7 @@ impl Debugger {
         Self {
             theme: Theme::Light,
             cpu: Cpu::new(),
+            memory: Memory::default(),
             disassembler: Disassembler::new(),
             menu: Menu::new(mode)
         }
@@ -61,6 +66,7 @@ impl Program for Debugger {
             },
             Message::Menu(message) => self.menu.update(message),
             Message::Refresh => self.refresh(),
+            Message::Memory(_) => todo!(),
         }
 
         Command::none()
@@ -72,8 +78,9 @@ impl Program for Debugger {
             .view(self.theme)
             .map(Message::Cpu);
         let disassembler = self.disassembler.view().map(Message::Disassembler);
+        let memory = self.memory.view(self.theme).map(Message::Memory);
         let menu = self.menu.view(self.theme).map(Message::Menu);
         let middle = Row::new().push(cpu).push(disassembler);
-        Column::new().push(menu).push(middle).into()
+        Column::new().push(menu).push(middle).push(memory).into()
     }
 }
