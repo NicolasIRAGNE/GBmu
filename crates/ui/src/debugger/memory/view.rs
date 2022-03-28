@@ -24,7 +24,7 @@ pub trait View {
     fn content(&mut self, theme: Theme) -> Column<MemoryMsg>;
 }
 
-impl<'a> View for Hexdump<'a> {
+impl View for Hexdump {
     fn content(&mut self, _theme: crate::style::Theme) -> Column<MemoryMsg> {
         self.render()
     }

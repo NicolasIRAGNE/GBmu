@@ -1,20 +1,21 @@
 use super::Text;
+
 use crate::debugger::memory::MemoryMsg;
 use ascii::{AsciiChar, AsciiString, ToAsciiChar};
 use iced::{scrollable, Column, Length, Row, Scrollable};
 
 const TEXT_SIZE: u16 = 20;
 
-pub struct Hexdump<'a> {
+pub struct Hexdump {
     name: String,
-    data: Scrollable<'a, MemoryMsg>,
-    header: Header
+    pub data: Vec<String>,
+    header: Header,
 }
 
 struct Header {
     address: String,
     bytes: String,
-    ascii: String
+    ascii: String,
 }
 
 impl Header {
@@ -25,7 +26,7 @@ impl Header {
         Self {
             address,
             bytes,
-            ascii
+            ascii,
         }
     }
 
@@ -39,10 +40,10 @@ impl Header {
     }
 }
 
-impl<'a> Hexdump<'a> {
-    pub fn new(name: String, data: &'static [u8], state: &'a mut scrollable::State) -> Self {
+impl<'b> Hexdump {
+    pub fn new(name: String, data: &[u8]) -> Self {
         let header = Header::new();
-        let data = Self::generate(data, state);
+        let data = Self::generate(data);
         Self { name, data, header }
     }
 
@@ -50,15 +51,12 @@ impl<'a> Hexdump<'a> {
         Text::new(self.name.clone()).bold(10)
     }
 
-    fn generate(data: &'static [u8], state: &'a mut scrollable::State) -> Scrollable<'a, MemoryMsg> {
-        let mut hexdump = Scrollable::new(state)
-            .width(Length::Shrink)
-            .height(Length::Shrink);
+    fn generate(data: &[u8]) -> Vec<String> {
+        let mut hexdump = Vec::new();
 
         for (i, line) in data.chunks(16).enumerate() {
             let mut byte_str = " ".to_string();
             let mut ascii_str: AsciiString = AsciiString::with_capacity(16);
-            let mut row = Row::new();
             for data in line {
                 byte_str.push_str(&format! {"{:02X} ", data});
                 match data.to_ascii_char() {
@@ -66,9 +64,8 @@ impl<'a> Hexdump<'a> {
                     _ => ascii_str.push(AsciiChar::Dot),
                 }
             }
-            row = row.push(Text::new(format!("{:#08X}", i * 0x10) + &byte_str + &ascii_str.to_string()).light(TEXT_SIZE));
-            hexdump = hexdump.push(row);
-
+            let row = format!("{:#08X}", i * 0x10) + &byte_str + &ascii_str.to_string();
+            hexdump.push(row);
         }
         hexdump
     }
@@ -78,7 +75,6 @@ impl<'a> Hexdump<'a> {
     }
 
     pub fn render(&mut self) -> Column<MemoryMsg> {
-        Column::new().push(self.header.view()).push(&self.data)
+        Column::new().push(self.header.view())
     }
-
 }

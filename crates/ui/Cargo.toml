@@ -13,6 +13,7 @@ ouroboros = "0.14.2"
 num_enum = "0.5.3"
 bindings = { path = "../bindings"}
 shared = { path = "../shared" }
-iced_winit = { git = "https://github.com/hecrj/iced", branch = "0.4"}
-iced_wgpu = { git = "https://github.com/hecrj/iced", branch = "0.4"}
-iced = { git = "https://github.com/hecrj/iced" , branch = "0.4"}
+iced_winit = { git = "https://github.com/hecrj/iced", rev = "af7cbf0"}
+iced_wgpu = { git = "https://github.com/hecrj/iced", rev = "af7cbf0"}
+iced_graphics =  { git = "https://github.com/hecrj/iced", rev = "af7cbf0"}
+iced = { git = "https://github.com/hecrj/iced" , rev = "af7cbf0"}

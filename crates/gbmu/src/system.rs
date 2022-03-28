@@ -1,5 +1,5 @@
 use anyhow::Result;
-use std::{cell::RefCell, rc::Rc};
+use std::{cell::RefCell, sync::Arc};
 use bindings::{gb, system::Mode};
 use iced_wgpu::wgpu::Instance;
 use iced_winit::winit::event::{Event, StartCause};
@@ -9,7 +9,7 @@ use crate::{debugger, emulator};
 
 #[derive(Debug, Default)]
 pub struct System {
-    mode: Rc<RefCell<Mode>>,
+    mode: Arc<RefCell<Mode>>,
 }
 
 pub enum Process {

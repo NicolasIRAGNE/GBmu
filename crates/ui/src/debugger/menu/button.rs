@@ -1,4 +1,4 @@
-use std::{cell::RefCell, rc::Rc};
+use std::{cell::RefCell, sync::Arc};
 
 use crate::style::Theme;
 use bindings::system::Mode;
@@ -10,11 +10,11 @@ use crate::widgets::Text;
 pub struct Button {
     message: MenuMsg,
     state: button::State,
-    mode: Rc<RefCell<Mode>>,
+    mode: Arc<RefCell<Mode>>,
 }
 
 impl Button {
-    pub fn new(message: MenuMsg, mode: Rc<RefCell<Mode>>) -> Self {
+    pub fn new(message: MenuMsg, mode: Arc<RefCell<Mode>>) -> Self {
         let state = button::State::default();
         Self {
             state,

@@ -4,7 +4,7 @@ use crate::style::Theme;
 use bindings::system::Mode;
 use button::Button;
 use iced::{Element, Length, Row, Space};
-use std::{cell::RefCell, rc::Rc};
+use std::{cell::RefCell, sync::Arc};
 
 pub struct Menu {
     right: Vec<Button>,
@@ -26,7 +26,7 @@ pub enum MenuMsg {
 }
 
 impl Menu {
-    pub fn new(mode: Rc<RefCell<Mode>>) -> Self {
+    pub fn new(mode: Arc<RefCell<Mode>>) -> Self {
         let frame = Button::new(MenuMsg::Frame, mode.clone());
         //let second = Button::new(MenuMsg::Second);
         let run = Button::new(MenuMsg::Run, mode.clone());
