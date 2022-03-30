@@ -1,15 +1,14 @@
-pub mod view;
 
-use iced::{Column, Element, Length, Scrollable, scrollable};
+use iced::{Column, Element, scrollable};
 //use ppu::Ppu;
 
 use crate::style::Theme;
-use crate::widgets::{Text, Hexdump};
-use view::View;
+use crate::widgets::Hexdump;
+use crate::widgets::hexdump;
 
 pub struct Memory {
     pub state: scrollable::State,
-    pub rom: Hexdump,
+    pub rom: hexdump::State,
 }
 
 #[derive(Debug, Clone)]
@@ -20,7 +19,7 @@ pub enum MemoryMsg {
 impl Memory {
     pub fn new(rom: &'static[u8]) -> Self {
         let state = scrollable::State::default();
-        let rom = Hexdump::new("rom".to_string(), rom, );
+        let rom = hexdump::State::new("rom".to_string(), rom, );
         Self {
             state,
             rom,
@@ -33,13 +32,8 @@ impl Memory {
     //     }
     // }
 
-    pub fn view(&mut self, theme: Theme) -> Element<MemoryMsg> {
-        let mut hexdump = Scrollable::new(&mut self.state)
-            .width(Length::Shrink)
-            .height(Length::Shrink);
-        for data in &self.rom.data {
-            hexdump = hexdump.push(Text::new(data).light(20));
-        };
-        Column::new().push(self.rom.view(theme)).push(hexdump).into()
+    pub fn view(&mut self, _theme: Theme) -> Element<MemoryMsg> {
+        let hexdump = Hexdump::new(&mut self.rom);
+        Column::new().push(hexdump).into()
     }
 }

@@ -1,80 +1,93 @@
-use super::Text;
+mod state;
 
-use crate::debugger::memory::MemoryMsg;
-use ascii::{AsciiChar, AsciiString, ToAsciiChar};
-use iced::{scrollable, Column, Length, Row, Scrollable};
+use crate::style::fonts::{HASKLIG_BOLD, HASKLIG_MEDIUM};
+use iced_native::layout::{self, Layout};
+use iced_native::renderer;
+use iced_native::{alignment, text, Color, Element, Length, Point, Rectangle, Size, Widget};
+pub use state::State;
 
-const TEXT_SIZE: u16 = 20;
-
-pub struct Hexdump {
-    name: String,
-    pub data: Vec<String>,
-    header: Header,
+pub struct Hexdump<'a, Renderer: text::Renderer> {
+    state: &'a mut State,
+    width: Length,
+    height: Length,
+    font: Renderer::Font,
+    size: u16,
 }
 
-struct Header {
-    address: String,
-    bytes: String,
-    ascii: String,
-}
-
-impl Header {
-    pub fn new() -> Self {
-        let address = " ".repeat(8);
-        let bytes = " ".to_string() + &"FF ".repeat(16);
-        let ascii = "0123456789ABCDEF".to_string();
+impl<'a, Renderer: text::Renderer> Hexdump<'a, Renderer> {
+    pub fn new(state: &'a mut State) -> Self {
         Self {
-            address,
-            bytes,
-            ascii,
+            state,
+            width: Length::Shrink,
+            height: Length::Shrink,
+            font: Default::default(),
+            size: 20,
         }
     }
+}
+impl<'a, Message, Renderer> Widget<Message, Renderer> for Hexdump<'a, Renderer>
+where
+    Renderer: renderer::Renderer + text::Renderer,
+{
+    fn width(&self) -> Length {
+        self.width
+    }
 
-    pub fn view(&self) -> Row<MemoryMsg> {
-        let address = Text::new(&self.address).bold(TEXT_SIZE);
-        let bytes = Text::new(&self.bytes).bold(TEXT_SIZE);
+    fn height(&self) -> Length {
+        self.height
+    }
 
-        // Ascii representation layout
-        let ascii = Text::new(&self.ascii).bold(TEXT_SIZE);
-        Row::new().push(address).push(bytes).push(ascii)
+    fn layout(&self, renderer: &Renderer, limits: &layout::Limits) -> layout::Node {
+        let limits = limits.width(self.width).height(self.height);
+        let bounds = limits.max();
+
+        let (width, height) =
+            renderer.measure(&self.state.data[0], self.size, self.font.clone(), bounds);
+
+        let size = limits.resolve(Size::new(width, height * 20.));
+        layout::Node::new(size)
+    }
+
+    fn draw(
+        &self,
+        renderer: &mut Renderer,
+        _style: &renderer::Style,
+        layout: Layout<'_>,
+        _cursor_position: Point,
+        _viewport: &Rectangle,
+    ) {
+        let mut bounds = layout.bounds();
+        let (_ , height) = renderer.measure("A", self.size, self.font.clone(), bounds.size());
+
+
+
+        renderer.fill_text(text::Text {
+            content: &self.state.data[0],
+            size: f32::from(self.size),
+            bounds,
+            color: Color::BLACK,
+            font: self.font.clone(),
+            horizontal_alignment: alignment::Horizontal::Left,
+            vertical_alignment: alignment::Vertical::Center,
+        });
+        bounds.y += height;
+        renderer.fill_text(text::Text {
+            content: &self.state.data[1],
+            size: f32::from(self.size),
+            bounds,
+            color: Color::BLACK,
+            font: self.font.clone(),
+            horizontal_alignment: alignment::Horizontal::Left,
+            vertical_alignment: alignment::Vertical::Center,
+        });
     }
 }
 
-impl<'b> Hexdump {
-    pub fn new(name: String, data: &[u8]) -> Self {
-        let header = Header::new();
-        let data = Self::generate(data);
-        Self { name, data, header }
-    }
-
-    pub fn title(&self) -> iced_wgpu::Text {
-        Text::new(self.name.clone()).bold(10)
-    }
-
-    fn generate(data: &[u8]) -> Vec<String> {
-        let mut hexdump = Vec::new();
-
-        for (i, line) in data.chunks(16).enumerate() {
-            let mut byte_str = " ".to_string();
-            let mut ascii_str: AsciiString = AsciiString::with_capacity(16);
-            for data in line {
-                byte_str.push_str(&format! {"{:02X} ", data});
-                match data.to_ascii_char() {
-                    Ok(char) if char.is_ascii_printable() => ascii_str.push(char),
-                    _ => ascii_str.push(AsciiChar::Dot),
-                }
-            }
-            let row = format!("{:#08X}", i * 0x10) + &byte_str + &ascii_str.to_string();
-            hexdump.push(row);
-        }
-        hexdump
-    }
-
-    pub fn _name(&self) -> String {
-        self.name.clone()
-    }
-
-    pub fn render(&mut self) -> Column<MemoryMsg> {
-        Column::new().push(self.header.view())
+impl<'a, Message, Renderer> From<Hexdump<'a, Renderer>> for Element<'a, Message, Renderer>
+where
+    Renderer: 'a + renderer::Renderer + text::Renderer,
+{
+    fn from(val: Hexdump<'a, Renderer>) -> Self {
+        Element::new(val)
     }
 }

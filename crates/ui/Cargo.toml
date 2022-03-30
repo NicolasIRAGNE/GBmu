@@ -14,6 +14,7 @@ num_enum = "0.5.3"
 bindings = { path = "../bindings"}
 shared = { path = "../shared" }
 iced_winit = { git = "https://github.com/hecrj/iced", rev = "af7cbf0"}
+iced_native = { git = "https://github.com/hecrj/iced", rev = "af7cbf0"}
 iced_wgpu = { git = "https://github.com/hecrj/iced", rev = "af7cbf0"}
 iced_graphics =  { git = "https://github.com/hecrj/iced", rev = "af7cbf0"}
 iced = { git = "https://github.com/hecrj/iced" , rev = "af7cbf0"}
