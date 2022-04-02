@@ -57,29 +57,20 @@ where
         _viewport: &Rectangle,
     ) {
         let mut bounds = layout.bounds();
-        let (_ , height) = renderer.measure("A", self.size, self.font.clone(), bounds.size());
+        let (_, height) = renderer.measure("A", self.size, self.font.clone(), bounds.size());
 
-
-
-        renderer.fill_text(text::Text {
-            content: &self.state.data[0],
-            size: f32::from(self.size),
-            bounds,
-            color: Color::BLACK,
-            font: self.font.clone(),
-            horizontal_alignment: alignment::Horizontal::Left,
-            vertical_alignment: alignment::Vertical::Center,
-        });
-        bounds.y += height;
-        renderer.fill_text(text::Text {
-            content: &self.state.data[1],
-            size: f32::from(self.size),
-            bounds,
-            color: Color::BLACK,
-            font: self.font.clone(),
-            horizontal_alignment: alignment::Horizontal::Left,
-            vertical_alignment: alignment::Vertical::Center,
-        });
+        for i in 0..20 {
+            renderer.fill_text(text::Text {
+                content: &self.state.data[i],
+                size: f32::from(self.size),
+                bounds,
+                color: Color::BLACK,
+                font: self.font.clone(),
+                horizontal_alignment: alignment::Horizontal::Left,
+                vertical_alignment: alignment::Vertical::Center,
+            });
+            bounds.y += height;
+        }
     }
 }
 
