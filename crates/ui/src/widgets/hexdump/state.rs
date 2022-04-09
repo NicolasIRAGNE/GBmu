@@ -1,81 +1,53 @@
-use super::super::Text;
+use iced_native::{mouse, Point, Font};
 
-use crate::debugger::memory::MemoryMsg;
-use ascii::{AsciiChar, AsciiString, ToAsciiChar};
-use iced::{Column, Row};
+/// state of hexdump
+/// The local state of an [`Hexdump`].
 
-const TEXT_SIZE: u16 = 20;
-
+#[derive(Debug, Default)]
 pub struct State {
-    name: String,
-    pub data: Vec<String>,
-    header: Header,
-    offset: u32
-}
-
-struct Header {
-    address: String,
-    bytes: String,
-    ascii: String,
-}
-
-impl Header {
-    pub fn new() -> Self {
-        let address = " ".repeat(8);
-        let bytes = " ".to_string() + &"FF ".repeat(16);
-        let ascii = "0123456789ABCDEF".to_string();
-        Self {
-            address,
-            bytes,
-            ascii,
-        }
-    }
-
-    pub fn view(&self) -> Row<MemoryMsg> {
-        let address = Text::new(&self.address).bold(TEXT_SIZE);
-        let bytes = Text::new(&self.bytes).bold(TEXT_SIZE);
-
-        // Ascii representation layout
-        let ascii = Text::new(&self.ascii).bold(TEXT_SIZE);
-        Row::new().push(address).push(bytes).push(ascii)
-    }
+    pub bytes: Vec<u8>,
+    pub cursor: usize,
+    pub bytes_hash: u64,
+    pub keyboard_focus: bool,
+    pub test_offset: f32,
+    pub debug_enabled: bool,
+    pub selection: Option<(usize, usize)>,
+    pub last_click: Option<mouse::click::Click>,
+    pub last_click_pos: Option<Point>,
+    pub is_dragging: bool,
+    pub mouse_pos: Point,
+    pub header_font: Font,
+    pub data_font: Font,
+    pub font_size: f32,
+    pub column_count: u8
 }
 
 impl State {
-    pub fn new(name: String, data: &[u8]) -> Self {
-        let header = Header::new();
-        let data = Self::generate(data);
-        Self { name, data, header, offset: 0 }
+    /// Sets the data [`Hexdump`] will be working with.
+    ///
+    /// Currently, we just clone the data into a Vec, which should work fine for
+    /// small amounts of data.
+    pub fn load(&mut self, bytes: &[u8]) {
+        use std::hash::Hasher;
+
+        let mut hasher = iced_native::Hasher::default();
+        hasher.write(bytes);
+        self.bytes_hash = hasher.finish();
+        self.bytes = bytes.to_vec();
+        self.cursor = 0;
+        self.selection = None;
+        self.font_size = 17.0;
+        self.column_count = 16;
     }
 
-    pub fn title(&self) -> iced_wgpu::Text {
-        Text::new(self.name.clone()).bold(10)
-    }
-
-    fn generate(data: &[u8]) -> Vec<String> {
-        let mut hexdump = Vec::new();
-
-        for (i, line) in data.chunks(16).enumerate() {
-            let mut byte_str = " ".to_string();
-            let mut ascii_str: AsciiString = AsciiString::with_capacity(16);
-            for data in line {
-                byte_str.push_str(&format! {"{:02X} ", data});
-                match data.to_ascii_char() {
-                    Ok(char) if char.is_ascii_printable() => ascii_str.push(char),
-                    _ => ascii_str.push(AsciiChar::Dot),
-                }
-            }
-            let row = format!("{:#08X}", i * 0x10) + &byte_str + &ascii_str.to_string();
-            hexdump.push(row);
-        }
-        hexdump
-    }
-
-    pub fn _name(&self) -> String {
-        self.name.clone()
-    }
-
-    pub fn render(&mut self) -> Column<MemoryMsg> {
-        Column::new().push(self.header.view())
+    /// Sets the keyboard focus of an [`Hexdump`].
+    ///
+    /// The keyboard focus is automatically determined by whether the user has
+    /// cicked inside the widget, but can be manually set in order to use
+    /// shortcuts and move around.
+    ///
+    /// [`Hexdump`]: struct.Heview.html
+    pub fn set_keyboard_focus(&mut self, focus: bool) {
+        self.keyboard_focus = focus;
     }
 }

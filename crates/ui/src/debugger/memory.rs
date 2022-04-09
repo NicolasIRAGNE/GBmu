@@ -1,13 +1,10 @@
-
-use iced::{Column, Element, scrollable};
+use iced::Element;
 //use ppu::Ppu;
 
 use crate::style::Theme;
-use crate::widgets::Hexdump;
 use crate::widgets::hexdump;
 
 pub struct Memory {
-    pub state: scrollable::State,
     pub rom: hexdump::State,
 }
 
@@ -17,11 +14,10 @@ pub enum MemoryMsg {
 }
 
 impl Memory {
-    pub fn new(rom: &'static[u8]) -> Self {
-        let state = scrollable::State::default();
-        let rom = hexdump::State::new("rom".to_string(), rom, );
+    pub fn new(data: &'static[u8]) -> Self {
+        let mut rom = hexdump::State::default();
+        rom.load(data);
         Self {
-            state,
             rom,
         }
     }
@@ -33,7 +29,6 @@ impl Memory {
     // }
 
     pub fn view(&mut self, _theme: Theme) -> Element<MemoryMsg> {
-        let hexdump = Hexdump::new(&mut self.rom);
-        Column::new().push(hexdump).into()
+        hexdump::Hexdump::new(&mut self.rom).into()
     }
 }

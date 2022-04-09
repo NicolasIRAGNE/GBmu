@@ -1,84 +1,271 @@
+mod consts;
+mod renderer;
 mod state;
+mod style;
+mod utils;
 
-use crate::style::fonts::{HASKLIG_BOLD, HASKLIG_MEDIUM};
-use iced_native::layout::{self, Layout};
-use iced_native::renderer;
-use iced_native::{alignment, text, Color, Element, Length, Point, Rectangle, Size, Widget};
+use iced_native::{
+    event::Status, layout, Element, Event, Font, Layout, Length, Point, Rectangle, Size,
+    Widget,
+};
+use std::marker::PhantomData;
+use utils::clamp;
+
 pub use state::State;
 
-pub struct Hexdump<'a, Renderer: text::Renderer> {
+/// A view into a region of bytes.
+///
+/// The widget owns the bytes it shows, so be careful when using
+/// [`State::set_bytes`] with huge data.
+///
+/// [`State::set_bytes`]: struct.State.html#method.set_bytes
+pub struct Hexdump<'a, Message, Renderer: renderer::Renderer> {
     state: &'a mut State,
-    width: Length,
-    height: Length,
-    font: Renderer::Font,
-    size: u16,
+    style: Renderer::Style,
+    message: PhantomData<Message>,
 }
 
-impl<'a, Renderer: text::Renderer> Hexdump<'a, Renderer> {
+impl<'a, Message, Renderer: renderer::Renderer> Hexdump<'a, Message, Renderer> {
+    /// Creates a new Hexdump.
     pub fn new(state: &'a mut State) -> Self {
         Self {
             state,
-            width: Length::Shrink,
-            height: Length::Shrink,
-            font: Default::default(),
-            size: 20,
+            style: Renderer::Style::default(),
+            message: PhantomData,
         }
     }
+
+    /// Sets the style of an [`Hexdump`].
+    ///
+    /// [`Hexdump`]: struct.Heview.html
+    pub fn style(mut self, style: impl Into<Renderer::Style>) -> Self {
+        self.style = style.into();
+        self
+    }
+
+    /// Sets the size of the fonts in an [`Hexview`].
+    ///
+    /// [`Hexview`]: struct.Heview.html
+    pub fn font_size(mut self, size: f32) -> Self {
+        self.state.font_size = size;
+        self
+    }
+
+    /// Sets the font for column headers and offsets in [`Hexview`].
+    ///
+    /// [`Hexview`]: struct.Heview.html
+    pub fn header_font(mut self, font: Font) -> Self {
+        self.state.header_font = font;
+        self
+    }
+
+    /// Sets the font for bytes and ASCII representation in an [`Hexview`].
+    ///
+    /// [`Hexview`]: struct.Heview.html
+    pub fn data_font(mut self, font: Font) -> Self {
+        self.state.data_font = font;
+        self
+    }
+
+    /// Sets the amount of columns in an [`Hexview`].
+    ///
+    /// `count` will be clamped to a number in the range `1..=32`.
+    ///
+    /// [`Hexview`]: struct.Heview.html
+    pub fn column_count(mut self, count: u8) -> Self {
+        self.state.column_count = clamp(count, 1, 32);
+        self
+    }
 }
-impl<'a, Message, Renderer> Widget<Message, Renderer> for Hexdump<'a, Renderer>
+
+impl<'a, Message, Renderer> Widget<Message, Renderer> for Hexdump<'a, Message, Renderer>
 where
-    Renderer: renderer::Renderer + text::Renderer,
+    Renderer: renderer::Renderer,
 {
     fn width(&self) -> Length {
-        self.width
+        Length::Fill
     }
 
     fn height(&self) -> Length {
-        self.height
+        Length::Fill
     }
 
-    fn layout(&self, renderer: &Renderer, limits: &layout::Limits) -> layout::Node {
-        let limits = limits.width(self.width).height(self.height);
-        let bounds = limits.max();
+    fn layout(&self, _renderer: &Renderer, limits: &layout::Limits) -> layout::Node {
+        let limits = limits.width(Length::Fill);
+        let max_width = limits.max().width;
+        let rows =
+            (self.state.bytes.len() as f32 / self.state.column_count as usize as usize as f32).ceil();
+        let rows_size = (self.state.font_size + consts::LINE_SPACING) * rows;
 
-        let (width, height) =
-            renderer.measure(&self.state.data[0], self.size, self.font.clone(), bounds);
+        // Vertical margins + top headers + rows
+        let height = consts::MARGINS.y * 2.0 + self.state.font_size + consts::LINE_SPACING + rows_size;
 
-        let size = limits.resolve(Size::new(width, height * 20.));
-        layout::Node::new(size)
+        layout::Node::new(Size::new(max_width, height))
     }
 
+    fn on_event(
+        &mut self,
+        event: Event,
+        layout: Layout<'_>,
+        cursor_position: Point,
+        renderer: &Renderer,
+        _clipboard: &mut dyn iced_native::Clipboard,
+        _shell: &mut iced_winit::Shell<'_, Message>,
+    ) -> Status {
+        use iced_native::keyboard::{Event as KeyboardEvent, KeyCode};
+        use iced_native::mouse::{Button as MouseButton, Event as MouseEvent};
+
+        let bytes_len = self.state.bytes.len();
+        let column_count = self.state.column_count as usize;
+        let cursor = self.state.cursor;
+        let keyboard_focus = self.state.keyboard_focus;
+        let test_offset = self.state.test_offset;
+        let debug_enabled = self.state.debug_enabled;
+        let _last_click_pos = self.state.last_click_pos;
+
+        match event {
+            Event::Mouse(MouseEvent::ButtonPressed(MouseButton::Left)) => {
+                if !layout.bounds().contains(cursor_position) {
+                    return Status::Ignored;
+                }
+
+                self.state.is_dragging = true;
+
+                let cursor_from_pos = renderer.cursor_offset(
+                    layout.bounds(),
+                    cursor_position,
+                    self.state,
+                    false,
+                );
+                println!("Cursor from pos: {:?}", cursor_from_pos);
+
+                if let Some(cursor) = cursor_from_pos {
+                    self.state.cursor = cursor;
+                }
+
+                self.state.selection = None;
+                self.state.last_click_pos = Some(cursor_position);
+
+                let click = iced_native::mouse::Click::new(cursor_position, self.state.last_click);
+
+                self.state.last_click = Some(click);
+            }
+
+            Event::Mouse(MouseEvent::ButtonReleased(MouseButton::Left)) => {
+                if let Some(pos) = self.state.last_click_pos.take() {
+                    if cursor_position == pos {
+                        self.state.selection = None;
+                    }
+                }
+
+                self.state.is_dragging = false;
+                self.state
+                    .set_keyboard_focus(layout.bounds().contains(cursor_position));
+            }
+
+            Event::Mouse(MouseEvent::CursorMoved { .. }) => {
+                if self.state.is_dragging {
+                    let cursor_from_pos = renderer.cursor_offset(
+                        layout.bounds(),
+                        cursor_position,
+                        self.state,
+                        true,
+                    );
+
+                    match cursor_from_pos {
+                        Some(new_cursor) if new_cursor < cursor => {
+                            self.state.selection = Some((new_cursor, cursor))
+                        }
+                        Some(new_cursor) if new_cursor > cursor => {
+                            self.state.selection = Some((cursor, new_cursor))
+                        }
+                        _ => self.state.selection = None,
+                    }
+
+                    println!("Selection: {:?}", self.state.selection);
+                }
+            }
+
+            Event::Keyboard(KeyboardEvent::KeyPressed { key_code, .. }) => {
+                let line_start = cursor / column_count as usize as usize * column_count as usize;
+                let line_end = (line_start + column_count as usize - 1).min(bytes_len - 1);
+                let cursor_guard_left = cursor > 0 && keyboard_focus;
+                let cursor_guard_right = if bytes_len > 0 {
+                    self.state.cursor < bytes_len - 1 && keyboard_focus
+                } else {
+                    false
+                };
+                let cursor_guard_up = cursor >= column_count as usize && keyboard_focus;
+                let cursor_guard_down = bytes_len > 0 && keyboard_focus;
+                let cursor_guard_home = cursor > line_start && keyboard_focus;
+                let cursor_guard_end = cursor < line_end && keyboard_focus;
+                let cursor_guard_pageup = cursor > 0 && keyboard_focus;
+                let cursor_guard_pagedown = bytes_len > 0 && keyboard_focus;
+                let test_offset_guard_left = test_offset > f32::MIN && debug_enabled;
+                let test_offset_guard_right = test_offset < f32::MAX && debug_enabled;
+
+                match key_code {
+                    // Cursor movement
+                    KeyCode::Left if cursor_guard_left => self.state.cursor -= 1,
+                    KeyCode::Right if cursor_guard_right => self.state.cursor += 1,
+                    KeyCode::Up if cursor_guard_up => self.state.cursor -= column_count as usize,
+                    KeyCode::Down if cursor_guard_down => {
+                        if cursor + column_count as usize <= bytes_len - 1 {
+                            self.state.cursor += column_count as usize;
+                        } else {
+                            self.state.cursor = bytes_len - 1;
+                        }
+                    }
+                    KeyCode::Home if cursor_guard_home => self.state.cursor = line_start,
+                    KeyCode::End if cursor_guard_end => self.state.cursor = line_end,
+                    // TODO: Calculate pages based on visible lines
+                    KeyCode::PageUp if cursor_guard_pageup => self.state.cursor = 0,
+                    KeyCode::PageDown if cursor_guard_pagedown => {
+                        if bytes_len > 0 {
+                            self.state.cursor = bytes_len - 1;
+                        }
+                    }
+
+                    // Test offset
+                    KeyCode::Minus if test_offset_guard_left => self.state.test_offset -= 0.01,
+                    KeyCode::Equals if test_offset_guard_right => self.state.test_offset += 0.01,
+
+                    // Debug
+                    KeyCode::D if keyboard_focus => self.state.debug_enabled = !debug_enabled,
+
+                    _ => (),
+                }
+            }
+
+            _ => (),
+        }
+        Status::Captured
+    }
+
+    #[allow(clippy::too_many_arguments)]
     fn draw(
         &self,
         renderer: &mut Renderer,
-        _style: &renderer::Style,
+        _style: &iced_native::renderer::Style,
         layout: Layout<'_>,
-        _cursor_position: Point,
+        cursor_position: Point,
         _viewport: &Rectangle,
     ) {
-        let mut bounds = layout.bounds();
-        let (_, height) = renderer.measure("A", self.size, self.font.clone(), bounds.size());
-
-        for i in 0..20 {
-            renderer.fill_text(text::Text {
-                content: &self.state.data[i],
-                size: f32::from(self.size),
-                bounds,
-                color: Color::BLACK,
-                font: self.font.clone(),
-                horizontal_alignment: alignment::Horizontal::Left,
-                vertical_alignment: alignment::Vertical::Center,
-            });
-            bounds.y += height;
-        }
+        renderer.draw(
+            layout.bounds(),
+            cursor_position,
+            &self.style,
+            self.state,
+        )
     }
 }
 
-impl<'a, Message, Renderer> From<Hexdump<'a, Renderer>> for Element<'a, Message, Renderer>
+impl<'a, Message, Renderer> From<Hexdump<'a, Message, Renderer>> for Element<'a, Message, Renderer>
 where
-    Renderer: 'a + renderer::Renderer + text::Renderer,
+    Renderer: 'a + renderer::Renderer,
+    Message: 'a,
 {
-    fn from(val: Hexdump<'a, Renderer>) -> Self {
-        Element::new(val)
+    fn from(hexview: Hexdump<'a, Message, Renderer>) -> Element<'a, Message, Renderer> {
+        Element::new(hexview)
     }
 }
