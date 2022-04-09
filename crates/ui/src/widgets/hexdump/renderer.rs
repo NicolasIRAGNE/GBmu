@@ -30,13 +30,7 @@ pub trait Renderer: iced_native::Renderer {
     /// Draws an `Hexview`.
     ///
     /// [`Hexview`]: struct.Hexview.html
-    fn draw(
-        &mut self,
-        bounds: Rectangle,
-        cursor_position: Point,
-        style: &Self::Style,
-        state: &State,
-    );
+    fn draw(&mut self, bounds: Rectangle, style: &Self::Style, state: &State, viewport: &Rectangle);
 }
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
@@ -156,9 +150,9 @@ impl<B: Backend + backend::Text> self::Renderer for iced_graphics::Renderer<B> {
     fn draw(
         &mut self,
         bounds: Rectangle,
-        _cursor_position: Point,
         style_sheet: &Self::Style,
         state: &State,
+        viewport: &Rectangle,
     ) {
         let style = style_sheet.active();
         let bounds_pos = (bounds.x.floor(), bounds.y.floor());
@@ -244,7 +238,7 @@ impl<B: Backend + backend::Text> self::Renderer for iced_graphics::Renderer<B> {
         let start_of_bytes = right_of_offset + consts::MARGINS.x * 2.0;
         let mut byte_buffers = Vec::new();
 
-        let lines: Vec<Primitive> = (0..line_count)
+        let lines: Vec<Primitive> = (0..15)
             .map(|i| {
                 let lower_bound = state.column_count as usize * i;
                 let upper_bound =
@@ -267,8 +261,8 @@ impl<B: Backend + backend::Text> self::Renderer for iced_graphics::Renderer<B> {
                     data_slice
                         .iter()
                         .enumerate()
-                        .fold(String::new(), |mut acc, (i, b)| {
-                            if consts::ASCII_RANGE.contains(b) {
+                        .fold(String::new(), |mut acc, (i, byte)| {
+                            if byte.is_ascii() {
                                 // Update printable offset and generate non-printable span
                                 if np_control {
                                     printable_offset = acc.len();
@@ -306,8 +300,8 @@ impl<B: Backend + backend::Text> self::Renderer for iced_graphics::Renderer<B> {
                                 }
                             }
 
-                            let high = consts::HEX_CHARS[(b >> 4) as usize] as char;
-                            let low = consts::HEX_CHARS[(b & 0xF) as usize] as char;
+                            let high = consts::HEX_CHARS[(byte >> 4) as usize] as char;
+                            let low = consts::HEX_CHARS[(byte & 0xF) as usize] as char;
 
                             acc.push(high);
                             acc.push(low);
@@ -614,7 +608,11 @@ impl<B: Backend + backend::Text> self::Renderer for iced_graphics::Renderer<B> {
 
         let line = state.cursor / state.column_count as usize;
         let line_offset = state.cursor % state.column_count as usize;
-        let line_str = &byte_buffers[line];
+        let line_str = if line < byte_buffers.len() {
+            &byte_buffers[line]
+        } else {
+            byte_buffers.last().unwrap()
+        };
 
         let byte_offset = self
             .measure(

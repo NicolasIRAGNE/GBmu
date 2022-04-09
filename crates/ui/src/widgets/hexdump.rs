@@ -248,14 +248,14 @@ where
         renderer: &mut Renderer,
         _style: &iced_native::renderer::Style,
         layout: Layout<'_>,
-        cursor_position: Point,
-        _viewport: &Rectangle,
+        _cursor_position: Point,
+        viewport: &Rectangle,
     ) {
         renderer.draw(
             layout.bounds(),
-            cursor_position,
             &self.style,
             self.state,
+            viewport
         )
     }
 }
