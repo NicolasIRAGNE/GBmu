@@ -5,9 +5,9 @@ mod style;
 mod utils;
 
 use iced_native::{
-    event::Status, layout, Element, Event, Font, Layout, Length, Point, Rectangle, Size,
-    Widget,
+    event::Status, layout, Element, Event, Font, Layout, Length, Point, Rectangle, Size, Widget,
 };
+use iced_winit::{mouse, Shell};
 use std::marker::PhantomData;
 use utils::clamp;
 
@@ -76,6 +76,10 @@ impl<'a, Message, Renderer: renderer::Renderer> Hexdump<'a, Message, Renderer> {
         self.state.column_count = clamp(count, 1, 32);
         self
     }
+
+    pub fn is_mouse_over(&self, bounds: Rectangle, cursor_position: Point) -> bool {
+        bounds.contains(cursor_position)
+    }
 }
 
 impl<'a, Message, Renderer> Widget<Message, Renderer> for Hexdump<'a, Message, Renderer>
@@ -93,12 +97,14 @@ where
     fn layout(&self, _renderer: &Renderer, limits: &layout::Limits) -> layout::Node {
         let limits = limits.width(Length::Fill);
         let max_width = limits.max().width;
-        let rows =
-            (self.state.bytes.len() as f32 / self.state.column_count as usize as usize as f32).ceil();
+        let rows = (self.state.bytes.len() as f32
+            / self.state.column_count as usize as usize as f32)
+            .ceil();
         let rows_size = (self.state.font_size + consts::LINE_SPACING) * rows;
 
         // Vertical margins + top headers + rows
-        let height = consts::MARGINS.y * 2.0 + self.state.font_size + consts::LINE_SPACING + rows_size;
+        let height =
+            consts::MARGINS.y * 2.0 + self.state.font_size + consts::LINE_SPACING + rows_size;
 
         layout::Node::new(Size::new(max_width, height))
     }
@@ -110,11 +116,12 @@ where
         cursor_position: Point,
         renderer: &Renderer,
         _clipboard: &mut dyn iced_native::Clipboard,
-        _shell: &mut iced_winit::Shell<'_, Message>,
+        _shell: &mut Shell<'_, Message>,
     ) -> Status {
         use iced_native::keyboard::{Event as KeyboardEvent, KeyCode};
         use iced_native::mouse::{Button as MouseButton, Event as MouseEvent};
 
+        let bounds = layout.bounds();
         let bytes_len = self.state.bytes.len();
         let column_count = self.state.column_count as usize;
         let cursor = self.state.cursor;
@@ -122,21 +129,14 @@ where
         let test_offset = self.state.test_offset;
         let debug_enabled = self.state.debug_enabled;
         let _last_click_pos = self.state.last_click_pos;
+        let is_mouse_over = bounds.contains(cursor_position);
 
         match event {
-            Event::Mouse(MouseEvent::ButtonPressed(MouseButton::Left)) => {
-                if !layout.bounds().contains(cursor_position) {
-                    return Status::Ignored;
-                }
-
+            Event::Mouse(MouseEvent::ButtonPressed(MouseButton::Left)) if is_mouse_over => {
                 self.state.is_dragging = true;
 
-                let cursor_from_pos = renderer.cursor_offset(
-                    layout.bounds(),
-                    cursor_position,
-                    self.state,
-                    false,
-                );
+                let cursor_from_pos =
+                    renderer.cursor_offset(layout.bounds(), cursor_position, self.state, false);
                 println!("Cursor from pos: {:?}", cursor_from_pos);
 
                 if let Some(cursor) = cursor_from_pos {
@@ -149,6 +149,26 @@ where
                 let click = iced_native::mouse::Click::new(cursor_position, self.state.last_click);
 
                 self.state.last_click = Some(click);
+            }
+
+            Event::Mouse(MouseEvent::WheelScrolled { delta }) if is_mouse_over => {
+                match delta {
+                    mouse::ScrollDelta::Lines { y, .. } => {
+                        // TODO: Configurable speed (?)
+                        self.state.scroll(y);
+                        println!(
+                            "Scrolled in line, y: {}, Offset: {:?}",
+                            y, self.state.offset
+                        );
+                    }
+                    mouse::ScrollDelta::Pixels { y, .. } => {
+                        self.state.scroll(y);
+                        println!(
+                            "Scrolled in pixels, y: {},  Offset: {:?}",
+                            y, self.state.offset
+                        );
+                    }
+                }
             }
 
             Event::Mouse(MouseEvent::ButtonReleased(MouseButton::Left)) => {
@@ -165,12 +185,8 @@ where
 
             Event::Mouse(MouseEvent::CursorMoved { .. }) => {
                 if self.state.is_dragging {
-                    let cursor_from_pos = renderer.cursor_offset(
-                        layout.bounds(),
-                        cursor_position,
-                        self.state,
-                        true,
-                    );
+                    let cursor_from_pos =
+                        renderer.cursor_offset(layout.bounds(), cursor_position, self.state, true);
 
                     match cursor_from_pos {
                         Some(new_cursor) if new_cursor < cursor => {
@@ -251,12 +267,7 @@ where
         _cursor_position: Point,
         viewport: &Rectangle,
     ) {
-        renderer.draw(
-            layout.bounds(),
-            &self.style,
-            self.state,
-            viewport
-        )
+        renderer.draw(layout.bounds(), &self.style, self.state, viewport)
     }
 }
 

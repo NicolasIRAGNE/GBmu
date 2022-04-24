@@ -170,7 +170,6 @@ impl<B: Backend + backend::Text> self::Renderer for iced_graphics::Renderer<B> {
             border_color: Color::BLACK,
         };
 
-        let line_count = (state.bytes.len() as f32 / state.column_count as f32).ceil() as usize;
         let data_y = consts::MARGINS.y + state.font_size + consts::LINE_SPACING;
 
         let offset_width = self
@@ -725,7 +724,7 @@ impl<B: Backend + backend::Text> self::Renderer for iced_graphics::Renderer<B> {
                     x: bounds_pos.0 + consts::MARGINS.x,
                     y: bounds_pos.1
                         + data_y
-                        + line_count as f32 * (state.font_size + consts::LINE_SPACING),
+                        + state.line_count as f32 * (state.font_size + consts::LINE_SPACING),
                     width: 400.0,
                     height: state.font_size * debug_line_count as f32,
                 },

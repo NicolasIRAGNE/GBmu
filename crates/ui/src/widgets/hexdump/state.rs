@@ -1,4 +1,4 @@
-use iced_native::{mouse, Point, Font};
+use iced_native::{mouse, Font, Point, Rectangle};
 
 /// state of hexdump
 /// The local state of an [`Hexdump`].
@@ -19,7 +19,24 @@ pub struct State {
     pub header_font: Font,
     pub data_font: Font,
     pub font_size: f32,
-    pub column_count: u8
+    pub column_count: u8,
+    pub line_count: usize,
+    pub offset: f32,
+}
+
+impl State {
+    /// Apply a scrolling offset to the current [`State`], given the bounds of
+    /// the [`Scrollable`] and its contents.
+    pub fn scroll(&mut self, delta_y: f32) {
+        let real_offset = self.offset + delta_y;
+        self.offset = if real_offset < 0.0 {
+            0.0
+        } else if real_offset > self.line_count as f32 {
+            (self.line_count - 1) as f32
+        } else {
+            real_offset
+        }
+    }
 }
 
 impl State {
@@ -38,7 +55,10 @@ impl State {
         self.selection = None;
         self.font_size = 17.0;
         self.column_count = 16;
+        self.line_count = (self.bytes.len() as f32 / self.column_count as f32).ceil() as usize;
     }
+
+    pub fn header(&self) {}
 
     /// Sets the keyboard focus of an [`Hexdump`].
     ///
