@@ -16,7 +16,7 @@ use disassembler::{Disassembler, DisassMsg};
 use menu::{Menu, MenuMsg};
 use memory::{Memory, MemoryMsg};
 
-use crate::{style::Theme, widgets::Hexdump};
+use crate::style::Theme;
 
 pub struct Debugger {
     theme: Theme,

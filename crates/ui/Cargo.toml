@@ -8,8 +8,6 @@ edition = "2021"
 [dependencies]
 enum-iterator = "0.7.0"
 itertools = "0.10.1"
-ascii = "1.0.0"
-ouroboros = "0.14.2"
 num_enum = "0.5.3"
 bindings = { path = "../bindings"}
 shared = { path = "../shared" }

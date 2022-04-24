@@ -1,4 +1,4 @@
-use iced_native::{mouse, Font, Point, Rectangle};
+use iced_native::{mouse, Font, Point};
 
 /// state of hexdump
 /// The local state of an [`Hexdump`].
