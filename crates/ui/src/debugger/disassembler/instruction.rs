@@ -96,10 +96,6 @@ impl Instruction {
         })
     }
 
-    pub fn bp_toogle(&mut self) {
-        self.bp_status = !self.bp_status;
-    }
-
     pub fn view(&mut self) -> Element<DisassMsg> {
         let address = format!("{:#04X}", self.address);
         let address = Cell::light(format!("{:^10}", address), 20);

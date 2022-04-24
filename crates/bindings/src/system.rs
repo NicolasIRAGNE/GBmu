@@ -3,7 +3,8 @@ pub enum Mode {
     Run,
     Pause,
     Idle,
-    Frame
+    Frame,
+    Instruction
 }
 
 impl Default for Mode {

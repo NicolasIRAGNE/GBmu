@@ -83,6 +83,13 @@ impl System {
     pub fn process(&mut self) -> Process {
         let mode = *self.mode.borrow();
         match mode {
+            Mode::Instruction => {
+                *self.mode.borrow_mut() = Mode::Pause;
+                match bindings::gb::step() {
+                    Ok(_) => Process::Refresh,
+                    Err(_) => Process::Exit,
+                }
+            }
             Mode::Run => {
                 if gb::frame() {
                     Process::Refresh

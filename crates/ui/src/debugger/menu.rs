@@ -15,12 +15,12 @@ pub struct Menu {
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum MenuMsg {
+    Instruction,
     Frame,
     Run,
     Pause,
     //Tick,
     //Line,
-    //Instruction,
     //Second,
     //Breakpoint,
 }
@@ -30,11 +30,12 @@ impl Menu {
         let frame = Button::new(MenuMsg::Frame, mode.clone());
         //let second = Button::new(MenuMsg::Second);
         let run = Button::new(MenuMsg::Run, mode.clone());
-        let pause = Button::new(MenuMsg::Pause, mode);
+        let pause = Button::new(MenuMsg::Pause, mode.clone());
+        let instruction = Button::new(MenuMsg::Instruction, mode);
 
         Self {
             left: vec![],
-            right: vec![run, pause, frame],
+            right: vec![run, pause, frame, instruction],
         }
     }
 

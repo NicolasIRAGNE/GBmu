@@ -25,6 +25,9 @@ impl Button {
 
     pub fn update(&self) {
         match self.message {
+            MenuMsg::Instruction => {
+                *self.mode.borrow_mut() = Mode::Instruction;
+            }
             MenuMsg::Frame => {
                 *self.mode.borrow_mut() = Mode::Frame;
             }
