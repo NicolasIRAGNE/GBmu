@@ -57,6 +57,7 @@ impl<B: Backend + backend::Text> self::Renderer for iced_graphics::Renderer<B> {
         extend_line: bool,
     ) -> Option<usize> {
         let row_count = (state.bytes.len() as f32 / state.column_count as f32).ceil() as usize;
+        let row_count = if row_count > 20 { 20 } else { row_count};
 
         let offset_width = self
             .measure(
@@ -152,7 +153,7 @@ impl<B: Backend + backend::Text> self::Renderer for iced_graphics::Renderer<B> {
         bounds: Rectangle,
         style_sheet: &Self::Style,
         state: &State,
-        viewport: &Rectangle,
+        _viewport: &Rectangle,
     ) {
         let style = style_sheet.active();
         let bounds_pos = (bounds.x.floor(), bounds.y.floor());
@@ -239,9 +240,8 @@ impl<B: Backend + backend::Text> self::Renderer for iced_graphics::Renderer<B> {
 
         let lines: Vec<Primitive> = (0..15)
             .map(|i| {
-                let lower_bound = state.column_count as usize * i;
-                let upper_bound =
-                    (lower_bound + state.column_count as usize).min(state.bytes.len());
+                let lower_bound = state.lower_bound(i);
+                let upper_bound = state.upper_bound(i);
                 let data_slice = &state.bytes[lower_bound..upper_bound];
                 let line_x = bounds_pos.0 + consts::MARGINS.x;
                 let line_y =
@@ -551,7 +551,7 @@ impl<B: Backend + backend::Text> self::Renderer for iced_graphics::Renderer<B> {
                 let primitives = vec![
                     // Offset
                     Primitive::Text {
-                        content: format!("{:08X}", i * state.column_count as usize),
+                        content: format!("{:08X}", (i + state.offset as usize) * state.column_count as usize),
                         bounds: Rectangle {
                             x: line_x,
                             y: line_y,

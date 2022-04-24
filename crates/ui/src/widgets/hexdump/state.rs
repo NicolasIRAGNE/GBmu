@@ -25,18 +25,6 @@ pub struct State {
 }
 
 impl State {
-    /// Apply a scrolling offset to the current [`State`], given the bounds of
-    /// the [`Scrollable`] and its contents.
-    pub fn scroll(&mut self, delta_y: f32) {
-        let real_offset = self.offset + delta_y;
-        self.offset = if real_offset < 0.0 {
-            0.0
-        } else if real_offset > self.line_count as f32 {
-            (self.line_count - 1) as f32
-        } else {
-            real_offset
-        }
-    }
 }
 
 impl State {
@@ -69,5 +57,26 @@ impl State {
     /// [`Hexdump`]: struct.Heview.html
     pub fn set_keyboard_focus(&mut self, focus: bool) {
         self.keyboard_focus = focus;
+    }
+
+    /// Apply a scrolling offset to the current [`State`], given the bounds of
+    /// the [`Scrollable`] and its contents.
+    pub fn scroll(&mut self, delta_y: f32) {
+        let real_offset = self.offset + delta_y;
+        self.offset = if real_offset < 0.0 {
+            0.0
+        } else if real_offset > self.line_count as f32 {
+            (self.line_count - 1) as f32
+        } else {
+            real_offset
+        }
+    }
+
+    pub fn lower_bound(&self, i: usize) -> usize{
+        let base = self.column_count as usize;
+        base * (i + self.offset as usize)
+    }
+    pub fn upper_bound(&self, i: usize) -> usize {
+        (self.lower_bound(i) + self.column_count as usize).min(self.bytes.len())
     }
 }
