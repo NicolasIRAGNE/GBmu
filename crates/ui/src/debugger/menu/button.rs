@@ -1,4 +1,4 @@
-use std::{cell::RefCell, rc::Rc};
+use std::{cell::RefCell, sync::Arc};
 
 use crate::style::Theme;
 use bindings::system::Mode;
@@ -10,11 +10,11 @@ use crate::widgets::Text;
 pub struct Button {
     message: MenuMsg,
     state: button::State,
-    mode: Rc<RefCell<Mode>>,
+    mode: Arc<RefCell<Mode>>,
 }
 
 impl Button {
-    pub fn new(message: MenuMsg, mode: Rc<RefCell<Mode>>) -> Self {
+    pub fn new(message: MenuMsg, mode: Arc<RefCell<Mode>>) -> Self {
         let state = button::State::default();
         Self {
             state,
@@ -25,6 +25,9 @@ impl Button {
 
     pub fn update(&self) {
         match self.message {
+            MenuMsg::Instruction => {
+                *self.mode.borrow_mut() = Mode::Instruction;
+            }
             MenuMsg::Frame => {
                 *self.mode.borrow_mut() = Mode::Frame;
             }
@@ -35,6 +38,28 @@ impl Button {
                 *self.mode.borrow_mut() = Mode::Pause;
             }
         }
+        //match self.message {
+            // MenuMsg::Tick => {
+            //     status.mode(Mode::Tick);
+            // }
+            // MenuMsg::Line => {
+            //     status.mode(Mode::Line);
+            // }
+            // MenuMsg::Frame => {
+            //     println!("Mode Frame pressed");
+            //     status.mode(Mode::Frame);
+            // }
+            // MenuMsg::Instruction => {
+            //     status.mode(Mode::Instruction);
+            // }
+            // MenuMsg::Second => {
+            //     status.second();
+            // }
+            // MenuMsg::Run => {
+            //     status.run();
+            // }
+            // MenuMsg::Breakpoint => {}
+        //}
     }
 
     pub fn is_button(&self, message: MenuMsg) -> bool {

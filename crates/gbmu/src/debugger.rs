@@ -1,5 +1,5 @@
 use ui::debugger::Message;
-use std::{cell::RefCell, rc::Rc};
+use std::{cell::RefCell, sync::Arc};
 use bindings::system::Mode;
 
 use iced_wgpu::{
@@ -90,7 +90,7 @@ fn init_device(
 }
 
 impl Debugger {
-    pub fn new(event_loop: &EventLoop<()>, instance: &Instance, mode: Rc<RefCell<Mode>>) -> Self {
+    pub fn new(event_loop: &EventLoop<()>, instance: &Instance, mode: Arc<RefCell<Mode>>) -> Self {
         let title = "Debugger";
         let size = iced_winit::winit::dpi::Size::Physical(PhysicalSize::new(1340, 768));
         let window = WindowBuilder::new()

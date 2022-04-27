@@ -1,5 +1,5 @@
 use anyhow::Result;
-use std::{cell::RefCell, rc::Rc};
+use std::{cell::RefCell, sync::Arc};
 use bindings::{gb, system::Mode};
 use iced_wgpu::wgpu::Instance;
 use iced_winit::winit::event::{Event, StartCause};
@@ -9,11 +9,12 @@ use crate::{debugger, emulator};
 
 #[derive(Debug, Default)]
 pub struct System {
-    mode: Rc<RefCell<Mode>>,
+    mode: Arc<RefCell<Mode>>,
 }
 
 pub enum Process {
     Refresh,
+    Pause,
     Idle,
     Exit,
 }
@@ -56,13 +57,15 @@ impl System {
                     // Run Emulator here
                     match self.process() {
                         Process::Refresh => {
-                            debugger.refresh();
                             emulator.request_redraw();
                         }
                         Process::Idle => {}
                         Process::Exit => {
                             *flow = ControlFlow::Exit;
                         }
+                        Process::Pause => {
+                            debugger.refresh();
+                        },
                     }
                     debugger.update();
                 }
@@ -80,6 +83,13 @@ impl System {
     pub fn process(&mut self) -> Process {
         let mode = *self.mode.borrow();
         match mode {
+            Mode::Instruction => {
+                *self.mode.borrow_mut() = Mode::Pause;
+                match bindings::gb::step() {
+                    Ok(_) => Process::Refresh,
+                    Err(_) => Process::Exit,
+                }
+            }
             Mode::Run => {
                 if gb::frame() {
                     Process::Refresh
@@ -87,7 +97,10 @@ impl System {
                     Process::Exit
                 }
             }
-            Mode::Pause => Process::Idle,
+            Mode::Pause => {
+                *self.mode.borrow_mut() = Mode::Idle;
+                Process::Pause
+            },
             Mode::Frame => {
                 *self.mode.borrow_mut() = Mode::Pause;
                 if gb::frame() {
@@ -96,6 +109,9 @@ impl System {
                     Process::Exit
                 }
             }
+            Mode::Idle => {
+                Process::Idle
+            },
         }
     }
 }

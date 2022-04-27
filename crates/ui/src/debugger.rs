@@ -1,16 +1,20 @@
 mod cpu;
 mod disassembler;
 mod menu;
+pub mod memory;
+use std::slice;
+use bindings::gb_global;
 
-use std::{cell::RefCell, rc::Rc};
+use std::{cell::RefCell, sync::Arc};
 use bindings::system::Mode;
 use iced::{Column, Row};
 use iced_wgpu::Renderer;
-use iced_winit::{Color, Command, Element,  Program};
+use iced_winit::{Color, Command, Element, Program };
 
 use cpu::{Cpu, CpuMsg};
 use disassembler::{Disassembler, DisassMsg};
 use menu::{Menu, MenuMsg};
+use memory::{Memory, MemoryMsg};
 
 use crate::style::Theme;
 
@@ -18,6 +22,7 @@ pub struct Debugger {
     theme: Theme,
     cpu: Cpu,
     disassembler: Disassembler,
+    memory: Memory,
     menu: Menu
 }
 
@@ -26,14 +31,25 @@ pub enum Message {
     Cpu(CpuMsg),
     Disassembler(DisassMsg),
     Menu(MenuMsg),
+    Memory(MemoryMsg),
     Refresh,
 }
 
 impl Debugger {
-    pub fn new(mode: Rc<RefCell<Mode>>) -> Self {
+    pub fn new(mode: Arc<RefCell<Mode>>) -> Self {
+        let rom: &[u8] = unsafe {
+            let ptr = (*gb_global.rom_ptr).ptr as *const _ as *const u8;
+            slice::from_raw_parts(
+                ptr,
+                (*gb_global.rom_ptr).st.st_size as usize,
+            )
+        };
+        let memory = Memory::new(rom);
+
         Self {
             theme: Theme::Light,
             cpu: Cpu::new(),
+            memory,
             disassembler: Disassembler::new(),
             menu: Menu::new(mode)
         }
@@ -61,6 +77,7 @@ impl Program for Debugger {
             },
             Message::Menu(message) => self.menu.update(message),
             Message::Refresh => self.refresh(),
+            Message::Memory(_) => todo!(),
         }
 
         Command::none()
@@ -72,8 +89,9 @@ impl Program for Debugger {
             .view(self.theme)
             .map(Message::Cpu);
         let disassembler = self.disassembler.view().map(Message::Disassembler);
+        let memory = self.memory.view(self.theme).map(Message::Memory);
         let menu = self.menu.view(self.theme).map(Message::Menu);
         let middle = Row::new().push(cpu).push(disassembler);
-        Column::new().push(menu).push(middle).into()
+        Column::new().push(menu).push(middle).push(memory).into()
     }
 }
