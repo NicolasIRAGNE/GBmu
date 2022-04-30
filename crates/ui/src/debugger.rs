@@ -1,6 +1,7 @@
 mod cpu;
 mod disassembler;
 pub mod memory;
+mod ppu;
 mod menu;
 use bindings::gb_global;
 use std::slice;
@@ -15,6 +16,7 @@ use cpu::{Cpu, CpuMsg};
 use disassembler::{DisassMsg, Disassembler};
 use memory::{Memory, MemoryMsg};
 use menu::{Menu, MenuMsg};
+use ppu::{Ppu, PpuMsg};
 
 use crate::style::Theme;
 
@@ -24,6 +26,7 @@ pub struct Debugger {
     disassembler: Disassembler,
     memory: Memory,
     menu: Menu,
+    ppu: Ppu
 }
 
 #[derive(Debug, Clone)]
@@ -32,6 +35,7 @@ pub enum Message {
     Disassembler(DisassMsg),
     Menu(MenuMsg),
     Memory(MemoryMsg),
+    Ppu(PpuMsg),
     Refresh,
     Reload
 }
@@ -54,6 +58,7 @@ impl Debugger {
             memory,
             disassembler: Disassembler::new(),
             menu: Menu::new(mode),
+            ppu: Ppu::new()
         }
     }
     pub fn reload(&mut self) {
@@ -75,6 +80,7 @@ impl Debugger {
     pub fn refresh(&mut self) {
         self.cpu.refresh();
         self.disassembler.refresh();
+        self.ppu.refresh();
     }
 }
 
@@ -91,7 +97,8 @@ impl Program for Debugger {
             Message::Menu(message) => self.menu.update(message),
             Message::Refresh => self.refresh(),
             Message::Memory(_) => todo!(),
-            Message::Reload => self.reload()
+            Message::Reload => self.reload(),
+            Message::Ppu(_) => todo!(),
         }
 
         Command::none()
@@ -101,8 +108,10 @@ impl Program for Debugger {
         let cpu = self.cpu.view(self.theme).map(Message::Cpu);
         let disassembler = self.disassembler.view().map(Message::Disassembler);
         let memory = self.memory.view(self.theme).map(Message::Memory);
+        let ppu = self.ppu.view(self.theme).map(Message::Ppu);
         let menu = self.menu.view(self.theme).map(Message::Menu);
-        let middle = Row::new().push(cpu).push(disassembler);
-        Column::new().push(menu).push(middle).push(memory).into()
+        let top = Row::new().push(cpu).push(disassembler).push(ppu);
+        let low = Row::new().push(memory);
+        Column::new().push(menu).push(top).push(low).into()
     }
 }

@@ -95,8 +95,8 @@ where
     }
 
     fn layout(&self, _renderer: &Renderer, limits: &layout::Limits) -> layout::Node {
-        let limits = limits.width(Length::Fill);
-        let max_width = limits.max().width;
+        let limits = limits.width(Length::Shrink);
+        let max_width = limits.min().width;
         let rows = (self.state.bytes.len() as f32
             / self.state.column_count as usize as usize as f32)
             .ceil();
