@@ -1,10 +1,10 @@
 use bindings::ppu::{Registers, Data};
 use super::View;
-use crate::style::fonts;
+use crate::style::{Register, Style, fonts};
 use iced::{Alignment, Container, Length, Row, Space, Text, alignment::{Horizontal, Vertical}};
 
 impl View for Registers{
-    fn view(&self, registers: &Data, _theme: crate::style::Theme) -> iced::Element<super::PpuMsg> {
+    fn view(&self, registers: &Data, theme: crate::style::Theme) -> iced::Element<super::PpuMsg> {
         let name = Text::new(self.get_name()).font(fonts::HASKLIG_BOLD).size(20);
         let space = Space::new(Length::Units(10), Length::Units(5));
         let data = Text::new(self.get_data(registers))
@@ -13,6 +13,7 @@ impl View for Registers{
             .horizontal_alignment(Horizontal::Center)
             .vertical_alignment(Vertical::Center);
         let number = Container::new(data)
+            .style(Register::style(theme))
             .align_x(Horizontal::Center)
             .align_y(Vertical::Center)
             .width(Length::Units(140))

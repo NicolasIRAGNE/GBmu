@@ -1,7 +1,8 @@
 mod register;
 
-use iced::{Alignment, Column, Element};
+use iced::{Alignment, Column, Element, Row};
 use enum_iterator::IntoEnumIterator;
+use itertools::Itertools;
 
 use crate::{style::Theme, widgets::Text};
 use bindings::ppu::{Registers, Data};
@@ -43,11 +44,12 @@ impl Ppu {
     pub fn view(&mut self, theme: Theme) -> Element<PpuMsg> {
         let title = Text::new("Ppu").medium_it(20);
         let ppu = Column::new().push(title).align_items(Alignment::Center);
-        let registers = self.registers.iter().fold(
+        let registers = self.registers.iter().tuples().fold(
             Column::new().padding(15).spacing(5),
-            |column, ui| {
-                let element = ui.view(&self.data, theme);
-                column.push(element)
+            |column, (right, left)| {
+                let l = left.view(&self.data, theme);
+                let r = right.view(&self.data, theme);
+                column.push(Row::new().push(l).push(r))
             });
 
         ppu.push(registers).into()

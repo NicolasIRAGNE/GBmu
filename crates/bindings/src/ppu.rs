@@ -90,7 +90,7 @@ impl Registers {
     }
 
     pub fn get_name(&self) -> String {
-        format!("{:?}", self)
+        format!("{:^10}",format!("{:?}", self))
     }
 
     pub fn get_data(&self, data: &Data) -> String{

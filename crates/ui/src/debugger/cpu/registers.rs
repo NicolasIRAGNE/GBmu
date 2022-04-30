@@ -157,7 +157,7 @@ impl View<RegisterMsg> for Bits16 {
         let name = Text::new(self.get_name())
             .font(fonts::HASKLIG_BOLD)
             .size(20);
-        let space = Space::new(Length::Units(10), Length::Units(5));
+        let space = Space::new(Length::Units(15), Length::Units(5));
         let data = Text::new(self.get_data(registers))
             .font(fonts::HASKLIG_LIGHT)
             .width(Length::Fill)
