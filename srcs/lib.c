@@ -3,6 +3,7 @@
 #include <signal.h>
 #include <string.h>
 #include "gb.h"
+#include "memory.h"
 
 void test_link()
 {
@@ -142,4 +143,64 @@ void load_state(uint32_t slot)
 void save_state(uint32_t slot)
 {
     savestate(&gb_global, slot);
+}
+
+uint8_t get_lcdc()
+{
+    return read_8_debug(&gb_global, LCDC_OFFSET);
+}
+
+uint8_t get_stat()
+{
+    return read_8_debug(&gb_global, STAT_OFFSET);
+}
+
+uint8_t get_scx()
+{
+    return read_8_debug(&gb_global, SCX_OFFSET);
+}
+
+uint8_t get_scy()
+{
+    return read_8_debug(&gb_global, SCY_OFFSET);
+}
+
+uint8_t get_ly()
+{
+    return read_8_debug(&gb_global, LY_OFFSET);
+}
+
+uint8_t get_lyc()
+{
+    return read_8_debug(&gb_global, LYC_OFFSET);
+}
+
+uint8_t get_dma()
+{
+    return read_8_debug(&gb_global, DMA_OFFSET);
+}
+
+uint8_t get_bgp()
+{
+    return read_8_debug(&gb_global, BGP_OFFSET);
+}
+
+uint8_t get_obp0()
+{
+    return read_8_debug(&gb_global, OBP0_OFFSET);
+}
+
+uint8_t get_obp1()
+{
+    return read_8_debug(&gb_global, OBP1_OFFSET);
+}
+
+uint8_t get_wx()
+{
+    return read_8_debug(&gb_global, WX_OFFSET);
+}
+
+uint8_t get_wy()
+{
+    return read_8_debug(&gb_global, WY_OFFSET);
 }

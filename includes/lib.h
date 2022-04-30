@@ -45,4 +45,19 @@ void destroy_gb();
 void load_state(uint32_t slot);
 void save_state(uint32_t slot);
 
+uint8_t get_lcdc();
+uint8_t get_stat();
+uint8_t get_scy();
+uint8_t get_scx();
+uint8_t get_ly();
+uint8_t get_lyc();
+uint8_t get_dma();
+uint8_t get_bgp();
+uint8_t get_obp0();
+uint8_t get_obp1();
+uint8_t get_wy();
+uint8_t get_wx();
+
 #endif
+
+
