@@ -1,9 +1,9 @@
 use anyhow::Result;
-use std::{cell::RefCell, sync::Arc};
 use bindings::{gb, system::Mode};
 use iced_wgpu::wgpu::Instance;
-use iced_winit::winit::event::{Event, StartCause};
+use iced_winit::winit::event::{Event, StartCause, WindowEvent};
 use iced_winit::winit::event_loop::{ControlFlow, EventLoop};
+use std::{cell::RefCell, sync::Arc};
 
 use crate::{debugger, emulator};
 
@@ -30,7 +30,10 @@ impl Drop for Marker {
 impl System {
     pub fn try_new(rom: String, mode: String) -> Result<Self> {
         let system = Self::default();
-        gb::init(rom, mode)?;
+        match gb::init(rom, mode) {
+            Ok(_) => println!("Successfull Load"),
+            Err(_) => println!("Invalid Rom"),
+        }
         Ok(system)
     }
 
@@ -42,11 +45,27 @@ impl System {
         let instance = Instance::new(iced_wgpu::wgpu::Backends::PRIMARY);
         let mut debugger = debugger::Debugger::new(&event_loop, &instance, self.mode.clone());
         let mut emulator = emulator::Emulator::new(&event_loop);
+        debugger.update();
         event_loop.run(move |event, _, flow| {
             let _mark = &marker;
             // Handle Events
             match event {
                 Event::NewEvents(StartCause::Init) => {}
+                Event::WindowEvent {
+                    event,
+                    window_id: _,
+                } if matches!(&event, WindowEvent::DroppedFile(_)) => {
+                    if let WindowEvent::DroppedFile(rom) = event {
+                        let file = rom.into_os_string().into_string().unwrap();
+                        gb::cleanup();
+                        match gb::init(file, "auto".to_string()) {
+                            Ok(_) => println!("Rom loaded"),
+                            Err(_) => println!("Invalid file"),
+                        }
+                        debugger.reload();
+                        *self.mode.borrow_mut() = Mode::Run;
+                    }
+                },
                 Event::WindowEvent { event, window_id } if window_id == debugger.id => {
                     debugger.process_event(event, flow);
                 }
@@ -65,7 +84,7 @@ impl System {
                         }
                         Process::Pause => {
                             debugger.refresh();
-                        },
+                        }
                     }
                     debugger.update();
                 }
@@ -100,7 +119,7 @@ impl System {
             Mode::Pause => {
                 *self.mode.borrow_mut() = Mode::Idle;
                 Process::Pause
-            },
+            }
             Mode::Frame => {
                 *self.mode.borrow_mut() = Mode::Pause;
                 if gb::frame() {
@@ -109,9 +128,7 @@ impl System {
                     Process::Exit
                 }
             }
-            Mode::Idle => {
-                Process::Idle
-            },
+            Mode::Idle => Process::Idle,
         }
     }
 }

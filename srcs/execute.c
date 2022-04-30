@@ -6,7 +6,7 @@
 /*   By: ldedier <ldedier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:18:26 by niragne           #+#    #+#             */
-/*   Updated: 2022/01/07 08:22:17 by cempassi         ###   ########.fr       */
+/*   Updated: 2022/04/30 17:22:59 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int		set_interrupt(struct gb_cpu_s* gb)
 {
 	int ret = 0;
 	uint8_t interrupt_requests = read_8(gb, IF_OFFSET);
-	
+
 	if (interrupt_requests & INT_VBLANK_REQUEST && gb->interrupt_enable_register & INT_VBLANK_REQUEST)
 	{
 		gb->interrupt = INT_VBLANK_ADDR;

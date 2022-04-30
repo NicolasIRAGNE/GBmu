@@ -1,8 +1,9 @@
-use iced::Element;
+use iced::{Column, Element};
 //use ppu::Ppu;
 
 use crate::style::Theme;
 use crate::widgets::hexdump;
+use bindings::gb_global;
 
 pub struct Memory {
     pub rom: hexdump::State,
@@ -14,12 +15,14 @@ pub enum MemoryMsg {
 }
 
 impl Memory {
-    pub fn new(data: &'static[u8]) -> Self {
+    pub fn new(data: &'static [u8], is_null: bool) -> Self {
         let mut rom = hexdump::State::default();
-        rom.load(data);
-        Self {
-            rom,
+        if is_null {
+            rom.load(&[0])
+        } else {
+            rom.load(data);
         }
+        Self { rom }
     }
 
     // pub fn update(&mut self, message: MemoryMsg) {
@@ -29,6 +32,12 @@ impl Memory {
     // }
 
     pub fn view(&mut self, _theme: Theme) -> Element<MemoryMsg> {
-        hexdump::Hexdump::new(&mut self.rom).into()
+        unsafe {
+            if gb_global.loaded() != 0 {
+                hexdump::Hexdump::new(&mut self.rom).into()
+            } else {
+                Column::new().into()
+            }
+        }
     }
 }

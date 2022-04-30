@@ -3,7 +3,7 @@
  * @author Nicolas IRAGNE (nicolas.iragne@alyce.fr)
  * @brief Contains most of the internal functions and macros used by the CPU.
  * @date 2021-12-31
- * 
+ *
  * @copyright Copyright Alyce (c) 2021
  */
 
@@ -64,7 +64,7 @@ struct	rtcs_s
 	uint64_t	last_latch;
 	uint64_t	last_cycle;
 	uint64_t	clocks;
-	
+
 	uint8_t		sec;
 	uint8_t		min;
 	uint8_t		hour;
@@ -105,6 +105,7 @@ struct	gb_cpu_s
 	int					halted : 1;
 	int					booted : 1;
 	int					debug_palette : 1;
+    int                 loaded : 1;
 	struct registers_s	reg;
 	struct inst_s*		current_instruction;
 	struct rom_s*		rom_ptr;

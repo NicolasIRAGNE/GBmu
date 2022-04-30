@@ -4,11 +4,11 @@ pub enum Mode {
     Pause,
     Idle,
     Frame,
-    Instruction
+    Instruction,
 }
 
 impl Default for Mode {
     fn default() -> Self {
-        Mode::Run
+        Mode::Idle
     }
 }
