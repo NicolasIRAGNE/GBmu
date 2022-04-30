@@ -147,6 +147,10 @@ impl Debugger {
         }
     }
 
+    pub fn reload(&mut self) {
+        self.state.queue_message(Message::Reload);
+    }
+
     pub fn refresh(&mut self) {
         self.state.queue_message(Message::Refresh);
     }

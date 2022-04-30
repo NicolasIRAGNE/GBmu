@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/17 14:47:16 by niragne           #+#    #+#             */
-/*   Updated: 2021/06/04 12:18:29 by niragne          ###   ########.fr       */
+/*   Updated: 2022/04/30 17:19:44 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ static uint8_t	read_from_ram(struct gb_cpu_s* gb, uint16_t a16)
 
 static uint8_t	read_8_internal(struct gb_cpu_s* gb, uint16_t a16, enum memory_mode_e mode)
 {
+    if (gb->loaded == 0)
+        return 0;
 	if (a16 < 0x8000)
 	{
 		return (gb->mbc.read(gb, a16, mode));
@@ -100,11 +102,11 @@ static uint8_t	read_8_internal(struct gb_cpu_s* gb, uint16_t a16, enum memory_mo
 	}
 	else if (a16 >= 0xFF00 && a16 < 0xFF80)
 	{
-		return (((uint8_t*)(gb->io_ports))[a16 - 0xFF00]);		
+		return (((uint8_t*)(gb->io_ports))[a16 - 0xFF00]);
 	}
 	else if (a16 >= 0xFF80 && a16 < 0xFFFF)
 	{
-		return (((uint8_t*)(gb->hram))[a16 - 0xFF80]);		
+		return (((uint8_t*)(gb->hram))[a16 - 0xFF80]);
 	}
 	else if (a16 == 0xFFFF)
 	{

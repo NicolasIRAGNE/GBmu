@@ -6,7 +6,7 @@
 /*   By: niragne <niragne@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/30 15:30:05 by niragne           #+#    #+#             */
-/*   Updated: 2022/01/05 03:52:25 by cempassi         ###   ########.fr       */
+/*   Updated: 2022/04/30 16:34:52 by cempassi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,6 +171,7 @@ int		init_cpu_dmg(struct gb_cpu_s* gb, struct rom_s* rom)
 		}
 		memset(gb->extra_ram, 0, gb->mbc.ram_size);
 	}
+    gb->loaded = 1;
 	return (0);
 }
 
@@ -208,6 +209,7 @@ int		init_cpu_cgb(struct gb_cpu_s* gb, struct rom_s* rom)
 		}
 		memset(gb->extra_ram, 0, gb->mbc.ram_size);
 	}
+    gb->loaded = 1;
 	return (0);
 }
 

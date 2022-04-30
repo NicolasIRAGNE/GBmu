@@ -1,19 +1,13 @@
-use crate::bindings::{gb_global, get_data_8, get_data_16};
+use crate::bindings::{gb_global, get_data_16, get_data_8};
 
 pub fn get_u8(address: u16) -> u8 {
-    unsafe {
-        get_data_8(address)
-    }
+    unsafe { get_data_8(address) }
 }
 
 pub fn get_u16(address: u16) -> u16 {
-    unsafe {
-        get_data_16(address)
-    }
+    unsafe { get_data_16(address) }
 }
 
 pub fn get_pc() -> u16 {
-    unsafe {
-        gb_global.reg.pc
-    }
+    unsafe { gb_global.reg.pc }
 }

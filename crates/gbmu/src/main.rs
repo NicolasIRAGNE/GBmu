@@ -19,7 +19,7 @@ use system::System;
 #[structopt(author, about)]
 struct Opt {
     /// A file containing a ROM to load into the emulator.
-    #[structopt(long, short, parse(from_os_str))]
+    #[structopt(long, short, parse(from_os_str), default_value = "")]
     rom: PathBuf,
 
     #[structopt(short, long, default_value = "auto")]

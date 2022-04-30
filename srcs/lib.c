@@ -1,9 +1,9 @@
 #include "lib.h"
-#include <stdlib.h>
-#include <signal.h>
-#include <string.h>
 #include "gb.h"
 #include "memory.h"
+#include <signal.h>
+#include <stdlib.h>
+#include <string.h>
 
 void test_link()
 {
@@ -30,7 +30,6 @@ int init_gb(const char* rom_name, const char* mode)
     return (init_cpu(&gb_global, rom, m));
 }
 
-
 uint8_t get_data_8(uint16_t address)
 {
     return read_8_debug(&gb_global, address);
@@ -43,15 +42,23 @@ uint16_t get_data_16(uint16_t address)
 
 void destroy_gb()
 {
+    if (gb_global.loaded == 0) {
+        return;
+    }
     if (gb_global.mbc.ram_size > 0)
         save_game(&gb_global);
 
     free(gb_global.rom_ptr->ptr);
+    gb_global.rom_ptr->ptr = NULL;
     free(gb_global.rom_ptr);
+    gb_global.rom_ptr = NULL;
     free(gb_global.extra_ram);
+    gb_global.extra_ram = NULL;
+    gb_global.loaded = 0;
 }
 
-void debug_palette_toogle() {
+void debug_palette_toogle()
+{
     gb_global.debug_palette = !gb_global.debug_palette;
 }
 
