@@ -42,4 +42,7 @@ int init_gb(const char* rom, const char* mode);
 
 void destroy_gb();
 
+void load_state(uint32_t slot);
+void save_state(uint32_t slot);
+
 #endif

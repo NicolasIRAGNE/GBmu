@@ -62,7 +62,7 @@ target_sources(gbclodo
         input_functions.c
         handle_joypad.c
         main_window_loop.c
-	    savestate.c
+        savestate_bindings.c
         tile.c
         renderer/renderer_opengl.cpp
         renderer/rescale.cpp

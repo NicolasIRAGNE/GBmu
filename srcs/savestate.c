@@ -16,10 +16,6 @@
 #include <stdint.h>
 
 #include "gb.h"
-#include "SDL_events.h"
-#include "SDL_keyboard.h"
-#include "SDL_scancode.h"
-#include "SDL_stdinc.h"
 #include "cpu.h"
 #include "mbc.h"
 #include "rom.h"
@@ -27,39 +23,13 @@
 # include "asprintf.h"
 #endif
 
-void	check_savestate(struct gb_cpu_s* gb, const Uint8* state, SDL_Event event)
-{
-	Uint8 slots[] = 
-	{
-		SDL_SCANCODE_1,
-		SDL_SCANCODE_2,
-		SDL_SCANCODE_3,
-		SDL_SCANCODE_4,
-		SDL_SCANCODE_5,
-		SDL_SCANCODE_6,
-		SDL_SCANCODE_7,
-		SDL_SCANCODE_8,
-		SDL_SCANCODE_9,
-	};
-
-	for (size_t i = 0; i < sizeof(slots); i++)
-	{
-		if (event.key.keysym.scancode == slots[i])
-		{
-			if (state[SDL_SCANCODE_LSHIFT])
-				loadstate(gb, i + 1);
-			else
-				savestate(gb, i + 1);
-			return ;
-		}
-	}
-}
-
 int		savestate(struct gb_cpu_s* gb, int number)
 {
 	char* save_file;
-	asprintf(&save_file, SAVESTATE_DIR"%.11s_%d.ss", gb->rom_ptr->header->title, number);
+	char* user_dir = get_user_data_dir();
+	asprintf(&save_file, "%s/%s/%.11s_%d.ss", user_dir, SAVESTATE_DIR, gb->rom_ptr->header->title, number);
 	printf("saving current data to %s\n", save_file);	
+	free(user_dir);
 
 	FILE* f = fopen(save_file, "wb");
 	if (!f)
@@ -77,7 +47,9 @@ int		savestate(struct gb_cpu_s* gb, int number)
 int		loadstate(struct gb_cpu_s* gb, int number)
 {
 	char* save_file;
-	asprintf(&save_file, SAVESTATE_DIR"%.11s_%d.ss", gb->rom_ptr->header->title, number);
+	char* user_dir = get_user_data_dir();
+	asprintf(&save_file, "%s/%s/%.11s_%d.ss", user_dir, SAVESTATE_DIR, gb->rom_ptr->header->title, number);
+	free(user_dir);
 	printf("loading state from %s\n", save_file);	
 	struct rom_s* ptr_save = gb->rom_ptr;
 	struct gbmu_debugger_s* debugger_save = gb->debugger;

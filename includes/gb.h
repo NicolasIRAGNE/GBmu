@@ -36,7 +36,7 @@ extern "C" {
 # define EOC	"\x1B[0m"
 
 # define SAVE_DIR "../saves/"
-# define SAVESTATE_DIR "../savestates/"
+# define SAVESTATE_DIR ""
 
 # define DEFAULT_VERBOSE 0
 

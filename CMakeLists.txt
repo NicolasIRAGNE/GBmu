@@ -83,6 +83,7 @@ set(SOURCES
 	srcs/tools.c
 	srcs/breakpoints.c
 	srcs/save_game.c
+	srcs/savestate.c
 	srcs/palette.c
 	srcs/mbc.c
 	srcs/mbc_none.c

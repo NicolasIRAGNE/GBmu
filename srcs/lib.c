@@ -133,3 +133,13 @@ void reset_right()
 {
     gb_global.joypad.right = 0;
 }
+
+void load_state(uint32_t slot)
+{
+    loadstate(&gb_global, slot);
+}
+
+void save_state(uint32_t slot)
+{
+    savestate(&gb_global, slot);
+}

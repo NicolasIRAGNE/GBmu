@@ -101,14 +101,14 @@ impl Emulator {
                 is_synthetic: _,
             } => {
                 if let Some(key) = input.virtual_keycode {
-                    Emulator::handle_input(key, input.state);
+                    Emulator::handle_input(key, input.state, self.modifiers);
                 }
             }
             _ => (),
         };
     }
 
-    pub fn handle_input(key: VirtualKeyCode, state: ElementState) {
+    pub fn handle_input(key: VirtualKeyCode, state: ElementState, modifiers: ModifiersState) {
         match (key, state) {
             (VirtualKeyCode::Space, Pressed) => Joypad::Select.handle_input(true),
             (VirtualKeyCode::Space, Released) => Joypad::Select.handle_input(false),
@@ -127,6 +127,19 @@ impl Emulator {
             (VirtualKeyCode::Right, Pressed) => Joypad::Right.handle_input(true),
             (VirtualKeyCode::Right, Released) => Joypad::Right.handle_input(false),
             (VirtualKeyCode::C, Pressed) => Control::DebugPalette.handle_control(),
+            (VirtualKeyCode::Key1, Pressed) if modifiers.ctrl() => Control::LoadState(1).handle_control(),
+            (VirtualKeyCode::Key2, Pressed) if modifiers.ctrl() => Control::LoadState(2).handle_control(),
+            (VirtualKeyCode::Key3, Pressed) if modifiers.ctrl() => Control::LoadState(3).handle_control(),
+            (VirtualKeyCode::Key4, Pressed) if modifiers.ctrl() => Control::LoadState(4).handle_control(),
+            (VirtualKeyCode::Key5, Pressed) if modifiers.ctrl() => Control::LoadState(5).handle_control(),
+            (VirtualKeyCode::Key6, Pressed) if modifiers.ctrl() => Control::LoadState(6).handle_control(),
+            (VirtualKeyCode::Key1, Pressed) => Control::SaveState(1).handle_control(),
+            (VirtualKeyCode::Key2, Pressed) => Control::SaveState(2).handle_control(),
+            (VirtualKeyCode::Key3, Pressed) => Control::SaveState(3).handle_control(),
+            (VirtualKeyCode::Key4, Pressed) => Control::SaveState(4).handle_control(),
+            (VirtualKeyCode::Key5, Pressed) => Control::SaveState(5).handle_control(),
+            (VirtualKeyCode::Key6, Pressed) => Control::SaveState(6).handle_control(),
+            // print modifiers
             _ => (),
         }
     }
