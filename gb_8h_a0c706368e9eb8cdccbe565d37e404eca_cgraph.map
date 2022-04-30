@@ -1,0 +1,4 @@
+<map id="loadstate" name="loadstate">
+<area shape="rect" id="node1" title="Load a savestate from a file. This function simply reads the file into the gb_cpu_s structure." alt="" coords="5,5,80,32"/>
+<area shape="rect" id="node2" href="$tools_8c.html#abfd7d543ab09de28ac13f7e1960d971b" title="Get the user data directory. On Windows, this equals to C:\Users\&lt;username&gt;\AppDataloadstateBmu...." alt="" coords="128,5,253,32"/>
+</map>

@@ -167,6 +167,7 @@ var NAVTREEINDEX0 =
 "rescale_8h_source.html":[1,0,1,0,0,3],
 "rom_8h.html":[1,0,0,17],
 "rom_8h_source.html":[1,0,0,17],
+"savestate__bindings_8c.html":[1,0,1,0,5],
 "structgbmu__debugger__s.html":[0,0,0],
 "structgbmu__debugger__s.html#a157011924d875bc77ac71d97ae3f032f":[0,0,0,0],
 "structgbmu__debugger__s.html#a2a462e991a879658b8867bad32fe4385":[0,0,0,1],

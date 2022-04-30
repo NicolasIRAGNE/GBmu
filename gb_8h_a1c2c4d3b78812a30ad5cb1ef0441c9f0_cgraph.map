@@ -1,0 +1,4 @@
+<map id="savestate" name="savestate">
+<area shape="rect" id="node1" title="Save the current GameBoy state to a file. This is a very straight forward function: it simply saves t..." alt="" coords="5,5,84,32"/>
+<area shape="rect" id="node2" href="$tools_8c.html#abfd7d543ab09de28ac13f7e1960d971b" title="Get the user data directory. On Windows, this equals to C:\Users\&lt;username&gt;\AppDatasavestateBmu...." alt="" coords="132,5,257,32"/>
+</map>
