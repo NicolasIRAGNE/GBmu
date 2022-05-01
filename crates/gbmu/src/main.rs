@@ -4,6 +4,7 @@ mod debugger;
 
 use std::path::PathBuf;
 use std::process;
+use std::env;
 
 use log::*;
 use anyhow::{Ok, Result};
@@ -32,6 +33,7 @@ fn run(opt: Opt) -> Result<()> {
     let mode = opt.mode;
 
     let system = System::try_new(rom, mode)?;
+    env::set_var("WGPU_BACKEND", "Gl");
     system.run();
     Ok(())
 }
