@@ -33,12 +33,12 @@ fn run(opt: Opt) -> Result<()> {
     let mode = opt.mode;
 
     let system = System::try_new(rom, mode)?;
-    env::set_var("WGPU_BACKEND", "Gl");
     system.run();
     Ok(())
 }
 
 fn main() {
+    env::set_var("WGPU_BACKEND", "Gl");
     pretty_env_logger::init();
     let opt = Opt::from_args();
 
