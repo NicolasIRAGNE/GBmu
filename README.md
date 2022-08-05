@@ -3,6 +3,8 @@
 Trying to write a GameBoy emulator from scratch with no prior experience in electronics / emulation in general.
 One of the dumbest ideas i've had so far.
 
+** The rest of this README is outdated and I don't have time to fix it. Sorry. **
+
 ## Dependencies
 
 Cmake version 3.15 minimum.
@@ -20,7 +22,7 @@ usage: ./gbmu <rom_file>
 
 ## Debugger
 
-This program ships with [libyacc](https://github.com/ldedier/libyacc). However, it can cause crashes on some architectures, so it also includes a fallback, much more rudimentary debugger. Use the CMake variable `WITH_LIBYACC` to choose which one to include.
+This program ships with [libyacc](https://github.com/ldedier/libyacc). However, it can cause crashes on some architectures, so it also includes a fallback, much more rudimentary debugger. Use the CMake variable `WITH_LIBYACC` to choose which one to include
 
 ## Does it work ?
 
