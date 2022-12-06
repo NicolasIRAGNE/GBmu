@@ -38,6 +38,18 @@ int renderer_destroy(void* renderer)
     return ptr->Destroy();
 }
 
+void renderer_update_lcd(void* renderer)
+{
+    auto ptr = reinterpret_cast<GBMU::Renderer*>(renderer);
+    ptr->UpdateLcd();
+}
+
+void renderer_update_vram(void* renderer)
+{
+    auto ptr = reinterpret_cast<GBMU::Renderer*>(renderer);
+    ptr->UpdateVram();
+}
+
 int renderer_clear(void* renderer)
 {
     auto ptr = reinterpret_cast<GBMU::Renderer*>(renderer);

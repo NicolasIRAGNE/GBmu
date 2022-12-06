@@ -76,7 +76,7 @@ int		set_interrupt(struct gb_cpu_s* gb)
 
 int		should_rerender(struct gb_cpu_s* gb)
 {
-	if (gb->vram_updated || gb->oam_updated || gb->lcd_updated)
+	if (gb->vram_updated || gb->oam_updated)
 		return (1);
 	return (0);
 }
@@ -101,6 +101,23 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 			err = handle_instruction(gb);
 		if (err)
 			gb->paused = 1;
+
+		if (gb->gpu.y_coord < 144)
+		{
+			gb->lcd[gb->gpu.y_coord].lcdc = read_8(gb, LCDC_OFFSET);
+			gb->lcd[gb->gpu.y_coord].scx = read_8(gb, SCX_OFFSET);
+			gb->lcd[gb->gpu.y_coord].scy = read_8(gb, SCY_OFFSET);
+			gb->lcd[gb->gpu.y_coord].wx = read_8(gb, WX_OFFSET) - 7;
+			gb->lcd[gb->gpu.y_coord].wy = read_8(gb, WY_OFFSET);
+		}
+
+		if (gb->gpu.y_coord == 0 && (gb->vram_updated || gb->oam_updated))
+		{
+			renderer_update_vram(renderer);
+			gb->vram_updated = 0;
+			gb->oam_updated = 0;
+		}
+
 		if (should_rerender(gb) && last_line_drawn != gb->gpu.y_coord && gb->gpu.y_coord < 144)
 		{
 			uint8_t lcdc = (read_8(gb, LCDC_OFFSET));
@@ -110,7 +127,13 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 			}
 			else
 			{
+				renderer_update_lcd(renderer);
 				renderer_draw(renderer, last_line_drawn + (1 * last_line_drawn != 0), gb->gpu.y_coord);
+				gb->oam_updated = 0;
+				if (gb->vram_updated) {
+					renderer_update_vram(renderer);
+					gb->vram_updated = 0;
+				}
 			}
 			last_line_drawn = gb->gpu.y_coord;
 		}
@@ -125,7 +148,9 @@ void	execute_loop(struct gbmu_wrapper_s* wrapper, void* renderer)
 			}
 			else
 			{
+				renderer_update_lcd(renderer);
 				renderer_draw(renderer, last_line_drawn + (1 * last_line_drawn != 0), gb->gpu.y_coord);
+				gb->oam_updated = 0;
 			}
 			main_window_loop(wrapper, renderer);
 			renderer_render(renderer);
