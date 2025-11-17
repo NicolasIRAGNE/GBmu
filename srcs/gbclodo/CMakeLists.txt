@@ -13,6 +13,7 @@ if (NOT SDL2_FOUND)
     FetchContent_Declare(
         SDL2
         URL            https://www.libsdl.org/release/SDL2-2.0.18.zip
+        DOWNLOAD_EXTRACT_TIMESTAMP TRUE
     )
     list(APPEND FETCHED_TARGETS
         SDL2
