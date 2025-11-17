@@ -8,6 +8,20 @@ project(gbmu LANGUAGES C CXX)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 include(FetchContent)
+
+FetchContent_Declare(
+        CMakeScripts
+        GIT_REPOSITORY https://github.com/NicolasIRAGNE/CMakeScripts
+        GIT_TAG main
+        UPDATE_DISCONNECTED ON
+)
+
+FetchContent_GetProperties(CMakeScripts)
+if(NOT CMakeScripts_POPULATED)
+        FetchContent_Populate(CMakeScripts)
+        list(PREPEND CMAKE_MODULE_PATH ${CMakeScripts_SOURCE_DIR})
+endif()
+
 include(cmake/Dependencies.cmake)
 
 option(WITH_LIBYACC "Build libyacc" OFF)

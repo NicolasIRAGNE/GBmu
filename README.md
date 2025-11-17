@@ -15,8 +15,11 @@ One of the dumbest ideas i've had so far.
 
 SDL2 and GLEW are fetched automatically via CMake when not present on the
 system; installing the development packages locally simply skips the download
-and speeds up the configure step. All other dependencies are handled
-automatically. Windows builds use WinEditLine instead of readline.
+and speeds up the configure step. During configure, CMake also downloads the
+shared helper modules from
+[`NicolasIRAGNE/CMakeScripts`](https://github.com/NicolasIRAGNE/CMakeScripts),
+so make sure `git` and network access are available. All other dependencies
+are handled automatically. Windows builds use WinEditLine instead of readline.
 
 ## Building
 
