@@ -1,41 +1,14 @@
 include_guard(GLOBAL)
 
-set(GBMU_EXTRA_MODULES_URL "https://github.com/NicolasIRAGNE/CMakeScripts")
-set(GBMU_EXTRA_MODULES_TAG "main")
-
-function(_gbmu_fetch_extra_modules)
-        if(DEFINED GBMU_EXTRA_MODULES_FETCHED AND GBMU_EXTRA_MODULES_FETCHED)
-                return()
-        endif()
-
-        FetchContent_Declare(
-                ExtraModules
-                GIT_REPOSITORY ${GBMU_EXTRA_MODULES_URL}
-                GIT_TAG ${GBMU_EXTRA_MODULES_TAG}
-                BUILD_COMMAND ""
-                CONFIGURE_COMMAND ""
-        )
-
-        FetchContent_MakeAvailable(ExtraModules)
-        list(APPEND CMAKE_MODULE_PATH ${extramodules_SOURCE_DIR})
-
-        set(GBMU_EXTRA_MODULES_FETCHED ON CACHE INTERNAL "Extra modules already fetched")
-
-        if(NOT DEFINED FETCHED_TARGETS)
-                set(FETCHED_TARGETS "" CACHE INTERNAL "Targets fetched via FetchIfMissing")
-        endif()
-endfunction()
+include(FetchContent)
 
 function(gbmu_configure_tooling)
-        _gbmu_fetch_extra_modules()
-
         if(NOT MSVC)
                 include(ccache)
         endif()
 endfunction()
 
 function(gbmu_configure_dependencies target)
-        _gbmu_fetch_extra_modules()
         include(FetchIfMissing)
 
         find_package(Threads REQUIRED)
