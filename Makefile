@@ -78,27 +78,11 @@ blarg:
 
 ### utils ###
 
-check: format.all format lint test
-
-lint:
-	cargo clippy --workspace --verbose -- -D warnings
-
-format.all:
-	cargo fmt --all
-
-format:
-	cargo fmt --verbose -- --check
-
-test:
-	cargo test
-
 clean:
-	rm -rf roms.zip  $(HASKLIG_ZIP)
+rm -rf roms.zip  $(HASKLIG_ZIP)
 
 fclean: clean
-	cargo clean
-	cargo cache -a
-	rm -rf roms ressources
+rm -rf roms ressources
 
-.PHONY: requirement roms hasklig check lint format.all format clean fclean
+.PHONY: requirement roms hasklig clean fclean
 
