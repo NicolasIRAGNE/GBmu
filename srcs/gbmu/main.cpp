@@ -24,7 +24,7 @@ extern "C" {
 #include "cpu.h"
 #include "mbc.h"
 #include "renderer/wrapper_c/wrapper.h"
-#include "gbclodo.h"
+#include "frontend.h"
 #ifdef WITH_LIBYACC
 # include "libyacc_wrapper.h"
 #else

@@ -1,67 +1,64 @@
-cmake_minimum_required(VERSION 3.15)
-SET(CMAKE_CXX_STANDARD 17)
+cmake_minimum_required(VERSION 3.28...4.0)
+
+project(gbmu VERSION 0.1.0 LANGUAGES C CXX)
+
+# Some bundled third-party projects still declare compatibility with CMake < 3.5.
+# Keep them configurable with CMake 4 without weakening policies for this project.
+set(CMAKE_POLICY_VERSION_MINIMUM 3.5)
+
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+set(CMAKE_C_EXTENSIONS OFF)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
-  ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
-
-project(gbmu LANGUAGES CXX C)
-
-add_library(gb)
-target_compile_definitions(gb PUBLIC "ASAN_OPTIONS=detect_leaks=0")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 include(FetchContent)
+include(GNUInstallDirs)
+
+add_library(gbmu_core)
+target_compile_definitions(gbmu_core PUBLIC "ASAN_OPTIONS=detect_leaks=0")
+
 option(WITH_LIBYACC "Build libyacc" OFF)
 option(WITH_ASAN "Build with memory sanitizer" OFF)
-option(BUILD_GBCLODO "Build gbclodo executable" ON)
 option(DEBUG_COLORS "Enable debug palette" ON)
 option(WITH_TESTS "Build tests" OFF)
 
-FetchContent_Declare(ExtraModules
-	GIT_REPOSITORY https://github.com/NicolasIRAGNE/CMakeScripts
-	GIT_TAG main
-	BUILD_COMMAND ""
-	CONFIGURE_COMMAND ""
-)
-
-FetchContent_MakeAvailable(ExtraModules)
-
-list(APPEND CMAKE_MODULE_PATH ${extramodules_SOURCE_DIR})
+if(WITH_TESTS)
+	enable_testing()
+endif()
 
 if (NOT MSVC)
 	include(ccache)
 endif()
 
-include(FetchIfMissing)
-
 if(WIN32)
-	FetchIfMissing(
-			WINEDITLINE
-			GIT_REPOSITORY "https://github.com/NicolasIRAGNE/wineditline"
-			GIT_TAG WinEditLine-2.207-Patch
+	FetchContent_Declare(
+		wineditline
+		GIT_REPOSITORY "https://github.com/NicolasIRAGNE/wineditline"
+		GIT_TAG WinEditLine-2.207-Patch
+		EXCLUDE_FROM_ALL
 	)
-	FetchContent_MakeAvailable(
-		WINEDITLINE
-	)
+	FetchContent_MakeAvailable(wineditline)
 endif()
-
-set(FETCHED_TARGETS)
 
 ################################################
 #                  LIBRARIES                   #
 ################################################
 
 # pthread
-find_package(Threads)
+find_package(Threads REQUIRED)
 
 if (NOT WIN32)
 	#Readline
 	add_compile_definitions(USE_READLINE_STATIC=1)
 	add_compile_definitions(READLINE_LIBRARY=1)
 	find_package(Readline REQUIRED)
-	target_include_directories(gb PRIVATE ${Readline_INCLUDE_DIR})
-	target_link_libraries(gb ${Readline_LIBRARY})
-	target_include_directories(gb PUBLIC ${Readline_INCLUDE_DIR})
+	target_include_directories(gbmu_core PRIVATE ${Readline_INCLUDE_DIR})
+	target_link_libraries(gbmu_core PRIVATE ${Readline_LIBRARY})
+	target_include_directories(gbmu_core PUBLIC ${Readline_INCLUDE_DIR})
 endif()
 
 ################################################
@@ -418,18 +415,16 @@ set(DEBUGGER_SOURCES
 	includes/debugger/Commands/Continue.hpp
 	)
 
-target_include_directories(gb PUBLIC "${CMAKE_CURRENT_BINARY_DIR}")
-message(STATUS "Including gb headers from build directory : ${CMAKE_CURRENT_BINARY_DIR}")
-target_include_directories(gb PUBLIC srcs)
-target_include_directories(gb PUBLIC includes)
+target_include_directories(gbmu_core PUBLIC "${CMAKE_CURRENT_BINARY_DIR}")
+message(STATUS "Including generated headers from: ${CMAKE_CURRENT_BINARY_DIR}")
+target_include_directories(gbmu_core PUBLIC srcs)
+target_include_directories(gbmu_core PUBLIC includes)
 
 ################################################
 #                COMPILE FLAGS                 #
 ################################################
 
-set(CMAKE_CXX_STANDARD 17)
-
-target_compile_options(gb PRIVATE
+target_compile_options(gbmu_core PRIVATE
   # Clang/GCC warnings:
   "$<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:GNU>>:-Wall>"
   # MSVC warnings:
@@ -440,13 +435,12 @@ target_compile_options(gb PRIVATE
 )
 
 if (WITH_ASAN)
-	target_link_options(gb PUBLIC "-fsanitize=address")
-	# target_link_options(gb PUBLIC "/MD")
-	target_compile_options(gb PUBLIC "-fsanitize=address")
+	target_link_options(gbmu_core PUBLIC "-fsanitize=address")
+	target_compile_options(gbmu_core PUBLIC "-fsanitize=address")
 endif()
 
 if (DEBUG_COLORS)
-	target_compile_definitions(gb PRIVATE DEBUG_COLORS)
+	target_compile_definitions(gbmu_core PRIVATE DEBUG_COLORS)
 endif()
 
 
@@ -455,60 +449,159 @@ endif()
 ################################################
 
 if (WITH_LIBYACC)
-	target_sources(gb PRIVATE ${GENERATED_LIBYACC_SOURCES} ${DEBUGGER_SOURCES})
+	target_sources(gbmu_core PRIVATE ${GENERATED_LIBYACC_SOURCES} ${DEBUGGER_SOURCES})
 	FILE(GLOB GENERATED_LIBYACC_SOURCES srcs/debugger/*.cpp)
 	FILE(GLOB GENERATED_LIBYACC_SOURCES srcs/debugger/Commands/*.cpp)
-	target_compile_definitions(gb PUBLIC WITH_LIBYACC)
-	target_include_directories(gb PUBLIC includes/debugger)
-	target_include_directories(gb PUBLIC includes/debugger/Commands)
+	target_compile_definitions(gbmu_core PUBLIC WITH_LIBYACC)
+	target_include_directories(gbmu_core PUBLIC includes/debugger)
+	target_include_directories(gbmu_core PUBLIC includes/debugger/Commands)
 	include_directories(libyacc/includes)
 endif()
 
-target_sources(gb PRIVATE ${SOURCES} ${HEADERS} srcs/lib.c includes/lib.h)
+target_sources(gbmu_core PRIVATE ${SOURCES} ${HEADERS} srcs/lib.c includes/lib.h)
 
-target_link_libraries(gb ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(gbmu_core PUBLIC Threads::Threads)
 
 if (WIN32)
-	target_link_libraries(gb edit_static)
+	target_link_libraries(gbmu_core PRIVATE edit_static)
 endif()
 
-if (BUILD_GBCLODO)
-	add_subdirectory(srcs/gbclodo)
+################################################
+#                    GBMU                      #
+################################################
+
+find_package(SDL2 CONFIG QUIET)
+if(NOT TARGET SDL2::SDL2 AND NOT TARGET SDL2::SDL2-static)
+	set(SDL_SHARED OFF CACHE BOOL "" FORCE)
+	set(SDL_STATIC ON CACHE BOOL "" FORCE)
+	set(SDL_TEST OFF CACHE BOOL "" FORCE)
+	FetchContent_Declare(
+		SDL2
+		GIT_REPOSITORY https://github.com/libsdl-org/SDL
+		GIT_TAG release-2.30.9
+		GIT_SHALLOW TRUE
+		EXCLUDE_FROM_ALL
+	)
+	FetchContent_MakeAvailable(SDL2)
 endif()
 
-# target_include_directories(gb ${SDL2_INCLUDE_DIRS})
+if(NOT TARGET GLEW::GLEW AND NOT TARGET libglew_static)
+	set(glew-cmake_BUILD_SHARED OFF CACHE BOOL "" FORCE)
+	set(glew-cmake_BUILD_STATIC ON CACHE BOOL "" FORCE)
+	set(ONLY_LIBS ON CACHE BOOL "" FORCE)
+	FetchContent_Declare(
+		GLEW
+		GIT_REPOSITORY https://github.com/Perlmint/glew-cmake
+		GIT_TAG glew-cmake-release
+		EXCLUDE_FROM_ALL
+	)
+	FetchContent_MakeAvailable(GLEW)
+endif()
+
+find_package(cxxopts CONFIG QUIET)
+if(NOT TARGET cxxopts::cxxopts)
+	FetchContent_Declare(
+		cxxopts
+		GIT_REPOSITORY https://github.com/jarro2783/cxxopts
+		GIT_TAG v3.0.0
+		EXCLUDE_FROM_ALL
+	)
+	FetchContent_MakeAvailable(cxxopts)
+endif()
+
+find_package(OpenGL REQUIRED)
+
+set(GBMU_FRONTEND_DIR "${CMAKE_CURRENT_SOURCE_DIR}/srcs/gbmu")
+
+add_executable(gbmu
+	${GBMU_FRONTEND_DIR}/main.cpp
+	${GBMU_FRONTEND_DIR}/clodo_loop.c
+	${GBMU_FRONTEND_DIR}/init_sdl.c
+	${GBMU_FRONTEND_DIR}/video_loop.c
+	${GBMU_FRONTEND_DIR}/vram_viewer.c
+	${GBMU_FRONTEND_DIR}/input_functions.c
+	${GBMU_FRONTEND_DIR}/handle_joypad.c
+	${GBMU_FRONTEND_DIR}/main_window_loop.c
+	${GBMU_FRONTEND_DIR}/savestate_bindings.c
+	${GBMU_FRONTEND_DIR}/tile.c
+	${GBMU_FRONTEND_DIR}/renderer/renderer_opengl.cpp
+	${GBMU_FRONTEND_DIR}/renderer/rescale.cpp
+	${GBMU_FRONTEND_DIR}/renderer/gl_utils/compile_program.cpp
+	${GBMU_FRONTEND_DIR}/renderer/wrapper_c/wrapper.cpp
+)
+
+target_include_directories(gbmu PRIVATE
+	"${GBMU_FRONTEND_DIR}"
+	"${GBMU_FRONTEND_DIR}/renderer"
+)
+
+if(TARGET SDL2::SDL2-static)
+	target_link_libraries(gbmu PRIVATE SDL2::SDL2-static)
+elseif(TARGET SDL2::SDL2)
+	target_link_libraries(gbmu PRIVATE SDL2::SDL2)
+elseif(TARGET SDL2-static)
+	target_link_libraries(gbmu PRIVATE SDL2-static)
+else()
+	target_include_directories(gbmu PRIVATE ${SDL2_INCLUDE_DIRS})
+	target_link_libraries(gbmu PRIVATE ${SDL2_LIBRARIES})
+endif()
+
+if(TARGET SDL2::SDL2main)
+	target_link_libraries(gbmu PRIVATE SDL2::SDL2main)
+elseif(TARGET SDL2main)
+	target_link_libraries(gbmu PRIVATE SDL2main)
+endif()
+
+if(TARGET GLEW::GLEW)
+	target_link_libraries(gbmu PRIVATE GLEW::GLEW)
+else()
+	target_link_libraries(gbmu PRIVATE libglew_static)
+endif()
+
+target_link_libraries(gbmu PRIVATE
+	gbmu_core
+	cxxopts::cxxopts
+	OpenGL::GL
+)
+
+set(GBMU_SHADERS
+	${GBMU_FRONTEND_DIR}/renderer/shaders/basic.vert
+	${GBMU_FRONTEND_DIR}/renderer/shaders/basic.frag
+	${GBMU_FRONTEND_DIR}/renderer/shaders/rain.frag
+)
+
+foreach(shader IN LISTS GBMU_SHADERS)
+	get_filename_component(filename "${shader}" NAME)
+	add_custom_command(
+		TARGET gbmu POST_BUILD
+		COMMAND "${CMAKE_COMMAND}" -E make_directory "$<TARGET_FILE_DIR:gbmu>/shaders"
+		COMMAND "${CMAKE_COMMAND}" -E copy_if_different
+			"${shader}"
+			"$<TARGET_FILE_DIR:gbmu>/shaders/${filename}"
+		VERBATIM
+	)
+endforeach()
+
+install(
+	TARGETS gbmu
+	RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
+	COMPONENT gbmu
+)
+install(
+	FILES ${GBMU_SHADERS}
+	DESTINATION "${CMAKE_INSTALL_BINDIR}/shaders"
+	COMPONENT gbmu
+)
+
+if(WITH_TESTS)
+	add_test(NAME gbmu_usage COMMAND gbmu)
+	set_tests_properties(gbmu_usage PROPERTIES WILL_FAIL TRUE)
+endif()
 
 ################################################
 #                   INSTALL                    #
 ################################################
 
-include(CopyDLLs)
-
 if (WITH_TESTS)
-	enable_testing()
 	add_subdirectory(tests)
 endif()
-
-install(TARGETS gb DESTINATION bin)
-
-install(
-	FILES
-		ressources/fonts/hasklig/Hasklig-BlackIt.ttf
-		ressources/fonts/hasklig/Hasklig-Black.ttf
-		ressources/fonts/hasklig/Hasklig-BoldIt.ttf
-		ressources/fonts/hasklig/Hasklig-Bold.ttf
-		ressources/fonts/hasklig/Hasklig-ExtraLightIt.ttf
-		ressources/fonts/hasklig/Hasklig-ExtraLight.ttf
-		ressources/fonts/hasklig/Hasklig-It.ttf
-		ressources/fonts/hasklig/Hasklig-LightIt.ttf
-		ressources/fonts/hasklig/Hasklig-Light.ttf
-		ressources/fonts/hasklig/Hasklig-MediumIt.ttf
-		ressources/fonts/hasklig/Hasklig-Medium.ttf
-		ressources/fonts/hasklig/Hasklig-Regular.ttf
-		ressources/fonts/hasklig/Hasklig-SemiboldIt.ttf
-		ressources/fonts/hasklig/Hasklig-Semibold.ttf
-	DESTINATION
-		"."
-	)
-
-install(FILES DMG_ROM.bin DESTINATION ".")

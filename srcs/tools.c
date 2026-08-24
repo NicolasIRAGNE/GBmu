@@ -12,8 +12,13 @@
 
 #include <stddef.h>
 #include <stdint.h>
+#include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+
+#ifdef _WIN32
+#include "asprintf.h"
+#endif
 
 #include "cpu.h"
 #include "gb.h"
