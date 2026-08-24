@@ -66,8 +66,9 @@ void	latch_rtc_registers(struct gb_cpu_s* gb)
 	printf("Latching RTC with: %x %x %x %x\n", gb->rtc.rtc[0], gb->rtc.rtc[1], gb->rtc.rtc[2], gb->rtc.rtc[3]);
 }
 
-uint8_t	read_mbc3(struct gb_cpu_s* gb, uint16_t addr)
+uint8_t	read_mbc3(struct gb_cpu_s* gb, uint16_t addr, enum memory_mode_e mode)
 {
+	(void)mode;
 	if (addr < 0x100 && !gb->booted)
 	{
 		return (((uint8_t*)(gb->boot_rom))[addr]);

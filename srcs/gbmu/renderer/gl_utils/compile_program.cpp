@@ -7,6 +7,7 @@
 
 #include "GL/glew.h"
 #include "glerr.h"
+#include "SDL_filesystem.h"
 #include <iostream>
 
 GLuint compileShader(const char* source, GLuint shaderType)
@@ -38,13 +39,14 @@ GLuint compileProgram(const char* vtxFile, const char* fragFile)
     GLuint vtxShaderId, fragShaderId;
     programId = glCreateProgram(); GLERR;
 
-    #ifdef SHADERS_LOCATION
-    auto vtxFileAbsolutePath = std::string(SHADERS_LOCATION) + "/"  + vtxFile;
-    auto fragFileAbsolutePath = std::string(SHADERS_LOCATION) + std::string("/") + std::string(fragFile);
-    #else
-    auto vtxFileAbsolutePath = std::string(vtxFile);
-    auto fragFileAbsolutePath = std::string(fragFile);
-    #endif
+    char* basePath = SDL_GetBasePath();
+    const std::string shaderDirectory = basePath
+        ? std::string(basePath) + "shaders/"
+        : std::string("shaders/");
+    SDL_free(basePath);
+
+    const auto vtxFileAbsolutePath = shaderDirectory + vtxFile;
+    const auto fragFileAbsolutePath = shaderDirectory + fragFile;
 
     std::ifstream f(fragFileAbsolutePath);
     if (!f.is_open()) {

@@ -13,6 +13,11 @@
 #define _GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/stat.h>
+
+#ifdef _WIN32
+#include <direct.h>
+#endif
 
 #include "cpu.h"
 #include "gb.h"

@@ -1,33 +1,44 @@
 # GBmu
 
-Trying to write a GameBoy emulator from scratch with no prior experience in electronics / emulation in general.
-One of the dumbest ideas i've had so far.
-
-** The rest of this README is outdated and I don't have time to fix it. Sorry. **
+GBmu is an experimental Game Boy emulator built from the C/C++ code in
+this repository.
 
 ## Dependencies
 
-Cmake version 3.15 minimum.
+- CMake 3.28 or newer
+- A C11/C++17 compiler
+- OpenGL
+- GNU Readline on Linux and macOS
 
-If you are building on `linux` or `macOs`: [GNU readline](https://tiswww.case.edu/php/chet/readline/rltop.html)
+CMake downloads SDL2, GLEW, cxxopts, and the Windows EditLine implementation
+when they are needed.
 
-All other dependencies should be handled by the CMakeLists
+## Build and install
 
-## How to use
+```sh
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+cmake --build build --config Release
+cmake --install build --config Release --component gbmu
+```
 
-In most cases, the following should be enough:
-cd build && cmake .. && make install
+Set `CMAKE_INSTALL_PREFIX` during configuration to choose the install location:
 
-usage: ./gbmu <rom_file>
+```sh
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=dist
+```
 
-## Debugger
+## Usage
 
-This program ships with [libyacc](https://github.com/ldedier/libyacc). However, it can cause crashes on some architectures, so it also includes a fallback, much more rudimentary debugger. Use the CMake variable `WITH_LIBYACC` to choose which one to include
+```sh
+gbmu path/to/game.gb
+```
 
-## Does it work ?
+Pass `-DWITH_TESTS=ON` to build the tests and run them with:
 
-Not really. Maybe sometimes.
+```sh
+ctest --test-dir build --output-on-failure
+```
 
-## Will it work one day ?
-
-Maybe.
+The optional libyacc debugger can be enabled with `-DWITH_LIBYACC=ON`. The
+fallback debugger is used by default because libyacc is less stable on some
+architectures.
